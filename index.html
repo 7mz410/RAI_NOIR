@@ -156,6 +156,8 @@ const GIFT_URL='https://sawna.bandcamp.com';
 
 /* ---------------- assets (optional images) ---------------- */
 const IMG={}; const AV='15.8';
+// images first: music and video wait for them, otherwise on a slow connection the sprites show up last
+let imgsReady; const IMGS_READY=new Promise(r=>imgsReady=r);
 function loadImg(key,src){return new Promise(r=>{const i=new Image();i.onload=()=>{IMG[key]=i;r(i)};i.onerror=()=>r(null);i.src=src+'?v='+AV;});}
 const ASSET_LIST={
   'ui/title':'assets/ui/title.jpg','ui/select':'assets/ui/select.jpg',
@@ -234,7 +236,7 @@ let audioBlocked=false, bgmKicked=false, pendingMusic=null;
 const TAPEV={}, TAPEERR={};
 function mkTape(name,pre){ const v=document.createElement('video'); v.preload=pre; v.playsInline=true; v.setAttribute('playsinline',''); v.setAttribute('webkit-playsinline',''); v.crossOrigin='anonymous';
   v.addEventListener('error',()=>{ TAPEERR[name]=true; }); v.src=(v.canPlayType('video/mp4; codecs="avc1.42E01E, mp4a.40.2"')?'assets/video/'+name+'.mp4':'assets/video/'+name+'.webm')+'?v=2'; TAPEV[name]=v; return v; }
-mkTape('intro_cheb','auto'); mkTape('intro_amor','metadata'); mkTape('outro_cheb','metadata'); mkTape('oran_tape','metadata');
+mkTape('intro_cheb','metadata'); mkTape('intro_amor','metadata'); mkTape('outro_cheb','metadata'); mkTape('oran_tape','metadata');
 let TAPE=TAPEV.intro_cheb, tapeName='intro_cheb';
 function tapeUse(name){ tapeName=name; TAPE=TAPEV[name]; }
 function tapeAvail(){ return !TAPEERR[tapeName]; }
@@ -2422,7 +2424,7 @@ function drawSawna(t,shine){ const im=IMG['ui/sawna_logo']; ctx.fillStyle='#fff'
   g.imageSmoothingEnabled=true; g.drawImage(im,x,y,w,h);
   if(shine){ const sx=x-30+t*7; if(sx<x+w+40){ g.save(); g.globalCompositeOperation='source-atop'; g.fillStyle='rgba(255,255,255,.92)'; g.beginPath(); g.moveTo(sx,y); g.lineTo(sx+16,y); g.lineTo(sx-4,y+h); g.lineTo(sx-20,y+h); g.fill(); g.restore(); } }
   ctx.drawImage(L,0,0); return {y,h}; }
-SC.boot={ enter(){ preloadMusic(); prefetchMusic(['rainoir','zizou']); }, update(){ if(pressed.start||pressed.a||pressed.b||pressed.k||pressed.y){ unlockAudio(); playBootSnd(); scene=SC.sawna; SC.sawna.enter(); } },
+SC.boot={ enter(){ IMGS_READY.then(()=>{ preloadMusic(); prefetchMusic(['rainoir','zizou']); if(TAPEV.intro_cheb) TAPEV.intro_cheb.preload='auto'; }); }, update(){ if(pressed.start||pressed.a||pressed.b||pressed.k||pressed.y){ unlockAudio(); playBootSnd(); scene=SC.sawna; SC.sawna.enter(); } },
   draw(){ const r=drawSawna(0,false); if(frame%60<40) text('▶ PRESS START',W/2,r.y+r.h+26,'#0a5bb0',7,'center',null); text('SOUND ON',W/2,H-16,'#9aa6b8',5,'center',null); text('LOADING… INSHALGORITHM',W/2,H-8,'#c3cad6',4,'center',null); } };
 SC.title={ t:0, ci:0, mi:0, menu:false, kc:[], enter(){ this.t=0; this.menu=!!this.keepMenu; this.keepMenu=0; this.ci=Math.min(this.ci,charsAvail()-1); if(curMusic!=='zizou') playMusic('zizou',{fade:50}); },
   activate(){ const id=MENU[this.mi].id;
@@ -3432,7 +3434,7 @@ function loop(now){
   go(SC.boot);
   requestAnimationFrame(t=>{last=t;loop(t);});
   try{ await Promise.race([Promise.all([document.fonts.load('8px "Press Start 2P"'),document.fonts.load('20px "Bungee"'),document.fonts.load('700 12px "Noto Kufi Arabic"','زومبي')]),new Promise(r=>setTimeout(r,2500))]); }catch(e){}
-  await Promise.all(Object.entries(ASSET_LIST).map(([k,src])=>loadImg(k,src)));
+  await Promise.all(Object.entries(ASSET_LIST).map(([k,src])=>loadImg(k,src))); imgsReady();
 })();
 window.__rr={step(n,draw){ for(let i=0;i<n;i++){ frame++; musicTick(); transTick(); if(!trans) scene.update(); for(const k in pressed) pressed[k]=false; if(draw&&i%draw===0){ ctx.setTransform(S,0,0,S,0,0); scene.draw(); transDraw(); } } },
   killAll(){ for(const e of ents){ if(e.kind!=='enemy'||e.team!==1||e.dead) continue; if(e.type==='feed'){ feedHit({x:e.x-10,y:e.y,dir:1,z:0,team:0},e,999,9999); continue; } if(e.state==='grabbed'){ if(player&&player.grab===e) player.grab=null; e.state='hurt'; e.t=0; } if(['fall','down','dead','woke','leave'].includes(e.state)||e.hp<=0) continue; if(e.type==='zombie'){ hurt(e,9,true,player); continue; } e.inv=0; hurt(e,9999,true,player); } },
