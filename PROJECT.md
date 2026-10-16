@@ -7,7 +7,7 @@ RAÏ NOIR is a single-file browser arcade game (side-scrolling beat 'em up) them
 
 ## Layout
 - `index.html` (~420 KB): the whole game: CSS, engine, scenes, sprites, audio and i18n. No build step and no dependencies except Google Fonts (Bungee, Press Start 2P, Noto Kufi Arabic).
-- `tests/smoke.js`: Playwright release check. It drives every menu and story scene in all 3 languages, clears every level, the server farm (bullet time) and the boat shooter. Run it with `node tests/smoke.js [url]` (default `http://localhost:8766/index.html`). Exit code 1 means a failure.
+- `tests/smoke.js`: Playwright release check. It drives every menu and story scene in all 3 languages, clears every level, the server farm (bullet time) and the boat shooter. Run it with `node tests/smoke.js [url]` (default `http://localhost:8777/index.html`). Exit code 1 means a failure.
 - `audio/`: one music track per level/scene (zidane, zizou, warda, mumya, voodoo, adieu, amorharam, yalla…), plus `vv01–08` voice lines and `pads/`.
 - `assets/`: bg, spr (sprite atlases), portraits, covers, story, intro, fmv + video (mp4 + webm pairs), ui, shots, and scene-specific folders (amor, adieu, mumya).
 - `RAI_NOIR_album_cover.jpg`: album art.
@@ -23,14 +23,12 @@ RAÏ NOIR is a single-file browser arcade game (side-scrolling beat 'em up) them
 
 ## Status (2026-10-16)
 - The game is playable end to end: 7 levels, server farm, boat shooter, menus, cassettes, cheats and credits, in 3 languages.
-- Known issues to check:
-  - `index.html` contains **two `<!doctype>`**. The first line is an artifact-viewer wrapper (white `body` style) that came from downloading a published page. Strip that wrapper line so the file starts at the real `<!doctype html>`.
-  - The folder is **not a git repo**. Run `git init` and make a first commit before any big change.
-  - `smoke.js` hard-codes `executablePath: '/opt/pw-browsers/chromium'`, which doesn't exist on this Mac. Use the default Playwright Chromium (`npx playwright install chromium`) or an env var.
-  - 85 MB of media: check the load time and mobile data cost (lazy-load music and FMV per level).
+- Done 2026-10-16: removed the artifact-wrapper line from index.html, ran git init with a first commit, added package.json (`npm run serve` serves on port 8777, `npm test` runs the smoke test), and the smoke test now uses the default Playwright Chromium. Result: smoke 99/99 green.
+- Port 8766 is taken by another local app (Creative Studio), which is why the game now uses 8777.
+- Still open: 85 MB of media. Check load time and mobile data cost (lazy-load music and FMV per level).
 
 ## Next (proposed order)
-1. Housekeeping: strip the wrapper, `git init`, fix the smoke test path, and get the smoke test green locally (`python3 -m http.server 8766`).
+1. ~~Housekeeping~~ done.
 2. Bug sweep: run the smoke test, play through on desktop and phone, and log the bugs here.
 3. Polish: Arabic/RTL text in menus and skits, touch controls, performance on low-end phones.
 4. Release: choose a host (static: Netlify / Cloudflare Pages / GitHub Pages), choose a domain, and decide how it links from the album.
