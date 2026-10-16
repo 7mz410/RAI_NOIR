@@ -1486,7 +1486,7 @@ function updateWaves(){
   if(wave){
     spawnT--; const alive=ents.filter(e=>e.team===1&&e.kind==='enemy'&&!e.dead&&e.state!=='dead').length;
     if(wave.queue.length && spawnT<=0 && alive<(wave.boss?4:3) && (!wave.boss||wave.late||camX>=LV.len-W-2)){ spawnEnemy(wave.queue.shift()); spawnT=irnd(24,55); }
-    if(!wave.queue.length && alive===0){
+    else if(!wave.queue.length && alive===0){
       if(wave.boss){ stageState='clear'; stageT=0; sfx('life'); yalla(); if(G.level===0){ cityGoesOnline(); if(curMusic!=='offline') playMusic('offline',{fade:90}); } }
       else { lockX=Infinity; goT=160; yalla(); mamaCall(); if(wave.music){ G.waveSongDone=1; const a=DECK[deckI]; a.loop=false; } }
       wave=null; waveIdx++;
