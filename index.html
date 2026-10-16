@@ -2381,7 +2381,6 @@ function cineScene(list,musicName,next){
       }
       if(it.mama!=null) drawMamaBattery(it.mama,t);
       if(it.tag){ ctx.globalAlpha=ease((t-10)/20); text(it.tag,W-12,22,'#f4e7c8',6,'right'); ctx.globalAlpha=1; }
-      if(t>80&&frame%50<32){ text('NEXT ▶',W-12,H-bar-10,'#ffe066',6,'right',null); }
       // big number
       if(it.num){ const x=-120+136*ease((t-4)/16); ctx.save(); ctx.font='58px Bungee, '+FONT; ctx.textBaseline='alphabetic'; ctx.lineWidth=2; ctx.strokeStyle='#ff3d8b'; ctx.globalAlpha=.9; ctx.strokeText(it.num,x,150); ctx.restore(); }
       // title slides in from right
@@ -2846,7 +2845,7 @@ SC.shoot={ t:0, isShoot:true,
     if(this.retry>0) { neonText('MISSED THE DRAW',W/2,H/2-10,'#ff3d5a',12); text(tr('AGAIN!'),W/2,H/2+10,'#fff',7,'center'); }
     if(paused) pauseDraw();
     if(this.over){ R(0,0,W,H,'rgba(0,0,0,.7)'); neonText('OFFLINE',W/2,80,'#ff3d5a',20); text(tr('TAP / A = CONTINUE'),W/2,120,'#fff',7,'center'); }
-    if(e.plate&&this.i===0) text(tr('TAP = SHOOT · TAP RELOAD WHEN EMPTY'),W/2,oy+vh-14,'#5ff0ff',6,'center','#000');
+    if(e.plate&&this.i===0) text(tr('TAP = SHOOT · TAP RELOAD WHEN EMPTY'),W/2,H-60,'#5ff0ff',6,'center','#000');
   } };
 
 SC.boatOut=cineScene(CINE.boatOut,null,()=>go(SC.adieuIntro));
@@ -2861,9 +2860,10 @@ SC.payne={ isPayne:true,
   enter(){ const P=this; P.t=0; P.camX=0; P.p={x:60,vx:0,dir:1,st:'aim',t:0,hp:100,inv:0,fireT:0,z:0,vz:0,ly:0}; P.en=[]; P.sh=[]; P.eb=[]; P.fx=[]; P.wi=0; P.bt=100; P.btOn=false; P.ts=1; P.cap=null; P.capI=0; P.lock=Infinity; P.boss=null; P.done=0; P.kills=0; PY_PITS.forEach(q=>q.hint=0);
     if(G){ G.level=3; } playMusic('helm7ram',{fade:60}); msg=null; },
   spawn(type){ const P=this, T=ETYPES[type], side=Math.random()<.35&&P.camX>40?-1:1; const ly0=irnd(-22,4); const e={kind:'enemy',type,T,team:1,shadow:true,ly:ly0,look:LOOKS[T.look],x:side>0?P.camX+W+20:P.camX-20,y:PY_Y+ly0,z:0,dir:-side,hp:3+(type==='bro'?1:0),state:'walk',anim:irnd(0,40),t:0,cool:irnd(60,120),sc:(T.sc||1)*K,aim:0,pref:irnd(120,230)}; if(OPT.diff==='easy') e.hp=Math.max(2,e.hp-1); P.en.push(e); },
-  spawnBoss(){ this.boss={x:Math.min(PY_LEN-90,this.camX+W-70),hp:70,max:70,t:0,flash:0,jnoun:1}; msg={t:200,big:"YUNG JNOUN",small:'THE DREAM HAS A BOSS · DIVE THE BULLETS',top:1}; sfx('boss'); },
-  update(){ const P=this, p=P.p; P.t++;
-    if(pressed.pause){ return; }
+  spawnBoss(){ this.boss={x:Math.min(PY_LEN-90,this.camX+W-70),hp:70,max:70,t:0,flash:0,jnoun:1}; msg={t:200,big:"YUNG JNOUN",small:'THE DREAM HAS A BOSS · DIVE THE BULLETS'}; sfx('boss'); },
+  update(){ const P=this, p=P.p;
+    if(pressed.pause||pressed.start){ paused=!paused; sfx('blip'); } if(paused){ pauseMenu(()=>go(SC.mahramOut)); return; }
+    P.t++;
     // bullet time: SPECIAL toggles it while the meter lasts; a dive always slows the world
     if(pressed.c){ if(!P.btOn&&P.bt>15){ P.btOn=true; sfx('special'); } else if(P.btOn){ P.btOn=false; } }
     const slow=P.btOn||p.st==='dive'; if(P.btOn){ P.bt-=0.45; if(P.bt<=0){ P.bt=0; P.btOn=false; } } else if(!slow) P.bt=Math.min(100,P.bt+0.04);
@@ -2969,7 +2969,8 @@ SC.payne={ isPayne:true,
     text(String(Math.round(G.score)).padStart(7,'0'),W-6,4,'#f4e7c8',6,'right',null);
     text('PUNCH = SHOOT · JUMP = DIVE · SPECIAL = BULLET TIME',W/2,13,'#8a7fa3',4,'center',null);
     if(goT>0&&frame%40<26){ neonText('GO',W-30,90,'#ffe066',12); text('▶',W-18,104,'#ffe066',14,'center'); }
-    if(msg&&(msg.big||msg.small)){ const my=34; R(0,my,W,34,'rgba(0,0,0,.65)'); if(msg.big) chromeText(msg.big,W/2,my+4,10); if(msg.small) text(msg.small,W/2,my+22,'#ff5fa8',6,'center'); }
+    if(msg&&(msg.big||msg.small)){ const my=84; R(0,my,W,34,'rgba(0,0,0,.65)'); if(msg.big) chromeText(msg.big,W/2,my+4,10); if(msg.small) text(msg.small,W/2,my+22,'#ff5fa8',6,'center'); }
+    if(paused) pauseDraw();
   } };
 SC.payneIntro=cineScene([
   {img:'story/nightmare',tag:'THE DREAM',title:'BULLET TIME',feat:'7ELM 7RAM',line:'IN THE DREAM, KHALIL\'S ORANGE FLARE GUN IS IN HIS HAND. TIME BENDS. THE SHADOWS COME.',dur:440},

@@ -25,13 +25,38 @@ RAÏ NOIR is a single-file browser arcade game (side-scrolling beat 'em up) them
 - The game is playable end to end: 7 levels, server farm, boat shooter, menus, cassettes, cheats and credits, in 3 languages.
 - Done 2026-10-16: removed the artifact-wrapper line from index.html, ran git init with a first commit, added package.json (`npm run serve` serves on port 8777, `npm test` runs the smoke test), and the smoke test now uses the default Playwright Chromium. Result: smoke 99/99 green.
 - Port 8766 is taken by another local app (Creative Studio), which is why the game now uses 8777.
-- Still open: 85 MB of media. Check load time and mobile data cost (lazy-load music and FMV per level).
+- Live on GitHub Pages: repo https://github.com/7mz410/RAI_NOIR (public), game at https://7mz410.github.io/RAI_NOIR/ (made for Hamza's friend Lennart in Belgium). GitHub doesn't allow "Ï" in repo names, which is why the repo is called RAI_NOIR.
+- Bug sweep 1 done 2026-10-16 (3 Haiku QA agents). Fixed:
+  - stage2's FEED boss was skipped, because the wave cleared on the frame the boss spawned (`updateWaves`);
+  - the server-farm boss spawned off screen, and the player could walk past it;
+  - the portrait pause button was off screen (it is now 44px);
+  - the weapon hint overlapped "WOKE UP" in the HUD;
+  - the server farm had no pause menu;
+  - the shooter hint overlapped the RELOAD button and the captain's line;
+  - the boss banner overlapped the caption panel;
+  - the "NEXT ▶" hint overlapped the story text (removed; the bottom bar already shows A NEXT);
+  - the `willReadFrequently` warning.
+- Arabic: 558 new darija strings were added to `AR_T`, and `text()`/`wrapText()` now set `ctx.direction` for Arabic so mixed text is in the right order. Cine scenes show the Arabic as a subtitle above the English line, which is the original design.
+
+### FLAG: design questions, parked until Hamza/Lennart decide
+- The server farm (`SC.payne`) has no game over: lives reach 0 and the run continues.
+- The shooter (`SC.shoot`) gives unlimited free continues and never reaches `SC.cont`.
+- In story mode the server farm takes stage4's slot (`G.level=3`, then exits to mahramOut), so stage4 (ZIDANE) can only be played from stage select. Is that intended?
+
+### Known, not fixed
+- 85 MB of media. Some files are requested twice or aborted (zizou, rainoir, the intro videos). Lazy-load them per level.
+- Touch targets under 44px: PLAY PORTRAIT ANYWAY, YALLA (30px high), the landscape D-pad (36px).
+- The SOUND ROOM title sits under the BACK button. The EN/FR/عربي selector and the OPTIONS button touch the logo on the title screen.
+- The Press Start 2P font lacks some accented capitals (Ê renders as a glyph box in fr, e.g. "RÊVE").
+- RESET SAVE keeps the options and language. Confirm that this is intended.
+- Unconfirmed: the nightIntro cutscene once replayed over the shooter (a `setTimeout` in marseilleOut's next callback).
+- Arabic was only spot-checked on 4 screens. A native-speaker pass is still needed.
 
 ## Next (proposed order)
 1. ~~Housekeeping~~ done.
-2. Bug sweep: run the smoke test, play through on desktop and phone, and log the bugs here.
-3. Polish: Arabic/RTL text in menus and skits, touch controls, performance on low-end phones.
-4. Release: choose a host (static: Netlify / Cloudflare Pages / GitHub Pages), choose a domain, and decide how it links from the album.
+2. ~~Bug sweep 1~~ done. Next: Hamza and Lennart playtest on real phones.
+3. Polish: the "Known, not fixed" list above, then a performance pass on low-end phones.
+4. Decide the FLAG questions.
 
 ## Team roles
 **Hamza (director / owner)**
