@@ -2749,7 +2749,7 @@ const FMV=[
 const FMVV={}, FMVERR={};
 function fmvLoad(){ for(const e of FMV){ if(FMVV[e.id]) continue; const v=document.createElement('video'); v.preload='auto'; v.muted=true; v.playsInline=true; v.setAttribute('playsinline',''); v.setAttribute('webkit-playsinline',''); v.crossOrigin='anonymous'; v.loop=false;
   v.addEventListener('error',()=>{ FMVERR[e.id]=true; }); v.src=(v.canPlayType('video/mp4; codecs="avc1.42E01E"')?'assets/fmv/'+e.id+'.mp4':'assets/fmv/'+e.id+'.webm')+'?v='+AV; FMVV[e.id]=v; } }
-const FV=mk(192,108), FVC=FV.getContext('2d');
+const FV=mk(192,108), FVC=FV.getContext('2d',{willReadFrequently:true});
 function lerpKeys(keys,t){ let a=keys[0],b=keys[keys.length-1]; for(let i=0;i<keys.length-1;i++){ if(t>=keys[i][0]&&t<=keys[i+1][0]){ a=keys[i]; b=keys[i+1]; break; } } const k=b[0]>a[0]?Math.min(1,Math.max(0,(t-a[0])/(b[0]-a[0]))):0; return [a[1]+(b[1]-a[1])*k,a[2]+(b[2]-a[2])*k]; }
 SC.shoot={ t:0, isShoot:true,
   enter(){ fmvLoad(); this.i=-1; this.hearts=5; this.ammo=6; this.cx=W/2; this.cy=H/2; this.shots=[]; this.bursts=[]; this.flash=0; this.hurt=0; this.score0=G?G.score:0; this.over=0; this.done=0; this.hits=0; this.fired=0;
@@ -2861,7 +2861,7 @@ SC.payne={ isPayne:true,
   enter(){ const P=this; P.t=0; P.camX=0; P.p={x:60,vx:0,dir:1,st:'aim',t:0,hp:100,inv:0,fireT:0,z:0,vz:0,ly:0}; P.en=[]; P.sh=[]; P.eb=[]; P.fx=[]; P.wi=0; P.bt=100; P.btOn=false; P.ts=1; P.cap=null; P.capI=0; P.lock=Infinity; P.boss=null; P.done=0; P.kills=0; PY_PITS.forEach(q=>q.hint=0);
     if(G){ G.level=3; } playMusic('helm7ram',{fade:60}); msg=null; },
   spawn(type){ const P=this, T=ETYPES[type], side=Math.random()<.35&&P.camX>40?-1:1; const ly0=irnd(-22,4); const e={kind:'enemy',type,T,team:1,shadow:true,ly:ly0,look:LOOKS[T.look],x:side>0?P.camX+W+20:P.camX-20,y:PY_Y+ly0,z:0,dir:-side,hp:3+(type==='bro'?1:0),state:'walk',anim:irnd(0,40),t:0,cool:irnd(60,120),sc:(T.sc||1)*K,aim:0,pref:irnd(120,230)}; if(OPT.diff==='easy') e.hp=Math.max(2,e.hp-1); P.en.push(e); },
-  spawnBoss(){ this.boss={x:PY_LEN-90,hp:70,max:70,t:0,flash:0,jnoun:1}; msg={t:200,big:"YUNG JNOUN",small:'THE DREAM HAS A BOSS · DIVE THE BULLETS',top:1}; sfx('boss'); },
+  spawnBoss(){ this.boss={x:Math.min(PY_LEN-90,this.camX+W-70),hp:70,max:70,t:0,flash:0,jnoun:1}; msg={t:200,big:"YUNG JNOUN",small:'THE DREAM HAS A BOSS · DIVE THE BULLETS',top:1}; sfx('boss'); },
   update(){ const P=this, p=P.p; P.t++;
     if(pressed.pause){ return; }
     // bullet time: SPECIAL toggles it while the meter lasts; a dive always slows the world
@@ -2883,7 +2883,7 @@ SC.payne={ isPayne:true,
     else if(p.st==='back'){ if(p.t>34||pressed.b){ p.st='getup'; p.t=0; } }
     else if(p.st==='getup'){ if(p.t>14) p.st='aim'; }
     else if(p.st==='hurt'){ if(p.t>16) p.st='aim'; }
-    const minX=P.camX+14, maxX=Math.min(P.lock<Infinity?P.lock+W-20:PY_LEN-30,PY_LEN-30); p.x=clamp(p.x,minX,maxX);
+    const minX=P.camX+14, maxX=Math.min(P.lock<Infinity?P.lock+W-20:PY_LEN-30,PY_LEN-30,P.boss&&P.boss.hp>0?P.boss.x-40:Infinity); p.x=clamp(p.x,minX,maxX);
     for(const pit of PY_PITS){ if(!pit.hint&&pit.x-p.x<120&&pit.x>p.x){ pit.hint=1; floatText(pit.x,PY_Y-60,tr('JUMP!'),'#ff3d5a'); }
       if(p.z<=0&&p.st!=='dive'&&p.inv<=0&&p.x>pit.x-pit.w/2+6&&p.x<pit.x+pit.w/2-6){ p.hp-=OPT.diff==='easy'?10:20; p.x=pit.x-pit.w/2-18; p.inv=90; p.st='hurt'; p.t=0; shake=6; sfx('hurt'); msg={t:150,big:'',small:tr('THE CRACKS ARE DEEP · JUMP = DIVE OVER THEM'),top:1};
         if(p.hp<=0){ if(G.lives>0) G.lives--; p.hp=100; p.inv=120; } } }
