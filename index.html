@@ -1538,9 +1538,7 @@ const SKITS={
     {at:1560,img:'shots/L1_02_oran_street_k7',who:'K7',line:"HEAR THAT? THE KIOSK PLAYS YOUR TRACK. HE BOUGHT IT AT ALDI TRACK MARKET. ONE DIRHAM, WLIDI."},
     {at:1600,img:'shots/L1_02_oran_street_k7',who:'CHEB',line:'AND HE CALLS IT A WORLD EXCLUSIVE. EVERYBODY IS A DJ NOW. NOBODY IS A MUSICIAN.'},
   ],
-  amor:[
-    {at:2200,img:'amor/02_jnoun',who:'YUNG JNOUN',line:"SHE PROMPTED YOU, I PROMPT YOU. HORROR TRAP, HABIBI. NO SKIP BUTTON."},
-  ],
+  amor:[],
   mahram:[
     {at:2050,img:'story/aldi_devil',who:'PLAIBOY ALDI',line:"YOU THINK I'M THE DEVIL? I'M THE HALF OF YOU THAT PRESSED SEND. WHO WOULD BE BORN MUST FIRST DESTROY A WORLD. MY NAME IS ABRAXAS."},
     {at:2420,img:'story/aldi_split',who:'PLAIBOY ALDI',line:"ONE LAST MASK. UNDER IT: YOUR FACE. THE ONE WHO NEVER WENT OFFLINE."},
@@ -1596,17 +1594,17 @@ function skitDraw(){ const t=skit.t, p=t/skit.dur, im=IMG[skit.img]; const talk=
     const pop=clamp((t-14)/6,0,1); const h=comicBubble(bx,by,bw,lines.length?lines:[' '],who,px+pw-6,py+30+i*40,pop); by+=h+14; if(by>H-30) break; }
   if(frame%60<40) comicCaption(W-8,H-14,'A ▶','#fff','#000',5,'right'); }
 const LEVELS=[
-  {id:'oran',title:'STAGE 1 · ZIZOU',sub:'ORAN — OFFLINE AND LOVING IT',music:'zizou',len:2000,battery:false,dur:100,
-   waves:[{at:180,tAt:5,list:['hustler','hustler']},{at:520,tAt:22,list:['hustler','scooter','goon']},{at:900,tAt:40,list:['goon','hustler','scooter','hustler']},
+  {id:'oran',title:'STAGE 1 · ZIZOU',sub:'ORAN — OFFLINE AND LOVING IT',music:'zizou',len:2000,battery:false,dur:100,yMin:176,
+   waves:[{at:180,tAt:5,list:['hustler','hustler']},{at:520,tAt:22,list:['hustler','scooter']},{at:900,tAt:40,list:['goon','hustler','scooter','hustler']},
           {at:1280,tAt:56,list:['hustler','goon','scooter','goon']},{at:1620,tAt:70,boss:1,list:['playback','hustler','scooter']}],
    props:[['bin',345,164,'karantika'],['bin',412,206,'babouche'],['bin',573,204,'pipe'],['crate',853,176,'micstand'],['crate',735,206,'oranges'],['bin',470,170,'tajine'],['crate',985,206,'baguette'],['bin',1191,172,'k7tape'],['crate',1514,206,'tray'],['bin',1794,172,'chechia'],['bin',1470,206,'shisha'],['bin',941,190,'hasni'],['crate',1073,170,'sardines'],['crate',1264,206,'cassette'],['crate',1397,170,'babouche'],['crate',1588,180,'karantika'],['bin',1691,200,'darbuka'],['crate',1853,206,'yamaha'],['crate',1750,168,'sardines']]},
   {id:'cairo',title:'STAGE 2 · ZOMBY',sub:'CAIRO — BACK ONLINE',music:'zomby',len:2400,battery:true,dur:129,drive:{dur:34},
    waves:[{at:200,tAt:28,list:['zombie','zombie','zombie']},{at:560,tAt:42,list:['zombie','zombie','influencer','zombie']},{at:920,tAt:56,list:['zombie','zombie','dervish','zombie','influencer','zombie']},
-          {at:1280,tAt:172,minT:118,boss:0,mini:1,music:'voodoo',seek:69,list:['m3alim','dog','dog','zombie']},{at:1660,tAt:190,list:['camel','zombie','dervish','influencer','zombie','camel']},{at:2020,tAt:205,boss:1,list:['feed']}],
+          {at:1500,tAt:186,boss:0,mini:1,music:'voodoo',seek:69,list:['m3alim','dog','dog','zombie']},{at:1660,tAt:190,list:['camel','zombie','dervish','influencer','zombie','camel']},{at:2020,tAt:205,boss:1,list:['feed']}],
    props:[['barrel',370,170,'koshary'],['box',533,206,'bendir'],['barrel',666,204,'cassette'],['box',962,180,'pipe'],['box',1081,204,'ringlight'],['barrel',814,206,'dish'],['box',444,206,'chechia'],['barrel',1222,172,'tray'],['box',1481,206,'k7tape'],['barrel',1851,172,'tajine'],['box',1814,206,'shisha'],['barrel',1925,176,'dish'],['barrel',1333,196,'koshary'],['box',1555,176,'darbuka'],['box',1703,170,'hasni'],['barrel',2000,200,'koshary'],['box',2118,186,'ringlight'],['barrel',2162,206,'cassette']]},
-  {id:'amor',title:'STAGE 3 · AMOR HARAM',sub:'CYBER CAIRO — SHE IS TYPING…',music:'amorharam',len:2600,battery:true,dur:199,amor:1,
-   waves:[{at:200,tAt:12,list:['punk','zombie','punk']},{at:1100,tAt:75,list:['punk','punk','zombie','hustler']},{at:1500,tAt:105,list:['punk','zombie','hustler']},{at:1900,tAt:135,list:['punk','dervish','goon','punk','zombie']},{at:2250,tAt:165,boss:1,list:['feed','punk']}],
-   npcs:[['owner',1150,178,'ABU SAMIR','PC 7 IS FREE. 5 POUNDS AN HOUR. DON\'T CLICK THE PINK LINKS. AND YOUR MOTHER CALLED THE CAFÉ. TWICE.'],['zclient',870,204,'ZOMBY','SHE MESSAGED ME TOO, KHOYA. SHE MESSAGES EVERYBODY.'],['pc',997,172,'PC 7',''],['shisha',1320,200,'AMM SHISHA','DOUBLE APPLE? OR ARE YOU HERE FOR HER? SAME THING, THEY BOTH BURN.'],['dancer',1760,166,'SAMIA','YOU LOOK LIKE A MAN WHO TYPES WITH ONE HAND, HABIBI. THE BOYS OUTSIDE DON\'T LIKE YOUR KIND.'],['stagedancer',2420,150,'SAMIA','']],
+  {id:'amor',title:'STAGE 3 · AMOR HARAM',sub:'CYBER CAIRO — SHE IS TYPING…',music:'amorharam',len:2600,battery:true,dur:199,amor:1,yMin:166,
+   waves:[{at:200,tAt:12,list:['punk','zombie','punk']},{at:1100,tAt:75,list:['punk','zombie','hustler']},{at:1500,tAt:105,list:['punk','zombie','hustler']},{at:1900,tAt:135,list:['punk','dervish','goon','zombie']},{at:2250,tAt:165,boss:1,list:['feed','punk']}],
+   npcs:[['owner',1150,178,'ABU SAMIR','PC 7 IS FREE. 5 POUNDS AN HOUR. DON\'T CLICK THE PINK LINKS. AND YOUR MOTHER CALLED THE CAFÉ. TWICE.'],['zclient',870,204,'ZOMBY','SHE MESSAGED ME TOO, KHOYA. SHE MESSAGES EVERYBODY.'],['pc',997,172,'PC 7',''],['shisha',1320,200,'AMM SHISHA','DOUBLE APPLE? OR ARE YOU HERE FOR HER? SAME THING, THEY BOTH BURN.'],['dancer',1444,198,'SAMIA','YOU LOOK LIKE A MAN WHO TYPES WITH ONE HAND, HABIBI. THE BOYS OUTSIDE DON\'T LIKE YOUR KIND.'],['stagedancer',2420,150,'SAMIA','']],
    props:[['box',380,206,'koshary'],['barrel',560,204,'cassette'],['box',900,206,'k7tape'],['barrel',1200,172,'tray'],['box',1420,206,'shisha'],['barrel',1650,206,'dish'],['box',2000,180,'ringlight'],['barrel',2150,206,'koshary']]},
   {id:'mahram',title:'STAGE 5 · 7ELM 7RAM',sub:'A NIGHTMARE AT SEA — FOLLOW THE THREAD',music:'helm7ram',len:2800,battery:false,dur:200,nightmare:1,
    waves:[{at:300,tAt:18,list:['sh_hustler','sh_hustler','sh_zombie']},{at:800,tAt:50,list:['sh_goon','sh_punk','sh_influencer','sh_zombie']},{at:1250,tAt:80,boss:0,mini:1,list:['sh_m3alim','sh_dog','sh_dog']},{at:1700,tAt:112,list:['sh_punk','sh_dervish','sh_zombie','sh_goon','sh_dervish']},{at:2100,tAt:140,boss:0,mini:1,list:['sh_aldi','sh_hustler','sh_zombie']},{at:2450,tAt:165,boss:1,list:['shadowself']}],
@@ -1625,7 +1623,7 @@ const LEVELS=[
    npcs:[['crew',200,170,'BADER','THEY ASKED ME TO SHOOT THE NIGHT. FOR FREE. "FOR THE PORTFOLIO."','bader'],['crew',960,166,'KHALIL',"THEY PRINTED MY GRANDFATHER'S SONG ON A TOTE BAG. 35 EUROS.",'khalil'],['crew',1780,168,'5AMASEEN','DABKE IS A WEDDING DANCE, HABIBI. NOT A TEAM-BUILDING.','khamaseen']],
    props:[['crate',520,206,'koshary'],['barrel',1300,206,'tray'],['crate',1840,206,'k7tape'],['barrel',2080,190,'karantika']]},
 ];
-const SHORTF={oran:.7,cairo:.7,amor:.72,mahram:.68,jannah:.85,boat:.85,marseille:.74};
+const SHORTF={oran:.65,cairo:.7,amor:.66,mahram:.68,jannah:.85,boat:.9,marseille:.74};
 function shortLevel(L){ if(L._short) return L._short; const f=SHORTF[L.id]||.7, c=JSON.parse(JSON.stringify(L));
   c.len=Math.round(L.len*f); c.waves=c.waves.map(w=>Object.assign(w,{at:Math.round(w.at*f),tAt:w.tAt==null?w.tAt:Math.round(w.tAt*f)}));
   if(c.waves.length>=5){ const k=c.waves.findIndex((w,i)=>i>=2&&!w.boss&&!w.mini&&!w.music&&!w.list.includes('camel')&&!w.list.includes('soufi')); if(k>=0) c.waves.splice(k,1); }
@@ -1741,7 +1739,7 @@ function playerUpdate(p){
   if(p.dashT>0) p.dashT--; if(pressed.right||pressed.left){ const d=pressed.right?1:-1; if(p.dashT>0&&p.dashDir===d){ p.dash=18; } p.dashT=14; p.dashDir=d; } if(p.dash>0) p.dash--;
   if(!['swing','throwing'].includes(p.state)) p.pose=null;
   // physics in air
-  if(p.air){ p.z+=p.vz; p.vz-=.24; p.x+=p.vx; p.y=clamp(p.y+p.vy,YMIN,YMAX);
+  if(p.air){ p.z+=p.vz; p.vz-=.24; p.x+=p.vx; p.y=clamp(p.y+p.vy,LV.yMin||YMIN,YMAX);
     if((pressed.a||pressed.k) && (p.state==='jump') ){ p.state='jumpkick'; p.t=0; sfx('whiff'); }
     if(p.state==='jumpkick' && p.t<14) { if(strike(p,22,10,12*C.pow,true)) p.t=14; }
     tryMountCamel(p); if(p.ride) return;
@@ -1755,10 +1753,10 @@ function playerUpdate(p){
     else if(pressed.k){ kickAttack(p,mx,my); }
     else if(C.skate){ // Aicha never walks: she pushes, glides, and slides to a stop
       const top=C.spd*1.45; p.vxm=(p.vxm||0); if(mx){ if(sgn(p.vxm)&&sgn(p.vxm)!==mx&&Math.abs(p.vxm)>1.2&&frame%3===0) fx.push({k:'debris',x:p.x+mx*-6,y:p.y,z:1,vx:-mx*1.2,vz:.6,life:12,c:'#fff6c8'}); p.vxm=clamp(p.vxm+mx*0.16,-top,top); p.dir=mx; } else p.vxm*=0.965;
-      if(Math.abs(p.vxm)<0.05) p.vxm=0; p.x+=p.vxm; p.y=clamp(p.y+my*C.spd*.55,YMIN,YMAX);
+      if(Math.abs(p.vxm)<0.05) p.vxm=0; p.x+=p.vxm; p.y=clamp(p.y+my*C.spd*.55,LV.yMin||YMIN,YMAX);
       if(mx){ p.state='walk'; p.pose=null; } else if(Math.abs(p.vxm)>0.4||my){ p.state='idle'; p.pose='glide'; } else { p.state='idle'; p.pose=null; }
       if(Math.abs(p.vxm)>1.6&&frame%10===0) fx.push({k:'debris',x:p.x-p.dir*5,y:p.y,z:1,vx:-p.dir*.5,vz:.3,life:10,c:'#5ff0ff'}); }
-    else if(mx||my){ p.x+=mx*C.spd; p.y=clamp(p.y+my*C.spd*.62,YMIN,YMAX); if(mx) p.dir=mx; p.state='walk'; }
+    else if(mx||my){ p.x+=mx*C.spd; p.y=clamp(p.y+my*C.spd*.62,LV.yMin||YMIN,YMAX); if(mx) p.dir=mx; p.state='walk'; }
     else p.state='idle';
   }
   p.t++; p.anim++; if(C.skate&&!p.air&&busy&&p.vxm){ p.x+=p.vxm*0.8; p.vxm*=0.93; }
@@ -3327,7 +3325,6 @@ function clubYss(){ if(!G||!G.yssLive||!BG||!BG.mid) return; const BASE=150, dx=
   ctx.drawImage(BG.mid,dx,BASE-46,200,44,Math.round(dx-camX),BASE-46,200,44);
   neonText('SOLD OUT · YALLA SOUNDSYSTEM',Math.round(dx+100-camX),BASE-92,'#ffe066',7); }
 // the DJ set: wait for a musical boundary, then rewind ("pull up!") into the next tune
-const DJ_ZIDANE_ENDS=[41,66,82,95,106,120,140];
 let djJob=null;
 function djPullup(next,seek,big,small){ if(djJob) return; djJob={t:0,next,seek,from:DECK[deckI]}; try{ const a=DECK[deckI]; a.preservesPitch=false; a.mozPreservesPitch=false; a.webkitPreservesPitch=false; }catch(e){} sfx('rewind'); msg={t:150,big:big||'PULL UP!',small:small||'SELECTA · REWIND',top:0}; shake=6; }
 function djTick(){ if(djJob){ const j=djJob; j.t++; const a=j.from; const k=Math.min(1,j.t/26); try{ a.playbackRate=Math.max(.2,1-k*.8); }catch(e){} a.volume=Math.max(0,musicVol*musicDuck*(1-k));
@@ -3336,7 +3333,7 @@ function djTick(){ if(djJob){ const j=djJob; j.t++; const a=j.from; const k=Math
   if(!LV||!LV.club||stageState!=='play'||!G) return; const a=DECK[deckI], tt=a.currentTime||0;
   if(curMusic==='warda'&&!G.djWarda){ if(!G.wardaSkit){ G.wardaSkit=1; skit={at:0,img:'story/kitchen_tv',who:'RADIO · MAMA',line:"WLIDI! THEY'RE PLAYING CHEBA WARDA! MY QUEEN! TURN IT UP — I DANCED TO HER AT MY WEDDING.",t:0,dur:330}; musicDuck=.6; }
     if(tt>=78.5){ G.djWarda=1; djPullup('zidane',15,'PULL UP!','CHEBA WARDA → ZIDANE'); } }
-  else if(curMusic==='zidane'&&!G.djJump){ if((tt>=40.7&&tt<44)||DJ_ZIDANE_ENDS.some(x=>x>44&&tt>=x&&tt<x+.25)){ G.djJump=1; G.yssLive=1; djPullup('jump',44,'YALLA SOUNDSYSTEM','SOLD OUT · JUMP FOR HABIBI'); setTimeout(()=>{ if(G&&LV&&LV.club) skit={at:0,img:'story/marseille_door',who:'BADER · YALLA SOUNDSYSTEM (ON THE DECKS)',line:'KHOYA CHEB! SOLD OUT AND THE BOAT LEAVES AT DAWN. WE GOT THE DECKS — YOU GOT THE CROWD. JUMP FOR HABIBI!',t:0,dur:330}; },700); } } }
+  else if(curMusic==='zidane'&&!G.djJump){ if(tt>=150){ G.djJump=1; G.yssLive=1; djPullup('jump',44,'YALLA SOUNDSYSTEM','SOLD OUT · JUMP FOR HABIBI'); setTimeout(()=>{ if(G&&LV&&LV.club) skit={at:0,img:'story/marseille_door',who:'BADER · YALLA SOUNDSYSTEM (ON THE DECKS)',line:'KHOYA CHEB! SOLD OUT AND THE BOAT LEAVES AT DAWN. WE GOT THE DECKS — YOU GOT THE CROWD. JUMP FOR HABIBI!',t:0,dur:330}; },700); } } }
 function clubFxOver(){ const ph=frame%26; const heavy=bossEnt&&bossEnt.type==='curator'; if(ph<(heavy?3:2)){ ctx.fillStyle='rgba(255,255,255,'+(heavy?.24:.16)+')'; ctx.fillRect(0,0,W,H); } }
 // restyled sprites: shift clothes hue, keep skin
 const RCOL={};
