@@ -1636,8 +1636,10 @@ const SKITS={
   ],
 };
 let skit=null, skitDone=new Set();
-function checkSkits(){ if(skit||stageState!=='play') return; const list=SKITS[LV.id]||[]; for(const sk of list){ if(!skitDone.has(sk)&&player.x>=sk.at){ skitDone.add(sk); const talk=[[sk.who,sk.line]]; for(const o of list){ if(o!==sk&&!skitDone.has(o)&&o.img===sk.img&&o.at>sk.at&&o.at-sk.at<=140&&talk.length<3){ skitDone.add(o); talk.push([o.who,o.line]); } } skit={...sk,talk,line:talk.map(x=>x[1]).join(' '),t:0,dur:330}; musicDuck=.4; if(sk.img==='story/spider_vendor'&&curMusic!=='voodoo'){ musicQuiet=.32; playMusic('voodoo',{seek:46,fade:150,loop:false}); } sfx('flash'); if(sk.item) items.push({kind:'item',it:sk.item,x:player.x+40,y:player.y,z:90,vz:0,t:0}); break; } } }
-function skitUpdate(){ skit.t++; if(pressed.y&&skit.img==='story/spider_vendor'&&!VMARK.has('secret')){ pressed.y=false; vaultMark('secret'); floatText(player.x,player.y-70,'HOODIE BOUGHT. TIRIRIRI!','#7dff8a'); } const L=String(frIt(skit).line||'').length, full=12+Math.ceil(L/1.4), need=Math.max(skit.dur,full+90+L*2.6); const pr=pressed.a||pressed.b||pressed.k||pressed.start; if(pr&&skit.t<full){ skit.t=full; pressed.start=false; return; } if(pr||skit.t>=need){ skit=null; musicDuck=1; pressed.start=false; } }
+const SKITVID={'story/spider_vendor':'__VIDURL__'}; const SKITV={}; // animated skit panels (Higgsfield, streamed until vendored)
+function skitVid(k){ const u=SKITVID[k]; if(!u||u.startsWith('__')) return null; let v=SKITV[k]; if(!v){ v=SKITV[k]=document.createElement('video'); v.muted=true; v.loop=true; v.playsInline=true; v.setAttribute('playsinline',''); v.preload='auto'; v.src=u; } return v; }
+function checkSkits(){ if(skit||stageState!=='play') return; const list=SKITS[LV.id]||[]; for(const sk of list){ if(!skitDone.has(sk)&&player.x>=sk.at){ skitDone.add(sk); const talk=[[sk.who,sk.line]]; for(const o of list){ if(o!==sk&&!skitDone.has(o)&&o.img===sk.img&&o.at>sk.at&&o.at-sk.at<=140&&talk.length<3){ skitDone.add(o); talk.push([o.who,o.line]); } } skit={...sk,talk,line:talk.map(x=>x[1]).join(' '),t:0,dur:330}; musicDuck=.4; { const v=skitVid(sk.img); if(v){ try{ v.currentTime=0; v.play().catch(()=>{}); }catch(e){} } } if(sk.img==='story/spider_vendor'&&curMusic!=='voodoo'){ musicQuiet=.32; playMusic('voodoo',{seek:46,fade:150,loop:false}); } sfx('flash'); if(sk.item) items.push({kind:'item',it:sk.item,x:player.x+40,y:player.y,z:90,vz:0,t:0}); break; } } }
+function skitUpdate(){ skit.t++; if(pressed.y&&skit.img==='story/spider_vendor'&&!VMARK.has('secret')){ pressed.y=false; vaultMark('secret'); floatText(player.x,player.y-70,'HOODIE BOUGHT. TIRIRIRI!','#7dff8a'); } const L=String(frIt(skit).line||'').length, full=12+Math.ceil(L/1.4), need=Math.max(skit.dur,full+90+L*2.6); const pr=pressed.a||pressed.b||pressed.k||pressed.start; if(pr&&skit.t<full){ skit.t=full; pressed.start=false; return; } if(pr||skit.t>=need){ const v=SKITV[skit.img]; if(v) try{ v.pause(); }catch(e){} skit=null; musicDuck=1; pressed.start=false; } }
 function comicCaption(x,y,txt,bg='#ffe066',fg='#000',size=6,align='center'){ ctx.font=size+'px '+FONT; const w=Math.ceil(ctx.measureText(txt).width)+10, h=size+7; const bx=align==='center'?Math.round(x-w/2):align==='right'?x-w:x;
   R(bx+2,y+2,w,h,'#000'); R(bx-1,y-1,w+2,h+2,'#000'); R(bx,y,w,h,bg); text(txt,bx+5,y+4,fg,size,'left',null); return w; }
 function comicBubble(x,y,w,lines,who,tailX,tailY,k){ const h=lines.length*9+(who?16:8); ctx.save(); ctx.globalAlpha=k;
@@ -1646,7 +1648,7 @@ function comicBubble(x,y,w,lines,who,tailX,tailY,k){ const h=lines.length*9+(who
   ctx.fillStyle='#fff'; ctx.beginPath(); ctx.moveTo(tailX+3,tailY-4); ctx.lineTo(x+19,y+h-3); ctx.lineTo(x+27,y+h-3); ctx.fill();
   if(who) comicCaption(x+4,y-6,who,'#ff5fa8','#fff',5,'left');
   lines.forEach((l,i)=>AR_RX.test(l)?text(l,x+w-6,y+(who?10:5)+i*9,'#000',7,'right',null):text(l,x+6,y+(who?10:5)+i*9,'#000',7,'left',null)); ctx.restore(); return h; }
-function skitDraw(){ const t=skit.t, p=t/skit.dur, im=IMG[skit.img]; const talk=(skit.talk||[[skit.who,skit.line]]).map(([w,l])=>LANG==='fr'?[FR_T[w]||w,FR_T[l]||l]:[w,l]);
+function skitDraw(){ const t=skit.t, p=t/skit.dur, sv=SKITV[skit.img], im=(sv&&sv.readyState>=2&&sv.videoWidth)?sv:IMG[skit.img]; const talk=(skit.talk||[[skit.who,skit.line]]).map(([w,l])=>LANG==='fr'?[FR_T[w]||w,FR_T[l]||l]:[w,l]);
   ctx.fillStyle='rgba(8,2,16,.62)'; ctx.fillRect(0,0,W,H);
   for(let y=0;y<H;y+=4) for(let x=(y/4)%2?2:0;x<W;x+=4) R(x,y,1,1,'rgba(255,95,168,.10)'); // halftone
   // panel slides in, slightly tilted, thick ink border
@@ -1654,7 +1656,7 @@ function skitDraw(){ const t=skit.t, p=t/skit.dur, im=IMG[skit.img]; const talk=
   ctx.save(); ctx.translate(px+pw/2,py+ph/2); ctx.rotate(-0.025); ctx.translate(-pw/2,-ph/2);
   R(-4,-4,pw+8,ph+8,'#000'); R(-2,-2,pw+4,ph+4,'#fff'); R(0,0,pw,ph,'#000');
   ctx.save(); ctx.beginPath(); ctx.rect(0,0,pw,ph); ctx.clip(); ctx.imageSmoothingEnabled=true;
-  if(im){ const sc0=Math.max(pw/im.width,ph/im.height)*(1.06+.08*p); const w=im.width*sc0,h=im.height*sc0; ctx.drawImage(im,(pw-w)/2-(w-pw)/2*(p-.5),(ph-h)/2,w,h); } else R(0,0,pw,ph,'#1a0a2a');
+  if(im){ const iw=im.videoWidth||im.width, ih=im.videoHeight||im.height; const sc0=Math.max(pw/iw,ph/ih)*(im.videoWidth?1.02:(1.06+.08*p)); const w=iw*sc0,h=ih*sc0; ctx.drawImage(im,(pw-w)/2-(w-pw)/2*(p-.5),(ph-h)/2,w,h); } else R(0,0,pw,ph,'#1a0a2a');
   ctx.imageSmoothingEnabled=false; for(let y=0;y<ph;y+=3) R(0,y,pw,1,'rgba(0,0,0,.12)'); ctx.restore(); ctx.restore();
   // speech bubbles, one after another, typed out
   let n=Math.max(0,Math.floor((t-14)*1.4)); let by=22; const bx=236, bw=W-bx-8;
