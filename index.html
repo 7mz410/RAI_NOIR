@@ -1499,7 +1499,7 @@ function drawMamaBattery(v,t){ const k=ease(t/40); const shown=Math.round(v+(1-k
   ctx.font='14px Bungee, '+FONT; ctx.textAlign='center'; ctx.textBaseline='top'; ctx.fillStyle='#fff'; ctx.fillText(shown+'%',cx,cy+28); text('MAMA',cx,cy-36,'#7dff8a',8,'center'); ctx.restore(); }
 
 let scene=null, fadeIn=0, trans=null;
-const DEMO=/[?&]demo=gta/i.test(location.search); let DEMO_PLAYED=false; // GRAND THEFT AUTOTUNE: ORAN — the one-level meme demo
+let DEMO=/[?&]demo=gta/i.test(location.search); let DEMO_PLAYED=false; // GRAND THEFT AUTOTUNE: ORAN — the one-level meme demo
 function go(s){ if(DEMO&&SC.gtaBox){ const ok=[SC.boot,SC.gtaBox,SC.gtaEnd,SC.stage1,SC.cont]; if(s===SC.stage1) DEMO_PLAYED=true; if(!ok.includes(s)) s=DEMO_PLAYED?SC.gtaEnd:SC.gtaBox; } scene=s; s.enter&&s.enter(); fadeIn=34; }
 function fadeTo(fn,len=36){ if(trans) return; trans={t:0,len,fn}; }
 function transTick(){ if(trans){ trans.t++; if(trans.t>=trans.len){ const f=trans.fn; trans=null; f(); } } if(fadeIn>0) fadeIn--; }
@@ -2543,6 +2543,7 @@ SC.title={ t:0, ci:0, mi:0, menu:false, kc:[], enter(){ this.t=0; this.menu=!!th
     else if(id==='stages'){ sfx('select'); newRun(this.ci); fadeTo(()=>go(SC.stagesel),20); }
     else if(id==='fighter'){ const n=charsAvail(); this.ci=(this.ci+1)%n; sfx('blip'); }
     else if(id==='sound'){ sfx('select'); fadeTo(()=>go(SC.sound),20); }
+    else if(id==='gta'){ sfx('select'); fadeTo(()=>{ DEMO=true; go(SC.gtaBox); },30); }
     else if(id==='moves'){ sfx('select'); SC.moves.ci=this.ci; fadeTo(()=>go(SC.moves),20); }
     else if(id==='k7'){ sfx('select'); fadeTo(()=>go(SC.k7),20); }
     else if(id==='options'){ sfx('select'); fadeTo(()=>go(SC.opts),20); }
@@ -2595,7 +2596,7 @@ SC.title={ t:0, ci:0, mi:0, menu:false, kc:[], enter(){ this.t=0; this.menu=!!th
       text('EN',lx+20,ly+4,LANG==='en'?'#ffe066':'#6a5a8a',6,'left',null); text('FR',lx+46,ly+4,LANG==='fr'?'#ffe066':'#6a5a8a',6,'left',null); text('عربي',lx+lw-8,ly+2,LANG==='ar'?'#ffe066':'#6a5a8a',8,'right',null); NOTR=false; }
     text('v'+AV,W-6,H-10,'#6a5a8a',5,'right',null); if(!HAS2||!IMG['spr/atlas2']){ text('SPRITES NOT LOADED — RELOAD THE PAGE',W/2,H-44,'#ff3d5a',6,'center'); } text('HI '+String(HI).padStart(7,'0'),W-6,4,'#5ff0ff',6,'right'); } };
 SC.intro=cineScene(CINE.intro,'rainoir',()=>playOranTape());
-const MENU=[{id:'moves',l:'MOVE LIST'},{id:'sound',l:'SOUND ROOM'},{id:'k7',l:'K7 COLLECTION'},{id:'options',l:'SETTINGS'},{id:'cheats',l:'CHEATS'},{id:'credits',l:'CREDITS · SAWNA'},{id:'back',l:'◀ BACK'}];
+const MENU=[{id:'gta',l:'GTA: ORAN (DEMO)'},{id:'moves',l:'MOVE LIST'},{id:'sound',l:'SOUND ROOM'},{id:'k7',l:'K7 COLLECTION'},{id:'options',l:'SETTINGS'},{id:'cheats',l:'CHEATS'},{id:'credits',l:'CREDITS · SAWNA'},{id:'back',l:'◀ BACK'}];
 const OPTBTN={x:W-74,y:16,w:68,h:14};
 function menuRect(){ return {x:W-156,y:36,w:148,rh:16}; }
 function backMenu(){ SC.title.keepMenu=1; go(SC.title); }
