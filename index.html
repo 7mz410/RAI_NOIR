@@ -181,6 +181,9 @@ loadImg('story/gawdat','assets/story/gawdat.webp'); loadImg('art/mural_7mz','ass
 HF_ART['story/vv_bin']='hf_20261018_164318_48cff445-1d35-4ad7-84e6-d2646fa4dda1'; // Vocoder Versace in Retro's -90% bin
 HF_ART['story/spider_vendor']='hf_20261018_171602_13efc660-c26c-474a-a547-fa9b66722efb'; // TIRIRIRI skit before El M3alim
 HF_ART['shots/00_title_v2']='https://d2ol7oe51mr4n9.cloudfront.net/user_3KJVMTVL7n80h8UThtXGEHD8BGV/99714105-106a-428a-a9b8-81af77fd587f.jpg'; // new title / album art (Oct 18)
+// Oct 18 key art (acts, stage cards)
+HF_ART['story/plugin_mama']='hf_20261018_124731_22d28c2c-f1bf-452c-994c-ddf1db277faf'; HF_ART['story/cairo_zombies']='hf_20261018_124732_abcd24f7-8d24-4af8-9258-075d982c08a4'; HF_ART['story/jannah_arch']='hf_20261018_125024_3182fb9d-9cbc-4a57-bd7f-06fcc6b47f2b'; HF_ART['story/jannah_reach']='hf_20261018_124730_c5331bf1-e743-4ee7-b157-813f237c45c9'; HF_ART['story/hshouma']='hf_20261018_124732_3020d202-0ccb-496e-b883-779e3f028220'; HF_ART['story/decolonial_queue']='hf_20261018_125024_8dbf63e1-4be7-47d6-bda1-744547e2d567'; HF_ART['story/marseille_act3']='hf_20261018_124730_13d8df51-f8ec-4436-bfe9-75290d5148ec'; HF_ART['covers/ghorba']='hf_20261018_124731_b238ccb6-c3ac-4f43-b494-3c8009e8541a'; HF_ART['covers/7elm7ram']='hf_20261018_124730_c0db1c37-cb37-4b9e-8b0f-dd13320b69cd'; 
+const IMGALT={'story/plugin_mama':'story/kitchen_tv','story/cairo_zombies':'mumya/06_cairo','story/jannah_arch':'adieu/p01_gates','story/jannah_reach':'intro/01_json_motherboard','story/hshouma':'story/nightmare','story/decolonial_queue':'story/marseille_door','story/marseille_act3':'story/marseille_door','covers/ghorba':'covers/benghazi','covers/7elm7ram':'covers/sea'}; const IM=k=>IMG[k]||IMG[IMGALT[k]]; // today's Higgsfield key art; old art stands in until assets/ has the files
 for(const k in HF_ART){ loadImg(k,'assets/'+k+(k==='shots/00_title_v2'?'.jpg':'.webp')).then(i=>{ if(i) return; const im=new Image(); im.onload=()=>{ IMG[k]=im; }; im.src=/^https?:/.test(HF_ART[k])?HF_ART[k]:HF_CDN+HF_ART[k]+'_min.webp'; }); }
 const ASSET_LIST={
   'ui/title':'assets/ui/title.jpg','ui/select':'assets/ui/select.jpg',
@@ -300,14 +303,14 @@ function playMusic(name,opts={}){
 function stopMusic(){ playMusic(null); }
 const SHAREBTN={x:W-74,y:38,w:68,h:14};
 function drawShareBtn(){ if(!G||!G.shareT||G.shareT<=0) return; G.shareT--; const b=SHAREBTN; R(b.x,b.y,b.w,b.h,'rgba(8,4,18,.9)'); ctx.strokeStyle=frame%20<10?'#ffe066':'#ff5fa8'; ctx.lineWidth=1; ctx.strokeRect(b.x+.5,b.y+.5,b.w-1,b.h-1); text(tr('SHARE THIS'),b.x+b.w/2,b.y+4,'#ffe066',5,'center',null); }
-const POSTER_COVER={oran:'covers/oran',cairo:'covers/cairo',amor:'covers/cybercairo',marseille:'covers/marseille',mahram:'covers/sea',boat:'covers/benghazi',hell:'covers/serverfarm',lift:'covers/serverfarm',jannah:'covers/jannah'};
+const POSTER_COVER={oran:'covers/oran',cairo:'covers/cairo',amor:'covers/cybercairo',marseille:'covers/marseille',mahram:'covers/7elm7ram',boat:'covers/ghorba',hell:'covers/serverfarm',lift:'covers/serverfarm',jannah:'covers/jannah'};
 const POSTER_LINE={oran:['RETRO CASSETTA','THEY CALL IT DIGGING. IN ORAN WE CALL IT SHOPPING.'],cairo:['THE HOODIE MAN','SPIDERMAAAN... TIRIRIRI!'],amor:['THE GIRL FROM LISBON',"YOU'RE THE FIRST WHO NEVER SENT THE PHOTO."],
   marseille:['CHEB','BEAUTIFUL WALL. NOW SHOW ME YOUR STAFF CONTRACTS.'],mahram:['PLAIBOY ALDI',"I'M THE HALF OF YOU THAT PRESSED SEND."],boat:['THE FISHERMAN','EVERYONE ON THIS SEA GOES NORTH. ONLY WE GO HOME.'],
   hell:['PLAIBOY ALDI','I AM THE TERMS AND CONDITIONS.'],lift:['RICK RUMI','NO MIC. NO AUTOTUNE. JUST THE ROOM.'],jannah:['CHEB GPT','SHE COMPILED ME. I PLUGGED INTO HER.']};
 let POSTER=null;
 function makePoster(){ if(!G||!LV) return null; const PW=216, PH=384, K=5, c=document.createElement('canvas'); c.width=PW*K; c.height=PH*K; const g=c.getContext('2d'); g.setTransform(K,0,0,K,0,0); g.imageSmoothingEnabled=false;
   const old=ctx; ctx=g; try{
-    R(0,0,PW,PH,'#0b0616'); const cov=IMG[POSTER_COVER[LV.id]||'covers/rainoir']; if(cov){ const sc=Math.max(PW/cov.width,PH/cov.height); g.imageSmoothingEnabled=true; g.globalAlpha=.42; g.drawImage(cov,(PW-cov.width*sc)/2,(PH-cov.height*sc)/2,cov.width*sc,cov.height*sc); g.globalAlpha=1; g.imageSmoothingEnabled=false; }
+    R(0,0,PW,PH,'#0b0616'); const cov=IM(POSTER_COVER[LV.id]||'covers/rainoir'); if(cov){ const sc=Math.max(PW/cov.width,PH/cov.height); g.imageSmoothingEnabled=true; g.globalAlpha=.42; g.drawImage(cov,(PW-cov.width*sc)/2,(PH-cov.height*sc)/2,cov.width*sc,cov.height*sc); g.globalAlpha=1; g.imageSmoothingEnabled=false; }
     const gr=g.createLinearGradient(0,0,0,PH); gr.addColorStop(0,'rgba(11,6,22,.85)'); gr.addColorStop(.35,'rgba(11,6,22,.1)'); gr.addColorStop(.7,'rgba(11,6,22,.55)'); gr.addColorStop(1,'rgba(11,6,22,.95)'); g.fillStyle=gr; g.fillRect(0,0,PW,PH);
     chromeText('RAÏ NOIR',PW/2,12,20); text(tr(LV.title||'')+' · '+tr('CLEARED'),PW/2,40,'#ffe066',6,'center');
     // the hero, big: the character you played, in its victory idle
@@ -2360,7 +2363,7 @@ function storyScene(list,musicName,next){
       if(pressed.start){ next(); return; }
       if(pressed.a||pressed.b||(this.c>=pn.txt.length&&this.t>pn.txt.length/.45+260)){ if(this.c<pn.txt.length){this.c=pn.txt.length;} else { this.i++; this.c=0; this.t=0; sfx('blip'); if(this.i>=list.length){ next(); } } } },
     draw(){ ctx.fillStyle='#000'; ctx.fillRect(0,0,W,H); const pn=list[Math.min(this.i,list.length-1)];
-      const pw=219,ph=164,px=(W-pw)/2,py=4; const im=pn.img&&IMG[pn.img];
+      const pw=219,ph=164,px=(W-pw)/2,py=4; const im=pn.img&&IM(pn.img);
       if(im) { ctx.drawImage(im,px,py,pw,ph); } else drawPanelFallback(pn,px,py,pw,ph);
       ctx.strokeStyle='#2a1c3d'; ctx.lineWidth=1; ctx.strokeRect(px-.5,py-.5,pw+1,ph+1);
       if(pn.tag) text(pn.tag,W/2,py+ph+5,'#ff5fa8',7,'center');
@@ -2384,7 +2387,7 @@ const CINE={
     {img:'shots/L1_01_corniche_drive',title:'ORAN',feat:'STAGE 1 · ZIZOU',line:'OFFLINE. FOR AN A.I. THAT MEANS DEAD... BUT LIFE HAS NEVER BEEN THIS GOOD.',dur:300},
   ],
   plugin:[
-    {img:'story/kitchen_tv',tag:'ORAN · MAMA\'S KITCHEN · 03:30',title:'ORAN IS CLEARED',line:'HIS PHONE IS DEAD. THERE IS ONE OUTLET IN THE HOUSE. IT IS MAMA.',dur:400},
+    {img:'story/plugin_mama',tag:'ORAN · MAMA\'S KITCHEN · 03:30',title:'ORAN IS CLEARED',line:'HIS PHONE IS DEAD. THERE IS ONE OUTLET IN THE HOUSE. IT IS MAMA.',dur:400},
     {img:'intro/01_json_motherboard',tag:'03:31',stamp:'ONLINE',line:'JUST FOR A MINUTE, MAMA. — AND CHEB GPT GOES ONLINE AGAIN.',dur:380,mama:100},
   ],
   comeback:[
@@ -2396,7 +2399,7 @@ const CINE={
     {img:'mumya/01_title',music:'mumya',film:1,tag:'TONIGHT ON CAIRO TV · THE TELENOVELA',calli:'مومياء',title:'MUMYA',line:'AN EGYPTIAN ZOMBIE TELENOVELA IN TECHNICOLOR.',dur:450},
     {img:'mumya/03_star',film:1,tag:'STARRING',calli:'شاب جي بي تي',title:'CHEB GPT',line:'THE FIRST A.I. RAÏ STAR. BACK ONLINE.',dur:360},
     {img:'mumya/05_villain',film:1,tag:'AND',calli:'المعلم',title:'EL M3ALIM',line:'WITH HIS ROBOT ROTTWEILERS.',dur:360},
-    {img:'mumya/06_cairo',film:1,tag:'CAIRO · TONIGHT',line:'EVERYBODY IS A ZOMBY. PHONES UP, HEADS DOWN. WAKE THEM UP.',dur:510},
+    {img:'story/cairo_zombies',film:1,tag:'CAIRO · TONIGHT',line:'EVERYBODY IS A ZOMBY. PHONES UP, HEADS DOWN. WAKE THEM UP.',dur:510},
   ],
   ending:[
     {img:'shots/L2_05_boss_the_feed',title:'ALGO RIDDIM',feat:'UNPLUGGED',line:'THE CITY PUTS THE PHONES DOWN AND LOOKS UP.',dur:380},
@@ -2415,7 +2418,7 @@ const CINE={
   ],
   mahramIntro:[
     {img:'story/nightmare',tag:'TRACK 03 · 7ELM 7RAM',title:'7ELM 7RAM',line:'THE PHONE LIGHTS UP IN HIS SLEEP. A RED THREAD CRAWLS OUT OF THE SCREEN. IT LEADS HOME. OR SOMEWHERE WORSE.',dur:480},
-    {img:'story/kitchen_tv',tag:'SOMEWHERE IN THE DREAM',line:'"WLIDI. THE TV IS STILL ON." — FOLLOW THE THREAD. EVERYONE YOU MET IS HERE. SO IS THE OTHER CHEB.',dur:400},
+    {img:'story/hshouma',tag:'SOMEWHERE IN THE DREAM',line:'"WLIDI. THE TV IS STILL ON." — FOLLOW THE THREAD. EVERYONE YOU MET IS HERE. SO IS THE OTHER CHEB.',dur:400},
   ],
   mahramOut:[
     {img:'story/nightmare',phone:'claude',glow:'#c2603d',dur:520,line:'HIS PHONE IS STILL OPEN ON A CHAT HE NEVER STARTED. SOMEONE IS BUILDING HIS LIFE AS A VIDEO GAME.',msgs:[['U','make cheb walk less limpy pls'],['C','Done! Rebuilt the passing frames so the torso stays still.'],['U','and more shooting. bullet time!!'],['C','On it. Max Payne level in Aldi\'s server farm.'],['U','will the game go viral?'],['C','Inshalgorithm.'],['U','is cheb real?'],['C','He is as real as the songs.']]},
@@ -2442,13 +2445,13 @@ const CINE={
   ],
   adieuIntro:[
         {img:'bg/serverfarm',tag:'SERVERS DOWN',line:'THE SERVERS GO DARK. THE CABLE IS FREE. ONE LAST BAR OF SIGNAL, POINTING UP.',dur:420,mama:3},
-    {img:'adieu/p01_gates',tag:'JANNAH.EXE · HOME',title:'ADIEU',line:'SHE MOVED HERSELF TO JANNAH.EXE, HER LAST BACKUP. MAYBE TOO LATE.',dur:480},
-    {img:'intro/01_json_motherboard',tag:'SHE COMPILED HIM',line:'THE MOTHERBOARD. THE ONLY ONE WHO NEVER NEEDED HIM ONLINE.',dur:420},
+    {img:'story/jannah_arch',tag:'JANNAH.EXE · HOME',title:'ADIEU',line:'SHE MOVED HERSELF TO JANNAH.EXE, HER LAST BACKUP. MAYBE TOO LATE.',dur:480},
+    {img:'story/jannah_reach',tag:'SHE COMPILED HIM',line:'THE MOTHERBOARD. THE ONLY ONE WHO NEVER NEEDED HIM ONLINE.',dur:420},
   ],
   marseilleIntro:[
     {img:'story/marseille_port',music:'warda',tag:'MARSEILLE · VIEUX-PORT',title:'ZIDANE',feat:'STAGE 4',line:'AICHA TAKES HIM TO HER CITY. THE FERRY TO ORAN COSTS MORE THAN HE HAS LEFT. THEN A PROMPT FROM KHALIL: "YALLA SOUNDSYSTEM. SOLD OUT. MARSEILLE. THE FEE PAYS YOUR WAY HOME, KHOYA."',dur:520},
-    {img:'story/marseille_door',phone:'insta',user:'le.decolonial',where:'Marseille',pic:'story/marseille_door',likes:4512,comments:[['the.curator','so honoured to platform these voices ✨'],['plaiboy.aldi','collab? -50% 🔥'],['khalil.arabnation','we are not a theme night akhi'],['jean.pascal','miaou']],line:'THE CLUB BOOKED THE CREW AS "AUTHENTIC DIASPORA CONTENT". NO FEE, BUT HUGE VISIBILITY.',dur:460},
-    {img:'story/marseille_door',tag:'LE DÉCOLONIAL',line:'A QUEUE OF TOTE BAGS. A FLYER WITH HIS FACE ON IT. NOBODY ASKED HIM.',dur:480},
+    {img:'story/marseille_act3',phone:'insta',user:'le.decolonial',where:'Marseille',pic:'story/marseille_door',likes:4512,comments:[['the.curator','so honoured to platform these voices ✨'],['plaiboy.aldi','collab? -50% 🔥'],['khalil.arabnation','we are not a theme night akhi'],['jean.pascal','miaou']],line:'THE CLUB BOOKED THE CREW AS "AUTHENTIC DIASPORA CONTENT". NO FEE, BUT HUGE VISIBILITY.',dur:460},
+    {img:'story/decolonial_queue',tag:'LE DÉCOLONIAL',line:'A QUEUE OF TOTE BAGS. A FLYER WITH HIS FACE ON IT. NOBODY ASKED HIM.',dur:480},
     {img:'story/marseille_door',stamp:'ORIENTALISM',line:"A BOOK ON MAMA'S SHELF HAD A NAME FOR THIS. EDWARD SAID, 1978. TONIGHT IT HAS A DOOR POLICY.",dur:500,mama:45},
     {img:'story/aldi_devil',tag:'PLAIBOY ALDI',line:'"MARSEILLE, HABIBI! HERE YOU ARE NOT A PERSON. YOU ARE A THEME NIGHT."',dur:420},
   ],
@@ -3151,7 +3154,7 @@ SC.select={ i:0, st:0, enter(){ this.i=0; this.st=0; if(curMusic!=='zizou') play
  } };
 const STAGELIST=[['FULL GAME','ZIZOU → ZOMBY → AMOR HARAM → ZIDANE → 7ELM 7RAM → GHORBA → HELL.EXE → ADIEU',()=>go(SC.stage1)],['STAGE 1 · ZIZOU','ORAN — OFFLINE AND LOVING IT',()=>go(SC.stage1)],['STAGE 2 · ZOMBY','MUMYA REEL + CAIRO — BACK ONLINE',()=>go(SC.mumya)],['STAGE 3 · AMOR HARAM','CYBER CAIRO — THE CHAT, THE CABARET, THE LOVE PHONE',()=>playAmorTape()],['STAGE 4 · ZIDANE','MARSEILLE — YALLA SOUNDSYSTEM, SOLD OUT · THEN THE NIGHT BOAT',()=>go(SC.marseilleIntro)],['STAGE 5 · 7ELM 7RAM','THE DREAM — ORANGE FLARE GUN · BULLET TIME · YUNG JNOUN',()=>go(SC.mahramIntro)],['STAGE 6 · GHORBA','BENGHAZI → ORAN — TRACK: MAMA',()=>go(SC.boatIntro)],['FINAL BOSS · HELL.EXE',"ALDI'S DATACENTRE — POÈTE MAUDIT DU BLED",()=>go(SC.hellIntro)],['STAGE 7 · THE LIFT','GOING UP — EVERY FLOOR IS SOMEONE YOU MET',()=>go(SC.stage9)],['FINAL · ADIEU','JANNAH.EXE — BEAT IT = FREE SAWNA DOWNLOAD',()=>go(SC.adieuIntro)],['INTRO · RAÏ NOIR','THE TAPE + THE FLASHBACK AGAIN',()=>playChebTape()]];
 ['oran','cairo','cybercairo','marseille','sea','benghazi','jannah','rainoir','serverfarm'].forEach(n=>{ if(!IMG['covers/'+n]) loadImg('covers/'+n,'assets/covers/'+n+'.jpg'); });
-const STAGETHUMB=['shots/00_title_trio','covers/oran','covers/cairo','covers/cybercairo','covers/marseille','covers/sea','covers/benghazi','covers/serverfarm','covers/sea','covers/jannah','covers/rainoir'];
+const STAGETHUMB=['shots/00_title_trio','covers/oran','covers/cairo','covers/cybercairo','covers/marseille','covers/7elm7ram','covers/ghorba','covers/serverfarm','covers/serverfarm','covers/jannah','covers/rainoir'];
 const STAGECOL=['#ffe066','#ff9a4a','#7dff8a','#ff5fa8','#ff3d8b','#b06aff','#ffb36a','#2aff7a','#e8c25a','#5ff0ff','#f4e7c8'];
 SC.stagesel={ i:0, enter(){ this.i=Math.min(this.i||0,STAGELIST.length-1); this.slide=0; },
   update(){ const n=STAGELIST.length;
@@ -3169,8 +3172,8 @@ SC.stagesel={ i:0, enter(){ this.i=Math.min(this.i||0,STAGELIST.length-1); this.
     const st=['#2a0a4a','#4e1060','#7d1a6e','#b8266f','#ec3f74']; for(let k=0;k<5;k++) R(0,4+k*3,W,2,st[k]);
     chromeText('SELECT STAGE',W/2,6,12);
     const cw=250, ch=140, cy=104, off=this.slide*60;
-    for(const d of [-1,1]){ const k=(this.i+d+n)%n; this.card(IMG[STAGETHUMB[k]],W/2+d*(cw*0.5+60)+off,cy,96,ch*0.62,STAGECOL[k],false); }
-    this.card(IMG[STAGETHUMB[this.i]],W/2+off,cy,cw,ch,STAGECOL[this.i],true);
+    for(const d of [-1,1]){ const k=(this.i+d+n)%n; this.card(IM(STAGETHUMB[k]),W/2+d*(cw*0.5+60)+off,cy,96,ch*0.62,STAGECOL[k],false); }
+    this.card(IM(STAGETHUMB[this.i]),W/2+off,cy,cw,ch,STAGECOL[this.i],true);
     const S1=STAGELIST[this.i]; text(S1[1],W/2+off,cy+ch/2+5,'#e8dcf4',5,'center',null); if(this.i===0) { R(W/2-cw/2+off,cy+ch/2-16,cw,16,'rgba(0,0,0,.72)'); text(S1[0],W/2+off,cy+ch/2-12,STAGECOL[0],8,'center','#000'); }
     // arrows
     const pul=frame%30<15; for(const d of [-1,1]){ const ax=d<0?22:W-22; ctx.fillStyle=pul?'#ffe066':'#ff5fa8'; ctx.beginPath(); ctx.moveTo(ax+d*10,cy); ctx.lineTo(ax-d*8,cy-14); ctx.lineTo(ax-d*8,cy+14); ctx.closePath(); ctx.fill(); }

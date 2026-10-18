@@ -16,3 +16,12 @@ get story/rumi hf_20261018_180856_2b7f0020-fd32-4961-81c2-fcbdd234a49d
 curl -sfL https://d2ol7oe51mr4n9.cloudfront.net/user_3KJVMTVL7n80h8UThtXGEHD8BGV/1fa480f8-8e1f-40f3-977d-451ec032f8e1.mp4 -o assets/video/tiririri.mp4 && echo "ok  video/tiririri" || echo "FAIL video/tiririri"
 # new title screen / album art (uploaded media, plain jpg)
 curl -sfL https://d2ol7oe51mr4n9.cloudfront.net/user_3KJVMTVL7n80h8UThtXGEHD8BGV/99714105-106a-428a-a9b8-81af77fd587f.jpg -o assets/shots/00_title_v2.jpg && echo "ok  shots/00_title_v2" || echo "FAIL shots/00_title_v2"
+get story/plugin_mama hf_20261018_124731_22d28c2c-f1bf-452c-994c-ddf1db277faf
+get story/cairo_zombies hf_20261018_124732_abcd24f7-8d24-4af8-9258-075d982c08a4
+get story/jannah_arch hf_20261018_125024_3182fb9d-9cbc-4a57-bd7f-06fcc6b47f2b
+get story/jannah_reach hf_20261018_124730_c5331bf1-e743-4ee7-b157-813f237c45c9
+get story/hshouma hf_20261018_124732_3020d202-0ccb-496e-b883-779e3f028220
+get story/decolonial_queue hf_20261018_125024_8dbf63e1-4be7-47d6-bda1-744547e2d567
+get story/marseille_act3 hf_20261018_124730_13d8df51-f8ec-4436-bfe9-75290d5148ec
+get covers/ghorba hf_20261018_124731_b238ccb6-c3ac-4f43-b494-3c8009e8541a
+get covers/7elm7ram hf_20261018_124730_c0db1c37-cb37-4b9e-8b0f-dd13320b69cd
