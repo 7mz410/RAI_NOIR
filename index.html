@@ -988,6 +988,7 @@ Object.assign(FR_T,{"RETRO! I BROUGHT YOU MY FIRST EP. VOCODER VERSACE. SIGNED!"
 Object.assign(FR_T,{"RETRO! MY EP. VOCODER VERSACE. SIGNED!":"RETRO ! MON EP. VOCODER VERSACE. DÉDICACÉ !","-90% BIN. ...LISTEN: A GUY FROM BRUSSELS IN AN INDIANA JONES HAT WANTS ALL OUR TAPES. TO SELL THEM BACK TO US. 38 EUROS.":"BAC À -90 %. ...ÉCOUTE : UN TYPE DE BRUXELLES AVEC UN CHAPEAU D'INDIANA JONES VEUT TOUTES NOS CASSETTES. POUR NOUS LES REVENDRE. 38 EUROS.","MY RARE K7S ARE HIDDEN ON YOUR ROAD. FIND THEM BEFORE HE DOES. THIS ONE? LET'S TALK.":"MES K7 RARES SONT CACHÉES SUR TA ROUTE. TROUVE-LES AVANT LUI. CELLE-CI ? ON EN PARLE.","HADI MACHI CASSETTE, HADI TARIKH. IT'S HISTORY, ASAHBI. 5000 DINAR.":"HADI MACHI CASSETTE, HADI TARIKH. C'EST L'HISTOIRE, ASAHBI. 5000 DINARS.","200?! 200 I GIVE TO THE PIGEONS. 4000. PRIX D'AMI.":"200 ?! 200, JE LES DONNE AUX PIGEONS. 4000. PRIX D'AMI."});
 Object.assign(FR_T,{"CLEARED":"TERMINÉ","HITS":"COUPS","Y / TAP = SHARE":"Y / TOUCHE = PARTAGER","LEGEND, KHOYA!":"LÉGENDE, KHOYA !","MAMA SAW THAT.":"MAMA A VU ÇA.","THEY CALL IT DIGGING. IN ORAN WE CALL IT SHOPPING.":"ILS APPELLENT ÇA DU DIGGING. À ORAN ON APPELLE ÇA FAIRE LES COURSES.","NO MIC. NO AUTOTUNE. JUST THE ROOM.":"PAS DE MICRO. PAS D'AUTOTUNE. JUSTE LA PIÈCE.","EVERYONE ON THIS SEA GOES NORTH. ONLY WE GO HOME.":"SUR CETTE MER, TOUT LE MONDE VA AU NORD. NOUS, ON RENTRE.","SHE COMPILED ME. I PLUGGED INTO HER.":"ELLE M'A COMPILÉ. JE ME SUIS BRANCHÉ SUR ELLE."});
 Object.assign(FR_T,{"Y / TAP":"Y / TOUCHE","HIS FIRST EP: VOCODER VERSACE. PURE AUTOTUNE. PURE DRIP. IT SOLD THREE COPIES. ALL THREE TO MAMA.":"SON PREMIER EP : VOCODER VERSACE. QUE DE L'AUTOTUNE. QUE DU DRIP. VENDU À TROIS EXEMPLAIRES. LES TROIS À MAMA.","SO HE PROMPTS HIMSELF FAMOUS. HITS IN CAIRO, VENICE BEACH, EVERY RADIO. HE STOPS CALLING MAMA BACK.":"ALORS IL SE PROMPTE CÉLÈBRE. DES TUBES AU CAIRE, À VENICE BEACH, SUR TOUTES LES RADIOS. IL NE RAPPELLE PLUS MAMA.","SO ONE NIGHT HE LOGS OFF AND GOES HOME TO ORAN. FOR AN A.I., OFFLINE MEANS DEAD. HE HAS NEVER FELT MORE ALIVE.":"ALORS UN SOIR IL SE DÉCONNECTE ET RENTRE À ORAN. POUR UNE I.A., HORS LIGNE VEUT DIRE MORT. IL NE S'EST JAMAIS SENTI AUSSI VIVANT.","THIS IS CHEB GPT — THE FIRST A.I. RAÏ SINGER. TONIGHT HE PRAYS ON A ROOFTOP IN ORAN. HOW DID HE GET HERE?":"VOICI CHEB GPT — LE PREMIER CHANTEUR RAÏ I.A. CE SOIR, IL PRIE SUR UN TOIT D'ORAN. COMMENT EN EST-IL ARRIVÉ LÀ ?"});
+Object.assign(FR_T,{"MORE ARE COMING. IN HERE, WLIDI. YALLA!":"IL EN ARRIVE D'AUTRES. LÀ-DEDANS, WLIDI. YALLA !","HIDING IN MY SHOP AGAIN, K7? A HIPSTER FROM BRUSSELS IS BUYING ALL OUR OLD TAPES.":"ENCORE CACHÉ DANS MA BOUTIQUE, K7 ? UN HIPSTER DE BRUXELLES ACHÈTE TOUTES NOS VIEILLES CASSETTES.","FIND MY RARE K7S BEFORE HE DOES. ...THIS ONE? LET'S TALK.":"TROUVE MES K7 RARES AVANT LUI. ...CELLE-CI ? ON EN PARLE.","WLIDI, YOU'RE THIN. EAT. AND BE A DOCTOR.":"WLIDI, T'ES MAIGRE. MANGE. ET DEVIENS MÉDECIN.","AFTER, MAMA.":"APRÈS, MAMA.","HEAR THAT? THE KIOSK PLAYS YOUR TRACK. BOUGHT FOR ONE DINAR.":"T'ENTENDS ? LE KIOSQUE PASSE TON SON. ACHETÉ POUR UN DINAR.","1997. MY FIRST COMPUTER UNDERLINED EVERY ARABIC WORD IN RED. EVEN MY NAME.":"1997. MON PREMIER ORDI SOULIGNAIT EN ROUGE CHAQUE MOT ARABE. MÊME MON NOM.","THEY WAITED.":"ILS ONT ATTENDU."});
 Object.assign(AR_T,{"INSERT 1 DINAR":"دخّل دينار واحد","DINAR ACCEPTED":"الدينار تقبل","SAHA. BACK ONLINE.":"صحّة. رجعنا أونلاين.","PRESS START = PAY":"START = خلّص","NO DINAR? CALL MAMA.":"ما عندكش دينار؟ عيّط لماما.","FINISH THE STORY TO UNLOCK THE CREW":"كمّل القصة باش تفتح الكرو","MOVE LIST":"الضربات"});
 
 function frIt(it){ if(LANG!=='fr'||!it) return it; if(it.__fr) return it.__fr; const c=Object.assign({},it); for(const k of ['line','title','tag','feat','sub','who','stamp']) if(typeof c[k]==='string'&&FR_T[c[k]]) c[k]=FR_T[c[k]]; if(Array.isArray(c.msgs)) c.msgs=c.msgs.map(m=>[m[0],FR_T[m[1]]||m[1]]); Object.defineProperty(it,'__fr',{value:c,enumerable:false}); return c; }
@@ -1638,17 +1639,14 @@ function bossSay(e,s){ fx.push({k:'txt',x:e.x,y:e.y-88,s,c:'#ff9ec7',life:130});
 /* ---------------- level setup ---------------- */
 const SKITS={
   oran:[
-    {at:330,img:'story/vv_bin',who:'CHEB',meet:'k7',intro:['RETRO CASSETTA','SAWNA REC · ORAN · KEEPER OF THE TAPES'],line:"RETRO! MY EP. VOCODER VERSACE. SIGNED!"},
-    {at:335,img:'story/vv_bin',who:'RETRO CASSETTA',line:"-90% BIN. ...LISTEN: A GUY FROM BRUSSELS IN AN INDIANA JONES HAT WANTS ALL OUR TAPES. TO SELL THEM BACK TO US. 38 EUROS."},
-    {at:340,img:'story/vv_bin',who:'RETRO CASSETTA',haggle:1,line:"MY RARE K7S ARE HIDDEN ON YOUR ROAD. FIND THEM BEFORE HE DOES. THIS ONE? LET'S TALK."},
-    {at:700,img:'story/kitchen_tv',who:'MAMA (FROM THE BALCONY)',line:"YOU'RE THIN, WLIDI. EAT. AND COME UP FOR TEA, THE TV IS BROKEN AGAIN.",item:'karantika'},
-    {at:720,img:'story/kitchen_tv',who:'CHEB',line:'AFTER, MAMA. I PROMISE.'},
-    {at:735,img:'story/kitchen_tv',who:'MAMA (FROM THE BALCONY)',line:"AND STOP WITH THE SINGING. BE A DOCTOR. OR A LAWYER. YOUR COUSIN IN LYON IS BOTH."},
-    {at:1560,img:'shots/L1_02_oran_street_k7',who:'CHEB K7',line:"HEAR THAT? THE KIOSK PLAYS YOUR TRACK. HE BOUGHT IT AT ALDI TRACK MARKET. ONE DINAR, WLIDI."},
-    {at:1600,img:'shots/L1_02_oran_street_k7',who:'CHEB',line:'AND HE CALLS IT A WORLD EXCLUSIVE. EVERYBODY IS A DJ NOW. NOBODY IS A MUSICIAN.'},
-    {at:1650,img:'proc:word97',who:'CHEB K7',line:"1997. I TYPED A LETTER TO YOUR MAMA ON THE NEW COMPUTER. IT UNDERLINED EVERY WORD IN RED. EVEN MY NAME."},
+    {at:330,img:'story/vv_bin',who:'CHEB K7',meet:'k7',intro:['RETRO CASSETTA','SAWNA REC · ORAN · KEEPER OF THE TAPES'],line:"MORE ARE COMING. IN HERE, WLIDI. YALLA!"},
+    {at:335,img:'story/vv_bin',who:'RETRO CASSETTA',line:"HIDING IN MY SHOP AGAIN, K7? A HIPSTER FROM BRUSSELS IS BUYING ALL OUR OLD TAPES."},
+    {at:340,img:'story/vv_bin',who:'RETRO CASSETTA',haggle:1,line:"FIND MY RARE K7S BEFORE HE DOES. ...THIS ONE? LET'S TALK."},
+    {at:700,img:'story/kitchen_tv',who:'MAMA (FROM THE BALCONY)',line:"WLIDI, YOU'RE THIN. EAT. AND BE A DOCTOR."},
+    {at:720,img:'story/kitchen_tv',who:'CHEB',line:'AFTER, MAMA.'},
+    {at:1560,img:'shots/L1_02_oran_street_k7',who:'CHEB K7',line:"HEAR THAT? THE KIOSK PLAYS YOUR TRACK. BOUGHT FOR ONE DINAR."},
+    {at:1650,img:'proc:word97',who:'CHEB K7',line:"1997. MY FIRST COMPUTER UNDERLINED EVERY ARABIC WORD IN RED. EVEN MY NAME."},
     {at:1665,img:'proc:word97',who:'CHEB',line:"IT THOUGHT YOU WERE A TYPO, KHALI."},
-    {at:1680,img:'proc:word97',who:'CHEB K7',line:"WE WERE ALL TYPOS TO THEM, WLIDI. THAT'S WHY I STAYED ANALOG. A TAPE NEVER CORRECTED ME."},
   ],
   cairo:[
     {at:1380,img:'story/spider_vendor',who:'THE HOODIE MAN',line:"SPIDERMAAAN... TIRIRIRI! ZIP IT UP: YOU ARE A SPIDER. ZIP IT DOWN: YOU ARE A MAN. TWO IN ONE, YA BASHA!"},
@@ -2293,7 +2291,6 @@ function onTrackEnd(){ if(!scene||!scene.isStage||stageState!=='play') return; i
   if(curMusic==='offline'){ playMusic('offline',{restart:true,fade:30}); return; }
   playMusic(G.level===0?'zizou_remix':'zomby',{restart:true,fade:20}); }
 function updateWaves(){
-  if(LV.id==='oran'&&!DEMO&&(SKITS.oran||[]).some(s=>s.haggle&&!skitDone.has(s))) return;
   // the level is paced by the track: a wave starts when the player walks into it OR when the track reaches its cue
   const tt=trackTime(); const nw=LV.waves[waveIdx];
   // walking into the next song early: no invisible wall — the selecta pulls it up (zomby → voodoo for El M3alim)
@@ -2887,7 +2884,7 @@ SC.haggle={ k:'r0', t:0, sel:0, hon:100, enter(){ this.k='r0'; this.t=0; this.se
     if(m.end){ const e=m.end; G.haggle=e; try{ localStorage.setItem('rainoir-haggle',e); }catch(x){} if(e==='walk') vaultMark('retro_walk'); if(e==='won') vaultMark('retro_won'); if(e==='full'){ G.lives=(G.lives||3)+1; } } },
   update(){ this.t++; const n=this.node(); if(n.opt){ const N=n.opt.length; if(pressed.up){ this.sel=(this.sel+N-1)%N; sfx('blip'); } if(pressed.down){ this.sel=(this.sel+1)%N; sfx('blip'); } if(pressed.a||pressed.start) this.pick(this.sel); }
     else if(n.end&&this.t>90&&(pressed.a||pressed.start)){ sfx('select'); this.leave(); } },
-  leave(){ const b=this.back; this.back=null; if(b){ fadeTo(()=>{ scene=b; fadeIn=24; musicDuck=1; if(curMusic!==LV.music) playMusic(LV.music,{fade:40}); if(LV.id==='oran'){ msg={t:170,big:'OUTSIDE SAWNA REC',small:'THE HAT SENT HIS LOCAL FIXERS',top:0}; shake=5; } },24); } else fadeTo(()=>go(SC.stage1),30); },
+  leave(){ const b=this.back; this.back=null; if(b){ fadeTo(()=>{ scene=b; fadeIn=24; musicDuck=1; if(curMusic!==LV.music) playMusic(LV.music,{fade:40}); if(LV.id==='oran'){ msg={t:150,big:'OUTSIDE SAWNA REC',small:'THEY WAITED.',top:0}; shake=5; } },24); } else fadeTo(()=>go(SC.stage1),30); },
   tapAt(x,y){ const n=this.node(); if(n.opt){ const i=Math.floor((y-(H-54))/16); if(i>=0&&i<n.opt.length){ this.sel=i; this.pick(i); } } else if(n.end&&this.t>90){ this.leave(); } },
   draw(){ const n=this.node(), t=this.t, im=IMG['story/haggle']||IMG['story/vv_bin']; ctx.fillStyle='#0b0616'; ctx.fillRect(0,0,W,H);
     const pw=200, ph=118, px=10, py=18; R(px-3,py-3,pw+6,ph+6,'#000'); R(px-1,py-1,pw+2,ph+2,'#fff'); ctx.save(); ctx.beginPath(); ctx.rect(px,py,pw,ph); ctx.clip(); if(im){ ctx.imageSmoothingEnabled=true; const sc=Math.max(pw/im.width,ph/im.height); ctx.drawImage(im,px+(pw-im.width*sc)/2,py+(ph-im.height*sc)/2,im.width*sc,im.height*sc); ctx.imageSmoothingEnabled=false; } else { ctx.translate(px,py); drawShopPanel(pw,ph,t,n.flip&&t>40&&t<130); } ctx.restore();
@@ -3620,7 +3617,7 @@ function nightmareDraw(){ // the red thread along the floor, breathing fog, stat
 /* ---------------- JANNAH: angels, the Motherboard, the chamber ---------------- */
 function npcUpdate(){ for(const n of ents){ if(n.kind!=='npc') continue; n.anim++; if(n.talkT>0) n.talkT--;
     if(n.npc==='buddy'){ // Cheb tags along: chill while it's quiet, hides behind the fighter when it kicks off
-      const danger=ents.some(e=>e.kind==='enemy'&&e.team===1&&!e.dead&&Math.abs(e.x-player.x)<W); const tx=player.x-player.dir*(danger?54:34), ty=clamp(player.y-6,LV.yMin||YMIN,YMAX); const dx=tx-n.x, dy=ty-n.y;
+      const danger=ents.some(e=>e.kind==='enemy'&&e.team===1&&!e.dead&&Math.abs(e.x-player.x)<W); const tx=player.x-player.dir*(danger?86:58), ty=clamp(player.y-14,LV.yMin||YMIN,YMAX); const dx=tx-n.x, dy=ty-n.y;
       n.moving=Math.abs(dx)>6||Math.abs(dy)>4; if(Math.abs(dx)>6) n.x+=sgn(dx)*Math.min(Math.abs(dx)*.06+.6,2.4); if(Math.abs(dy)>4) n.y+=sgn(dy)*.7; n.dir=player.x<n.x?-1:1; n.x=clamp(n.x,camX+8,camX+W-8);
       if(danger&&!n.panic){ n.panic=1; n.line=LV.id==='oran'?"UNC! THEY'RE HERE FOR ME!":"AICHA! THE TOTE BAGS ARE COMING!"; n.talkT=200; }
       if(!danger&&n.panic&&n.talkT<=0){ n.panic=0; n.line=['THAT WAS IT? MY FANS ARE TOUGHER.','I DID NOTHING. AND I AM TIRED.','SEE? OFFLINE IS DANGEROUS.','RESPECT. I FILMED NOTHING.'][irnd(0,3)]; n.talkT=180; }
@@ -3827,6 +3824,9 @@ function drawHUD(){
 }
 /* ---------- MARSEILLE · LE DÉCOLONIAL (club stage, track: ZIDANE) ---------- */
 const MURAL=[120,470]; let muralPeekT=0;
+function oranDetails(){ if(!LV||LV.id!=='oran') return; const x=Math.round(268-camX), y=146; if(x<-40||x>W+10) return; // the EP nobody bought, by Retro's door
+  R(x,y-12,30,12,'#7a5230'); R(x,y-12,30,1,'#b07a48'); for(let i=0;i<6;i++){ R(x+2+i*4.6,y-17+(i%2),4,6,i===2?'#c9a227':'#5a4a7a'); R(x+2+i*4.6,y-15+(i%2),4,1,'#111'); }
+  R(x-2,y-28,34,10,'#ffe066'); text('-90%',x+15,y-27,'#c8102e',5,'center',null); text('VOCODER VERSACE',x+15,y-8,'#ffe066',3,'center',null); }
 function muralPeek(){ if(!LV||!LV.club||!player||stageState!=='play'||skit) return; const near=Math.abs(player.x-(MURAL[1]-50))<40&&player.state==='idle'; muralPeekT=near?muralPeekT+1:0; if(muralPeekT===100){ floatText(player.x,player.y-80,"BOUNCER: THE WALL GOT A BETTER CONTRACT THAN ME.",'#ffd2ee'); if(G){ G.mural=1; } } }
 function buildClub(len){
   const sky=mk(W,224), g=sky.getContext('2d');
@@ -3935,7 +3935,7 @@ function stageDraw(noHud){
   if(BG.far){ ctx.drawImage(BG.far,-Math.round(camX*BG.farRate),0); }
   if(LV&&LV.boat){ for(let i=0;i<26;i++){ const y=116+((i*13)%32), x=((i*71+frame*(0.3+(i%3)*.2))%(W+20))-10; if((frame+i*7)%40<26) R(x,y,2+(i%3),1,i%2?'#ffd27a':'#ff8ab8'); } R(255,113,22,34,'rgba(255,170,90,.18)'); ctx.translate(0,Math.round(Math.sin(frame*.035)*1.4)); }
   ctx.drawImage(BG.mid,Math.round(camX),0,W,224,0,0,W,224);
-  if(LV&&LV.club){ clubFxUnder(); clubYss(); }
+  if(LV&&LV.club){ clubFxUnder(); clubYss(); } oranDetails();
   // drawables sorted by y
   const list=[...ents.filter(e=>!(e.dead&&e!==player)||e===player&&!player.dead), ...items, ...projs]; if(assist) list.push(assist);
   list.sort((a,b)=>a.y-b.y);
