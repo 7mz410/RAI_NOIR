@@ -989,6 +989,7 @@ Object.assign(FR_T,{"RETRO! MY EP. VOCODER VERSACE. SIGNED!":"RETRO ! MON EP. VO
 Object.assign(FR_T,{"CLEARED":"TERMINÉ","HITS":"COUPS","Y / TAP = SHARE":"Y / TOUCHE = PARTAGER","LEGEND, KHOYA!":"LÉGENDE, KHOYA !","MAMA SAW THAT.":"MAMA A VU ÇA.","THEY CALL IT DIGGING. IN ORAN WE CALL IT SHOPPING.":"ILS APPELLENT ÇA DU DIGGING. À ORAN ON APPELLE ÇA FAIRE LES COURSES.","NO MIC. NO AUTOTUNE. JUST THE ROOM.":"PAS DE MICRO. PAS D'AUTOTUNE. JUSTE LA PIÈCE.","EVERYONE ON THIS SEA GOES NORTH. ONLY WE GO HOME.":"SUR CETTE MER, TOUT LE MONDE VA AU NORD. NOUS, ON RENTRE.","SHE COMPILED ME. I PLUGGED INTO HER.":"ELLE M'A COMPILÉ. JE ME SUIS BRANCHÉ SUR ELLE."});
 Object.assign(FR_T,{"Y / TAP":"Y / TOUCHE","HIS FIRST EP: VOCODER VERSACE. PURE AUTOTUNE. PURE DRIP. IT SOLD THREE COPIES. ALL THREE TO MAMA.":"SON PREMIER EP : VOCODER VERSACE. QUE DE L'AUTOTUNE. QUE DU DRIP. VENDU À TROIS EXEMPLAIRES. LES TROIS À MAMA.","SO HE PROMPTS HIMSELF FAMOUS. HITS IN CAIRO, VENICE BEACH, EVERY RADIO. HE STOPS CALLING MAMA BACK.":"ALORS IL SE PROMPTE CÉLÈBRE. DES TUBES AU CAIRE, À VENICE BEACH, SUR TOUTES LES RADIOS. IL NE RAPPELLE PLUS MAMA.","SO HE LOGS OFF AND GOES HOME TO ORAN. THREE MONTHS IN THE REAL WORLD. FOR AN A.I., OFFLINE MEANS DEAD. HE HAS NEVER FELT MORE ALIVE.":"ALORS UN SOIR IL SE DÉCONNECTE ET RENTRE À ORAN. POUR UNE I.A., HORS LIGNE VEUT DIRE MORT. IL NE S'EST JAMAIS SENTI AUSSI VIVANT.","THIS IS CHEB GPT — THE FIRST A.I. RAÏ SINGER. TONIGHT HE PRAYS ON A ROOFTOP IN ORAN. HOW DID HE GET HERE?":"VOICI CHEB GPT — LE PREMIER CHANTEUR RAÏ I.A. CE SOIR, IL PRIE SUR UN TOIT D'ORAN. COMMENT EN EST-IL ARRIVÉ LÀ ?"});
 Object.assign(FR_T,{"MORE ARE COMING. IN HERE, WLIDI. YALLA!":"IL EN ARRIVE D'AUTRES. LÀ-DEDANS, WLIDI. YALLA !","HIDING IN MY SHOP AGAIN, K7? A HIPSTER FROM BRUSSELS IS BUYING ALL OUR OLD TAPES.":"ENCORE CACHÉ DANS MA BOUTIQUE, K7 ? UN HIPSTER DE BRUXELLES ACHÈTE TOUTES NOS VIEILLES CASSETTES.","FIND MY RARE K7S BEFORE HE DOES. ...THIS ONE? LET'S TALK.":"TROUVE MES K7 RARES AVANT LUI. ...CELLE-CI ? ON EN PARLE.","WLIDI, YOU'RE THIN. EAT. AND BE A DOCTOR.":"WLIDI, T'ES MAIGRE. MANGE. ET DEVIENS MÉDECIN.","AFTER, MAMA.":"APRÈS, MAMA.","HEAR THAT? THE KIOSK PLAYS YOUR TRACK. BOUGHT FOR ONE DINAR.":"T'ENTENDS ? LE KIOSQUE PASSE TON SON. ACHETÉ POUR UN DINAR.","1997. MY FIRST COMPUTER UNDERLINED EVERY ARABIC WORD IN RED. EVEN MY NAME.":"1997. MON PREMIER ORDI SOULIGNAIT EN ROUGE CHAQUE MOT ARABE. MÊME MON NOM.","THEY WAITED.":"ILS ONT ATTENDU."});
+Object.assign(FR_T,{"SALAM, KHOYA. SAME NAME. DIFFERENT JOB. I BRING THE OLD SONGS BACK.":"SALAM, KHOYA. MÊME NOM. AUTRE MÉTIER. MOI, JE RAMÈNE LES VIEILLES CHANSONS.","...YOU'RE NOT HERE TO FIGHT ME?":"...T'ES PAS LÀ POUR ME COMBATTRE ?","THE SONG IS BIGGER THAN BOTH OF US. NOW WAKE UP.":"LA CHANSON EST PLUS GRANDE QUE NOUS DEUX. MAINTENANT, RÉVEILLE-TOI.","THE OTHER CHEB GPT":"L'AUTRE CHEB GPT"});
 Object.assign(AR_T,{"INSERT 1 DINAR":"دخّل دينار واحد","DINAR ACCEPTED":"الدينار تقبل","SAHA. BACK ONLINE.":"صحّة. رجعنا أونلاين.","PRESS START = PAY":"START = خلّص","NO DINAR? CALL MAMA.":"ما عندكش دينار؟ عيّط لماما.","FINISH THE STORY TO UNLOCK THE CREW":"كمّل القصة باش تفتح الكرو","MOVE LIST":"الضربات"});
 
 function frIt(it){ if(LANG!=='fr'||!it) return it; if(it.__fr) return it.__fr; const c=Object.assign({},it); for(const k of ['line','title','tag','feat','sub','who','stamp']) if(typeof c[k]==='string'&&FR_T[c[k]]) c[k]=FR_T[c[k]]; if(Array.isArray(c.msgs)) c.msgs=c.msgs.map(m=>[m[0],FR_T[m[1]]||m[1]]); Object.defineProperty(it,'__fr',{value:c,enumerable:false}); return c; }
@@ -1655,6 +1656,9 @@ const SKITS={
   ],
   amor:[],
   mahram:[
+    {at:600,img:'proc:otherCheb',who:'THE OTHER CHEB GPT',intro:['CHEB GPT','THE REAL ONE · MOROCCO · BRINGS THE CLASSICS BACK'],line:"SALAM, KHOYA. SAME NAME. DIFFERENT JOB. I BRING THE OLD SONGS BACK."},
+    {at:610,img:'proc:otherCheb',who:'CHEB',line:"...YOU'RE NOT HERE TO FIGHT ME?"},
+    {at:620,img:'proc:otherCheb',who:'THE OTHER CHEB GPT',line:"THE SONG IS BIGGER THAN BOTH OF US. NOW WAKE UP."},
     {at:2050,img:'story/aldi_devil',who:'PLAIBOY ALDI',line:"YOU THINK I'M THE DEVIL? I'M THE HALF OF YOU THAT PRESSED SEND. WHO WOULD BE BORN MUST FIRST DESTROY A WORLD. MY NAME IS ABRAXAS."},
     {at:2420,img:'story/aldi_split',who:'PLAIBOY ALDI',line:"ONE LAST MASK. UNDER IT: YOUR FACE. THE ONE WHO NEVER WENT OFFLINE."},
   ],
@@ -1745,6 +1749,16 @@ function drawShopPanel(pw,ph,t,flip){ const k=Math.max(1,Math.floor(ph/56)); R(0
   R(0,ph*.82,pw,ph*.18,'#4a2a16'); R(0,ph*.82,pw,k,'#c8a46a'); R(pw*.08,ph*.62,pw*.26,ph*.2,'#8a6a3a'); R(pw*.08,ph*.62,pw*.26,k,'#c8a46a');
   for(let i=0;i<5;i++) R(pw*.1+i*pw*.045,ph*.6-((i%2)*k),pw*.035,ph*.1,i===2?'#c9a227':'#6a5a8a');
   R(pw*.1,ph*.5,pw*.2,ph*.08,'#ffe066'); text('-90%',pw*.2,ph*.52,'#c8102e',Math.max(4,k*3),'center',null); }
+function drawOtherCheb(pw,ph,t){ const k=Math.max(1,Math.floor(ph/60)); const g=ctx.createLinearGradient(0,0,0,ph); g.addColorStop(0,'#2a0610'); g.addColorStop(1,'#08020a'); ctx.fillStyle=g; ctx.fillRect(0,0,pw,ph);
+  ctx.save(); ctx.globalAlpha=.18+.04*Math.sin(t*.05); ctx.fillStyle='#ffe9b0'; ctx.beginPath(); ctx.moveTo(pw*.5-6,0); ctx.lineTo(pw*.5+6,0); ctx.lineTo(pw*.72,ph*.86); ctx.lineTo(pw*.28,ph*.86); ctx.fill(); ctx.restore();
+  for(let x=0;x<pw;x+=8*k){ const c=['#1f6f5a','#c9a227','#8a1c2a','#f4e7c8'][(x/(8*k)|0)%4]; R(x,ph*.86,4*k,4*k,c); R(x+4*k,ph*.86+4*k,4*k,4*k,c); } R(0,ph*.86+8*k,pw,ph,'#120408');
+  const cx=Math.round(pw*.5), by=Math.round(ph*.84), b=Math.round(Math.sin(t*.06)*k*.5), P=(a,c,w,h,col)=>R(cx+a*k,by+c*k+b,w*k,h*k,col);
+  P(-10,-6,20,6,'#3a2014'); P(-9,-2,2,2,'#3a2014'); P(7,-2,2,2,'#3a2014'); // stool
+  P(-7,-30,14,22,'#e8dcc0'); P(-7,-30,14,2,'#c9a227'); P(-5,-40,10,10,'#a8724a'); P(-6,-43,12,4,'#1a1a1a'); P(-3,-37,2,1,'#111'); P(2,-37,2,1,'#111'); P(-3,-34,6,1,'#3a1a10'); // man in a light jellaba, hat
+  P(-16,-22,12,9,'#7a4a24'); P(-14,-20,8,5,'#a8723a'); P(-4,-19,16,2,'#5a3418'); P(11,-21,3,4,'#3a2014'); // the mandole
+  P(-6,-8,5,8,'#5a4a3a'); P(2,-8,5,8,'#5a4a3a');
+  for(let i=0;i<3;i++){ const q=(t*.6+i*40)%120; ctx.globalAlpha=Math.max(0,1-q/120); text('♪',cx+(18+i*6)*k,by-(30+q*.3)*k,'#ffe066',Math.max(5,3*k),'center',null); ctx.globalAlpha=1; }
+  R(6,ph-16,pw-12,12,'rgba(0,0,0,.65)'); text('CHEB GPT · MOROCCO · CLASSICS, REVIVED',pw/2,ph-13,'#f4e7c8',4,'center',null); }
 function drawMuralPanel(pw,ph,t){ drawMural(ctx,0,0,pw,ph,7); drawBooker(ctx,pw*.2,ph-14,Math.max(1,Math.floor(ph/60))); const pl='EL.7MZ · ROOTED IN RESILIENCE · POEM: GHASSAN ZAQTAN'; R(4,ph-12,pw-8,9,'rgba(0,0,0,.7)'); text(pl,pw/2,ph-10,'#f4e7c8',4,'center',null); }
 function drawWord97(pw,ph,t){ R(0,0,pw,ph,'#008080'); const x0=6,y0=6,w=pw-12,h=ph-12; R(x0,y0,w,h,'#c0c0c0'); R(x0,y0,w,1,'#fff'); R(x0,y0,1,h,'#fff'); R(x0+w-1,y0,1,h,'#404040'); R(x0,y0+h-1,w,1,'#404040');
   R(x0+2,y0+2,w-4,10,'#000080'); text('DOCUMENT1 - WORDPROCESSOR 97',x0+5,y0+4,'#fff',4,'left',null); R(x0+w-11,y0+3,8,8,'#c0c0c0'); text('X',x0+w-7,y0+4,'#000',4,'center',null);
@@ -1762,7 +1776,7 @@ function skitDraw(){ const t=skit.t, p=t/skit.dur, sv=SKITV[skit.img], im=(sv&&s
   ctx.save(); ctx.translate(px+pw/2,py+ph/2); ctx.rotate(-0.025); ctx.translate(-pw/2,-ph/2);
   R(-4,-4,pw+8,ph+8,'#000'); R(-2,-2,pw+4,ph+4,'#fff'); R(0,0,pw,ph,'#000');
   ctx.save(); ctx.beginPath(); ctx.rect(0,0,pw,ph); ctx.clip(); ctx.imageSmoothingEnabled=true;
-  if(skit.img==='proc:word97'){ drawWord97(pw,ph,t); } else if(skit.img==='proc:mural'){ drawMuralPanel(pw,ph,t); } else if(im){ const iw=im.videoWidth||im.width, ih=im.videoHeight||im.height; const sc0=Math.max(pw/iw,ph/ih)*(im.videoWidth?1.02:(1.06+.08*p)); const w=iw*sc0,h=ih*sc0; ctx.drawImage(im,(pw-w)/2-(w-pw)/2*(p-.5),(ph-h)/2,w,h); } else if(skit.img==='story/vv_bin'){ drawShopPanel(pw,ph,t); } else R(0,0,pw,ph,'#1a0a2a');
+  if(skit.img==='proc:word97'){ drawWord97(pw,ph,t); } else if(skit.img==='proc:mural'){ drawMuralPanel(pw,ph,t); } else if(skit.img==='proc:otherCheb'){ drawOtherCheb(pw,ph,t); } else if(im){ const iw=im.videoWidth||im.width, ih=im.videoHeight||im.height; const sc0=Math.max(pw/iw,ph/ih)*(im.videoWidth?1.02:(1.06+.08*p)); const w=iw*sc0,h=ih*sc0; ctx.drawImage(im,(pw-w)/2-(w-pw)/2*(p-.5),(ph-h)/2,w,h); } else if(skit.img==='story/vv_bin'){ drawShopPanel(pw,ph,t); } else R(0,0,pw,ph,'#1a0a2a');
   ctx.imageSmoothingEnabled=false; for(let y=0;y<ph;y+=3) R(0,y,pw,1,'rgba(0,0,0,.12)'); ctx.restore(); ctx.restore();
   // speech bubbles, one after another, typed out
   let n=Math.max(0,Math.floor((t-14)*1.4)); let by=22; const bx=236, bw=W-bx-8;
@@ -3477,7 +3491,7 @@ SC.stage5={ isStage:true, enter(){ startLevel(4); }, update(){ stageUpdate(()=>g
 SC.adieu=cineScene(CINE.adieu,null,()=>go(SC.credits));
 const CREDITS=['RAÏ NOIR','A CHEB GPT GAME','','YALLA SOUNDSYSTEM UNLOCKED','PLAY AS THE CREW','','SAWNA RECORDS PRESENTS','','A GAME BY','LENNART THIENPONT','HAMZA ABU AYYASH','','STARRING','CHEB GPT','AICHA','CHEB K7','','YALLA SOUNDSYSTEM','BADER · ACID PONCH · 5AMASEEN','KHALIL (ARAB NATION) · FATIH','','MUSIC','CHEB GPT','ZIZOU · ZOMBY · RAÏ NOIR','VOODOO · MUMYA · OFFLINE','AMOR HARAM · 7ELM 7RAM · ADIEU','ZIDANE · JUMP FOR HABIBI · MAMA','CHEBA WARDA (CHEB GPT REMIX)','','ART DIRECTION','BADER SHASHIT','','THE MOTHERBOARD','HERSELF','','VILLAINS','DJ PLAYBAK · EL M3ALIM','THE FEED · PLAIBOY ALDI','MONSIEUR SOUFI · THE CURATOR','','CAMEOS',
 '','EL.7MZ · HAMZA ABU AYYASH','MURAL: "ROOTED IN RESILIENCE"','POEM: GHASSAN ZAQTAN · "BY FORCE OF HABIT"','THE ORIGINAL HUNG ON VIERNULVIER, GHENT',
-'','RETRO CASSETTA','THE STALL IN ORAN',
+'','CHEB GPT (MOROCCO)','THE REAL ONE · YOUTUBE @CHEBGPT','MOROCCAN CLASSICS, REVIVED','','RETRO CASSETTA','THE STALL IN ORAN',
 '','THE HOODIE MAN','SPIDERMAN · TIRIRIRI · THE VIRAL CAIRO CLIP',
 '','BRO GAWDAT','AFTER MO GAWDAT',
 '','RICK RUMI','AFTER RICK RUBIN & RUMI',
