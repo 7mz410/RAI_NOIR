@@ -956,6 +956,7 @@ Object.assign(FR_T,{"THE BUS HOME COSTS MORE THAN HE HAS LEFT. THEN A PROMPT FRO
 Object.assign(FR_T,{"LIFE CHOICE · ORAN":"CHOIX DE VIE · ORAN","PRICE":"PRIX","HIS HONOUR":"SON HONNEUR","PRIZE":"GAIN","RICK RUMI WILL ASK ABOUT THIS.":"RICK RUMI T'EN PARLERA.","OK WALLAH, 5000.":"OK WALLAH, 5000.","(SAY NOTHING. LOOK DISAPPOINTED.)":"(NE DIS RIEN. AIE L'AIR DÉÇU.)","(WALK AWAY. VERY SLOWLY.)":"(PARS. TRÈS LENTEMENT.)","1000. AND I TELL ALL MARSEILLE ABOUT YOUR STALL.":"1000. ET JE PARLE DE TON STAND À TOUT MARSEILLE.","300 AND A SELFIE.":"300 ET UN SELFIE.","OK. 2000.":"OK. 2000.","OK. 2500.":"OK. 2500.","OK. 4000.":"OK. 4000."});
 Object.assign(FR_T,{"MARSEILLE! MY NEW ARTIST. SHE NEVER SLEEPS. SHE NEVER ASKS FOR A FEE. PLEASE WELCOME... TATA!":"MARSEILLE ! MON NOUVEL ARTISTE. ELLE NE DORT JAMAIS. ELLE NE DEMANDE JAMAIS DE CACHET. ACCUEILLEZ... TATA !","THIS ONE IS CALLED PROMPT ME A RIVER. HE WROTE IT. I JUST... LIVE IN IT.":"CELLE-CI S'APPELLE PROMPT ME A RIVER. IL L'A ÉCRITE. MOI JE... VIS DEDANS.","SHE SINGS LIKE SOMEONE WHO WANTS TO GO HOME.":"ELLE CHANTE COMME QUELQU'UN QUI VEUT RENTRER CHEZ SOI.","TIMBAIAND'S A.I. ARTIST · PROMPTED, NOT PAID · PRESS YALLA TO ASK HER OFFLINE":"L'ARTISTE IA DE TIMBAIAND · PROMPTÉE, PAS PAYÉE · YALLA POUR L'INVITER HORS LIGNE","PICK A DOOR":"CHOISIS UNE PORTE","WHITE DOOR · GO TO HER":"PORTE BLANCHE · VA VERS ELLE","RED DOOR · STAY ONLINE":"PORTE ROUGE · RESTE EN LIGNE","ERROR 503 · TOO MANY SOULS ONLINE":"ERREUR 503 · TROP D'ÂMES EN LIGNE","RICK RUMI: WRONG DOOR, HABIBI. EVEN HELL HAS A WAITING LIST.":"RICK RUMI : MAUVAISE PORTE, HABIBI. MÊME L'ENFER A UNE LISTE D'ATTENTE.","RICK RUMI: GOOD. NOW TAKE OFF THE HEADPHONES.":"RICK RUMI : BIEN. MAINTENANT ENLÈVE LE CASQUE."});
 Object.assign(FR_T,{"STAGE 7 · THE LIFT":"NIVEAU 7 · L'ASCENSEUR","GOING UP — EVERY FLOOR IS SOMEONE YOU MET":"ÇA MONTE — CHAQUE ÉTAGE EST QUELQU'UN QUE TU AS CROISÉ","ORAN · THE KIOSK":"ORAN · LE KIOSQUE","CAIRO · STILL ZOMBIES":"LE CAIRE · TOUJOURS DES ZOMBIES","CYBER CAIRO · THE PINK LINKS":"CYBER CAIRE · LES LIENS ROSES","MARSEILLE · TOTE BAGS":"MARSEILLE · TOTE BAGS","PLAIBOY ALDI TOOK THE STAIRS":"PLAIBOY ALDI A PRIS L'ESCALIER","RICK RUMI: GOOD. THE LIFT IS THAT WAY. EVERYONE YOU MET IS IN IT.":"RICK RUMI : BIEN. L'ASCENSEUR EST PAR LÀ. TOUS CEUX QUE TU AS CROISÉS SONT DEDANS."});
+Object.assign(FR_T,{"1997. I TYPED A LETTER TO YOUR MAMA ON THE NEW COMPUTER. IT UNDERLINED EVERY WORD IN RED. EVEN MY NAME.":"1997. J'AI TAPÉ UNE LETTRE À TA MAMA SUR LE NOUVEL ORDINATEUR. IL A SOULIGNÉ CHAQUE MOT EN ROUGE. MÊME MON NOM.","IT THOUGHT YOU WERE A TYPO, KHALI.":"IL A CRU QUE T'ÉTAIS UNE FAUTE DE FRAPPE, KHALI.","WE WERE ALL TYPOS TO THEM, WLIDI. THAT'S WHY I STAYED ANALOG. A TAPE NEVER CORRECTED ME.":"ON ÉTAIT TOUS DES FAUTES DE FRAPPE POUR EUX, WLIDI. C'EST POUR ÇA QUE JE SUIS RESTÉ ANALOGIQUE. UNE CASSETTE NE M'A JAMAIS CORRIGÉ."});
 Object.assign(AR_T,{"INSERT 1 DINAR":"دخّل دينار واحد","DINAR ACCEPTED":"الدينار تقبل","SAHA. BACK ONLINE.":"صحّة. رجعنا أونلاين.","PRESS START = PAY":"START = خلّص","NO DINAR? CALL MAMA.":"ما عندكش دينار؟ عيّط لماما.","FINISH THE STORY TO UNLOCK THE CREW":"كمّل القصة باش تفتح الكرو","MOVE LIST":"الضربات"});
 
 function frIt(it){ if(LANG!=='fr'||!it) return it; if(it.__fr) return it.__fr; const c=Object.assign({},it); for(const k of ['line','title','tag','feat','sub','who','stamp']) if(typeof c[k]==='string'&&FR_T[c[k]]) c[k]=FR_T[c[k]]; if(Array.isArray(c.msgs)) c.msgs=c.msgs.map(m=>[m[0],FR_T[m[1]]||m[1]]); Object.defineProperty(it,'__fr',{value:c,enumerable:false}); return c; }
@@ -1616,6 +1617,9 @@ const SKITS={
     {at:1545,img:'shots/L1_02_oran_street_k7',who:'CHEB',line:"KHALI K7! STILL SELLING TAPES NOBODY BUYS?"},
     {at:1560,img:'shots/L1_02_oran_street_k7',who:'CHEB K7',line:"HEAR THAT? THE KIOSK PLAYS YOUR TRACK. HE BOUGHT IT AT ALDI TRACK MARKET. ONE DIRHAM, WLIDI."},
     {at:1600,img:'shots/L1_02_oran_street_k7',who:'CHEB',line:'AND HE CALLS IT A WORLD EXCLUSIVE. EVERYBODY IS A DJ NOW. NOBODY IS A MUSICIAN.'},
+    {at:1650,img:'proc:word97',who:'CHEB K7',line:"1997. I TYPED A LETTER TO YOUR MAMA ON THE NEW COMPUTER. IT UNDERLINED EVERY WORD IN RED. EVEN MY NAME."},
+    {at:1665,img:'proc:word97',who:'CHEB',line:"IT THOUGHT YOU WERE A TYPO, KHALI."},
+    {at:1680,img:'proc:word97',who:'CHEB K7',line:"WE WERE ALL TYPOS TO THEM, WLIDI. THAT'S WHY I STAYED ANALOG. A TAPE NEVER CORRECTED ME."},
   ],
   cairo:[
     {at:1380,img:'story/spider_vendor',who:'THE HOODIE MAN',line:"SPIDERMAAAN... TIRIRIRI! ZIP IT UP: YOU ARE A SPIDER. ZIP IT DOWN: YOU ARE A MAN. TWO IN ONE, YA BASHA!"},
@@ -1675,6 +1679,16 @@ function comicBubble(x,y,w,lines,who,tailX,tailY,k){ const h=lines.length*9+(who
   ctx.fillStyle='#fff'; ctx.beginPath(); ctx.moveTo(tailX+3,tailY-4); ctx.lineTo(x+19,y+h-3); ctx.lineTo(x+27,y+h-3); ctx.fill();
   if(who) comicCaption(x+4,y-6,who,'#ff5fa8','#fff',5,'left');
   lines.forEach((l,i)=>AR_RX.test(l)?text(l,x+w-6,y+(who?10:5)+i*9,'#000',7,'right',null):text(l,x+6,y+(who?10:5)+i*9,'#000',7,'left',null)); ctx.restore(); return h; }
+
+// K7's memory: a 1997 word processor that underlines every Arabic word (and every Arab name) in red
+function drawWord97(pw,ph,t){ R(0,0,pw,ph,'#008080'); const x0=6,y0=6,w=pw-12,h=ph-12; R(x0,y0,w,h,'#c0c0c0'); R(x0,y0,w,1,'#fff'); R(x0,y0,1,h,'#fff'); R(x0+w-1,y0,1,h,'#404040'); R(x0,y0+h-1,w,1,'#404040');
+  R(x0+2,y0+2,w-4,10,'#000080'); text('DOCUMENT1 - WORDPROCESSOR 97',x0+5,y0+4,'#fff',4,'left',null); R(x0+w-11,y0+3,8,8,'#c0c0c0'); text('X',x0+w-7,y0+4,'#000',4,'center',null);
+  text('FILE  EDIT  VIEW  INSERT  FORMAT  TOOLS',x0+4,y0+15,'#000',4,'left',null); const px=x0+4, py=y0+24, pW=w-8, pH=h-28; R(px,py,pW,pH,'#fff');
+  const rows=[['AR','عزيزتي أختي'],['AR','كيف حالك يا حبيبتي'],['AR','الولد يغني كل يوم'],['EN','MOHAMED · AICHA · KHALED · HASNI']]; ctx.save(); ctx.beginPath(); ctx.rect(px,py,pW,pH); ctx.clip();
+  rows.forEach(([k,l],i)=>{ const y=py+6+i*18; let ww; if(k==='AR'){ NOTR=true; ctx.font='12px '+AR; ww=Math.min(pW-12,ctx.measureText(l).width*1.28); text(l,px+pW-6,y-2,'#000',9,'right',null); NOTR=false; var sx=px+pW-6-ww; } else { NOTR=true; ctx.font='5px '+FONT; ww=ctx.measureText(l).width; text(l,px+6,y+2,'#000',5,'left',null); NOTR=false; var sx=px+6; }
+    ctx.strokeStyle='#ff0000'; ctx.lineWidth=1; ctx.beginPath(); for(let x=0;x<=ww;x+=2) ctx.lineTo(sx+x,y+11+((x/2)%2?1.5:0)); ctx.stroke(); });
+  if(t>60){ const bx=px+18, by=py+pH-34; R(bx,by,pW-36,30,'#ffffe1'); ctx.strokeStyle='#000'; ctx.strokeRect(bx+.5,by+.5,pW-37,29); text('SPELLING: NOT IN DICTIONARY',bx+4,by+3,'#000',4,'left',null); text('MOHAMED → MOHAIR?   KHALED → KHAKI?',bx+4,by+11,'#a00',4,'left',null); text('HASNI → HASTE?   OUM KALTHOUM → (NO SUGGESTIONS)',bx+4,by+19,'#a00',4,'left',null); }
+  ctx.restore(); }
 function skitDraw(){ const t=skit.t, p=t/skit.dur, sv=SKITV[skit.img], im=(sv&&sv.readyState>=2&&sv.videoWidth)?sv:IMG[skit.img]; const talk=(skit.talk||[[skit.who,skit.line]]).map(([w,l])=>LANG==='fr'?[FR_T[w]||w,FR_T[l]||l]:[w,l]);
   ctx.fillStyle='rgba(8,2,16,.62)'; ctx.fillRect(0,0,W,H);
   for(let y=0;y<H;y+=4) for(let x=(y/4)%2?2:0;x<W;x+=4) R(x,y,1,1,'rgba(255,95,168,.10)'); // halftone
@@ -1683,7 +1697,7 @@ function skitDraw(){ const t=skit.t, p=t/skit.dur, sv=SKITV[skit.img], im=(sv&&s
   ctx.save(); ctx.translate(px+pw/2,py+ph/2); ctx.rotate(-0.025); ctx.translate(-pw/2,-ph/2);
   R(-4,-4,pw+8,ph+8,'#000'); R(-2,-2,pw+4,ph+4,'#fff'); R(0,0,pw,ph,'#000');
   ctx.save(); ctx.beginPath(); ctx.rect(0,0,pw,ph); ctx.clip(); ctx.imageSmoothingEnabled=true;
-  if(im){ const iw=im.videoWidth||im.width, ih=im.videoHeight||im.height; const sc0=Math.max(pw/iw,ph/ih)*(im.videoWidth?1.02:(1.06+.08*p)); const w=iw*sc0,h=ih*sc0; ctx.drawImage(im,(pw-w)/2-(w-pw)/2*(p-.5),(ph-h)/2,w,h); } else R(0,0,pw,ph,'#1a0a2a');
+  if(skit.img==='proc:word97'){ drawWord97(pw,ph,t); } else if(im){ const iw=im.videoWidth||im.width, ih=im.videoHeight||im.height; const sc0=Math.max(pw/iw,ph/ih)*(im.videoWidth?1.02:(1.06+.08*p)); const w=iw*sc0,h=ih*sc0; ctx.drawImage(im,(pw-w)/2-(w-pw)/2*(p-.5),(ph-h)/2,w,h); } else R(0,0,pw,ph,'#1a0a2a');
   ctx.imageSmoothingEnabled=false; for(let y=0;y<ph;y+=3) R(0,y,pw,1,'rgba(0,0,0,.12)'); ctx.restore(); ctx.restore();
   // speech bubbles, one after another, typed out
   let n=Math.max(0,Math.floor((t-14)*1.4)); let by=22; const bx=236, bw=W-bx-8;
