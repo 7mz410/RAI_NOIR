@@ -159,6 +159,10 @@ const IMG={}; const AV='15.9';
 // images first: music and video wait for them, otherwise on a slow connection the sprites show up last
 let imgsReady; const IMGS_READY=new Promise(r=>imgsReady=r);
 function loadImg(key,src){return new Promise(r=>{const i=new Image();i.onload=()=>{IMG[key]=i;r(i)};i.onerror=()=>r(null);i.src=src+'?v='+AV;});}
+// Higgsfield art for HELL.EXE: local copy first (tools/fetch_hf_art.sh puts it in assets/), else straight from the Higgsfield CDN
+const HF_CDN='https://d8j0ntlcm91z4.cloudfront.net/user_3KJVMTVL7n80h8UThtXGEHD8BGV/';
+const HF_ART={'story/matrix_rain':'hf_20261018_135021_db33dbbf-15f4-4ae9-836c-f726964c82ae','story/matrix_dodge':'hf_20261018_135019_a2f32af3-a00d-4a02-9adf-d7e9c8803c22','story/matrix_catch':'hf_20261018_135020_8f449107-930c-4915-9cce-92d140aa9b92','bg/hell_a':'hf_20261018_135020_26f7ccd2-0041-4cb5-951f-0fa2de73a0c4','bg/hell_b':'hf_20261018_135019_b0bd9cae-f1ba-4fa1-b44e-3f27882985db'};
+for(const k in HF_ART){ loadImg(k,'assets/'+k+'.webp').then(i=>{ if(i) return; const im=new Image(); im.onload=()=>{ IMG[k]=im; }; im.src=HF_CDN+HF_ART[k]+'_min.webp'; }); }
 const ASSET_LIST={
   'ui/title':'assets/ui/title.jpg','ui/select':'assets/ui/select.jpg',
   'bg/oran_corniche':'assets/bg/oran_corniche.jpg','bg/oran_souk':'assets/bg/oran_souk.jpg',
@@ -1424,16 +1428,21 @@ function buildBoat(len){
   return {sky,far,mid,farRate:.35};
 }
 function buildFromImages(len,segs){ // segs:[{img,to}] — plays the panels in order (a journey), no mirroring, soft cross-fades
-  const mid=mk(len,224), m=mid.getContext('2d'); m.imageSmoothingEnabled=false; const XF=104; let x=0, k=0;
+  const mid=mk(len,224), m=mid.getContext('2d'); m.imageSmoothingEnabled=false; const XF=176; let x=0, k=0; const seams=[]; // wide, eased cross-fades: one place melts into the next
   const SG=segs.filter(s=>s&&s.img), list=SG.map(s=>s.img); if(!list.length) return {far:null,mid,farRate:0};
   const tmp=mk(1400,224), tg=tmp.getContext('2d');
   const nat=list.map(i=>i.width*224/i.height), T=nat.reduce((a,b)=>a+b,0)-XF*(list.length-1), f=T<len&&len/T<1.6?len/T:1; // stretch to fit instead of wrapping
   while(x<len){ const img=list[k%list.length]; const w=Math.round(nat[k%list.length]*f);
     if(x===0){ m.drawImage(img,0,0,w,224); }
-    else { tg.clearRect(0,0,tmp.width,224); tg.globalCompositeOperation='source-over'; tg.drawImage(img,0,0,w,224); tg.globalCompositeOperation='destination-in'; const g=tg.createLinearGradient(0,0,w,0); g.addColorStop(0,'rgba(0,0,0,0)'); g.addColorStop(XF/w,'rgba(0,0,0,1)'); g.addColorStop(1,'rgba(0,0,0,1)'); tg.fillStyle=g; tg.fillRect(0,0,w,224); tg.globalCompositeOperation='source-over'; m.drawImage(tmp,0,0,w,224,x-XF,0,w,224); }
-    if(x>0&&!SG[k%SG.length].door){ const c0=x-XF/2, D=64; const g=m.createLinearGradient(c0-D,0,c0+D,0); g.addColorStop(0,'rgba(10,6,24,0)'); g.addColorStop(.5,'rgba(10,6,24,.38)'); g.addColorStop(1,'rgba(10,6,24,0)'); m.fillStyle=g; m.fillRect(c0-D,0,2*D,224); }
+    else { tg.clearRect(0,0,tmp.width,224); tg.globalCompositeOperation='source-over'; tg.drawImage(img,0,0,w,224); tg.globalCompositeOperation='destination-in'; const g=tg.createLinearGradient(0,0,w,0); const q=XF/w; g.addColorStop(0,'rgba(0,0,0,0)'); g.addColorStop(q*.25,'rgba(0,0,0,.1)'); g.addColorStop(q*.5,'rgba(0,0,0,.5)'); g.addColorStop(q*.75,'rgba(0,0,0,.9)'); g.addColorStop(q,'rgba(0,0,0,1)'); g.addColorStop(1,'rgba(0,0,0,1)'); tg.fillStyle=g; tg.fillRect(0,0,w,224); tg.globalCompositeOperation='source-over'; m.drawImage(tmp,0,0,w,224,x-XF,0,w,224); }
+    if(x>0&&!SG[k%SG.length].door){ const c0=x-XF/2, D=64; const g=m.createLinearGradient(c0-D,0,c0+D,0); g.addColorStop(0,'rgba(10,6,24,0)'); g.addColorStop(.5,'rgba(10,6,24,.16)'); g.addColorStop(1,'rgba(10,6,24,0)'); m.fillStyle=g; m.fillRect(c0-D,0,2*D,224); seams.push(c0); }
     if(x>0&&SG[k%SG.length].door){ const c0=x-XF/2, D=70; const g=m.createLinearGradient(c0-D,0,c0+D,0); g.addColorStop(0,'rgba(4,2,10,0)'); g.addColorStop(.42,'rgba(4,2,10,.96)'); g.addColorStop(.58,'rgba(4,2,10,.96)'); g.addColorStop(1,'rgba(4,2,10,0)'); m.fillStyle=g; m.fillRect(c0-D,0,2*D,224); m.fillStyle='rgba(255,224,102,.10)'; m.fillRect(Math.round(c0)-1,40,2,150); }
     x+=w-(x===0?0:XF); k++; }
+  // soften every open seam: a blurred copy of the join, faded in and out, hides hard edges between two different pictures
+  try{ if('filter' in m){ const D=90, sb=mk(2*D,224), sg=sb.getContext('2d');
+    for(const c0 of seams){ const x0=Math.round(c0-D); if(x0<0||x0+2*D>len) continue; sg.clearRect(0,0,2*D,224); sg.filter='blur(5px)'; sg.drawImage(mid,x0,0,2*D,224,0,0,2*D,224); sg.filter='none';
+      sg.globalCompositeOperation='destination-in'; const g=sg.createLinearGradient(0,0,2*D,0); g.addColorStop(0,'rgba(0,0,0,0)'); g.addColorStop(.5,'rgba(0,0,0,.85)'); g.addColorStop(1,'rgba(0,0,0,0)'); sg.fillStyle=g; sg.fillRect(0,0,2*D,224); sg.globalCompositeOperation='source-over';
+      m.drawImage(sb,x0,0); } } }catch(e){}
   return {far:null,mid,farRate:0};
 }
 
@@ -1501,6 +1510,7 @@ const ETYPES={
   bro:{name:'FUNDING BRO',hp:36,spd:.55,reach:22,dmg:8,wind:30,look:'goon',base:'goon',score:260,sc:1.06,hue:60,sat:.6,acc:['lanyard'],lines:['LOVE THE ENERGY. NO BUDGET.',"LET'S CIRCLE BACK ON YOUR FEE.",'WE TICKED THE BOX!']},
   soufi:{name:'MONSIEUR SOUFI',hp:90,spd:.9,reach:22,dmg:7,wind:24,look:'hustler',base:'soufi',score:4000,sc:.86,boss:1},
   dervish:{name:'DERVISH',hp:34,spd:.75,reach:22,dmg:6,wind:24,look:'hustler',base:'soufi',score:300,sc:.8,lines:['TURN, TURN, TURN','RUMI SAID IT FIRST','I DID A RETREAT IN FEZ']},
+  agent:{name:'AGENT.EXE',hp:30,spd:.6,reach:20,dmg:6,wind:24,look:'goon',base:'goon',score:400,sc:1.02,hue:100,sat:.25,light:-.18,gunner:1,lines:['MISTER... GPT.','THE FEED IS EVERYWHERE.','YOU CANNOT LOG OUT, HABIBI.','THAT IS THE SOUND OF AN UPDATE.']},
   aldiboss:{name:'PLAIBOY ALDI',hp:130,spd:.75,reach:24,dmg:9,wind:22,look:'aldi',base:'aldi',score:8000,sc:1.18,boss:1},
   shaytan:{name:'SHAYTAN.EXE',hp:170,spd:.92,reach:30,dmg:12,wind:18,look:'aldi',base:'aldi',score:30000,sc:1.5,boss:1,hue:150,sat:1.5,light:-.06},
   curator:{name:'THE CURATOR',hp:150,spd:.65,reach:24,dmg:9,wind:26,look:'playback',base:'playback',score:9000,sc:1.2,boss:1,hue:30,sat:.35,light:.1,acc:['glasses','tote']},
@@ -1632,8 +1642,8 @@ const LEVELS=[
    props:[['crate',520,206,'koshary'],['barrel',1300,206,'tray'],['crate',1840,206,'k7tape'],['barrel',2080,190,'karantika']]},
   {id:'hell',title:'FINAL BOSS · HELL.EXE',sub:"ALDI'S DATACENTRE — TRACK: POÈTE MAUDIT DU BLED",music:'poete',len:2600,battery:false,dur:240,hell:1,
    // the drop of Poète maudit du bled is at 1:23 — Aldi has to be on screen before it
-   waves:[{at:220,tAt:6,list:['sh_hustler','punk','sh_goon']},{at:600,tAt:20,list:['influencer','sh_punk','goon','sh_influencer']},{at:1000,tAt:34,boss:0,mini:1,list:['sh_m3alim','dog','dog']},
-          {at:1440,tAt:50,list:['sh_goon','punk','sh_hustler','influencer','sh_punk']},{at:1900,tAt:62,boss:1,list:['aldiboss','sh_goon','sh_punk']}],
+   waves:[{at:220,tAt:6,list:['agent','sh_hustler','agent']},{at:600,tAt:20,list:['agent','sh_punk','goon','agent']},{at:1000,tAt:34,boss:0,mini:1,list:['sh_m3alim','dog','dog']},
+          {at:1440,tAt:50,list:['agent','punk','agent','influencer','sh_punk']},{at:1900,tAt:62,boss:1,list:['aldiboss','agent','agent']}],
    props:[['crate',520,206,'cassette'],['barrel',1000,172,'dish'],['crate',1460,206,'k7tape'],['barrel',1960,190,'ringlight']]},
 ];
 const SHORTF={hell:.9,oran:.65,cairo:.7,amor:.66,mahram:.68,jannah:.85,boat:.9,marseille:.74};
@@ -1648,12 +1658,12 @@ function startLevel(i){ try{ if(G){ if(G.mainCi==null) G.mainCi=G.ci; const sc=n
   G.level=i; LV=shortLevel(LEVELS[i]); G.waveSongDone=0; G.holdMsg=0; G.holdT=0; G.djEarly=0; G.djWarda=0; G.djJump=0; G.yssWant=0; G.yssLive=0; G.wardaSkit=0;
   const imgs = LV.id==='boat' ? null : i===0 ? (IMG['bg/oran_corniche']&&IMG['bg/oran_souk']? [{img:IMG['bg/oran_corniche']},{img:IMG['bg/oran_blvd']},{img:IMG['bg/oran_old']},{img:IMG['bg/oran_souk']}]:null)
                      : LV.id==='jannah' ? (IMG['bg/jannah']&&IMG['bg/jannah_chamber']? [{img:IMG['bg/serverfarm']},{img:IMG['bg/jannah'],door:1},{img:IMG['bg/jannah']},{img:IMG['bg/jannah_chamber']}]:null)
-                     : LV.id==='hell' ? (IMG['bg/serverfarm']? [{img:IMG['bg/serverfarm']},{img:IMG['bg/serverfarm'],door:1},{img:IMG['bg/serverfarm']}]:null)
+                     : LV.id==='hell' ? (IMG['bg/hell_a']&&IMG['bg/hell_b']? [{img:IMG['bg/serverfarm']},{img:IMG['bg/hell_a']},{img:IMG['bg/hell_a']},{img:IMG['bg/hell_b']}] : IMG['bg/serverfarm']? [{img:IMG['bg/serverfarm']},{img:IMG['bg/serverfarm'],door:1},{img:IMG['bg/serverfarm']}]:null)
                      : LV.id==='amor' ? (IMG['bg/cairo_cafe']&&IMG['bg/cairo_cabaret']? [{img:IMG['bg/amor_nile']},{img:IMG['bg/cairo_cafe'],door:1},{img:IMG['bg/amor_street'],door:1},{img:IMG['bg/cairo_cabaret'],door:1}]:null)
                      : LV.id==='mahram' ? (IMG['bg/nightmare_a']&&IMG['bg/nightmare_b']? [{img:IMG['bg/nightmare_a'],to:LV.len-1100},{img:IMG['bg/nightmare_b'],to:1e9}]:null)
                      : (IMG['bg/cairo_street']&&IMG['bg/cairo_rave_nile']? [{img:IMG['bg/cairo_street']},{img:IMG['bg/cairo_fly']},{img:IMG['bg/cairo_rave_nile']}]:null);
   BG = LV.id==='boat' ? buildBoat(LV.len) : LV.club ? buildClub(LV.len) : imgs? buildFromImages(LV.len,imgs) : (i===0? buildOran(LV.len): buildCairo(LV.len));
-  ents=[];fx=[];projs=[];items=[]; hellPillars=[]; hellEmbers=[]; G.hellRed=0; G.hellDone=0; camX=0; DRV=null; skit=null; skitDone=new Set(); lockX=Infinity; waveIdx=0; wave=null; bossEnt=null; lastHit=null; stageState='intro'; stageT=0; goT=0; G.woke=0;
+  ents=[];fx=[];projs=[];items=[]; hellPillars=[]; hellEmbers=[]; G.hellRed=0; G.hellDone=0; G.neoT=0; camX=0; DRV=null; skit=null; skitDone=new Set(); lockX=Infinity; waveIdx=0; wave=null; bossEnt=null; lastHit=null; stageState='intro'; stageT=0; goT=0; G.woke=0;
   player=mkPlayer(); player.x=60; player.z=0; player.state='idle'; ents.push(player); if(G.castMsg){ msg={t:300,big:'YOU PLAY: '+G.char.name,small:G.castMsg,top:1}; }
   for(const [k,x,y,it] of LV.props){ ents.push({kind:'prop',prop:k,team:1,x,y:Math.max(y,YMAX-26),z:0,hp:1,item:it,dir:1,state:'idle',t:0,sc:1}); }
   { const props=ents.filter(e=>e.kind==='prop'); const mine=TAPES.filter(t=>t.lv===LV.id&&!COLL.has(t.id)); if(props.length&&mine.length){ const sorted=[...props].sort((a,b)=>a.x-b.x); mine.forEach((t,k)=>{ const pr=t.rare?sorted[Math.max(0,sorted.length-2)]:sorted[Math.floor((k+1)*sorted.length/(mine.length+1))]; if(pr&&!pr.tape) pr.tape=t.id; }); } }
@@ -1874,6 +1884,7 @@ function enemyUpdate(e){
   if(e.type==='aldiboss') e.age=(e.age||0)+1;
   if(e.type==='aldiboss'&&curMusic==='poete'&&trackTime()>=POETE_DROP&&e.age>240&&!['fall','down','dead','grabbed'].includes(e.state)){ shaytanReveal(e); return; }
   if(e.type==='shaytan') hellfire(e);
+  if(T.gunner&&agentUpdate(e)) return;
   // HASNI SHOUT stun: frozen in 'hurt' (so the player can walk in and grab)
   if(e.stun>0 && e.type!=='feed'){ e.stun--; if(!['fall','down','dead','grabbed'].includes(e.state)){ e.state='hurt'; e.t=0; if(e.stun%18===0) fx.push({k:'note',x:e.x+rnd(-8,8),y:e.y,z:52,life:30}); } if(e.stun===0) e.state='walk'; return; }
   if(e.type==='feed') return feedUpdate(e);
@@ -2044,6 +2055,27 @@ function bossDefeated(e){ bossEnt=null; if(G&&location.host!=='rainoir.local'){ 
   if(e.type==='curator') msg={t:260,big:'',small:"THE CURATOR: 'WE'LL CREDIT YOU IN THE PRESS RELEASE.' HIS LANYARD: ALDI.FEED CULTURE FUND",top:1};
   if(!wave||!wave.boss) return; }
 
+/* ---------------- AMOR HARAM: the song is the clock. When the last note ends, the cabaret closes. ---------------- */
+function cabaretCloses(){ if(stageState!=='play') return; G.amor='tears';
+  for(const e of ents) if(e.kind==='enemy'&&!e.dead){ e.dead=true; fx.push({k:'ring',x:e.x,y:e.y,life:20,max:20}); }
+  bossEnt=null; wave=null; waveIdx=LV.waves.length; musicDuck=1; sfx('down'); flashA=.4;
+  msg={t:260,big:'LAST SONG',small:'THE CABARET CLOSES. THE LOVE PHONE GOES DARK. SHE SANG ANYWAY.'}; stageState='clear'; stageT=0; }
+function amorClock(){ const a=DECK[deckI]; if(curMusic!=='amorharam'||!a||!a.duration||!isFinite(a.duration)) return; const left=Math.max(0,a.duration-a.currentTime); if(left>45) return;
+  const m=Math.floor(left/60), sec=String(Math.floor(left%60)).padStart(2,'0'); const hot=left<15&&frame%30<15;
+  text('♪ '+tr('LAST SONG')+' '+m+':'+sec,W/2,26,hot?'#ff3d5a':'#ff9adf',6,'center',null); }
+
+/* ---------------- NEO MODE: Aldi's agents shoot. Jump right before a bullet hits = bullet time ---------------- */
+function agentUpdate(e){ if(!['walk','idle'].includes(e.state)||!player||player.dead) return false; const p=player;
+  const dx=p.x-e.x, want=sgn(dx)*-130; e.dir=dx<0?-1:1; e.gunT=(e.gunT==null?irnd(60,120):e.gunT)-1;
+  const tx=p.x+want; e.x+=clamp(tx-e.x,-e.T.spd,e.T.spd); e.y+=clamp(p.y-e.y,-.5,.5); e.state='walk'; e.anim++;
+  if(e.gunT<=0&&Math.abs(p.y-e.y)<8&&Math.abs(dx)<230){ e.gunT=irnd(120,180); projs.push({kind:'bullet',x:e.x+e.dir*16,y:e.y,z:40,vx:e.dir*3.4,team:1,life:160,dmg:9}); sfx('zap'); spark(e.x+e.dir*16,e.y-40);
+    if(!G.neoTip){ G.neoTip=1; msg={t:200,big:'',small:'BULLETS! JUMP JUST BEFORE ONE HITS YOU = BULLET TIME',top:1}; } }
+  return true; }
+function incomingBullet(){ const p=player; return projs.find(b=>b.kind==='bullet'&&b.life>0&&sgn(p.x-b.x)===sgn(b.vx)&&Math.abs(b.x-p.x)<64&&Math.abs(b.y-p.y)<12); }
+function neoStart(){ G.neoT=110; player.inv=Math.max(player.inv||0,110); sfx('whiff'); flashA=.25; floatText(player.x,player.y-70,'BULLET TIME','#8cffaa'); G.score+=500; }
+function neoTick(){ G.neoT--; const a=DECK[deckI]; try{ a.preservesPitch=false; a.mozPreservesPitch=false; a.webkitPreservesPitch=false; a.playbackRate=G.neoT>20?.45:Math.min(1,.45+(20-G.neoT)*.0275); if(G.neoT<=0) a.playbackRate=1; }catch(e){}
+  if(G.neoT%3!==0){ updateFx(); return true; } return false; }
+
 /* ---------------- HELL.EXE: Aldi's datacentre, the final boss ---------------- */
 // the moment Poète maudit du bled explodes (seconds). Placeholder until the real track is in.
 const POETE_DROP=83; // 1:23
@@ -2064,7 +2096,8 @@ function hellUpdate(){
   for(const m of hellEmbers){ m.y+=m.vy; m.x+=m.vx; m.l--; } hellEmbers=hellEmbers.filter(m=>m.l>0);
   for(const q of hellPillars){ q.t++; if(q.t===52){ sfx('boom'); shake=Math.max(shake,4); if(player&&!player.dead&&Math.abs(player.x-q.x)<16&&Math.abs(player.y-q.y)<12&&!(player.inv>0)) hurt(player,10,true,{dir:player.x<q.x?-1:1,x:q.x}); } }
   hellPillars=hellPillars.filter(q=>q.t<80); }
-function hellDraw(){ const red=G.hellDone?0:(G.hellRed?.24:.14)+.04*Math.sin(frame/22);
+function hellDraw(){ if(G.neoT>0){ ctx.fillStyle='rgba(0,255,120,.10)'; ctx.fillRect(camX,0,W,H); ctx.save(); ctx.globalAlpha=.35; for(let k=0;k<14;k++){ const x=camX+((k*53+frame*.3)%W), y=((frame*1.2+k*37)%(H+40))-20; text('ابتثجحخدذرزسشصضطظعغفقكلمنهوي'[(k*7+Math.floor(frame/8))%28],x,y,'#8cffaa',7,'center',null); } ctx.restore(); text('BULLET TIME',camX+W/2,40,'#8cffaa',8,'center'); }
+  const red=G.hellDone?0:(G.hellRed?.24:.14)+.04*Math.sin(frame/22);
   ctx.fillStyle='rgba(150,0,18,'+red+')'; ctx.fillRect(camX,0,W,H);
   for(const m of hellEmbers) R(Math.round(m.x),Math.round(m.y),2,2,m.c);
   for(const q of hellPillars){ const x=Math.round(q.x), y=Math.round(q.y);
@@ -2074,7 +2107,7 @@ function hellDraw(){ const red=G.hellDone?0:(G.hellRed?.24:.14)+.04*Math.sin(fra
 /* ---------------- waves / camera ---------------- */
 let levelT=0;
 function trackTime(){ const a=DECK[deckI]; if(curMusic===LV.music && a && a.currentTime>0.5 && !a.paused) return a.currentTime; return levelT/60; }
-function onTrackEnd(){ if(!scene||!scene.isStage||stageState!=='play') return; if(curMusic==='adieu') return; if(curMusic==='poete'){ playMusic('poete',{seek:POETE_DROP,fade:10,loop:false}); return; } if(curMusic==='mama'){ playMusic('mama',{restart:true,fade:20,loop:false}); return; } if(curMusic==='zidane'){ playMusic('zidane',{seek:15,fade:10,loop:false}); return; } if(curMusic==='warda'){ playMusic('warda',{restart:true,fade:10,loop:false}); return; } if(curMusic==='jump'){ playMusic('jump',{restart:true,fade:10,loop:false}); return; } if(curMusic==='amorharam'){ playMusic('amorharam',{restart:true,fade:10,loop:false}); return; } if(curMusic==='helm7ram'){ playMusic('helm7ram',{restart:true,fade:10,loop:false,seek:120}); return; } if(curMusic==='voodoo'){ if(G.waveSongDone&&LV.music!=='voodoo'){ G.waveSongDone=0; playMusic(LV.music,{restart:true,fade:120,loop:false}); } else playMusic('voodoo',{restart:true,fade:10,loop:false}); return; }
+function onTrackEnd(){ if(!scene||!scene.isStage||stageState!=='play') return; if(curMusic==='adieu') return; if(curMusic==='poete'){ playMusic('poete',{seek:POETE_DROP,fade:10,loop:false}); return; } if(curMusic==='mama'){ playMusic('mama',{restart:true,fade:20,loop:false}); return; } if(curMusic==='zidane'){ playMusic('zidane',{seek:15,fade:10,loop:false}); return; } if(curMusic==='warda'){ playMusic('warda',{restart:true,fade:10,loop:false}); return; } if(curMusic==='jump'){ playMusic('jump',{restart:true,fade:10,loop:false}); return; } if(curMusic==='amorharam'&&LV.amor){ cabaretCloses(); return; } if(curMusic==='amorharam'){ playMusic('amorharam',{restart:true,fade:10,loop:false}); return; } if(curMusic==='helm7ram'){ playMusic('helm7ram',{restart:true,fade:10,loop:false,seek:120}); return; } if(curMusic==='voodoo'){ if(G.waveSongDone&&LV.music!=='voodoo'){ G.waveSongDone=0; playMusic(LV.music,{restart:true,fade:120,loop:false}); } else playMusic('voodoo',{restart:true,fade:10,loop:false}); return; }
   // ZIZOU runs out in Oran → OFFLINE takes over straight away and carries into the comeback
   if(curMusic==='zizou'&&G.level===0){ playMusic('offline',{fade:70}); return; }
   if(curMusic==='offline'){ playMusic('offline',{restart:true,fade:30}); return; }
@@ -2224,9 +2257,10 @@ const CINE={
     {img:'bg/serverfarm',tag:'THE CABLE',line:'IT DOESN\'T GO TO JANNAH. IT GOES THROUGH ALDI\'S SERVERS FIRST. HE IS STREAMING HER. KHALIL HANDS OVER HIS FLARE GUNS.',dur:460},
   ],
   hellIntro:[
-    {img:'bg/serverfarm',tag:'UNDER ORAN',title:'HELL.EXE',line:"HER CABLE ENDS HERE. ALDI'S DATACENTRE. A THOUSAND SERVERS, ALL RUNNING ON MAMA.",dur:460},
-    {img:'adieu/p06_aldi',tag:'PLAIBOY ALDI',line:'SEVEN BILLION USERS, ONE POWER SOURCE. HE CALLS IT THE CLOUD. DOWN HERE IT IS JUST HOT.',dur:440},
-    {img:'bg/serverfarm',tag:"KHALIL'S FLARE GUNS",line:'NO MORE DREAMS. THIS TIME THE FIRE IS REAL. UNPLUG HER, KHOYA.',dur:380},
+    {img:'story/matrix_rain',rain:1,tag:'UNDER ORAN',title:'HELL.EXE',line:"HER CABLE ENDS HERE. ALDI'S DATACENTRE. A THOUSAND SERVERS, ALL RUNNING ON MAMA. EVEN THE CODE FALLS IN ARABIC.",dur:480},
+    {img:'adieu/p06_aldi',tag:'PLAIBOY ALDI',line:'SEVEN BILLION USERS, ONE POWER SOURCE. HE CALLS IT THE CLOUD. DOWN HERE IT IS JUST HOT.',dur:420},
+    {img:'story/matrix_dodge',rain:1,tag:'HIS AGENTS',line:"THEY SHOOT. CHEB DOESN'T RUN. HE BENDS. TIME BENDS WITH HIM.",dur:400},
+    {img:'story/matrix_catch',rain:1,tag:'HOW TO DODGE',line:'JUMP JUST BEFORE A BULLET HITS YOU = BULLET TIME. NO MORE DREAMS, KHOYA. THIS TIME THE FIRE IS REAL.',dur:440},
   ],
   adieuIntro:[
         {img:'bg/serverfarm',tag:'SERVERS DOWN',line:'THE SERVERS GO DARK. THE CABLE IS FREE. ONE LAST BAR OF SIGNAL, POINTING UP.',dur:420,mama:3},
@@ -2386,6 +2420,10 @@ function drawPhone(it,t){
   if(T===1||(it.msgs&&it.msgs.some((m,k)=>T===k*42+1&&k>0))) sfx('blip');
 }
 
+const AR_GLYPHS='ابتثجحخدذرزسشصضطظعغفقكلمنهوي٠١٢٣٤٥٦٧٨٩';
+function drawArabicRain(t){ ctx.save(); for(let c=0;c<W/12;c++){ const sp=.6+((c*37)%10)/10, len=6+(c*13)%9, y0=((t*sp*2.2+c*53)%(H+len*11))-len*11;
+    for(let j=0;j<len;j++){ const y=y0+j*11; if(y<-10||y>H+10) continue; const head=j===len-1; ctx.globalAlpha=head?.95:.12+.5*j/len;
+      text(AR_GLYPHS[(c*7+j*3+Math.floor(t/(6+c%5)))%AR_GLYPHS.length],c*12+6,y,head?'#e8ffe8':'#3dff8a',7,'center',null); } } ctx.restore(); }
 function cineScene(list,musicName,next){
   return { i:0,t:0,isCine:true,
     enter(){ this.i=this.startAt||0; this.startAt=0; this.t=0; ENT.clear(); if(musicName){ if(musicName==='rainoir'&&curMusic==='rainoir'){ kick(); } else playMusic(musicName); } },
@@ -2414,6 +2452,7 @@ function cineScene(list,musicName,next){
       ctx.restore(); if(flashA>0){ ctx.fillStyle='rgba(255,255,255,'+clamp(flashA,0,1)*.7+')'; ctx.fillRect(0,0,W,H); flashA-=.05; }
       ctx.imageSmoothingEnabled=false;
       if(it.phone) drawPhone(it,t);
+      if(it.rain) drawArabicRain(t);
       // grade + vignette
       let g=ctx.createLinearGradient(0,H*.45,0,H); g.addColorStop(0,'rgba(0,0,0,0)'); g.addColorStop(1,'rgba(4,0,10,.88)'); ctx.fillStyle=g; ctx.fillRect(0,0,W,H);
       g=ctx.createRadialGradient(W/2,H/2,H*.35,W/2,H/2,W*.62); g.addColorStop(0,'rgba(0,0,0,0)'); g.addColorStop(1,'rgba(0,0,0,.55)'); ctx.fillStyle=g; ctx.fillRect(0,0,W,H);
@@ -2906,7 +2945,7 @@ SC.stage8={ isStage:true, enter(){ startLevel(7); }, update(){ stageUpdate(()=>g
 /* ================================================================
    STAGE 7 · ALGO SERVER FARM — Max Payne mode: two flare guns, shoot-dodge, bullet time
    ================================================================ */
-const PY_LEN=2600, PY_Y=200; const PY_PITS=[{x:460,w:44},{x:880,w:50},{x:1330,w:46},{x:1720,w:54},{x:2120,w:48}];
+const PY_LEN=2600, PY_Y=200; const PY_PITS=[]; // cracks removed (kept the hook for later)
 const PY_WAVES=[{at:260,list:['goon','hustler']},{at:620,list:['bro','goon','hustler']},{at:1000,list:['goon','goon','bro']},{at:1400,list:['hustler','bro','goon','hustler']},{at:1800,list:['bro','goon','bro','goon']},{at:2250,boss:1,list:['goon','hustler']}];
 const PY_LINES=[{at:40,s:"7ELM 7RAM. I KNOW I'M DREAMING. THE BOAT IS GONE. THE SEA IS A CORRIDOR."},{at:700,s:"KHALIL'S FLARE GUN IS IN MY HAND. ORANGE. FOR SIGNALS, HE SAID."},{at:1250,s:'TIME SLOWS DOWN. IT ALWAYS DOES WHEN THE FEED IS WATCHING YOU.'},{at:1900,s:'EVERY SHADOW HERE IS SOMEONE I LEFT ON READ.'},{at:2200,s:'AND AT THE END OF THE DREAM, SOMEONE IS STILL PROMPTING ME.'}];
 function pyGun(k,x,y,flip,a){ return drawAtlas('g_chebgun_'+k,x,y,1.45,flip,a==null?1:a); }
@@ -2914,7 +2953,7 @@ SC.payne={ isPayne:true,
   enter(){ const P=this; P.t=0; P.camX=0; P.p={x:60,vx:0,dir:1,st:'aim',t:0,hp:100,inv:0,fireT:0,z:0,vz:0,ly:0}; P.en=[]; P.sh=[]; P.eb=[]; P.fx=[]; P.wi=0; P.bt=100; P.btOn=false; P.ts=1; P.cap=null; P.capI=0; P.lock=Infinity; P.boss=null; P.done=0; P.kills=0; PY_PITS.forEach(q=>q.hint=0);
     if(G){ G.level=3; } playMusic('helm7ram',{fade:60}); msg=null; },
   spawn(type){ const P=this, T=ETYPES[type], side=Math.random()<.35&&P.camX>40?-1:1; const ly0=irnd(-22,4); const e={kind:'enemy',type,T,team:1,shadow:true,ly:ly0,look:LOOKS[T.look],x:side>0?P.camX+W+20:P.camX-20,y:PY_Y+ly0,z:0,dir:-side,hp:3+(type==='bro'?1:0),state:'walk',anim:irnd(0,40),t:0,cool:irnd(60,120),sc:(T.sc||1)*K,aim:0,pref:irnd(120,230)}; if(OPT.diff==='easy') e.hp=Math.max(2,e.hp-1); P.en.push(e); },
-  spawnBoss(){ this.boss={x:Math.min(PY_LEN-90,this.camX+W-70),hp:70,max:70,t:0,flash:0,jnoun:1}; msg={t:200,big:"YUNG JNOUN",small:'THE DREAM HAS A BOSS · DIVE THE BULLETS'}; sfx('boss'); },
+  spawnBoss(){ const P=this; P.boss={x:Math.min(PY_LEN-90,P.camX+W-70),hp:70,max:70,t:0,flash:0,jnoun:1,intro:260}; P.btOn=false; sfx('boss'); musicDuck=.35; },
   update(){ const P=this, p=P.p;
     if(pressed.pause||pressed.start){ paused=!paused; sfx('blip'); } if(paused){ pauseMenu(()=>go(SC.mahramOut)); return; }
     P.t++;
@@ -2932,10 +2971,10 @@ SC.payne={ isPayne:true,
     if((pressed.a||pressed.k||((held.a||held.k)&&p.fireT<=0))&&canShoot&&p.fireT<=0){ P.sh.push({x:p.x+p.dir*40,y:PY_Y-(p.st==='dive'?34:p.st==='back'?18:72)-p.z,vx:p.dir*10,vy:0,life:60,ly:p.ly}); p.fireT=7; p.flash=5; sfx('throw'); }
     if(p.flash>0) p.flash--;
     if(p.st==='aim'||p.st==='walk'){ const my=(held.down?1:0)-(held.up?1:0); if(my){ p.ly=clamp(p.ly+my*1.2,-22,4); } if(mx){ p.x+=mx*1.7; p.dir=mx; p.st='walk'; } else if(my){ p.st='walk'; } else { p.st='aim'; let nb=null; for(const e of P.en){ if(!e.dead&&e.state!=='down'&&e.state!=='fall'&&(!nb||Math.abs(e.x-p.x)<Math.abs(nb.x-p.x))) nb=e; } if(nb) p.dir=nb.x>p.x?1:-1; else if(P.boss&&P.boss.hp>0) p.dir=1; }
-      if(pressed.b){ p.st='dive'; p.t=0; p.vx=(mx||p.dir)*4.2; p.dir=mx||p.dir; p.vz=3.2; p.z=4; p.inv=999; sfx('jump'); floatText(p.x,PY_Y-70,'SHOOT-DODGE','#5ff0ff'); } }
-    else if(p.st==='dive'){ p.x+=p.vx*Math.max(.55,P.ts); p.z+=p.vz*Math.max(.55,P.ts); p.vz-=0.18*Math.max(.55,P.ts); if(p.z<=0){ p.z=0; p.st='back'; p.t=0; p.inv=20; shake=3; sfx('land'); } }
-    else if(p.st==='back'){ if(p.t>34||pressed.b){ p.st='getup'; p.t=0; } }
-    else if(p.st==='getup'){ if(p.t>14) p.st='aim'; }
+      if(pressed.b){ p.st='dive'; p.t=0; p.vx=(mx||p.dir)*4.8; p.dir=mx||p.dir; p.vz=3.4; p.z=4; p.inv=999; sfx('jump'); } }
+    else if(p.st==='dive'){ p.x+=p.vx; p.z+=p.vz; p.vz-=0.32; if(p.z<=0){ p.z=0; p.st='back'; p.t=0; p.inv=20; shake=3; sfx('land'); } }
+    else if(p.st==='back'){ if(p.t>20||pressed.b){ p.st='getup'; p.t=0; } }
+    else if(p.st==='getup'){ if(p.t>8) p.st='aim'; }
     else if(p.st==='hurt'){ if(p.t>16) p.st='aim'; }
     const minX=P.camX+14, maxX=Math.min(P.lock<Infinity?P.lock+W-20:PY_LEN-30,PY_LEN-30,P.boss&&P.boss.hp>0?P.boss.x-40:Infinity); p.x=clamp(p.x,minX,maxX);
     for(const pit of PY_PITS){ if(!pit.hint&&pit.x-p.x<120&&pit.x>p.x){ pit.hint=1; floatText(pit.x,PY_Y-60,tr('JUMP!'),'#ff3d5a'); }
@@ -2960,10 +2999,11 @@ SC.payne={ isPayne:true,
     for(const b of P.sh){ b.x+=b.vx; b.y+=b.vy; b.life--; if(b.life<=0) continue;
       for(const e of P.en){ if(e.dead||e.state==='down'||e.state==='fall') continue; if(Math.abs(b.x-e.x)<16&&Math.abs((b.ly||0)-(e.ly||0))<12&&b.y>PY_Y-110&&b.y<PY_Y-6){ b.life=0; e.hp--; e.aim=0; hitstop=Math.max(hitstop,2); spark(e.x,b.y); sfx('punch'); G.score+=50;
           if(e.hp<=0){ e.state='fall'; e.t=0; e.vz=3; e.vx=sgn(b.vx)*2.4; e.dir=-sgn(b.vx); sfx('heavy'); P.kills++; P.bt=Math.min(100,P.bt+14); G.score+=400; if(slow) floatText(e.x,PY_Y-80,['NOIR.','CUT.','OFFLINE.','DELETED.'][irnd(0,3)],'#f4e7c8'); } else { e.state='hurt'; e.t=0; } break; } }
-      if(P.boss&&P.boss.hp>0&&b.life>0&&Math.abs(b.x-P.boss.x)<34&&b.y>PY_Y-130&&b.y<PY_Y-20){ b.life=0; P.boss.hp--; P.boss.flash=4; spark(b.x,b.y); sfx('punch'); G.score+=80; if(P.boss.hp<=0){ shake=10; flashA=.8; sfx('boom'); G.score+=10000; msg={t:240,big:'MAIN SERVER: OFFLINE',small:'ALL FAKE STREAMS · DELETED',top:1}; P.btOn=false; P.done=1; } } }
+      if(P.boss&&P.boss.hp>0&&!(P.boss.intro>0)&&b.life>0&&Math.abs(b.x-P.boss.x)<34&&b.y>PY_Y-130&&b.y<PY_Y-20){ b.life=0; P.boss.hp--; P.boss.flash=4; spark(b.x,b.y); sfx('punch'); G.score+=80; if(P.boss.hp<=0){ shake=10; flashA=.8; sfx('boom'); G.score+=10000; msg={t:240,big:'MAIN SERVER: OFFLINE',small:'ALL FAKE STREAMS · DELETED',top:1}; P.btOn=false; P.done=1; } } }
     P.sh=P.sh.filter(b=>b.life>0&&b.x>P.camX-20&&b.x<P.camX+W+20);
     // boss fire: three-way spread of "likes"
-    if(P.boss&&P.boss.hp>0){ const B=P.boss; B.t+=P.ts; if(B.flash>0) B.flash--; if(Math.floor(B.t)%110===0&&Math.floor(B.t-P.ts)%110!==0){ for(const ly of [-20,-9,2]) P.eb.push({x:B.x-30,y:PY_Y-70,vx:-3,vy:0,life:260,like:1,ly}); sfx('zap'); } }
+    if(P.boss&&P.boss.intro>0){ const B=P.boss; B.intro--; shake=Math.max(shake,B.intro>60?1.5:0); if(B.intro===200) sfx('zap'); if(B.intro===120) sfx('boom'); if(B.intro===60){ msg={t:200,big:'YUNG JNOUN',small:tr('HSHOUMA, WLIDI. I SAW EVERYTHING YOU TYPED.'),top:1}; sfx('boss'); } if(B.intro===0){ musicDuck=1; } }
+    else if(P.boss&&P.boss.hp>0){ const B=P.boss; B.t+=P.ts; if(B.flash>0) B.flash--; if(Math.floor(B.t)%110===0&&Math.floor(B.t-P.ts)%110!==0){ for(const ly of [-20,-9,2]) P.eb.push({x:B.x-30,y:PY_Y-70,vx:-3,vy:0,life:260,like:1,ly}); sfx('zap'); } }
     // enemy bullets
     for(const b of P.eb){ b.x+=b.vx*P.ts; b.y+=(b.vy||0)*P.ts; b.life-=P.ts; if(b.life<=0) continue;
       const py=PY_Y-(p.st==='dive'?30:p.st==='back'?12:60)-p.z, ph=(p.st==='dive'||p.st==='back')?12:40;
@@ -2978,6 +3018,11 @@ SC.payne={ isPayne:true,
   draw(){ const P=this, p=P.p, cx=Math.round(P.camX);
     ctx.save(); if(shake>0) ctx.translate(Math.round(rnd(-shake,shake)),Math.round(rnd(-shake,shake)));
     const bg=IMG['bg/nightmare_a']||IMG['bg/serverfarm']; if(bg){ const sc=H/bg.height, bw=bg.width*sc; ctx.imageSmoothingEnabled=true; for(let k=-1;k<Math.ceil(PY_LEN/bw)+1;k++){ const x=Math.round(k*bw-cx*0.6); if(x>W||x+bw<0) continue; ctx.drawImage(bg,x,0,bw,H); } ctx.imageSmoothingEnabled=false; } else { ctx.fillStyle='#0a0f14'; ctx.fillRect(0,0,W,H); }
+    // hshouma: the shame of the whole family whispering through the dream
+    { const WORDS=['HSHOUMA','حشومة','3IB','عيب','WHAT WILL PEOPLE SAY?','ASTAGHFIRULLAH','LAST SEEN 03:12','MAMA SAW YOUR STORY','HARAM','حرام','SEEN ✓✓','DELETE FOR EVERYONE'];
+      ctx.save(); for(let k=0;k<9;k++){ const w=WORDS[(k*5+Math.floor(frame/400))%WORDS.length], x=((k*97-frame*(.15+k%3*.08)-cx*.25)%(W+160)+W+160)%(W+160)-80, y=40+((k*41)%110)+Math.sin(frame*.02+k)*6;
+        ctx.globalAlpha=.24+.12*Math.sin(frame*.03+k*1.7); text(w,x,y,k%2?'#ff3d5a':'#ff9adf',k%3?6:8,'center',null); } ctx.restore();
+      ctx.fillStyle='rgba(120,0,40,'+(.10+.05*Math.sin(frame*.04))+')'; ctx.fillRect(0,0,W,H); }
     R(0,PY_Y+2,W,H-PY_Y,'rgba(6,10,16,.55)');
     for(const pit of PY_PITS){ const px=Math.round(pit.x-cx); if(px<-70||px>W+70) continue; const top=PY_Y-30, bot=PY_Y+8, hw=pit.w/2;
       // jagged crevice across the whole walkway, wider at the front (perspective), glowing red deep inside
@@ -2989,8 +3034,11 @@ SC.payne={ isPayne:true,
       if(frame%5===0) fx.push({k:'spark',x:pit.x+rnd(-hw*.5,hw*.5),y:PY_Y+rnd(-14,10),life:10}); }
     // the main server at the end
     if(P.boss){ const B=P.boss, bx=Math.round(B.x-cx); const fr=B.hp<=0?'e_jnoun_8':(B.flash?'e_jnoun_5':(Math.floor(B.t/30)%3===2?'e_jnoun_9':(Math.floor(B.t/14)%2?'e_jnoun_0':'e_jnoun_1')));
-      ctx.save(); ctx.shadowColor='#ff3d5a'; ctx.shadowBlur=14; if(!drawAtlas(fr,bx,PY_Y,1.9,true,B.flash?.6:1)){ R(bx-30,PY_Y-140,60,140,'#1a0a1a'); } ctx.restore();
-      if(B.hp>0){ R(bx-34,PY_Y-170,68,5,'#111'); R(bx-34,PY_Y-170,Math.round(68*B.hp/B.max),5,'#ff3d5a'); text('YUNG JNOUN',bx,PY_Y-180,'#ff5fa8',5,'center',null); } }
+      const it=B.intro||0, rise=it>60?Math.round((it-60)*0.75):0, al=it>200?0:it>60?1-(it-60)/140:1;
+      if(it>0){ ctx.fillStyle='rgba(20,0,8,'+Math.min(.6,(260-it)/200)+')'; ctx.fillRect(0,0,W,H); for(let k=0;k<14;k++){ const sxk=bx+Math.sin(frame*.05+k)*30, syk=PY_Y-((frame*1.6+k*23)%150); ctx.fillStyle='rgba(255,40,80,'+(.12+.1*Math.sin(k+frame*.1))+')'; ctx.beginPath(); ctx.arc(sxk,syk,10+k%5*3,0,7); ctx.fill(); }
+        if(it<200&&it>60) neonText('حشومة',bx-80,90,'#ff3d5a',14); }
+      ctx.save(); ctx.globalAlpha=Math.max(0,al); ctx.shadowColor='#ff3d5a'; ctx.shadowBlur=18; if(!drawAtlas(fr,bx,PY_Y+rise,1.9,true,B.flash?.6:1)){ R(bx-30,PY_Y-140+rise,60,140,'#1a0a1a'); } ctx.restore();
+      if(B.hp>0&&!(B.intro>0)){ R(bx-34,PY_Y-170,68,5,'#111'); R(bx-34,PY_Y-170,Math.round(68*B.hp/B.max),5,'#ff3d5a'); text('YUNG JNOUN',bx,PY_Y-180,'#ff5fa8',5,'center',null); } }
     // enemies
     const list=[...P.en.filter(e=>!e.dead)].sort((a,b)=>a.y-b.y);
     const drawE=e=>{ drawFighter(e,cx); if(e.aim>0&&frame%6<3){ const gx=Math.round(e.x-cx+e.dir*20); R(gx-2,e.y-50,4,4,'#ff3d5a'); } };
@@ -2999,12 +3047,22 @@ SC.payne={ isPayne:true,
     const sx=Math.round(p.x-cx), sy=PY_Y+Math.round(p.ly)-Math.round(p.z), fl=p.dir<0, a=(p.inv>0&&p.inv<200&&frame%6<3)?.45:1;
     ctx.fillStyle='rgba(0,0,0,.4)'; ctx.beginPath(); ctx.ellipse(sx,PY_Y+Math.round(p.ly)+1,16,3,0,0,7); ctx.fill();
     let k=0; if(p.st==='walk') k=1+(Math.floor(p.t/8)%2); else if(p.st==='dive') k=5; else if(p.st==='back') k=7; else if(p.st==='getup') k=8; else if(p.st==='hurt') k=9; else if(held.up) k=4; if(p.flash>0&&(p.st==='aim'||p.st==='walk')) k=3;
-    { // your own fighter (same sprite as every other level) with Khalil's orange flare gun
-      const ch=(G&&G.char)||CHARS[0]; const st=p.st==='walk'?'walk':p.st==='dive'?'fall':p.st==='back'?'down':p.st==='getup'?'getup':p.st==='hurt'?'hurt':'jab';
-      ctx.save(); ctx.globalAlpha=a; drawFighter({look:LOOKS[ch.look],dir:p.dir,sc:K,x:p.x,y:PY_Y+p.ly,z:p.z+(p.st==='dive'?20:0),state:st,anim:p.t,t:p.t,kind:'player'},cx); ctx.restore();
-      if(p.st!=='back'&&p.st!=='getup'){ const gi=IMG['ui/flaregun_px']; const up=false; const gx=sx+p.dir*(p.st==='dive'?36:36), gy=sy-(p.st==='dive'?60:up?88:76);
-        ctx.save(); ctx.translate(gx,gy); if(fl) ctx.scale(-1,1); if(up) ctx.rotate(-0.6); if(gi){ ctx.drawImage(gi,-4,-Math.round(gi.height/2),gi.width,gi.height); } else { R(-4,-3,16,6,'#ff7a1a'); R(-4,0,5,8,'#ff7a1a'); }
-        if(p.flash>0){ ctx.fillStyle='rgba(255,180,60,.9)'; ctx.beginPath(); ctx.arc(20,-1,4+p.flash,0,7); ctx.fill(); } ctx.restore(); } }
+    { // your own fighter with Khalil's orange flare gun — Max Payne poses: arm out on the ground, flying dive, shooting from the back
+      const ch=(G&&G.char)||CHARS[0], d=p.dir, gi=IMG['ui/flaregun_px'];
+      const body={look:LOOKS[ch.look],dir:d,sc:K,x:p.x,y:PY_Y+p.ly,z:0,anim:p.t,t:p.t,kind:'player'};
+      const gun=(x,y,rot)=>{ ctx.save(); ctx.translate(Math.round(x),Math.round(y)); if(d<0) ctx.scale(-1,1); ctx.rotate(rot||0); if(gi) ctx.drawImage(gi,-4,-Math.round(gi.height/2)); else R(-4,-3,16,6,'#ff7a1a');
+        if(p.flash>0){ ctx.fillStyle='rgba(255,180,60,.95)'; ctx.beginPath(); ctx.arc((gi?gi.width:16)-2,-1,3+p.flash,0,7); ctx.fill(); } ctx.restore(); };
+      ctx.save(); ctx.globalAlpha=a;
+      if(p.st==='dive'){ // body tilted forward like a flying leap, gun straight ahead
+        const px0=sx, py0=sy-40, ang=d*0.95; ctx.translate(px0,py0); ctx.rotate(ang); ctx.translate(-px0,-py0);
+        drawFighter({...body,state:'jab',z:p.z},cx); ctx.setTransform(S,0,0,S,0,0); if(shake>0) {}
+        const hx=36*d, hy=-36, c=Math.cos(ang), sn=Math.sin(ang); gun(px0+hx*c-hy*sn, py0+hx*sn+hy*c, 0); }
+      else if(p.st==='back'||p.st==='getup'){ // on his back, still shooting
+        drawFighter({...body,state:p.st==='back'?'down':'getup'},cx); gun(sx+d*14,sy-(p.st==='back'?12:34),-0.1); }
+      else if(p.st==='hurt'){ drawFighter({...body,state:'hurt'},cx); }
+      else { // aim + walk: arm extended, a small step bob while walking
+        const bob=p.st==='walk'?Math.round(Math.abs(Math.sin(p.t*.25))*2):0; drawFighter({...body,state:'jab',z:bob},cx); gun(sx+d*36,sy-76-bob,0); }
+      ctx.restore(); }
     for(const e of list) if(e.y>PY_Y+p.ly) drawE(e);
     // bullets — tracers, long in bullet time
     const slow=P.ts<.7;
@@ -3016,7 +3074,7 @@ SC.payne={ isPayne:true,
     if(slow){ ctx.fillStyle='rgba(40,70,110,'+((1-P.ts)*.35)+')'; ctx.fillRect(0,0,W,H); for(let y=0;y<H;y+=4) R(0,y,W,1,'rgba(0,0,0,.12)'); if(frame%40<28) neonText('BULLET TIME',W/2,40,'#5ff0ff',10); }
     if(flashA>0){ ctx.fillStyle='rgba(255,255,255,'+clamp(flashA,0,1)*.7+')'; ctx.fillRect(0,0,W,H); flashA-=.04; }
     // noir caption panel
-    if(P.cap){ const lines=wrapText(P.cap.s,W-60,7).slice(0,3), n=Math.floor(P.cap.t*1.4); const bh=lines.length*10+10; R(20,30,W-40,bh,'rgba(240,232,210,.95)'); ctx.strokeStyle='#111'; ctx.lineWidth=2; ctx.strokeRect(20,30,W-40,bh); let used=0; lines.forEach((l,i)=>{ const vis=l.slice(0,Math.max(0,n-used)); used+=l.length+1; text(vis,30,35+i*10,'#111',7,'left',null); }); }
+    if(P.cap&&!msg){ const lines=wrapText(P.cap.s,W-60,7).slice(0,3), n=Math.floor(P.cap.t*1.4); const bh=lines.length*10+10; R(20,30,W-40,bh,'rgba(240,232,210,.95)'); ctx.strokeStyle='#111'; ctx.lineWidth=2; ctx.strokeRect(20,30,W-40,bh); let used=0; lines.forEach((l,i)=>{ const vis=l.slice(0,Math.max(0,n-used)); used+=l.length+1; text(vis,30,35+i*10,'#111',7,'left',null); }); }
     // HUD
     R(0,0,W,20,'rgba(0,0,0,.6)'); text('CHEB GPT',6,4,'#ffe066',6,'left'); R(60,4,80,6,'#111'); R(61,5,Math.round(78*Math.max(0,p.hp)/100),4,p.hp>30?'#ffe066':'#ff3d5a'); text('x'+G.lives,146,4,'#f4e7c8',6,'left',null);
     text('BULLET TIME',178,4,'#5ff0ff',5,'left',null); R(240,4,70,6,'#111'); R(241,5,Math.round(68*P.bt/100),4,P.btOn?(frame%10<5?'#fff':'#5ff0ff'):'#2a8aa0');
@@ -3195,6 +3253,7 @@ function stageUpdate(onClear){
   if(paused){ pauseMenu(onClear); return; }
   if(skit){ skitUpdate(); return; }
   if(hitstop>0){ hitstop--; if(shake>0) shake*=.9; return; }
+  if(G.neoT>0&&neoTick()) return;
   if(duckT>0){ duckT--; musicDuck= duckT>0?.35:1; }
   if(msg){ msg.t--; if(msg.t<=0){ if(msg.stage){ yalla(); stageState='play'; if(LV.drive&&!DRV){ msg={t:200,big:'',small:'THE DS IS WAITING. WALK UP AND PRESS PUN TO GET IN.'}; } } msg=null; } }
   if(stageState==='drive'){ driveUpdate(); return; }
@@ -3210,6 +3269,7 @@ function stageUpdate(onClear){
   if(stageState==='chat'){ chatUpdate(); return; }
   if(stageState==='play'&&!player.dead){ playerUpdate(player); idleGag(player); }
   npcUpdate(); if(LV.jannah) petalUpdate(); if(LV.nightmare) nightmareUpdate(); if(LV.hell) hellUpdate();
+  if(LV.hell&&!(G.neoT>0)&&player&&!player.dead&&player.state==='jump'&&player.t<3&&incomingBullet()) neoStart();
   if(stageState==='play'&&LV.jannah&&waveIdx>=LV.waves.length&&!wave&&player.x>LV.len-W+40){ chamberStart(); return; }
   if(stageState==='play'&&LV.amor&&!G.amor&&!wave&&pressed.a&&!player.air){ const pc=ents.find(n=>n.kind==='npc'&&n.npc==='pc'); if(pc&&Math.abs(player.x-pc.x)<30&&Math.abs(player.y-pc.y)<40){ pressed.a=false; chatStart(); return; } }
   assistUpdate();
@@ -3297,6 +3357,7 @@ function drawFeed(e){ const sx=Math.round(e.x-camX), sy=Math.round(e.y); if(e.de
   for(let i=0;i<4;i++){ const hx=sx-40+((frame*0.6+i*40)%90), hy=sy-130-((frame*.5+i*30)%40); R(hx,hy,3,3,'#ff3d6a'); R(hx+3,hy,3,3,'#ff3d6a'); R(hx+1,hy+3,4,2,'#ff3d6a'); } }
 function drawProj(p){ const sx=Math.round(p.x-camX), sy=Math.round(p.y-p.z);
   if(p.kind==='mic'){ R(sx-2,sy-2,5,3,'#999'); R(sx+2*sgn(p.vx),sy-1,4,2,'#222'); }
+  else if(p.kind==='bullet'){ const tl=G.neoT>0?46:14, d=sgn(p.vx); const g=ctx.createLinearGradient(sx-d*tl,0,sx,0); g.addColorStop(0,'rgba(140,255,170,0)'); g.addColorStop(1,'rgba(220,255,230,.9)'); ctx.fillStyle=g; ctx.fillRect(Math.min(sx,sx-d*tl),sy-1,tl,2); R(sx-1,sy-1,3,3,'#ffe066'); if(G.neoT>0){ ctx.strokeStyle='rgba(140,255,170,.5)'; ctx.beginPath(); ctx.ellipse(sx-d*20,sy,3,6,0,0,7); ctx.stroke(); } }
   else if(p.kind==='tag'){ ctx.save(); ctx.translate(sx,sy); ctx.rotate(p.life*.2); R(-7,-4,14,8,'#ffe066'); R(-6,-3,12,6,'#ffd000'); text('-50%',0,-3,'#1c2e6b',5,'center',null); ctx.restore(); }
   else if(p.kind==='tote'){ ctx.save(); ctx.translate(sx,sy); ctx.rotate(p.life*.25); R(-5,-5,10,11,'#efe6cf'); R(-3,-1,6,1,'#1a1a1a'); R(-1,2,3,1,'#c03050'); R(-4,-9,1,4,'#efe6cf'); R(3,-9,1,4,'#efe6cf'); ctx.restore(); }
   else if(p.kind==='talk'){ const tx=["LET'S UNPACK","DECOLONIZE?","*PANEL TALK*","SO PROBLEMATIC"][(p.x/40|0)%4]; R(sx-26,sy-8,52,12,'#fff'); R(sx-4*sgn(p.vx)-2,sy+4,4,3,'#fff'); text(tx,sx,sy-6,'#2a1640',5,'center',null); }
@@ -3458,6 +3519,7 @@ function stageDraw(noHud){
   if(LV.hell) hellDraw();
   if(LV.club) clubFxOver();
   ctx.restore();
+  if(LV.amor&&stageState==='play') amorClock();
   if(flashA>0){ ctx.fillStyle='rgba(255,255,255,'+clamp(flashA,0,1)*.7+')'; ctx.fillRect(0,0,W,H); }
   if(!noHud) drawHUD();
   if(goT>0&&frame%40<26){ neonText('YALLA!',W-56,90,'#ffe066',14); text('▶',W-24,104,'#ffe066',16,'center'); }

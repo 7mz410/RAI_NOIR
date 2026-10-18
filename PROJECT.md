@@ -66,6 +66,11 @@ RAÏ NOIR is a single-file browser arcade game (side-scrolling beat 'em up) them
 - Jannah.exe is now fight-free (Aldi is gone from it). The outro tape is no longer between Adieu and the credits, so the piano never cuts.
 - After Mama's last message (stinger) a bloopers video plays if assets/video/bloopers.mp4 exists; otherwise straight to the gift screen.
 - Fixed: Aldi showed DJ Playbak's boss subtitle. Smoke test now includes stage8: 103/103 green.
+- Round 2 (same branch): Matrix intro for HELL.EXE (green Arabic-calligraphy code rain over Higgsfield panels, `drawArabicRain`); AGENT.EXE gunmen; Neo dodge = jump just before a bullet hits → 110 frames of bullet time (world at 1/3 speed, song at 0.45 playbackRate, green grade). New hell backgrounds bg/hell_a + bg/hell_b.
+- Higgsfield art loads from assets/*.webp if present, else from the Higgsfield CDN. Run `sh tools/fetch_hf_art.sh` once and commit the files to drop the CDN dependency.
+- Amor Haram: the song is the clock. "LAST SONG 0:45" countdown; when amorharam ends the cabaret closes (`cabaretCloses`) → ending B (tears) unless the love phone was beaten.
+- 7elm 7ram: cracks removed, gun in hand in every pose (Max Payne poses), fast dive (no slow-mo), Yung Jnoun 260-frame build-up from red smoke, hshouma words floating through the dream.
+- Background seams: 176 px eased cross-fades plus a blurred blend at every open seam (`buildFromImages`).
 
 ## Next (proposed order)
 1. ~~Housekeeping~~ done.
