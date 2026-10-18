@@ -60,6 +60,13 @@ RAÏ NOIR is a single-file browser arcade game (side-scrolling beat 'em up) them
 - Unconfirmed: the nightIntro cutscene once replayed over the shooter (a `setTimeout` in marseilleOut's next callback).
 - Arabic was only spot-checked on 4 screens. A native-speaker pass is still needed.
 
+### Branch claude/final-level-hell (2026-10-18, Lennart's request)
+- New final boss level HELL.EXE (LEVELS[7], SC.stage8): Aldi's datacentre after the boat, on Poète maudit du bled (audio/poete.mp3). Story: boatOut → hellIntro → stage8 → adieuIntro → stage5 (Jannah).
+- Boss: PLAIBOY ALDI (`aldiboss`). On the drop at 1:23 (`POETE_DROP`) or at 30% hp his mask cracks and he becomes SHAYTAN.EXE (`shaytan`, red recolor, hellfire pillars). Beating him starts the Adieu piano, which then keeps playing through Jannah, the ending and the credits.
+- Jannah.exe is now fight-free (Aldi is gone from it). The outro tape is no longer between Adieu and the credits, so the piano never cuts.
+- After Mama's last message (stinger) a bloopers video plays if assets/video/bloopers.mp4 exists; otherwise straight to the gift screen.
+- Fixed: Aldi showed DJ Playbak's boss subtitle. Smoke test now includes stage8: 103/103 green.
+
 ## Next (proposed order)
 1. ~~Housekeeping~~ done.
 2. ~~Bug sweep 1~~ done. Next: Hamza and Lennart playtest on real phones.
