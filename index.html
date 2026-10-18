@@ -1431,22 +1431,40 @@ function buildBoat(len){
   let fy=BASE, row=0; while(fy<224){ const rh=3+Math.floor((fy-BASE)/10); m.fillStyle=row%2?'#8c4a36':'#7c4030'; m.fillRect(0,fy,len,rh); m.fillStyle='rgba(255,150,90,.18)'; m.fillRect(0,fy,len,1); m.fillStyle='#4a2018'; m.fillRect(0,fy+rh-1,len,1); for(let sx=(row*37)%60; sx<len; sx+=50+rr()*40) m.fillRect(Math.round(sx),fy,1,rh); fy+=rh; row++; }
   return {sky,far,mid,farRate:.35};
 }
+function seamProp(m,x,id){ const BASE=172; m.save();
+  const ink=id==='hell'?'#05080a':id==='mahram'?'#14040c':'#0a0614', rim=id==='oran'?'rgba(255,170,120,.35)':id==='hell'?'rgba(95,240,140,.35)':id==='mahram'?'rgba(255,61,90,.35)':'rgba(140,120,255,.35)';
+  const sh=m.createLinearGradient(x-40,0,x+40,0); sh.addColorStop(0,'rgba(0,0,0,0)'); sh.addColorStop(.5,'rgba(0,0,0,.28)'); sh.addColorStop(1,'rgba(0,0,0,0)'); m.fillStyle=sh; m.fillRect(x-40,0,80,224);
+  m.fillStyle=ink;
+  if(id==='oran'){ // palm tree silhouette: ringed trunk + filled drooping fronds
+    const top=34, cx=x+12; for(let y=BASE;y>top;y-=3){ const k=(BASE-y)/(BASE-top), tx=x+Math.round(Math.sin(k*1.3)*12), w=Math.round(9-k*4); m.fillStyle=ink; m.fillRect(tx-w,y-3,w*2,4); m.fillStyle='rgba(0,0,0,.5)'; m.fillRect(tx-w,y,w*2,1); m.fillStyle=rim; m.fillRect(tx+w-1,y-3,1,3); }
+    m.fillStyle=ink; for(let a=0;a<11;a++){ const ang=-Math.PI*1.05+a*Math.PI*1.1/10, L=46+((a*7)%3)*10, dx=Math.cos(ang), dy=Math.sin(ang);
+      const ex=cx+dx*L, ey=top+dy*L*.5+L*.45, mx=cx+dx*L*.55, my=top+dy*L*.5-6, nx=-dy*7, ny=dx*7*.5+3;
+      m.beginPath(); m.moveTo(cx,top); m.quadraticCurveTo(mx+nx,my+ny,ex,ey); m.quadraticCurveTo(mx-nx*.3,my-ny*.3+5,cx,top+4); m.fill(); }
+    m.beginPath(); m.arc(cx,top+2,7,0,7); m.fill(); }
+  else if(id==='cairo'||id==='amor'||id==='marseille'){ // street lamp + sagging wire
+    m.fillRect(x-3,40,6,BASE-40); m.fillRect(x-6,BASE-12,12,12); m.fillRect(x-3,40,22,4); m.fillRect(x+14,44,10,6);
+    m.fillStyle='rgba(255,214,140,.55)'; m.fillRect(x+15,50,8,2); m.fillStyle=rim; m.fillRect(x+3,46,1,BASE-58);
+    m.strokeStyle=ink; m.lineWidth=1; m.beginPath(); m.moveTo(x-60,30); m.quadraticCurveTo(x-30,52,x,42); m.quadraticCurveTo(x+30,52,x+60,30); m.stroke(); }
+  else if(id==='hell'){ // server rack with blinking LEDs
+    m.fillRect(x-16,52,32,BASE-52); m.fillStyle=rim; m.fillRect(x+15,52,1,BASE-52);
+    for(let y=60;y<BASE-8;y+=10){ m.fillStyle='#10161a'; m.fillRect(x-13,y,26,7); m.fillStyle=(y/10)%3<1?'#ff3d5a':'#3dff8a'; m.fillRect(x+8,y+3,2,2); } }
+  else { // broken column
+    m.fillRect(x-11,30,22,BASE-30); m.fillRect(x-15,30,30,7); m.fillRect(x-15,BASE-8,30,8); m.fillStyle=rim; m.fillRect(x+10,37,1,BASE-45);
+    m.fillStyle='rgba(0,0,0,.35)'; for(let y=44;y<BASE-10;y+=14) m.fillRect(x-11,y,22,1); }
+  m.restore(); }
 function buildFromImages(len,segs){ // segs:[{img,to}] — plays the panels in order (a journey), no mirroring, soft cross-fades
-  const mid=mk(len,224), m=mid.getContext('2d'); m.imageSmoothingEnabled=false; const XF=176; let x=0, k=0; const seams=[]; // wide, eased cross-fades: one place melts into the next
+  const mid=mk(len,224), m=mid.getContext('2d'); m.imageSmoothingEnabled=false; const XF=96; let x=0, k=0; const seams=[]; // wide, eased cross-fades: one place melts into the next
   const SG=segs.filter(s=>s&&s.img), list=SG.map(s=>s.img); if(!list.length) return {far:null,mid,farRate:0};
   const tmp=mk(1400,224), tg=tmp.getContext('2d');
   const nat=list.map(i=>i.width*224/i.height), T=nat.reduce((a,b)=>a+b,0)-XF*(list.length-1), f=T<len&&len/T<1.6?len/T:1; // stretch to fit instead of wrapping
   while(x<len){ const img=list[k%list.length]; const w=Math.round(nat[k%list.length]*f);
     if(x===0){ m.drawImage(img,0,0,w,224); }
-    else { tg.clearRect(0,0,tmp.width,224); tg.globalCompositeOperation='source-over'; tg.drawImage(img,0,0,w,224); tg.globalCompositeOperation='destination-in'; const g=tg.createLinearGradient(0,0,w,0); const q=XF/w; g.addColorStop(0,'rgba(0,0,0,0)'); g.addColorStop(q*.25,'rgba(0,0,0,.1)'); g.addColorStop(q*.5,'rgba(0,0,0,.5)'); g.addColorStop(q*.75,'rgba(0,0,0,.9)'); g.addColorStop(q,'rgba(0,0,0,1)'); g.addColorStop(1,'rgba(0,0,0,1)'); tg.fillStyle=g; tg.fillRect(0,0,w,224); tg.globalCompositeOperation='source-over'; m.drawImage(tmp,0,0,w,224,x-XF,0,w,224); }
+    else { tg.clearRect(0,0,tmp.width,224); tg.globalCompositeOperation='source-over'; tg.drawImage(img,0,0,w,224); tg.globalCompositeOperation='destination-in'; const g=tg.createLinearGradient(0,0,w,0); const q=XF/w; g.addColorStop(0,'rgba(0,0,0,0)'); g.addColorStop(q*.35,'rgba(0,0,0,.15)'); g.addColorStop(q*.5,'rgba(0,0,0,.5)'); g.addColorStop(q*.65,'rgba(0,0,0,.85)'); g.addColorStop(q,'rgba(0,0,0,1)'); g.addColorStop(1,'rgba(0,0,0,1)'); tg.fillStyle=g; tg.fillRect(0,0,w,224); tg.globalCompositeOperation='source-over'; m.drawImage(tmp,0,0,w,224,x-XF,0,w,224); }
     if(x>0&&!SG[k%SG.length].door){ const c0=x-XF/2, D=64; const g=m.createLinearGradient(c0-D,0,c0+D,0); g.addColorStop(0,'rgba(10,6,24,0)'); g.addColorStop(.5,'rgba(10,6,24,.16)'); g.addColorStop(1,'rgba(10,6,24,0)'); m.fillStyle=g; m.fillRect(c0-D,0,2*D,224); seams.push(c0); }
     if(x>0&&SG[k%SG.length].door){ const c0=x-XF/2, D=70; const g=m.createLinearGradient(c0-D,0,c0+D,0); g.addColorStop(0,'rgba(4,2,10,0)'); g.addColorStop(.42,'rgba(4,2,10,.96)'); g.addColorStop(.58,'rgba(4,2,10,.96)'); g.addColorStop(1,'rgba(4,2,10,0)'); m.fillStyle=g; m.fillRect(c0-D,0,2*D,224); m.fillStyle='rgba(255,224,102,.10)'; m.fillRect(Math.round(c0)-1,40,2,150); }
     x+=w-(x===0?0:XF); k++; }
-  // soften every open seam: a blurred copy of the join, faded in and out, hides hard edges between two different pictures
-  try{ if('filter' in m){ const D=90, sb=mk(2*D,224), sg=sb.getContext('2d');
-    for(const c0 of seams){ const x0=Math.round(c0-D); if(x0<0||x0+2*D>len) continue; sg.clearRect(0,0,2*D,224); sg.filter='blur(5px)'; sg.drawImage(mid,x0,0,2*D,224,0,0,2*D,224); sg.filter='none';
-      sg.globalCompositeOperation='destination-in'; const g=sg.createLinearGradient(0,0,2*D,0); g.addColorStop(0,'rgba(0,0,0,0)'); g.addColorStop(.5,'rgba(0,0,0,.85)'); g.addColorStop(1,'rgba(0,0,0,0)'); sg.fillStyle=g; sg.fillRect(0,0,2*D,224); sg.globalCompositeOperation='source-over';
-      m.drawImage(sb,x0,0); } } }catch(e){}
+  // hide every open seam behind a silhouette prop (palm, lamp post, column, server rack) like classic beat 'em ups do
+  for(const c0 of seams) seamProp(m,Math.round(c0),(typeof LV!=='undefined'&&LV&&LV.id)||'');
   return {far:null,mid,farRate:0};
 }
 
