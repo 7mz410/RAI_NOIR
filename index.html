@@ -313,7 +313,7 @@ function prefetchMusic(list){ for(const n of list){ if(!n||MBLOB[n]) continue; M
 function musicURL(n){ const b=MBLOB[n]; return (b&&b!=='loading')?b:'audio/'+n+'.mp3?m=3'; }
 function trimMusic(keep){ for(const n in MBLOB){ if(keep.includes(n)||n===curMusic) continue; const b=MBLOB[n]; if(b&&b!=='loading'){ const inUse=DECK.some(a=>a.src===b); if(!inUse){ try{ URL.revokeObjectURL(b); }catch(e){} delete MBLOB[n]; } } } }
 const STORYCAST={oran:{id:'k7',why:"UNC K7 SHOWS CHEB HIS ORAN. OFFLINE. NO RUSH. UNTIL...",buddy:'cheb'},marseille:{id:'aicha',why:"AICHA'S CITY. SHE KNOWS EVERY DOOR. AND EVERY HIPSTER.",buddy:'cheb'}};
-const LVTRACKS={lift:['jump','adieu'],hell:['poete','adieu'],oran:['zizou','offline','zizou_remix','zomby'],cairo:['zomby','voodoo','amorharam'],amor:['amorharam','warda','zidane'],marseille:['warda','zidane','jump','helm7ram'],mahram:['helm7ram','mama'],boat:['mama','adieu'],jannah:['adieu']};
+const LVTRACKS={lift:['offline','adieu'],hell:['poete','adieu'],oran:['zizou','offline','zizou_remix','zomby'],cairo:['zomby','voodoo','amorharam'],amor:['amorharam','warda','zidane'],marseille:['warda','zidane','jump','helm7ram'],mahram:['helm7ram','mama'],boat:['mama','adieu'],jannah:['adieu']};
 function musicTick(){ for(const j of fadeJobs){ j.t++; const k=Math.min(1,j.t/j.dur); j.a.volume=Math.max(0,Math.min(1,(j.from+(j.to-j.from)*k)*musicDuck)); if(k>=1&&j.stop){ j.a.pause(); j.a.removeAttribute('src'); j.a.load(); } } fadeJobs=fadeJobs.filter(j=>j.t<j.dur); const cur=DECK[deckI]; if(curMusic&&!fadeJobs.some(j=>j.a===cur)) cur.volume=musicVol*musicDuck*musicQuiet; if(typeof djTick==='function') djTick(); }
 let yallaEl=null;
 function yalla(){ try{ if(!yallaEl){yallaEl=new Audio('audio/yalla.mp3');} const a=yallaEl.cloneNode(); a.volume=1; a.play().catch(()=>{}); duckT=110; }catch(e){} }
@@ -1740,11 +1740,11 @@ const LEVELS=[
    waves:[{at:220,tAt:6,list:['agent','sh_hustler','agent']},{at:600,tAt:20,list:['agent','sh_punk','goon','agent','bro']},{at:1000,tAt:34,boss:0,mini:1,list:['sh_m3alim','dog','dog']},
           {at:1440,tAt:50,list:['agent','punk','agent','influencer','sh_punk']},{at:1900,tAt:62,boss:1,list:['aldiboss','agent','agent']}],
    props:[['crate',520,206,'cassette'],['barrel',1000,172,'dish'],['crate',1460,206,'k7tape'],['barrel',1960,190,'ringlight']]},
-  {id:'lift',title:'STAGE 7 · THE LIFT',sub:'GOING UP — EVERY FLOOR IS SOMEONE YOU MET',music:'jump',len:420,battery:false,dur:150,lift:1,yMin:176,
+  {id:'lift',title:'STAGE 7 · THE LIFT',sub:'GOING UP — EVERY FLOOR IS SOMEONE YOU MET',music:'offline',len:420,battery:false,dur:188,lift:1,yMin:176,
    // Streets of Rage lift: a fixed screen, the floors fly past, every stop lets somebody from his life back in
-   waves:[{at:9e9,tAt:3,label:'FLOOR 1',fsub:'ORAN · THE KIOSK',list:['hustler','scooter','hustler']},{at:9e9,tAt:20,label:'FLOOR 2',fsub:'CAIRO · STILL ZOMBIES',list:['zombie','dog','zombie','dog']},
-          {at:9e9,tAt:38,label:'FLOOR 3',fsub:'CYBER CAIRO · THE PINK LINKS',list:['punk','influencer','punk']},{at:9e9,tAt:56,label:'FLOOR 4',fsub:'MARSEILLE · TOTE BAGS',list:['tote','ally','bro','dabke']},
-          {at:9e9,tAt:76,label:'FLOOR 5',fsub:'THE DREAM',list:['sh_hustler','sh_punk','sh_zombie','sh_goon']},{at:9e9,tAt:96,boss:1,label:'TOP FLOOR',fsub:'PLAIBOY ALDI TOOK THE STAIRS',list:['aldi','agent','agent']}],
+   waves:[{at:9e9,tAt:4,label:'FLOOR 1',fsub:'ORAN · THE KIOSK',list:['hustler','scooter','hustler']},{at:9e9,tAt:28,label:'FLOOR 2',fsub:'CAIRO · STILL ZOMBIES',list:['zombie','dog','zombie','dog']},
+          {at:9e9,tAt:52,label:'FLOOR 3',fsub:'CYBER CAIRO · THE PINK LINKS',list:['punk','influencer','punk']},{at:9e9,tAt:76,label:'FLOOR 4',fsub:'MARSEILLE · TOTE BAGS',list:['tote','ally','bro','dabke']},
+          {at:9e9,tAt:100,label:'FLOOR 5',fsub:'THE DREAM',list:['sh_hustler','sh_punk','sh_zombie','sh_goon']},{at:9e9,tAt:126,boss:1,label:'TOP FLOOR',fsub:'PLAIBOY ALDI TOOK THE STAIRS',list:['aldi','agent','agent']}],
    props:[]},
 ];
 const SHORTF={lift:1,hell:.9,oran:.65,cairo:.7,amor:.66,mahram:.68,jannah:.85,boat:.9,marseille:.74};
