@@ -2,7 +2,7 @@
 // Usage: node tests/smoke.js [url]   (exit code 1 when anything fails)
 const { chromium } = require('playwright');
 const URL = process.argv[2] || 'http://localhost:8777/index.html';
-const STAGES = ['stage1','stage2','stage3','stage7','stage4','stage6','stage8','stage5'];
+const STAGES = ['stage1','stage2','stage3','stage7','stage4','stage6','stage8','stage9','stage5'];
 (async () => {
   const b = await chromium.launch({ args: ['--autoplay-policy=no-user-gesture-required','--mute-audio'] });
   const p = await b.newPage({ viewport: { width: 768, height: 448 } });

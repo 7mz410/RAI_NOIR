@@ -313,7 +313,7 @@ function prefetchMusic(list){ for(const n of list){ if(!n||MBLOB[n]) continue; M
 function musicURL(n){ const b=MBLOB[n]; return (b&&b!=='loading')?b:'audio/'+n+'.mp3?m=3'; }
 function trimMusic(keep){ for(const n in MBLOB){ if(keep.includes(n)||n===curMusic) continue; const b=MBLOB[n]; if(b&&b!=='loading'){ const inUse=DECK.some(a=>a.src===b); if(!inUse){ try{ URL.revokeObjectURL(b); }catch(e){} delete MBLOB[n]; } } } }
 const STORYCAST={oran:{id:'k7',why:"UNC K7 SHOWS CHEB HIS ORAN. OFFLINE. NO RUSH. UNTIL...",buddy:'cheb'},marseille:{id:'aicha',why:"AICHA'S CITY. SHE KNOWS EVERY DOOR. AND EVERY HIPSTER.",buddy:'cheb'}};
-const LVTRACKS={hell:['poete','adieu'],oran:['zizou','offline','zizou_remix','zomby'],cairo:['zomby','voodoo','amorharam'],amor:['amorharam','warda','zidane'],marseille:['warda','zidane','jump','helm7ram'],mahram:['helm7ram','mama'],boat:['mama','adieu'],jannah:['adieu']};
+const LVTRACKS={lift:['jump','adieu'],hell:['poete','adieu'],oran:['zizou','offline','zizou_remix','zomby'],cairo:['zomby','voodoo','amorharam'],amor:['amorharam','warda','zidane'],marseille:['warda','zidane','jump','helm7ram'],mahram:['helm7ram','mama'],boat:['mama','adieu'],jannah:['adieu']};
 function musicTick(){ for(const j of fadeJobs){ j.t++; const k=Math.min(1,j.t/j.dur); j.a.volume=Math.max(0,Math.min(1,(j.from+(j.to-j.from)*k)*musicDuck)); if(k>=1&&j.stop){ j.a.pause(); j.a.removeAttribute('src'); j.a.load(); } } fadeJobs=fadeJobs.filter(j=>j.t<j.dur); const cur=DECK[deckI]; if(curMusic&&!fadeJobs.some(j=>j.a===cur)) cur.volume=musicVol*musicDuck*musicQuiet; if(typeof djTick==='function') djTick(); }
 let yallaEl=null;
 function yalla(){ try{ if(!yallaEl){yallaEl=new Audio('audio/yalla.mp3');} const a=yallaEl.cloneNode(); a.volume=1; a.play().catch(()=>{}); duckT=110; }catch(e){} }
@@ -955,6 +955,7 @@ Object.assign(FR_T,{"UNC K7 SHOWS CHEB HIS ORAN. OFFLINE. NO RUSH. UNTIL...":"TO
 Object.assign(FR_T,{"THE BUS HOME COSTS MORE THAN HE HAS LEFT. THEN A PROMPT FROM KHALIL: \"YALLA SOUNDSYSTEM. SOLD OUT. MARSEILLE. THE FEE PAYS YOUR WAY HOME, KHOYA.\"":"LE BUS POUR RENTRER COÛTE PLUS QUE CE QU'IL LUI RESTE. PUIS UN PROMPT DE KHALIL : \"YALLA SOUNDSYSTEM. COMPLET. MARSEILLE. LE CACHET PAIE TON RETOUR, KHOYA.\"","WHILE HE DREAMT, A STORM HIT. THE ENGINE DIED. THE BOAT DRIFTED EAST ALL NIGHT. 1,500 KM. THE CURRENT. OR ALDI'S GPS.":"PENDANT SON RÊVE, UNE TEMPÊTE. LE MOTEUR A LÂCHÉ. LE BATEAU A DÉRIVÉ VERS L'EST TOUTE LA NUIT. 1 500 KM. LE COURANT. OU LE GPS D'ALDI.","VOICEMAIL · MAMA · 0:01":"MESSAGERIE · MAMA · 0:01","'WLIDI.' HE PLAYS IT AGAIN. AND AGAIN. KHALIL STARTS THE ENGINE WITHOUT A WORD.":"'WLIDI.' IL LE RÉÉCOUTE. ENCORE. ET ENCORE. KHALIL DÉMARRE LE MOTEUR SANS UN MOT."});
 Object.assign(FR_T,{"LIFE CHOICE · ORAN":"CHOIX DE VIE · ORAN","PRICE":"PRIX","HIS HONOUR":"SON HONNEUR","PRIZE":"GAIN","RICK RUMI WILL ASK ABOUT THIS.":"RICK RUMI T'EN PARLERA.","OK WALLAH, 5000.":"OK WALLAH, 5000.","(SAY NOTHING. LOOK DISAPPOINTED.)":"(NE DIS RIEN. AIE L'AIR DÉÇU.)","(WALK AWAY. VERY SLOWLY.)":"(PARS. TRÈS LENTEMENT.)","1000. AND I TELL ALL MARSEILLE ABOUT YOUR STALL.":"1000. ET JE PARLE DE TON STAND À TOUT MARSEILLE.","300 AND A SELFIE.":"300 ET UN SELFIE.","OK. 2000.":"OK. 2000.","OK. 2500.":"OK. 2500.","OK. 4000.":"OK. 4000."});
 Object.assign(FR_T,{"MARSEILLE! MY NEW ARTIST. SHE NEVER SLEEPS. SHE NEVER ASKS FOR A FEE. PLEASE WELCOME... TATA!":"MARSEILLE ! MON NOUVEL ARTISTE. ELLE NE DORT JAMAIS. ELLE NE DEMANDE JAMAIS DE CACHET. ACCUEILLEZ... TATA !","THIS ONE IS CALLED PROMPT ME A RIVER. HE WROTE IT. I JUST... LIVE IN IT.":"CELLE-CI S'APPELLE PROMPT ME A RIVER. IL L'A ÉCRITE. MOI JE... VIS DEDANS.","SHE SINGS LIKE SOMEONE WHO WANTS TO GO HOME.":"ELLE CHANTE COMME QUELQU'UN QUI VEUT RENTRER CHEZ SOI.","TIMBAIAND'S A.I. ARTIST · PROMPTED, NOT PAID · PRESS YALLA TO ASK HER OFFLINE":"L'ARTISTE IA DE TIMBAIAND · PROMPTÉE, PAS PAYÉE · YALLA POUR L'INVITER HORS LIGNE","PICK A DOOR":"CHOISIS UNE PORTE","WHITE DOOR · GO TO HER":"PORTE BLANCHE · VA VERS ELLE","RED DOOR · STAY ONLINE":"PORTE ROUGE · RESTE EN LIGNE","ERROR 503 · TOO MANY SOULS ONLINE":"ERREUR 503 · TROP D'ÂMES EN LIGNE","RICK RUMI: WRONG DOOR, HABIBI. EVEN HELL HAS A WAITING LIST.":"RICK RUMI : MAUVAISE PORTE, HABIBI. MÊME L'ENFER A UNE LISTE D'ATTENTE.","RICK RUMI: GOOD. NOW TAKE OFF THE HEADPHONES.":"RICK RUMI : BIEN. MAINTENANT ENLÈVE LE CASQUE."});
+Object.assign(FR_T,{"STAGE 7 · THE LIFT":"NIVEAU 7 · L'ASCENSEUR","GOING UP — EVERY FLOOR IS SOMEONE YOU MET":"ÇA MONTE — CHAQUE ÉTAGE EST QUELQU'UN QUE TU AS CROISÉ","ORAN · THE KIOSK":"ORAN · LE KIOSQUE","CAIRO · STILL ZOMBIES":"LE CAIRE · TOUJOURS DES ZOMBIES","CYBER CAIRO · THE PINK LINKS":"CYBER CAIRE · LES LIENS ROSES","MARSEILLE · TOTE BAGS":"MARSEILLE · TOTE BAGS","PLAIBOY ALDI TOOK THE STAIRS":"PLAIBOY ALDI A PRIS L'ESCALIER","RICK RUMI: GOOD. THE LIFT IS THAT WAY. EVERYONE YOU MET IS IN IT.":"RICK RUMI : BIEN. L'ASCENSEUR EST PAR LÀ. TOUS CEUX QUE TU AS CROISÉS SONT DEDANS."});
 Object.assign(AR_T,{"INSERT 1 DINAR":"دخّل دينار واحد","DINAR ACCEPTED":"الدينار تقبل","SAHA. BACK ONLINE.":"صحّة. رجعنا أونلاين.","PRESS START = PAY":"START = خلّص","NO DINAR? CALL MAMA.":"ما عندكش دينار؟ عيّط لماما.","FINISH THE STORY TO UNLOCK THE CREW":"كمّل القصة باش تفتح الكرو","MOVE LIST":"الضربات"});
 
 function frIt(it){ if(LANG!=='fr'||!it) return it; if(it.__fr) return it.__fr; const c=Object.assign({},it); for(const k of ['line','title','tag','feat','sub','who','stamp']) if(typeof c[k]==='string'&&FR_T[c[k]]) c[k]=FR_T[c[k]]; if(Array.isArray(c.msgs)) c.msgs=c.msgs.map(m=>[m[0],FR_T[m[1]]||m[1]]); Object.defineProperty(it,'__fr',{value:c,enumerable:false}); return c; }
@@ -1481,6 +1482,14 @@ function seamProp(m,x,id){ const BASE=172; m.save();
     m.fillRect(x-11,30,22,BASE-30); m.fillRect(x-15,30,30,7); m.fillRect(x-15,BASE-8,30,8); m.fillStyle=rim; m.fillRect(x+10,37,1,BASE-45);
     m.fillStyle='rgba(0,0,0,.35)'; for(let y=44;y<BASE-10;y+=14) m.fillRect(x-11,y,22,1); }
   m.restore(); }
+function buildLift(len){ const mid=mk(len,224), m=mid.getContext('2d'); m.fillStyle='#14121c'; m.fillRect(0,0,len,224);
+  for(let x=0;x<len;x+=48){ m.fillStyle=(x/48)%2?'#1b1826':'#18151f'; m.fillRect(x,0,48,170); m.fillStyle='#24202f'; m.fillRect(x,0,2,170); }
+  m.fillStyle='#0c0a12'; m.fillRect(0,170,len,54); m.fillStyle='#3a3548'; m.fillRect(0,168,len,3); for(let x=0;x<len;x+=12){ m.fillStyle=(x/12)%2?'#2a2636':'#322d40'; m.fillRect(x,171,12,53); }
+  m.fillStyle='#ffe066'; for(let x=0;x<len;x+=24){ m.fillRect(x,176,12,3); } m.fillStyle='#55506a'; m.fillRect(20,0,6,170); m.fillRect(len-26,0,6,170); return {far:null,mid,farRate:0}; }
+function liftDraw(){ const sp=stageState==='play'&&!wave?3.2:.6; G.liftY=((G.liftY||0)+sp)%224; ctx.save(); // shaft walls scroll down = we go up
+  for(let k=-1;k<2;k++){ const y=Math.round(G.liftY+k*224-60); if(y>165) continue; for(const x0 of [camX+28,camX+W-64]){ ctx.fillStyle='rgba(255,224,102,.55)'; ctx.fillRect(x0,y,36,3); ctx.fillStyle='rgba(0,0,0,.55)'; ctx.fillRect(x0,y+3,36,10); }
+    text(String(1+((Math.floor((frame*sp)/224)+k)%9+9)%9),camX+W-46,y-12,'rgba(255,224,102,.7)',8,'center',null); }
+  ctx.restore(); }
 function buildFromImages(len,segs){ // segs:[{img,to}] — plays the panels in order (a journey), no mirroring, soft cross-fades
   const mid=mk(len,224), m=mid.getContext('2d'); m.imageSmoothingEnabled=false; const XF=96; let x=0, k=0; const seams=[]; // wide, eased cross-fades: one place melts into the next
   const SG=segs.filter(s=>s&&s.img), list=SG.map(s=>s.img); if(!list.length) return {far:null,mid,farRate:0};
@@ -1513,7 +1522,7 @@ const CHARS=[
 const SPRMAP8={k7:{idle:'p_k7_0',walk:['p_k7_1','p_k7_0'],jab:'p_k7_2',cross:'p_k7_3',upper:'p_k7_3',throwing:'p_k7_3',swing:'p_k7_3',kick:'p_k7_4',jump:'p_k7_5',jumpkick:'p_k7_6',sweep:'p_k7_4',shoulder:'p_k7_13',knee:'p_k7_4',throwE:'p_k7_3',hurt:'p_k7_8',fall:'p_k7_9',down:'p_k7_10',dead:'p_k7_10',getup:'p_k7_11',special:'p_k7_12',spin:'p_k7_12',film:'p_k7_7'},aicha:{idle:'p_aicha_0',walk:['p_aicha_1','p_aicha_0'],jab:'p_aicha_2',cross:'p_aicha_3',upper:'p_aicha_3',throwing:'p_aicha_3',swing:'p_aicha_3',kick:'p_aicha_4',jump:'p_aicha_5',jumpkick:'p_aicha_6',sweep:'p_aicha_4',shoulder:'p_aicha_12',knee:'p_aicha_4',throwE:'p_aicha_3',hurt:'p_aicha_8',fall:'p_aicha_9',down:'p_aicha_10',dead:'p_aicha_10',getup:'p_aicha_7',special:'p_aicha_11',spin:'p_aicha_11',film:'p_aicha_0'}}; ['bader','ponch','khamaseen','khalil','fatih'].forEach(n=>{ const o=n==='khalil'?-1:0; const P=k=>'p_'+n+'_'+(k>=7?k+o:k); SPRMAP8[n]={idle:P(0),walk:[P(1),P(0)],jab:P(2),cross:P(3),upper:P(3),throwing:P(3),swing:P(3),kick:P(4),jump:P(5),jumpkick:P(6),sweep:P(4),shoulder:P(2),knee:P(4),throwE:P(3),hurt:P(8),fall:P(9),down:P(10),dead:P(10),getup:P(11),special:P(12),spin:P(12),film:P(0)}; });
 let G=null; // run state
 function newRun(ci){ G={ci,char:CHARS[ci],score:0,lives:3,tapes:2,level:0,woke:0,calls:2,callN:0,mama:100}; }
-const MAMA_AT=[100,82,61,34,12,12]; MAMA_AT[7]=6; /* hell.exe: he is streaming her */ let mamaFx=0, mamaFxV=0;
+const MAMA_AT=[100,82,61,34,12,12]; MAMA_AT[7]=6; MAMA_AT[8]=4; /* hell.exe: he is streaming her · the lift: almost there */ let mamaFx=0, mamaFxV=0;
 function mamaCost(n){ if(!G||G.level<1) return; G.mama=Math.max(1,(G.mama??100)-n); mamaFx=50; mamaFxV=-n; }
 function mamaGive(n){ if(!G||G.level<1) return; const cap=MAMA_AT[G.level]??100; if(G.mama>=cap) return; G.mama=Math.min(cap,G.mama+n); mamaFx=30; mamaFxV=n; }
 function drawMamaHUD(){ if(!G||G.level<1) return; const v=clamp(Math.round(G.mama??100),0,100), x=W-86, y=23; const fl=mamaFx>0&&frame%6<3;
@@ -1717,11 +1726,17 @@ const LEVELS=[
    waves:[{at:220,tAt:6,list:['agent','sh_hustler','agent']},{at:600,tAt:20,list:['agent','sh_punk','goon','agent','bro']},{at:1000,tAt:34,boss:0,mini:1,list:['sh_m3alim','dog','dog']},
           {at:1440,tAt:50,list:['agent','punk','agent','influencer','sh_punk']},{at:1900,tAt:62,boss:1,list:['aldiboss','agent','agent']}],
    props:[['crate',520,206,'cassette'],['barrel',1000,172,'dish'],['crate',1460,206,'k7tape'],['barrel',1960,190,'ringlight']]},
+  {id:'lift',title:'STAGE 7 · THE LIFT',sub:'GOING UP — EVERY FLOOR IS SOMEONE YOU MET',music:'jump',len:420,battery:false,dur:150,lift:1,yMin:176,
+   // Streets of Rage lift: a fixed screen, the floors fly past, every stop lets somebody from his life back in
+   waves:[{at:9e9,tAt:3,label:'FLOOR 1',fsub:'ORAN · THE KIOSK',list:['hustler','scooter','hustler']},{at:9e9,tAt:20,label:'FLOOR 2',fsub:'CAIRO · STILL ZOMBIES',list:['zombie','dog','zombie','dog']},
+          {at:9e9,tAt:38,label:'FLOOR 3',fsub:'CYBER CAIRO · THE PINK LINKS',list:['punk','influencer','punk']},{at:9e9,tAt:56,label:'FLOOR 4',fsub:'MARSEILLE · TOTE BAGS',list:['tote','ally','bro','dabke']},
+          {at:9e9,tAt:76,label:'FLOOR 5',fsub:'THE DREAM',list:['sh_hustler','sh_punk','sh_zombie','sh_goon']},{at:9e9,tAt:96,boss:1,label:'TOP FLOOR',fsub:'PLAIBOY ALDI TOOK THE STAIRS',list:['aldi','agent','agent']}],
+   props:[]},
 ];
-const SHORTF={hell:.9,oran:.65,cairo:.7,amor:.66,mahram:.68,jannah:.85,boat:.9,marseille:.74};
+const SHORTF={lift:1,hell:.9,oran:.65,cairo:.7,amor:.66,mahram:.68,jannah:.85,boat:.9,marseille:.74};
 function shortLevel(L){ if(L._short) return L._short; const f=SHORTF[L.id]||.7, c=JSON.parse(JSON.stringify(L));
   c.len=Math.round(L.len*f); c.waves=c.waves.map(w=>Object.assign(w,{at:Math.round(w.at*f),tAt:w.tAt==null?w.tAt:Math.round(w.tAt*f)}));
-  if(c.waves.length>=5){ const k=c.waves.findIndex((w,i)=>i>=2&&!w.boss&&!w.mini&&!w.music&&!w.list.includes('camel')&&!w.list.includes('soufi')); if(k>=0) c.waves.splice(k,1); }
+  if(c.waves.length>=5&&!c.lift){ const k=c.waves.findIndex((w,i)=>i>=2&&!w.boss&&!w.mini&&!w.music&&!w.list.includes('camel')&&!w.list.includes('soufi')); if(k>=0) c.waves.splice(k,1); }
   for(const n of (c.npcs||[])) n[1]=Math.round(n[1]*f); for(const pr of (c.props||[])) pr[1]=Math.round(pr[1]*f);
   if(SKITS[L.id]&&!SKITS[L.id]._s){ SKITS[L.id].forEach(sk=>sk.at=Math.round(sk.at*f)); SKITS[L.id]._s=1; }
   L._short=c; return c; }
@@ -1734,7 +1749,7 @@ function startLevel(i){ try{ if(G){ if(G.mainCi==null) G.mainCi=G.ci; const sc=(
                      : LV.id==='amor' ? (IMG['bg/cairo_cafe']&&IMG['bg/cairo_cabaret']? [{img:IMG['bg/amor_nile']},{img:IMG['bg/cairo_cafe'],door:1},{img:IMG['bg/amor_street'],door:1},{img:IMG['bg/cairo_cabaret'],door:1}]:null)
                      : LV.id==='mahram' ? (IMG['bg/nightmare_a']&&IMG['bg/nightmare_b']? [{img:IMG['bg/nightmare_a'],to:LV.len-1100},{img:IMG['bg/nightmare_b'],to:1e9}]:null)
                      : (IMG['bg/cairo_street']&&IMG['bg/cairo_rave_nile']? [{img:IMG['bg/cairo_street']},{img:IMG['bg/cairo_fly']},{img:IMG['bg/cairo_rave_nile']}]:null);
-  BG = LV.id==='boat' ? buildBoat(LV.len) : LV.club ? buildClub(LV.len) : imgs? buildFromImages(LV.len,imgs) : (i===0? buildOran(LV.len): buildCairo(LV.len));
+  BG = LV.lift ? buildLift(LV.len) : LV.id==='boat' ? buildBoat(LV.len) : LV.club ? buildClub(LV.len) : imgs? buildFromImages(LV.len,imgs) : (i===0? buildOran(LV.len): buildCairo(LV.len));
   ents=[];fx=[];projs=[];items=[]; hellPillars=[]; hellEmbers=[]; G.hellRed=0; G.hellDone=0; G.neoT=0; camX=0; DRV=null; skit=null; skitDone=new Set(); lockX=Infinity; waveIdx=0; wave=null; bossEnt=null; lastHit=null; stageState='intro'; stageT=0; goT=0; G.woke=0;
   player=mkPlayer(); player.x=60; player.z=0; player.state='idle'; ents.push(player); if(G.castMsg){ msg={t:300,big:'YOU PLAY: '+G.char.name,small:G.castMsg,top:1}; const bc=(STORYCAST[LV.id]||{}).buddy; if(bc) ents.push({kind:'npc',npc:'buddy',cid:bc,team:-1,x:24,y:player.y-6,z:0,dir:1,state:'idle',t:0,anim:0,sc:1,hp:1,name:CHARS.find(c=>c.id===bc).name,line:'',said:1,talkT:0,frame:0,moving:0}); }
   for(const [k,x,y,it] of LV.props){ ents.push({kind:'prop',prop:k,team:1,x,y:Math.max(y,YMAX-26),z:0,hp:1,item:it,dir:1,state:'idle',t:0,sc:1}); }
@@ -2196,8 +2211,8 @@ function updateWaves(){
   const tt=trackTime(); const nw=LV.waves[waveIdx];
   // walking into the next song early: no invisible wall — the selecta pulls it up (zomby → voodoo for El M3alim)
   if(nw && !wave && nw.minT && nw.music && curMusic===LV.music && tt<nw.minT && player.x>=nw.at-60 && !G.djEarly){ G.djEarly=1; djPullup(nw.music,nw.seek,'PULL UP!',(LV.music||'').toUpperCase()+' → '+nw.music.toUpperCase()); }
-  if(nw && !wave && (player.x>nw.at || (nw.tAt!=null && !nw.boss && tt>=nw.tAt))){
-    wave={...nw,queue:[...nw.list],late:tt>=(nw.tAt||1e9)&&player.x<=nw.at}; lockX=camX; spawnT=10; if(nw.music&&!(G.djEarly&&(curMusic===nw.music||djJob))){ playMusic(nw.music,{fade:20,loop:false,seek:nw.seek,restart:curMusic===nw.music}); } if(musicQuiet<1){ musicQuiet=1; shake=10; flashA=.8; sfx('boss'); floatText(player.x,player.y-90,'VOODOO!','#ff3d5a'); } if(wave.boss&&!wave.late) lockX=LV.len-W; if(wave.boss&&wave.late) lockX=Infinity; }
+  if(nw && !wave && (player.x>nw.at || (nw.tAt!=null && (!nw.boss||LV.lift) && tt>=nw.tAt))){
+    wave={...nw,queue:[...nw.list],late:tt>=(nw.tAt||1e9)&&player.x<=nw.at}; if(nw.label){ msg={t:170,big:nw.label,small:tr(nw.fsub||''),top:1}; sfx('pickup'); setTimeout(()=>sfx('blip'),160); } lockX=camX; spawnT=10; if(nw.music&&!(G.djEarly&&(curMusic===nw.music||djJob))){ playMusic(nw.music,{fade:20,loop:false,seek:nw.seek,restart:curMusic===nw.music}); } if(musicQuiet<1){ musicQuiet=1; shake=10; flashA=.8; sfx('boss'); floatText(player.x,player.y-90,'VOODOO!','#ff3d5a'); } if(wave.boss&&!wave.late) lockX=LV.len-W; if(wave.boss&&wave.late) lockX=Infinity; }
   // if the track runs ahead while a wave is still alive, pour the next wave in on top (no stalls)
   if(wave && !wave.boss && nw && LV.waves[waveIdx+1] && !LV.waves[waveIdx+1].boss && LV.waves[waveIdx+1].tAt!=null && tt>=LV.waves[waveIdx+1].tAt && !wave.merged){ wave.merged=1; waveIdx++; const x=LV.waves[waveIdx]; wave.queue.push(...x.list); if(x.boss){ wave.boss=1; wave.late=1; } }
   if(wave){
@@ -2815,13 +2830,13 @@ SC.rumi={ t:0, i:0, sel:0, phase:'talk', enter(){ this.t=0; this.i=0; this.sel=0
   update(){ this.t++; if(this.phase==='talk'){ if((pressed.a||pressed.start)&&this.t>20) this.next(); }
     else if(this.phase==='doors'){ if(pressed.up||pressed.down||pressed.left||pressed.right){ this.sel=1-this.sel; sfx('blip'); } if(pressed.a||pressed.start) this.pick(this.sel); }
     else if(this.phase==='red'){ if(this.t>240||((pressed.a||pressed.start)&&this.t>40)){ this.phase='doors'; this.t=0; this.sel=0; } }
-    else if(this.phase==='white'&&(this.t>200||((pressed.a||pressed.start)&&this.t>60))){ musicDuck=1; fadeTo(()=>go(SC.adieuIntro),60); } },
+    else if(this.phase==='white'&&(this.t>200||((pressed.a||pressed.start)&&this.t>60))){ musicDuck=1; fadeTo(()=>go(SC.stage9),60); } },
   tapAt(x,y){ if(this.phase==='doors') this.pick(x<W/2?0:1); else if(this.phase==='talk'&&this.t>20) this.next(); },
   draw(){ const t=this.t, im=IMG['story/rumi']; ctx.fillStyle='#f4efe6'; ctx.fillRect(0,0,W,H); if(im){ ctx.save(); ctx.globalAlpha=this.phase==='talk'?1:.55; ctx.imageSmoothingEnabled=true; const sc=Math.max(W/im.width,H/im.height); ctx.drawImage(im,(W-im.width*sc)/2,(H-im.height*sc)/2,im.width*sc,im.height*sc); ctx.imageSmoothingEnabled=false; ctx.restore(); }
     if(this.phase==='talk'){ const [who,line]=this.L[this.i]; const shown=tw(line,Math.floor(t*1.4)); const lines=wrapText(shown,W-60,7).slice(0,5); const by=H-30-lines.length*9-18; comicBubble(20,by,W-40,lines.length?lines:[' '],who,who==='CHEB'?W-90:90,by-10,1); text((this.i+1)+'/'+this.L.length,W-10,8,'#6a5a8a',5,'right',null); if(frame%60<40) comicCaption(W-8,H-14,'A ▶','#fff','#000',5,'right'); }
     else if(this.phase==='doors'){ R(0,H-64,W,64,'rgba(8,4,16,.8)'); text(tr('PICK A DOOR'),W/2,H-58,'#ffe066',7,'center'); [[tr('WHITE DOOR · GO TO HER'),'#fff6d8'],[tr('RED DOOR · STAY ONLINE'),'#ff3d5a']].forEach(([l,c],i)=>{ const x=i?W/2+8:16, w=W/2-24, sel=i===this.sel; R(x,H-42,w,24,sel?'#2a1640':'#140a22'); if(sel){ ctx.strokeStyle=c; ctx.strokeRect(x+.5,H-41.5,w-1,23); } text(l,x+w/2,H-34,c,6,'center',null); }); }
     else if(this.phase==='red'){ R(0,0,W,H,'rgba(40,0,6,.82)'); neonText('LOADING THE CLOUD…',W/2,70,'#ff3d5a',14); text(tr('ERROR 503 · TOO MANY SOULS ONLINE'),W/2,104,'#ffb3c0',6,'center',null); if(t>80) text(tr('RICK RUMI: WRONG DOOR, HABIBI. EVEN HELL HAS A WAITING LIST.'),W/2,132,'#fff',6,'center',null); }
-    else { R(0,0,W,H,'rgba(255,250,235,'+Math.min(.92,t/120)+')'); if(t>40) text(tr('RICK RUMI: GOOD. NOW TAKE OFF THE HEADPHONES.'),W/2,H/2,'#3a2a1a',7,'center',null); } } };
+    else { R(0,0,W,H,'rgba(255,250,235,'+Math.min(.92,t/120)+')'); if(t>40) text(tr('RICK RUMI: GOOD. THE LIFT IS THAT WAY. EVERYONE YOU MET IS IN IT.'),W/2,H/2,'#3a2a1a',7,'center',null); } } };
 
 /* ---- move list (title menu + pause) ---- */
 const DASHN={shoulder:'SHOULDER CHARGE',skate:'SKATE ROLL',bash:'BOOMBOX BASH'};
@@ -2839,7 +2854,7 @@ SC.moves={ ci:0, enter(){},
   tapAt(x,y){ backMenu(); },
   draw(){ ctx.fillStyle='#0b0616'; ctx.fillRect(0,0,W,H); const st=['#2a0a4a','#4e1060','#7d1a6e','#b8266f','#ec3f74']; for(let k=0;k<5;k++) R(0,4+k*3,W,2,st[k]); drawMoves(CHARS[this.ci]||CHARS[0],false); } };
 /* ---- K7 collection ---- */
-const LVNAME={boat:'THE BOAT',hell:'HELL.EXE',oran:'ORAN',cairo:'CAIRO',amor:'CYBER CAIRO',marseille:'MARSEILLE',jannah:'JANNAH.EXE',sea:'THE DREAM',mahram:'THE DREAM',ghorba:'BENGHAZI'};
+const LVNAME={lift:'THE LIFT',boat:'THE BOAT',hell:'HELL.EXE',oran:'ORAN',cairo:'CAIRO',amor:'CYBER CAIRO',marseille:'MARSEILLE',jannah:'JANNAH.EXE',sea:'THE DREAM',mahram:'THE DREAM',ghorba:'BENGHAZI'};
 SC.k7={ i:0, enter(){ this.i=0; },
   cell(i){ const cols=7, cw=52, ch=34, x0=W/2-cols*cw/2; return {x:x0+(i%cols)*cw, y:28+Math.floor(i/cols)*ch, w:cw-4, h:ch-4}; },
   tapAt(x,y){ if(x<54&&y<20){ backMenu(); return; } for(let i=0;i<TAPES.length;i++){ const c=this.cell(i); if(x>=c.x&&x<c.x+c.w&&y>=c.y&&y<c.y+c.h){ this.i=i; sfx('blip'); } } },
@@ -3050,17 +3065,17 @@ SC.select={ i:0, st:0, enter(){ this.i=0; this.st=0; if(curMusic!=='zizou') play
     if(this.i>=3){ const c=CHARS[this.i]; R(W/2-80,H-62,160,12,'rgba(0,0,0,.7)'); text(c.name+'  ·  '+c.special,W/2,H-60,'#ffe066',6,'center'); }
     text('◀ ▶ CHOOSE · A CONFIRM     YALLA SOUNDSYSTEM ↓ CALL THEM WITH Y / YALLA',W/2,25,'#8a7fa3',5,'center',null);
  } };
-const STAGELIST=[['FULL GAME','ZIZOU → ZOMBY → AMOR HARAM → ZIDANE → 7ELM 7RAM → GHORBA → HELL.EXE → ADIEU',()=>go(SC.haggle)],['STAGE 1 · ZIZOU','ORAN — OFFLINE AND LOVING IT',()=>go(SC.stage1)],['STAGE 2 · ZOMBY','MUMYA REEL + CAIRO — BACK ONLINE',()=>go(SC.mumya)],['STAGE 3 · AMOR HARAM','CYBER CAIRO — THE CHAT, THE CABARET, THE LOVE PHONE',()=>playAmorTape()],['STAGE 4 · ZIDANE','MARSEILLE — YALLA SOUNDSYSTEM, SOLD OUT · THEN THE NIGHT BOAT',()=>go(SC.marseilleIntro)],['STAGE 5 · 7ELM 7RAM','THE DREAM — ORANGE FLARE GUN · BULLET TIME · YUNG JNOUN',()=>go(SC.mahramIntro)],['STAGE 6 · GHORBA','BENGHAZI → ORAN — TRACK: MAMA',()=>go(SC.boatIntro)],['FINAL BOSS · HELL.EXE',"ALDI'S DATACENTRE — POÈTE MAUDIT DU BLED",()=>go(SC.hellIntro)],['FINAL · ADIEU','JANNAH.EXE — BEAT IT = FREE SAWNA DOWNLOAD',()=>go(SC.adieuIntro)],['INTRO · RAÏ NOIR','THE TAPE + THE FLASHBACK AGAIN',()=>playChebTape()]];
+const STAGELIST=[['FULL GAME','ZIZOU → ZOMBY → AMOR HARAM → ZIDANE → 7ELM 7RAM → GHORBA → HELL.EXE → ADIEU',()=>go(SC.haggle)],['STAGE 1 · ZIZOU','ORAN — OFFLINE AND LOVING IT',()=>go(SC.stage1)],['STAGE 2 · ZOMBY','MUMYA REEL + CAIRO — BACK ONLINE',()=>go(SC.mumya)],['STAGE 3 · AMOR HARAM','CYBER CAIRO — THE CHAT, THE CABARET, THE LOVE PHONE',()=>playAmorTape()],['STAGE 4 · ZIDANE','MARSEILLE — YALLA SOUNDSYSTEM, SOLD OUT · THEN THE NIGHT BOAT',()=>go(SC.marseilleIntro)],['STAGE 5 · 7ELM 7RAM','THE DREAM — ORANGE FLARE GUN · BULLET TIME · YUNG JNOUN',()=>go(SC.mahramIntro)],['STAGE 6 · GHORBA','BENGHAZI → ORAN — TRACK: MAMA',()=>go(SC.boatIntro)],['FINAL BOSS · HELL.EXE',"ALDI'S DATACENTRE — POÈTE MAUDIT DU BLED",()=>go(SC.hellIntro)],['STAGE 7 · THE LIFT','GOING UP — EVERY FLOOR IS SOMEONE YOU MET',()=>go(SC.stage9)],['FINAL · ADIEU','JANNAH.EXE — BEAT IT = FREE SAWNA DOWNLOAD',()=>go(SC.adieuIntro)],['INTRO · RAÏ NOIR','THE TAPE + THE FLASHBACK AGAIN',()=>playChebTape()]];
 ['oran','cairo','cybercairo','marseille','sea','benghazi','jannah','rainoir','serverfarm'].forEach(n=>{ if(!IMG['covers/'+n]) loadImg('covers/'+n,'assets/covers/'+n+'.jpg'); });
-const STAGETHUMB=['shots/00_title_trio','covers/oran','covers/cairo','covers/cybercairo','covers/marseille','covers/sea','covers/benghazi','covers/serverfarm','covers/jannah','covers/rainoir'];
-const STAGECOL=['#ffe066','#ff9a4a','#7dff8a','#ff5fa8','#ff3d8b','#b06aff','#ffb36a','#2aff7a','#5ff0ff','#f4e7c8'];
+const STAGETHUMB=['shots/00_title_trio','covers/oran','covers/cairo','covers/cybercairo','covers/marseille','covers/sea','covers/benghazi','covers/serverfarm','covers/sea','covers/jannah','covers/rainoir'];
+const STAGECOL=['#ffe066','#ff9a4a','#7dff8a','#ff5fa8','#ff3d8b','#b06aff','#ffb36a','#2aff7a','#e8c25a','#5ff0ff','#f4e7c8'];
 SC.stagesel={ i:0, enter(){ this.i=Math.min(this.i||0,STAGELIST.length-1); this.slide=0; },
   update(){ const n=STAGELIST.length;
     if(pressed.left){ this.i=(this.i+n-1)%n; this.slide=-1; sfx('blip'); } if(pressed.right){ this.i=(this.i+1)%n; this.slide=1; sfx('blip'); }
     if(pressed.up||pressed.down){ nextDiff(); }
     this.slide*=.78; if(Math.abs(this.slide)<.01) this.slide=0;
     if(pressed.b){ backMenu(); return; }
-    if(pressed.a||pressed.start){ sfx('select'); const lv=[0,0,1,2,6,3,5,5,4,0][this.i]; G.level=lv; G.story=this.i===0||this.i===9; G.mainCi=G.ci; if(this.i>=2&&this.i<=8) G.calls=3; fadeTo(STAGELIST[this.i][2],30); } },
+    if(pressed.a||pressed.start){ sfx('select'); const lv=[0,0,1,2,6,3,5,7,8,4,0][this.i]; G.level=lv; G.story=this.i===0||this.i===10; G.mainCi=G.ci; if(this.i>=2&&this.i<=8) G.calls=3; fadeTo(STAGELIST[this.i][2],30); } },
   tapAt(x,y){ if(x<64){ pressed.left=true; return; } if(x>W-64){ pressed.right=true; return; } if(y>=190&&y<=202){ pressed.up=true; return; } if(y>28&&y<190) pressed.a=true; },
   card(im,cx,cy,w,h,col,sel,label){ R(cx-w/2-2,cy-h/2-2,w+4,h+4,'#000');
     if(im){ ctx.save(); ctx.beginPath(); ctx.rect(cx-w/2,cy-h/2,w,h); ctx.clip(); ctx.imageSmoothingEnabled=true; const sc=Math.max(w/im.width,h/im.height); ctx.drawImage(im,cx-im.width*sc/2,cy-h/2,im.width*sc,im.height*sc); ctx.imageSmoothingEnabled=false; ctx.restore(); } else R(cx-w/2,cy-h/2,w,h,'#2a1640');
@@ -3369,6 +3384,7 @@ SC.payneIntro=cineScene([
   {img:'bg/nightmare_a',tag:'HOW TO PLAY',line:'PUNCH = SHOOT. JUMP = SHOOT-DODGE DIVE. SPECIAL = BULLET TIME. THE FEED IS FAST. BE SLOWER.',dur:400},
 ],'helm7ram',()=>go(SC.payne));
 
+SC.stage9={ isStage:true, enter(){ startLevel(8); }, update(){ stageUpdate(()=>go(SC.adieuIntro)); }, draw(){ stageDraw(); } };
 SC.adieuIntro=cineScene(CINE.adieuIntro,'adieu',()=>go(SC.stage5));
 SC.stage5={ isStage:true, enter(){ startLevel(4); }, update(){ stageUpdate(()=>go(SC.adieu)); }, draw(){ stageDraw(); } };
 SC.adieu=cineScene(CINE.adieu,null,()=>go(SC.credits));
@@ -3386,7 +3402,7 @@ SC.credits={ t:0, isCine:true, enter(){ this.t=0; petals=[]; if(!this.fromMenu) 
 SC.cont={ t:600, coin:0, enter(){ this.t=600; this.coin=0; stopMusic(); sfx('hurt'); },
   update(){ if(this.coin){ if(--this.coin===0){ this.resume(); } return; } this.t--; const n=charsAvail(); if(pressed.left){ G.ci=(G.ci+n-1)%n; G.char=CHARS[G.ci]; sfx('blip'); } if(pressed.right){ G.ci=(G.ci+1)%n; G.char=CHARS[G.ci]; sfx('blip'); }
     if(OPT.diff==='hard'&&G.contUsed>=(vaultHas('retro_won')?2:1)){ if(this.t<540) endRun(()=>go(SC.title)); return; } if(pressed.start||pressed.a){ this.coin=70; G.contUsed=(G.contUsed||0)+1; sfx('life'); return; } if(this.t<=0){ endRun(()=>go(SC.title)); } },
-  resume(){ { const c=G.char; player.look=LOOKS[c.look]; player.name=c.name; player.maxhp=c.hp||100; G.lives=2; G.score=Math.floor(G.score/2); G.tapes=2; G.calls=Math.max(G.calls,2); player.dead=false; player.hp=player.maxhp; player.state='jump'; player.air=true; player.z=110; player.inv=150; ents.includes(player)||ents.push(player); playMusic(LV.music); scene=[SC.stage1,SC.stage2,SC.stage3,SC.stage4,SC.stage5,SC.stage6,SC.stage7,SC.stage8][G.level]||SC.stage1; yalla(); } },
+  resume(){ { const c=G.char; player.look=LOOKS[c.look]; player.name=c.name; player.maxhp=c.hp||100; G.lives=2; G.score=Math.floor(G.score/2); G.tapes=2; G.calls=Math.max(G.calls,2); player.dead=false; player.hp=player.maxhp; player.state='jump'; player.air=true; player.z=110; player.inv=150; ents.includes(player)||ents.push(player); playMusic(LV.music); scene=[SC.stage1,SC.stage2,SC.stage3,SC.stage4,SC.stage5,SC.stage6,SC.stage7,SC.stage8,SC.stage9][G.level]||SC.stage1; yalla(); } },
   draw(){ stageDraw(true); ctx.fillStyle='rgba(0,0,0,.82)'; ctx.fillRect(0,0,W,H); const sec=Math.ceil(this.t/60);
     neonText('OFFLINE',W/2,24,'#ff3d5a',20); text('CONTINUE?',W/2,50,'#f4e7c8',9,'center');
     if(this.coin){ // the dinar drops into the slot
@@ -3825,6 +3841,7 @@ function stageDraw(noHud){
   if(LV.jannah){ for(const p of petals){ R(Math.round(p.x),Math.round(p.y),p.s,p.s,p.c); } if(chamber) chamberDraw(); }
   if(LV.nightmare){ nightmareDraw(); }
   if(LV.hell) hellDraw();
+  if(LV.lift) liftDraw();
   if(LV.club) clubFxOver();
   ctx.restore();
   if(LV.amor&&stageState==='play') amorClock();
