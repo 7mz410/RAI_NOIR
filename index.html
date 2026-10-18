@@ -2808,10 +2808,10 @@ SC.cheats={ i:0, enter(){ this.i=0; },
     text('CHEATS STAY ON UNTIL YOU SWITCH THEM OFF',W/2,H-12,'#4a7a56',5,'center',null); } };
 
 /* ---- SOUND ROOM — Acid Ponch fingerdrums the MPC strapped to a tattoo hipster's back ---- */
-const PADS=[['KICK','#ff5fa8'],['SNARE','#ff5fa8'],['HAT','#ff5fa8'],['CLAP','#ff5fa8'],
+const PADS=[['808 KICK','#ff5fa8'],['SNARE','#ff5fa8'],['HI HAT','#ff5fa8'],['OPEN HAT','#ff5fa8'],
   ['DUM','#ffb36a'],['TEK','#ffb36a'],['KA','#ffb36a'],['BENDIR','#ffb36a'],
   ['YALLA!','#5ff0ff'],['WARDA','#5ff0ff'],['ZIDANE','#5ff0ff'],['JUMP','#5ff0ff'],
-  ['ACID 303','#7dff8a'],['YOUYOU','#7dff8a'],['PULL UP','#7dff8a'],['RAÏ NOIR','#7dff8a']];
+  ['ACID 303','#7dff8a'],['YOUYOU','#7dff8a'],['808 BOOM','#7dff8a'],['RAÏ NOIR','#7dff8a']];
 const PADKEYS=['Digit1','Digit2','Digit3','Digit4','KeyQ','KeyW','KeyE','KeyR','KeyA','KeyS','KeyD','KeyF','KeyZ','KeyX','KeyC','KeyV'];
 const PADBUF={}; let padChop=null;
 function loadPadBufs(){ if(!AC) return; const L={yalla:'audio/yalla.mp3',warda:'audio/pads/warda.mp3',zidane:'audio/pads/zidane.mp3',jump:'audio/pads/jump.mp3',rainoir:'audio/pads/rainoir.mp3'};
@@ -2820,11 +2820,29 @@ function playBuf(k,delay=0,vol=1,choke=false){ const b=PADBUF[k]; if(!AC||!b||b=
 const ACIDN=[110,116.5,138.6,146.8,164.8,174.6,196,220,233.1,277.2]; let acidI=0;
 function acid(delay=0){ if(!AC) return; const t=AC.currentTime+delay; const f=ACIDN[[0,0,7,3,0,5,2,9,0,4][acidI++%10]]; const o=AC.createOscillator(); o.type='sawtooth'; o.frequency.setValueAtTime(f,t); const lp=AC.createBiquadFilter(); lp.type='lowpass'; lp.Q.value=14; lp.frequency.setValueAtTime(2600,t); lp.frequency.exponentialRampToValueAtTime(260,t+.22); const g=AC.createGain(); g.gain.setValueAtTime(.28,t); g.gain.exponentialRampToValueAtTime(.001,t+.26); o.connect(lp); lp.connect(g); g.connect(master); o.start(t); o.stop(t+.3); }
 function youyou(delay=0){ if(!AC) return; const t=AC.currentTime+delay; const o=AC.createOscillator(); o.type='triangle'; o.frequency.setValueAtTime(1250,t); o.frequency.linearRampToValueAtTime(1450,t+.9); const l=AC.createOscillator(); l.frequency.value=15; const lg=AC.createGain(); lg.gain.value=170; l.connect(lg); lg.connect(o.frequency); const g=AC.createGain(); g.gain.setValueAtTime(.001,t); g.gain.exponentialRampToValueAtTime(.16,t+.06); g.gain.setValueAtTime(.16,t+.75); g.gain.exponentialRampToValueAtTime(.001,t+1); o.connect(g); g.connect(master); o.start(t); l.start(t); o.stop(t+1.05); l.stop(t+1.05); }
+
+/* ---- ACID PONCH: 808 voices + a TB-303 that plays maqam (quarter tones included) — Charanjit Singh's 'Ten Ragas to a Disco Beat', but Arabic ---- */
+const MAQAM=[['HIJAZ',[0,1,4,5,7,8,10,12]],['BAYATI',[0,1.5,3,5,7,8,10,12]],['RAST',[0,2,3.5,5,7,9,10.5,12]],['SABA',[0,1.5,3,4,7,8,10,12]],['NAHAWAND',[0,2,3,5,7,8,11,12]]];
+let maqI=0, acidStep=0, acidLastF=0, openHatG=null;
+// 16 steps: [degree, octave, accent, slide]; null = rest
+const ACIDSEQ=[[0,0,1,0],[0,1,0,0],[1,0,0,1],[2,0,0,0],null,[4,0,1,0],[3,0,0,1],[2,0,0,0],[0,0,1,0],[0,1,0,0],[5,0,0,1],[4,0,0,0],[2,0,1,0],[1,0,0,1],[0,0,0,0],[7,0,1,0]];
+function k808(d=0){ if(!AC) return; const t=AC.currentTime+d, o=AC.createOscillator(), g=AC.createGain(); o.type='sine'; o.frequency.setValueAtTime(160,t); o.frequency.exponentialRampToValueAtTime(46,t+.09); g.gain.setValueAtTime(1,t); g.gain.exponentialRampToValueAtTime(.001,t+.55); o.connect(g); g.connect(master); o.start(t); o.stop(t+.6); noise(.012,4000,.25,'highpass',d); }
+function boom808(d=0,f=46){ if(!AC) return; const t=AC.currentTime+d, o=AC.createOscillator(), sh=AC.createWaveShaper(), g=AC.createGain(); const c=new Float32Array(256); for(let i=0;i<256;i++){ const x=i/128-1; c[i]=Math.tanh(2.2*x); } sh.curve=c; o.type='sine'; o.frequency.setValueAtTime(f*2.2,t); o.frequency.exponentialRampToValueAtTime(f,t+.07); g.gain.setValueAtTime(.9,t); g.gain.setValueAtTime(.8,t+.4); g.gain.exponentialRampToValueAtTime(.001,t+1.4); o.connect(sh); sh.connect(g); g.connect(master); o.start(t); o.stop(t+1.45); }
+function snare808(d=0){ noise(.18,1900,.3,'bandpass',d); tone(240,180,.07,'triangle',.3,d); noise(.05,6000,.18,'highpass',d); }
+function clap808(d=0){ for(const k of [0,.011,.022]) noise(.018,1300,.3,'bandpass',d+k); noise(.16,1200,.22,'bandpass',d+.033); }
+function hat808(d=0,open=false){ if(!AC) return; const t=AC.currentTime+d; if(openHatG){ try{ openHatG.gain.cancelScheduledValues(t); openHatG.gain.setTargetAtTime(0,t,.008); }catch(e){} openHatG=null; }
+  const b=AC.createBuffer(1,AC.sampleRate*.5,AC.sampleRate), ch=b.getChannelData(0); for(let i=0;i<ch.length;i++) ch[i]=Math.random()*2-1; const src=AC.createBufferSource(); src.buffer=b; const hp=AC.createBiquadFilter(); hp.type='highpass'; hp.frequency.value=7200; const bp=AC.createBiquadFilter(); bp.type='bandpass'; bp.frequency.value=10000; bp.Q.value=.8; const g=AC.createGain();
+  g.gain.setValueAtTime(open?.11:.07,t); g.gain.exponentialRampToValueAtTime(.001,t+(open?.42:.05)); src.connect(hp); hp.connect(bp); bp.connect(g); g.connect(master); src.start(t); src.stop(t+(open?.45:.07)); if(open) openHatG=g; }
+function tb303(step,d=0,spb=.125,cut=.5){ if(!AC) return; const st=ACIDSEQ[step%16]; if(!st) { acidLastF=0; return; } const [deg,oct,acc,slide]=st, sc=MAQAM[maqI][1]; const semi=sc[deg%8]+12*oct+(deg>=8?12:0); const f=73.42*Math.pow(2,semi/12); const t=AC.currentTime+d;
+  const o=AC.createOscillator(); o.type=step%8===7?'square':'sawtooth'; if(slide&&acidLastF){ o.frequency.setValueAtTime(acidLastF,t); o.frequency.exponentialRampToValueAtTime(f,t+spb*.6); } else o.frequency.setValueAtTime(f,t);
+  const lp=AC.createBiquadFilter(); lp.type='lowpass'; lp.Q.value=acc?22:16; const top=400+cut*2600+(acc?1400:0); lp.frequency.setValueAtTime(top,t); lp.frequency.exponentialRampToValueAtTime(140+cut*120,t+(acc?.16:.22));
+  const g=AC.createGain(), len=slide?spb*1.05:spb*.82; g.gain.setValueAtTime(acc?.62:.46,t); g.gain.setValueAtTime(acc?.55:.4,t+len*.8); g.gain.exponentialRampToValueAtTime(.001,t+len);
+  o.connect(lp); lp.connect(g); g.connect(master); o.start(t); o.stop(t+len+.02); acidLastF=f; }
 function padSound(i,d=0){ switch(i){
-  case 0: tone(150,40,.28,'sine',.75,d); noise(.02,3000,.15,'highpass',d); break;
-  case 1: noise(.16,1800,.5,'bandpass',d); tone(220,170,.08,'triangle',.22,d); break;
-  case 2: noise(.04,8000,.22,'highpass',d); break;
-  case 3: for(const k of [0,.012,.024]) noise(.02,1500,.4,'bandpass',d+k); noise(.14,1400,.3,'bandpass',d+.034); break;
+  case 0: k808(d); break;
+  case 1: snare808(d); break;
+  case 2: hat808(d,false); break;
+  case 3: hat808(d,true); break;
   case 4: tone(95,48,.32,'sine',.75,d); noise(.08,220,.4,'lowpass',d); break;
   case 5: noise(.05,3200,.42,'bandpass',d); tone(1100,700,.03,'square',.08,d); break;
   case 6: noise(.06,5200,.35,'highpass',d); tone(720,420,.04,'triangle',.16,d); break;
@@ -2833,24 +2851,29 @@ function padSound(i,d=0){ switch(i){
   case 9: playBuf('warda',d,1,true); break;
   case 10: playBuf('zidane',d,1,true); break;
   case 11: playBuf('jump',d,1,true); break;
-  case 12: acid(d); break;
+  case 12: tb303(acidStep++,d,60/(SC.sound&&SC.sound.bpm||120)/4,.55); break;
   case 13: youyou(d); break;
-  case 14: if(padChop){ try{ padChop.stop(); }catch(e){} padChop=null; } sfx('rewind'); break;
+  case 14: boom808(d); break;
   case 15: playBuf('rainoir',d,1,true); break; } }
 // chaabi groove for the BEAT button: 16 steps
 const GROOVE={4:[0,6,8,11],5:[4,10,12,14],6:[3,7,15],2:[2,6,10,14]};
 SC.sound={ cur:0, beat:false, bpm:112, lit:new Array(16).fill(0), hitT:0, ponchT:0, notes:[],
-  enter(){ this.cur=0; this.beat=false; this.lit.fill(0); this.notes=[]; unlockAudio(); loadPadBufs(); playMusic(null,{fade:40}); },
+  enter(){ this.cur=0; this.beat=false; this.mode=0; this.lit.fill(0); this.notes=[]; unlockAudio(); loadPadBufs(); playMusic(null,{fade:40}); },
   padRect(i){ const pw=40, ph=33, g=4, x0=W-8-4*pw-3*g, y0=26; return {x:x0+(i%4)*(pw+g), y:y0+Math.floor(i/4)*(ph+g), w:pw, h:ph}; },
   hit(i){ padSound(i); this.lit[i]=12; this.hitT=8; this.ponchT=8; this.side=!this.side; this.cur=i; const c=PADS[i][1]; this.notes.push({x:92+rnd(-10,10),y:120,t:0,c,s:['♪','♫','♬'][irnd(0,2)]}); if(i===8) this.notes.push({x:110,y:96,t:0,c:'#ffe066',s:'YALLA!'}); },
-  toggleBeat(){ this.beat=!this.beat; if(this.beat&&AC){ this.step=0; this.nextT=AC.currentTime+.06; } sfx('blip'); },
+  toggleBeat(){ this.mode=((this.mode||0)+1)%3; this.beat=this.mode>0; if(this.mode===2&&this.bpm<118) this.bpm=122; if(this.beat&&AC){ this.step=0; this.nextT=AC.currentTime+.06; } sfx('blip'); },
+  nextMaqam(){ maqI=(maqI+1)%MAQAM.length; sfx('select'); this.notes.push({x:92,y:100,t:0,c:'#7dff8a',s:MAQAM[maqI][0]}); },
   tapAt(x,y){ if(x<54&&y<20){ this.exit(); return; } for(let i=0;i<16;i++){ const r=this.padRect(i); if(x>=r.x&&x<r.x+r.w&&y>=r.y&&y<r.y+r.h){ this.hit(i); return; } }
-    if(y>H-26&&x<120) { this.toggleBeat(); return; } if(y>H-26&&x>=120&&x<150){ this.bpm=Math.max(80,this.bpm-4); sfx('blip'); return; } if(y>H-26&&x>=150&&x<180){ this.bpm=Math.min(160,this.bpm+4); sfx('blip'); return; } },
-  exit(){ this.beat=false; if(padChop){ try{ padChop.stop(); }catch(e){} padChop=null; } backMenu(); },
+    if(y>H-26&&x<120) { this.toggleBeat(); return; } if(y>H-40&&y<=H-26&&x<120){ this.nextMaqam(); return; } if(y>H-26&&x>=120&&x<150){ this.bpm=Math.max(80,this.bpm-4); sfx('blip'); return; } if(y>H-26&&x>=150&&x<180){ this.bpm=Math.min(160,this.bpm+4); sfx('blip'); return; } },
+  exit(){ this.beat=false; this.mode=0; if(padChop){ try{ padChop.stop(); }catch(e){} padChop=null; } backMenu(); },
   update(){ if(pressed.left) this.cur=(this.cur+15)%16; if(pressed.right) this.cur=(this.cur+1)%16; if(pressed.up) this.cur=(this.cur+12)%16; if(pressed.down) this.cur=(this.cur+4)%16;
-    if(pressed.a||pressed.k) this.hit(this.cur); if(pressed.y||pressed.start) this.toggleBeat(); if(pressed.b||pressed.pause){ this.exit(); return; }
+    if(pressed.a||pressed.k) this.hit(this.cur); if(pressed.y||pressed.start) this.toggleBeat(); if(pressed.c) this.nextMaqam(); if(pressed.b||pressed.pause){ this.exit(); return; }
     if(this.beat&&AC){ const spb=60/this.bpm/4; while(this.nextT<AC.currentTime+.12){ const d=Math.max(0,this.nextT-AC.currentTime), st=this.step;
-        for(const p in GROOVE) if(GROOVE[p].includes(st)) padSound(+p,d); if(st%2===1) padSound(2,d); this.step=(st+1)%16; this.nextT+=spb; } }
+        if(this.mode===2){ // RAGAS TO A DISCO BEAT, maqam edition
+          if(st%4===0) k808(d); if(st===4||st===12) { snare808(d); clap808(d); } if(st%4===2) hat808(d,true); else hat808(d,false); if(st===0&&(this.bar||0)%2===1) boom808(d,36.7);
+          const cut=.35+.35*Math.sin((this.bar||0)*.6+st*.05); tb303(st,d,spb,cut); this.cutV=cut; if(st===15) this.bar=(this.bar||0)+1; }
+        else { for(const p in GROOVE) if(GROOVE[p].includes(st)) padSound(+p,d); if(st%2===1) padSound(2,d); }
+        this.step=(st+1)%16; this.nextT+=spb; } }
     for(let i=0;i<16;i++) if(this.lit[i]) this.lit[i]--; if(this.hitT) this.hitT--; if(this.ponchT) this.ponchT--;
     for(const n of this.notes){ n.t++; n.y-=.8; n.x+=Math.sin(n.t*.15)*.6; } this.notes=this.notes.filter(n=>n.t<60); },
   draw(){ ctx.fillStyle='#0b0616'; ctx.fillRect(0,0,W,H);
@@ -2874,7 +2897,8 @@ SC.sound={ cur:0, beat:false, bpm:112, lit:new Array(16).fill(0), hitT:0, ponchT
       if(sel){ ctx.strokeStyle='#ffe066'; ctx.lineWidth=1; ctx.strokeRect(r.x-1.5,r.y-1.5,r.w+3,r.h+3); }
       text(l,r.x+r.w/2,r.y+r.h/2-3+(on?2:0),on?'#0b0616':c,5,'center',null); text(PADKEYS[i].replace('Digit','').replace('Key',''),r.x+r.w-3,r.y+r.h-9+(on?2:0),on?'#0b0616':'#8a8e98',4,'right',null); });
     // transport
-    const by=H-22; R(4,by,110,16,this.beat?'#7dff8a':'#2a1640'); text(this.beat?'■ BEAT ON':'▶ CHAABI BEAT',59,by+5,this.beat?'#0b0616':'#7dff8a',6,'center',null);
+    const by=H-22; R(4,by,110,16,this.beat?'#7dff8a':'#2a1640'); text(this.mode===1?'▶ CHAABI · NEXT ▶':this.mode===2?'■ ACID RAGA ON':'▶ BEAT',59,by+5,this.beat?'#0b0616':'#7dff8a',6,'center',null);
+    R(4,by-26,110,12,'#1a2a1a'); text('MAQAM: '+MAQAM[maqI][0]+' (C)',59,by-23,'#7dff8a',5,'center',null); if(this.mode===2){ text('303 ▸ '+MAQAM[maqI][0]+' · 808 · RAGAS TO A DISCO BEAT',sw/2,34,'#ffe066',4,'center',null); }
     R(122,by,26,16,'#2a1640'); text('−',135,by+4,'#5ff0ff',8,'center',null); R(152,by,26,16,'#2a1640'); text('+',165,by+4,'#5ff0ff',8,'center',null);
     text(this.bpm+' BPM',W-8-88,H-16,'#ffe066',6,'center',null);
     text('TAP PADS · KEYS 1-4 Q-R A-F Z-V',W-8-88,H-7,'#6a5a8a',4,'center',null);
