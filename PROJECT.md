@@ -114,3 +114,11 @@ Use per task:
 - `run`: launch and drive the game locally.
 
 Skip: threejs-webgl, gsap-scrolltrigger, scroll-reveal-libraries and modern-web-design (wrong fit for a canvas game), and replica-recon/architect/brand (this isn't a clone).
+
+## Story continuity (Oct 18 pass)
+- Oran: K7 leads from the first step (stage card), Cheb is the buddy. No fighting until Retro's shop scene + haggle; the ambush starts when they step out. Retro sends Cheb to find the rare K7s before "the man from Brussels" does.
+- Currency: Oran = dinar (DA). Cairo vendors joke about it.
+- Cairo → Marseille: Aicha takes Cheb to her city; the ferry to Oran costs more than he has left, so the Yalla Soundsystem gig pays his way home.
+- Marseille (Le Décolonial): el.7mz mural at the entrance (drop the real file at assets/art/mural_7mz.png), booker in red jeans, Nadia's last shift at the staff exit gives the Carte de Séjour tape. Hipster one-liners only play in Marseille.
+- Boat: Benghazi → Oran, only the crew aboard.
+- Credits: CAMEOS section lists every real artist/parody; fates include Retro, the man from Brussels, Le Décolonial and Nadia.
