@@ -122,3 +122,9 @@ Skip: threejs-webgl, gsap-scrolltrigger, scroll-reveal-libraries and modern-web-
 - Marseille (Le Décolonial): el.7mz mural at the entrance (drop the real file at assets/art/mural_7mz.png), booker in red jeans, Nadia's last shift at the staff exit gives the Carte de Séjour tape. Hipster one-liners only play in Marseille.
 - Boat: Benghazi → Oran, only the crew aboard.
 - Credits: CAMEOS section lists every real artist/parody; fates include Retro, the man from Brussels, Le Décolonial and Nadia.
+- Consent: Retro Cassetta said yes (Oct 18). Wililah and 3phaz said yes earlier. SHAYTAN.EXE design: Hamza decides (no real politician's face).
+
+## Short-attention-span pass (Oct 18)
+- Instant start: tap → Sawna logo (~2s) → title. The intro videos/cutscene still play on title idle (40s).
+- Every stage clear builds a 9:16 poster (hero sprite, RAÏ NOIR chrome type, the line of the level, score, hit chain). Y or tap = share (native share sheet, or save-image fallback).
+- Hit chain counter + hype words at 5/10/15/20/30/50/80 hits (WALLAH! YA SALAM! SAHHA! MABROUK! 3ASSAL! LEGEND, KHOYA! MAMA SAW THAT.) with hit-stop and shake.
