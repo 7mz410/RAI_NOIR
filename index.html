@@ -62,6 +62,9 @@ body.cinemode #touch .dpad,body.cinemode #touch .round,body.cinemode #stick{visi
   #touch{position:absolute;left:0;right:0;bottom:0;top:0;width:100%;pointer-events:none;padding:0 calc(4px + var(--safe)) 0 calc(4px + var(--safe));box-sizing:border-box;align-items:center}
   #touch .dpad,#touch .btns{pointer-events:auto;opacity:.95;backdrop-filter:blur(2px)}
   #touch .dpad{grid-template-columns:repeat(3,36px);grid-template-rows:repeat(3,36px);gap:2px;padding:4px}
+  /* 36px keys keep their look; the hit area grows to 44px */
+  #touch .dpad .tb{position:relative}
+  #touch .dpad .tb::after{content:"";position:absolute;inset:-4px}
   #touch .btns{grid-template-columns:repeat(2,50px);gap:4px;padding:5px}
   #touch .round{width:50px;height:50px;font-size:9px}
   #touch .tb.small{height:24px}
@@ -75,7 +78,7 @@ body.cinemode #touch .dpad,body.cinemode #touch .round,body.cinemode #stick{visi
   #touch .btns{margin-left:auto}
   #touch .btns{grid-template-columns:repeat(2,64px);gap:7px;padding:7px;border-radius:22px}
   #touch .round{width:64px;height:64px;font-size:10px}
-  #touch .tb.small{height:30px;font-size:10px}
+  #touch .tb.small{height:44px;font-size:10px}
   canvas{box-shadow:0 0 0 2px #241633, 0 0 26px rgba(255,61,139,.22)}
 }
 #stick{display:none;position:fixed;left:0;top:0;bottom:0;width:48vw;z-index:3;pointer-events:none;touch-action:none}
@@ -98,7 +101,7 @@ body.cinemode #touch .dpad,body.cinemode #touch .round,body.cinemode #stick{visi
 .tb{font-family:var(--pixel);font-size:10px;color:var(--chrome);background:#24163a;border:2px solid #4a3470;border-radius:10px;touch-action:none;display:flex;align-items:center;justify-content:center;padding:0;-webkit-tap-highlight-color:transparent}
 .tb:active,.tb.on{background:var(--neon);border-color:#ffd0e3;color:#1a0b14}
 .round{border-radius:50%;width:62px;height:62px}
-.small{height:30px;border-radius:15px;font-size:7px}
+.small{height:44px;border-radius:15px;font-size:7px}
 button:focus-visible,canvas:focus-visible{outline:2px solid var(--mint);outline-offset:3px}
 </style>
 
@@ -252,7 +255,7 @@ function pollPad(){
 
 /* ---------------- audio ---------------- */
 let AC=null, master=null, NB=null;
-const music={}; let curMusic=null, musicVol=OPT.mus/10, duckT=0, musicDuck=1;
+let curMusic=null, musicVol=OPT.mus/10, duckT=0, musicDuck=1;
 const DECK=[new Audio(),new Audio()]; DECK.forEach(a=>a.addEventListener('ended',()=>{ if(a===DECK[deckI]) onTrackEnd(); })); DECK.forEach(a=>{a.preload='auto'; a.loop=true; a.volume=0;}); let deckI=0, fadeJobs=[], audioUnlocked=false;
 function unlockDecks(){ if(audioUnlocked) return; audioUnlocked=true; for(const a of DECK){ if(a.src) continue; a.src='audio/yalla.mp3'; a.loop=false; a.muted=true; a.play().then(()=>{ if(/yalla\.mp3$/.test(a.src)){ a.pause(); a.loop=true; } a.muted=false; }).catch(()=>{ a.muted=false; }); } }
 let audioBlocked=false, bgmKicked=false, pendingMusic=null;
@@ -289,7 +292,6 @@ function unlockAudio(){
   if(AC&&AC.state!=='running') AC.resume();
   const cur=DECK[deckI]; if(curMusic&&cur.paused&&cur.src) cur.play().catch(()=>{});
 }
-function preloadMusic(){ for(const n of ['rainoir','zizou','zomby','voodoo','mumya']){ if(!music[n]){ const a=music[n]=new Audio('audio/'+n+'.mp3?m=3'); a.preload='auto'; a.load(); } } }
 function playMusic(name,opts={}){
   if(opts.seek!=null) opts.restart=true;
   if(curMusic===name&&!opts.restart){ const a=DECK[deckI]; if(opts.loop!=null) a.loop=opts.loop; if(a.paused&&a.src) a.play().catch(()=>{}); return; }
@@ -2694,7 +2696,7 @@ function drawSawna(t,shine){ const im=IMG['ui/sawna_logo']; ctx.fillStyle='#fff'
   g.imageSmoothingEnabled=true; g.drawImage(im,x,y,w,h);
   if(shine){ const sx=x-30+t*7; if(sx<x+w+40){ g.save(); g.globalCompositeOperation='source-atop'; g.fillStyle='rgba(255,255,255,.92)'; g.beginPath(); g.moveTo(sx,y); g.lineTo(sx+16,y); g.lineTo(sx-4,y+h); g.lineTo(sx-20,y+h); g.fill(); g.restore(); } }
   ctx.drawImage(L,0,0); return {y,h}; }
-SC.boot={ enter(){ IMGS_READY.then(()=>{ preloadMusic(); prefetchMusic(['rainoir','zizou']); if(TAPEV.intro_cheb) TAPEV.intro_cheb.preload='auto'; }); }, update(){ if(pressed.start||pressed.a||pressed.b||pressed.k||pressed.y){ unlockAudio(); playBootSnd(); scene=SC.sawna; SC.sawna.enter(); } },
+SC.boot={ enter(){ IMGS_READY.then(()=>{ prefetchMusic(['rainoir','zizou']); if(TAPEV.intro_cheb) TAPEV.intro_cheb.preload='auto'; }); }, update(){ if(pressed.start||pressed.a||pressed.b||pressed.k||pressed.y){ unlockAudio(); playBootSnd(); scene=SC.sawna; SC.sawna.enter(); } },
   draw(){ const r=drawSawna(0,false); if(frame%60<40) text('▶ PRESS START',W/2,r.y+r.h+26,'#0a5bb0',7,'center',null); text('SOUND ON',W/2,H-16,'#9aa6b8',5,'center',null); text('LOADING… INSHALGORITHM',W/2,H-8,'#c3cad6',4,'center',null); } };
 SC.title={ t:0, ci:0, mi:0, menu:false, kc:[], enter(){ this.t=0; this.menu=!!this.keepMenu; this.keepMenu=0; this.ci=Math.min(this.ci,charsAvail()-1); if(curMusic!=='zizou') playMusic('zizou',{fade:50}); },
   activate(){ const id=MENU[this.mi].id;
@@ -2752,13 +2754,14 @@ SC.title={ t:0, ci:0, mi:0, menu:false, kc:[], enter(){ this.t=0; this.menu=!!th
     if(!this.menu){ if(frame%60<40) text(tr('PRESS START'),W/2,by-13,'#ffe066',8,'center'); if(!this.konT) text(tr('FINISH JANNAH.EXE = FREE SAWNA DOWNLOAD'),W/2,by-23,'#7dff8a',5,'center'); const b=OPTBTN; R(b.x,b.y,b.w,b.h,'rgba(8,4,18,.85)'); ctx.strokeStyle=frame%40<20?'#ff5fa8':'#7a2a5a'; ctx.lineWidth=1; ctx.strokeRect(b.x+.5,b.y+.5,b.w-1,b.h-1); text('⚙ OPTIONS',b.x+b.w/2,b.y+4,'#ffe066',5,'center',null); } else drawMenu(this);
     if(this.konT) text('CHEATS UNLOCKED · HABIBI CODE',W/2,by-24,'#7dff8a',6,'center');
     { // language picker — loud enough to find on a phone
-      const lw=110, lx=4, ly=4; R(lx,ly,lw,13,'rgba(8,4,18,.85)'); ctx.strokeStyle=frame%40<20?'#5ff0ff':'#2a6a7a'; ctx.lineWidth=1; ctx.strokeRect(lx+.5,ly+.5,lw-1,12);
-      NOTR=true; text('▲▼',lx+6,ly+4,'#ffe066',5,'left',null);
-      text('EN',lx+20,ly+4,LANG==='en'?'#ffe066':'#6a5a8a',6,'left',null); text('FR',lx+46,ly+4,LANG==='fr'?'#ffe066':'#6a5a8a',6,'left',null); text('عربي',lx+lw-8,ly+2,LANG==='ar'?'#ffe066':'#6a5a8a',8,'right',null); NOTR=false; }
+      // stacked down the left edge, so it stays clear of the logo (which starts at x 85)
+      const lw=58, lx=4, ly=4, lh=44; R(lx,ly,lw,lh,'rgba(8,4,18,.85)'); ctx.strokeStyle=frame%40<20?'#5ff0ff':'#2a6a7a'; ctx.lineWidth=1; ctx.strokeRect(lx+.5,ly+.5,lw-1,lh-1);
+      NOTR=true; text('▲▼',lx+lw/2,ly+4,'#ffe066',5,'center',null);
+      text('EN',lx+8,ly+14,LANG==='en'?'#ffe066':'#6a5a8a',6,'left',null); text('FR',lx+8,ly+24,LANG==='fr'?'#ffe066':'#6a5a8a',6,'left',null); text('عربي',lx+lw-6,ly+31,LANG==='ar'?'#ffe066':'#6a5a8a',8,'right',null); NOTR=false; }
     text('v'+AV,W-6,H-10,'#6a5a8a',5,'right',null); if(!HAS2||!IMG['spr/atlas2']){ text('SPRITES NOT LOADED — RELOAD THE PAGE',W/2,H-44,'#ff3d5a',6,'center'); } text('HI '+String(HI).padStart(7,'0'),W-6,4,'#5ff0ff',6,'right'); } };
 SC.intro=cineScene(CINE.intro,'rainoir',()=>go(SC.title));
 const MENU=[{id:'scores',l:'HIGH SCORES'},{id:'vault',l:'SAWNA VAULT'},{id:'gta',l:'GTA: ORAN (DEMO)'},{id:'moves',l:'MOVE LIST'},{id:'sound',l:'SOUND ROOM'},{id:'k7',l:'K7 COLLECTION'},{id:'options',l:'SETTINGS'},{id:'cheats',l:'CHEATS'},{id:'credits',l:'CREDITS · SAWNA'},{id:'back',l:'◀ BACK'}];
-const OPTBTN={x:W-74,y:16,w:68,h:14};
+const OPTBTN={x:W-64,y:16,w:60,h:14};
 function menuRect(){ return {x:W-156,y:28,w:148,rh:MENU.length>8?14:16}; }
 function backMenu(){ SC.title.keepMenu=1; go(SC.title); }
 function backBtn(){ R(4,4,46,13,'rgba(8,4,18,.85)'); ctx.strokeStyle='#5ff0ff'; ctx.lineWidth=1; ctx.strokeRect(4.5,4.5,45,12); text('◀ BACK',27,7,'#5ff0ff',5,'center',null); }
@@ -3065,7 +3068,7 @@ SC.sound={ cur:0, beat:false, bpm:112, lit:new Array(16).fill(0), hitT:0, ponchT
     const beatOn=this.beat&&AC&&((this.step+15)%4===0); const sw=W-190;
     for(let k=0;k<6;k++){ ctx.fillStyle='rgba('+(k%2?'255,61,139':'95,240,255')+','+(beatOn?.14:.06)+')'; ctx.beginPath(); ctx.moveTo(20+k*30,0); ctx.lineTo(k*30-10,196); ctx.lineTo(k*30+50,196); ctx.closePath(); ctx.fill(); }
     R(0,196,sw,H-196,'#1a0f2a'); R(0,196,sw,1,'#ff3d8b'); for(let x=0;x<sw;x+=16) R(x,197,1,H-197,'#2a1a40');
-    chromeText('SOUND ROOM',sw/2,6,10); backBtn(); text('ACID PONCH ON THE MPC',sw/2,24,'#7dff8a',5,'center',null);
+    chromeText('SOUND ROOM',(54+sw)/2,6,10); backBtn(); text('ACID PONCH ON THE MPC',(54+sw)/2,24,'#7dff8a',5,'center',null);
     // the carrier: a tattoo hipster, MPC strapped to his back
     const carrier={kind:'enemy',type:'tote',T:ETYPES.tote,look:LOOKS[ETYPES.tote.look],dir:1,sc:K*.95,x:118,y:196,z:0,state:this.hitT>4?'hurt':'idle',anim:frame,team:1};
     const ponch={look:LOOKS.ponch,dir:1,sc:K*.95,x:80,y:196,z:0,state:this.ponchT?(this.side?'jab':'cross'):'idle',anim:frame,kind:'player'};
