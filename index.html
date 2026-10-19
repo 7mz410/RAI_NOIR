@@ -252,7 +252,7 @@ function pollPad(){
 
 /* ---------------- audio ---------------- */
 let AC=null, master=null, NB=null;
-const music={}; let curMusic=null, musicVol=OPT.mus/10, duckT=0, musicDuck=1;
+let curMusic=null, musicVol=OPT.mus/10, duckT=0, musicDuck=1;
 const DECK=[new Audio(),new Audio()]; DECK.forEach(a=>a.addEventListener('ended',()=>{ if(a===DECK[deckI]) onTrackEnd(); })); DECK.forEach(a=>{a.preload='auto'; a.loop=true; a.volume=0;}); let deckI=0, fadeJobs=[], audioUnlocked=false;
 function unlockDecks(){ if(audioUnlocked) return; audioUnlocked=true; for(const a of DECK){ if(a.src) continue; a.src='audio/yalla.mp3'; a.loop=false; a.muted=true; a.play().then(()=>{ if(/yalla\.mp3$/.test(a.src)){ a.pause(); a.loop=true; } a.muted=false; }).catch(()=>{ a.muted=false; }); } }
 let audioBlocked=false, bgmKicked=false, pendingMusic=null;
@@ -289,7 +289,6 @@ function unlockAudio(){
   if(AC&&AC.state!=='running') AC.resume();
   const cur=DECK[deckI]; if(curMusic&&cur.paused&&cur.src) cur.play().catch(()=>{});
 }
-function preloadMusic(){ for(const n of ['rainoir','zizou','zomby','voodoo','mumya']){ if(!music[n]){ const a=music[n]=new Audio('audio/'+n+'.mp3?m=3'); a.preload='auto'; a.load(); } } }
 function playMusic(name,opts={}){
   if(opts.seek!=null) opts.restart=true;
   if(curMusic===name&&!opts.restart){ const a=DECK[deckI]; if(opts.loop!=null) a.loop=opts.loop; if(a.paused&&a.src) a.play().catch(()=>{}); return; }
@@ -2694,7 +2693,7 @@ function drawSawna(t,shine){ const im=IMG['ui/sawna_logo']; ctx.fillStyle='#fff'
   g.imageSmoothingEnabled=true; g.drawImage(im,x,y,w,h);
   if(shine){ const sx=x-30+t*7; if(sx<x+w+40){ g.save(); g.globalCompositeOperation='source-atop'; g.fillStyle='rgba(255,255,255,.92)'; g.beginPath(); g.moveTo(sx,y); g.lineTo(sx+16,y); g.lineTo(sx-4,y+h); g.lineTo(sx-20,y+h); g.fill(); g.restore(); } }
   ctx.drawImage(L,0,0); return {y,h}; }
-SC.boot={ enter(){ IMGS_READY.then(()=>{ preloadMusic(); prefetchMusic(['rainoir','zizou']); if(TAPEV.intro_cheb) TAPEV.intro_cheb.preload='auto'; }); }, update(){ if(pressed.start||pressed.a||pressed.b||pressed.k||pressed.y){ unlockAudio(); playBootSnd(); scene=SC.sawna; SC.sawna.enter(); } },
+SC.boot={ enter(){ IMGS_READY.then(()=>{ prefetchMusic(['rainoir','zizou']); if(TAPEV.intro_cheb) TAPEV.intro_cheb.preload='auto'; }); }, update(){ if(pressed.start||pressed.a||pressed.b||pressed.k||pressed.y){ unlockAudio(); playBootSnd(); scene=SC.sawna; SC.sawna.enter(); } },
   draw(){ const r=drawSawna(0,false); if(frame%60<40) text('▶ PRESS START',W/2,r.y+r.h+26,'#0a5bb0',7,'center',null); text('SOUND ON',W/2,H-16,'#9aa6b8',5,'center',null); text('LOADING… INSHALGORITHM',W/2,H-8,'#c3cad6',4,'center',null); } };
 SC.title={ t:0, ci:0, mi:0, menu:false, kc:[], enter(){ this.t=0; this.menu=!!this.keepMenu; this.keepMenu=0; this.ci=Math.min(this.ci,charsAvail()-1); if(curMusic!=='zizou') playMusic('zizou',{fade:50}); },
   activate(){ const id=MENU[this.mi].id;
