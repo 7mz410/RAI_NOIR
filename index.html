@@ -265,7 +265,7 @@ let audioBlocked=false, bgmKicked=false, pendingMusic=null;
 const TAPEV={}, TAPEERR={};
 function mkTape(name,pre){ const v=document.createElement('video'); v.preload=pre; v.playsInline=true; v.setAttribute('playsinline',''); v.setAttribute('webkit-playsinline',''); v.crossOrigin='anonymous';
   v.addEventListener('error',()=>{ TAPEERR[name]=true; }); v.src=(v.canPlayType('video/mp4; codecs="avc1.42E01E, mp4a.40.2"')?'assets/video/'+name+'.mp4':'assets/video/'+name+'.webm')+'?v=2'; TAPEV[name]=v; return v; }
-mkTape('intro_cheb','metadata'); mkTape('intro_amor','metadata'); mkTape('outro_cheb','metadata'); mkTape('oran_tape','metadata'); mkTape('bloopers','metadata');
+mkTape('intro_cheb','metadata'); mkTape('intro_amor','metadata'); mkTape('outro_cheb','metadata'); mkTape('oran_tape','metadata'); mkTape('bloopers','none'); // ponytail: bloopers.mp4 isn't in the repo yet; 'none' skips the 404 at boot
 let TAPE=TAPEV.intro_cheb, tapeName='intro_cheb';
 function tapeUse(name){ tapeName=name; TAPE=TAPEV[name]; }
 function tapeAvail(){ return !TAPEERR[tapeName]; }
@@ -2865,7 +2865,7 @@ SC.vault={ i:0, enter(){ this.i=0; },
   update(){ const n=VAULT.length; if(pressed.up){ this.i=(this.i+n-1)%n; sfx('blip'); } if(pressed.down){ this.i=(this.i+1)%n; sfx('blip'); } if(pressed.b||pressed.start||pressed.pause) backMenu(); },
   tapAt(x,y){ if(x<54&&y<20){ backMenu(); return; } const i=Math.floor((y-35)/16); if(i>=0&&i<VAULT.length){ this.i=i; sfx('blip'); } },
   draw(){ ctx.fillStyle='#0b0616'; ctx.fillRect(0,0,W,H); chromeText('SAWNA VAULT',W/2,6,13); backBtn(); const got=VAULT.filter(v=>vaultHas(v[0])).length; text(got+' / '+VAULT.length+' '+tr('UNLOCKED'),W/2,28,'#8a7fa3',5,'center',null);
-    VAULT.forEach(([id,cond,rew],i)=>{ const y=38+i*16, ok=vaultHas(id), sel=i===this.i; R(20,y-3,W-40,14,sel?'#2a1640':'#140a22'); if(sel){ ctx.strokeStyle=frame%20<10?'#ffe066':'#ff5fa8'; ctx.strokeRect(20.5,y-2.5,W-41,13); } text(ok?'✓':'🔒',30,y,ok?'#7dff8a':'#6a5a8a',6,'center',null); text(id==='secret'&&!ok?'???':cond,42,y,ok?'#f4e7c8':'#8a7fa3',6,'left',null); text(ok?'UNLOCKED':'LOCKED',W-26,y+1,ok?'#7dff8a':'#4a3a5a',5,'right',null); });
+    VAULT.forEach(([id,cond,rew],i)=>{ const y=36+i*14, ok=vaultHas(id), sel=i===this.i; R(20,y-3,W-40,13,sel?'#2a1640':'#140a22'); if(sel){ ctx.strokeStyle=frame%20<10?'#ffe066':'#ff5fa8'; ctx.strokeRect(20.5,y-2.5,W-41,12); } text(ok?'✓':'🔒',30,y,ok?'#7dff8a':'#6a5a8a',6,'center',null); text(id==='secret'&&!ok?'???':cond,42,y,ok?'#f4e7c8':'#8a7fa3',6,'left',null); text(ok?'UNLOCKED':'LOCKED',W-26,y+1,ok?'#7dff8a':'#4a3a5a',5,'right',null); });
     const [id,cond,rew]=VAULT[this.i], ok=vaultHas(id); R(20,H-40,W-40,30,'#1a0d2a'); ctx.strokeStyle='#3a2a5a'; ctx.strokeRect(20.5,H-39.5,W-41,29);
     text(ok?rew:(id==='secret'?'???':tr('PRIZE: HIDDEN UNTIL YOU GET IT')),W/2,H-34,ok?'#ffe066':'#6a5a8a',6,'center',null);
     if(ok&&['hard','score','jokes','secret'].includes(id)) text(tr('YOUR CODE')+': '+vaultCode(id)+' · DM @SAWNA.RECORDS',W/2,H-21,'#7dff8a',5,'center',null); else text(tr('EVERY LEVEL HIDES SOMETHING. PLAY AGAIN.'),W/2,H-21,'#5ff0ff',5,'center',null); } };
@@ -3935,7 +3935,7 @@ function stageDraw(noHud){
   ctx.save(); if(shake>0) ctx.translate(Math.round(rnd(-shake,shake)),Math.round(rnd(-shake,shake)));
   if(stageState==='chat'&&chat){ ctx.restore(); chatDraw(); return; }
   if(stageState==='drive'&&DRV){ driveDraw(); ctx.restore(); if(flashA>0){ ctx.fillStyle='rgba(255,255,255,'+clamp(flashA,0,1)*.7+')'; ctx.fillRect(0,0,W,H); } if(!noHud) drawHUD(); if(msg&&msg.small){ const a=clamp(msg.t/20,0,1); ctx.globalAlpha=a; R(0,96,W,20,'rgba(0,0,0,.65)'); text(msg.small,W/2,102,'#ff5fa8',7,'center'); ctx.globalAlpha=1; } if(paused) pauseDraw(); return; }
-  if(BG.sky) ctx.drawImage(BG.sky,0,0);
+  if(!BG){ ctx.restore(); return; } if(BG.sky) ctx.drawImage(BG.sky,0,0);
   if(BG.far){ ctx.drawImage(BG.far,-Math.round(camX*BG.farRate),0); }
   if(LV&&LV.boat){ for(let i=0;i<26;i++){ const y=116+((i*13)%32), x=((i*71+frame*(0.3+(i%3)*.2))%(W+20))-10; if((frame+i*7)%40<26) R(x,y,2+(i%3),1,i%2?'#ffd27a':'#ff8ab8'); } R(255,113,22,34,'rgba(255,170,90,.18)'); ctx.translate(0,Math.round(Math.sin(frame*.035)*1.4)); }
   ctx.drawImage(BG.mid,Math.round(camX),0,W,224,0,0,W,224);
