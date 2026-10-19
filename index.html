@@ -2755,13 +2755,14 @@ SC.title={ t:0, ci:0, mi:0, menu:false, kc:[], enter(){ this.t=0; this.menu=!!th
     if(!this.menu){ if(frame%60<40) text(tr('PRESS START'),W/2,by-13,'#ffe066',8,'center'); if(!this.konT) text(tr('FINISH JANNAH.EXE = FREE SAWNA DOWNLOAD'),W/2,by-23,'#7dff8a',5,'center'); const b=OPTBTN; R(b.x,b.y,b.w,b.h,'rgba(8,4,18,.85)'); ctx.strokeStyle=frame%40<20?'#ff5fa8':'#7a2a5a'; ctx.lineWidth=1; ctx.strokeRect(b.x+.5,b.y+.5,b.w-1,b.h-1); text('⚙ OPTIONS',b.x+b.w/2,b.y+4,'#ffe066',5,'center',null); } else drawMenu(this);
     if(this.konT) text('CHEATS UNLOCKED · HABIBI CODE',W/2,by-24,'#7dff8a',6,'center');
     { // language picker — loud enough to find on a phone
-      const lw=110, lx=4, ly=4; R(lx,ly,lw,13,'rgba(8,4,18,.85)'); ctx.strokeStyle=frame%40<20?'#5ff0ff':'#2a6a7a'; ctx.lineWidth=1; ctx.strokeRect(lx+.5,ly+.5,lw-1,12);
-      NOTR=true; text('▲▼',lx+6,ly+4,'#ffe066',5,'left',null);
-      text('EN',lx+20,ly+4,LANG==='en'?'#ffe066':'#6a5a8a',6,'left',null); text('FR',lx+46,ly+4,LANG==='fr'?'#ffe066':'#6a5a8a',6,'left',null); text('عربي',lx+lw-8,ly+2,LANG==='ar'?'#ffe066':'#6a5a8a',8,'right',null); NOTR=false; }
+      // stacked down the left edge, so it stays clear of the logo (which starts at x 85)
+      const lw=58, lx=4, ly=4, lh=44; R(lx,ly,lw,lh,'rgba(8,4,18,.85)'); ctx.strokeStyle=frame%40<20?'#5ff0ff':'#2a6a7a'; ctx.lineWidth=1; ctx.strokeRect(lx+.5,ly+.5,lw-1,lh-1);
+      NOTR=true; text('▲▼',lx+lw/2,ly+4,'#ffe066',5,'center',null);
+      text('EN',lx+8,ly+14,LANG==='en'?'#ffe066':'#6a5a8a',6,'left',null); text('FR',lx+8,ly+24,LANG==='fr'?'#ffe066':'#6a5a8a',6,'left',null); text('عربي',lx+lw-6,ly+31,LANG==='ar'?'#ffe066':'#6a5a8a',8,'right',null); NOTR=false; }
     text('v'+AV,W-6,H-10,'#6a5a8a',5,'right',null); if(!HAS2||!IMG['spr/atlas2']){ text('SPRITES NOT LOADED — RELOAD THE PAGE',W/2,H-44,'#ff3d5a',6,'center'); } text('HI '+String(HI).padStart(7,'0'),W-6,4,'#5ff0ff',6,'right'); } };
 SC.intro=cineScene(CINE.intro,'rainoir',()=>go(SC.title));
 const MENU=[{id:'scores',l:'HIGH SCORES'},{id:'vault',l:'SAWNA VAULT'},{id:'gta',l:'GTA: ORAN (DEMO)'},{id:'moves',l:'MOVE LIST'},{id:'sound',l:'SOUND ROOM'},{id:'k7',l:'K7 COLLECTION'},{id:'options',l:'SETTINGS'},{id:'cheats',l:'CHEATS'},{id:'credits',l:'CREDITS · SAWNA'},{id:'back',l:'◀ BACK'}];
-const OPTBTN={x:W-74,y:16,w:68,h:14};
+const OPTBTN={x:W-64,y:16,w:60,h:14};
 function menuRect(){ return {x:W-156,y:28,w:148,rh:MENU.length>8?14:16}; }
 function backMenu(){ SC.title.keepMenu=1; go(SC.title); }
 function backBtn(){ R(4,4,46,13,'rgba(8,4,18,.85)'); ctx.strokeStyle='#5ff0ff'; ctx.lineWidth=1; ctx.strokeRect(4.5,4.5,45,12); text('◀ BACK',27,7,'#5ff0ff',5,'center',null); }
