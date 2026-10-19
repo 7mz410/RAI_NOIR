@@ -130,3 +130,9 @@ Skip: threejs-webgl, gsap-scrolltrigger, scroll-reveal-libraries and modern-web-
 - Instant start: tap → Sawna logo (~2s) → title. The intro videos/cutscene still play on title idle (40s).
 - Every stage clear builds a 9:16 poster (hero sprite, RAÏ NOIR chrome type, the line of the level, score, hit chain). Y or tap = share (native share sheet, or save-image fallback).
 - Hit chain counter + hype words at 5/10/15/20/30/50/80 hits (WALLAH! YA SALAM! SAHHA! MABROUK! 3ASSAL! LEGEND, KHOYA! MAMA SAW THAT.) with hit-stop and shake.
+
+## Flow pass (Oct 19): fewer popups, clearer story
+- Rule: a story beat is at most two short lines; a cutscene is at most ~3 text panels. The art and backgrounds carry the rest.
+- Removed: kiosk skit, El M3alim taunt, robot-camel line, Marseille radio (couscous + Warda), volunteer door, YSS mic skit (the deck moment covers it), Aldi's solidarity line, Aldi in hell #1, boat radio #1, intro REWIND/FAMOUS panels, Marseille 'authentic diaspora'/Edward Said panels, Mama phone panel after the raid, the meta chat panel, Khalil's Benghazi panel, the voicemail replay, hell's 'seven billion users' panel.
+- Fixed: SKITS had two `cairo:` keys, so the Spiderman/TIRIRIRI skit never played. Merged.
+- Total story text went from ~1,900 to ~1,150 words. Changed lines still need FR/AR (Hamza).

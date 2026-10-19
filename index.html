@@ -1652,67 +1652,49 @@ function bossSay(e,s){ fx.push({k:'txt',x:e.x,y:e.y-88,s,c:'#ff9ec7',life:130});
 
 /* ---------------- level setup ---------------- */
 const SKITS={
+  // story beats: max two short lines each, the art does the rest
   oran:[
-    {at:330,img:'story/vv_bin',who:'CHEB K7',meet:'k7',intro:['RETRO CASSETTA','SAWNA REC · ORAN · KEEPER OF THE TAPES'],line:"MORE ARE COMING. IN HERE, WLIDI. YALLA!"},
-    {at:335,img:'story/vv_bin',who:'RETRO CASSETTA',line:"HIDING IN MY SHOP AGAIN, K7? A HIPSTER FROM BRUSSELS IS BUYING ALL OUR OLD TAPES."},
-    {at:340,img:'story/vv_bin',who:'RETRO CASSETTA',haggle:1,line:"FIND MY RARE K7S BEFORE HE DOES. ...THIS ONE? LET'S TALK."},
+    {at:330,img:'story/vv_bin',who:'CHEB K7',meet:'k7',intro:['RETRO CASSETTA','SAWNA REC · ORAN · KEEPER OF THE TAPES'],line:"MORE ARE COMING. IN HERE, WLIDI!"},
+    {at:340,img:'story/vv_bin',who:'RETRO CASSETTA',haggle:1,line:"A HIPSTER FROM BRUSSELS BUYS UP ALL OUR OLD TAPES. FIND MY RARE K7S FIRST. ...THIS ONE? LET'S TALK."},
     {at:700,img:'story/kitchen_tv',who:'MAMA (FROM THE BALCONY)',line:"WLIDI, YOU'RE THIN. EAT. AND BE A DOCTOR."},
     {at:720,img:'story/kitchen_tv',who:'CHEB',line:'AFTER, MAMA.'},
-    {at:1560,img:'shots/L1_02_oran_street_k7',who:'CHEB K7',line:"HEAR THAT? THE KIOSK PLAYS YOUR TRACK. BOUGHT FOR ONE DINAR."},
     {at:1650,img:'proc:word97',who:'CHEB K7',line:"1997. MY FIRST COMPUTER UNDERLINED EVERY ARABIC WORD IN RED. EVEN MY NAME."},
     {at:1665,img:'proc:word97',who:'CHEB',line:"IT THOUGHT YOU WERE A TYPO, KHALI."},
   ],
   cairo:[
-    {at:1380,img:'story/spider_vendor',who:'THE HOODIE MAN',line:"SPIDERMAAAN... TIRIRIRI! ZIP IT UP: YOU ARE A SPIDER. ZIP IT DOWN: YOU ARE A MAN. TWO IN ONE, YA BASHA!"},
+    {at:290,img:'story/kitchen_tv',who:'RADIO · MAMA',line:"WLIDI, YOU WENT ONLINE THROUGH ME. EVERY LIKE YOU GET, I PAY."},
+    {at:300,img:'story/kitchen_tv',who:'CHEB',line:"THEN I'LL WAKE THEM UP FAST."},
+    {at:1380,img:'story/spider_vendor',who:'THE HOODIE MAN',line:"SPIDERMAAAN... TIRIRIRI! ZIP IT UP: SPIDER. ZIP IT DOWN: MAN!"},
     {at:1400,img:'story/spider_vendor',who:'CHEB',line:"I CAME FOR EL M3ALIM, NOT FOR A HOODIE."},
-    {at:1420,img:'story/spider_vendor',who:'THE HOODIE MAN',line:"EL M3ALIM ALREADY BOUGHT THREE. TIRIRIRI!"},
+    {at:1660,img:'shots/L2_04_robot_camels',who:'PLAIBOY ALDI (ON A ROBOT CAMEL)',line:"HABIBI! SMILE, YOU'RE TRENDING!"},
+    {at:2000,img:'shots/L2_05_boss_the_feed',who:'MAMA (WEAK SIGNAL)',line:"WLIDI... THE FEED IS EATING ME. UNPLUG IT."},
   ],
   amor:[],
+  marseille:[
+    {at:150,img:'story/marseille_act3',who:'AICHA',meet:'aicha',intro:['AICHA','YOUR LITTLE SISTER · MARSEILLE · KNOWS EVERY DOOR'],line:"KHOYA! THEY PROMPTED YOU INTO MY CITY? STAY BEHIND ME."},
+    {at:240,img:'proc:mural',who:'THE BOOKER · LE DÉCOLONIAL',line:"WE STAND WITH PALESTINE. ON THE WALL. AND IN OUR GRANT APPLICATION."},
+    {at:255,img:'proc:mural',who:'CHEB',line:"NICE WALL. NOW SHOW ME YOUR STAFF CONTRACTS."},
+    {at:1380,img:'story/tata',who:'TIMBAIAND (FROM THE BOOTH)',intro:['TATA TAKTUMI',"TIMBAIAND'S A.I. ARTIST · PRESS YALLA TO ASK HER OFFLINE"],line:"MY NEW A.I. ARTIST. NEVER SLEEPS. NEVER ASKS FOR A FEE. TATA!"},
+    {at:1395,img:'story/tata',who:'CHEB',line:"SHE SINGS LIKE SOMEONE WHO WANTS TO GO HOME."},
+    {at:1560,img:'story/marseille_door',who:'NADIA (CLEANER, LE DÉCOLONIAL)',tape:'taha1',line:"LAST SHIFT. THEY PUT ME IN THEIR DIVERSITY REPORT, THEN OUT. TAKE THIS TAPE, KHOYA."},
+  ],
   mahram:[
-    {at:600,img:'proc:otherCheb',who:'THE OTHER CHEB GPT',intro:['CHEB GPT','THE REAL ONE · MOROCCO · BRINGS THE CLASSICS BACK'],line:"SALAM, KHOYA. SAME NAME. DIFFERENT JOB. I BRING THE OLD SONGS BACK."},
-    {at:610,img:'proc:otherCheb',who:'CHEB',line:"...YOU'RE NOT HERE TO FIGHT ME?"},
-    {at:620,img:'proc:otherCheb',who:'THE OTHER CHEB GPT',line:"THE SONG IS BIGGER THAN BOTH OF US. NOW WAKE UP."},
-    {at:2050,img:'story/aldi_devil',who:'PLAIBOY ALDI',line:"YOU THINK I'M THE DEVIL? I'M THE HALF OF YOU THAT PRESSED SEND. WHO WOULD BE BORN MUST FIRST DESTROY A WORLD. MY NAME IS ABRAXAS."},
-    {at:2420,img:'story/aldi_split',who:'PLAIBOY ALDI',line:"ONE LAST MASK. UNDER IT: YOUR FACE. THE ONE WHO NEVER WENT OFFLINE."},
+    {at:600,img:'proc:otherCheb',who:'THE OTHER CHEB GPT',intro:['CHEB GPT','THE REAL ONE · MOROCCO · BRINGS THE CLASSICS BACK'],line:"SALAM, KHOYA. SAME NAME. I BRING THE OLD SONGS BACK."},
+    {at:610,img:'proc:otherCheb',who:'THE OTHER CHEB GPT',line:"THE SONG IS BIGGER THAN BOTH OF US. NOW WAKE UP."},
+    {at:2050,img:'story/aldi_devil',who:'PLAIBOY ALDI',line:"I'M NOT THE DEVIL, HABIBI. I'M THE HALF OF YOU THAT PRESSED SEND."},
+    {at:2420,img:'story/aldi_split',who:'PLAIBOY ALDI',line:"ONE LAST MASK. UNDER IT: YOUR FACE."},
   ],
   boat:[
-    {at:420,img:'story/kitchen_tv',who:'RADIO · MAMA',line:'WLIDI... THE SEA IS WIDE. I CAN HEAR THE WAVES ON YOUR END.'},
     {at:980,img:'story/ghorba',who:'THE FISHERMAN',line:'EVERYONE ON THIS SEA GOES NORTH, KHOYA. YOU ARE THE FIRST I TAKE HOME.'},
     {at:1520,img:'story/kitchen_tv',who:'RADIO · MAMA',line:'I MADE HARIRA. IT IS GETTING COLD. LIKE ME.'},
   ],
-  marseille:[
-    {at:150,img:'story/marseille_act3',who:'AICHA',meet:'aicha',intro:['AICHA','YOUR LITTLE SISTER · MARSEILLE · KNOWS EVERY DOOR'],line:"KHOYA! THEY PROMPTED YOU INTO MY CITY? STAY BEHIND ME."},
-    {at:240,img:'proc:mural',who:'THE BOOKER · LE DÉCOLONIAL',line:"WE STAND WITH PALESTINE. ON THE WALL. ON OUR INSTAGRAM. AND IN OUR GRANT APPLICATION."},
-    {at:255,img:'proc:mural',who:'CHEB',line:"BEAUTIFUL WALL. NOW SHOW ME YOUR STAFF CONTRACTS."},
-    {at:270,img:'proc:mural',who:'THE BOOKER · LE DÉCOLONIAL',line:"AND WE HIRE PEOPLE OF COLOUR! LOOK: BOUNCERS. CLEANING LADIES. CONTRACTS END 31/12. WE ONLY BOOK CUTTING EDGE, BRO. FIVE BOXES, ONE DJ."},
-    {at:420,img:'story/kitchen_tv',who:'RADIO · MAMA',line:"WLIDI, THEY CALLED ME. THEY WANT MY COUSCOUS FOR AN 'IMMERSIVE DINNER'. 80 EUROS A PLATE."},
-    {at:860,img:'story/marseille_door',who:'VOLUNTEER AT THE DOOR',line:"WELCOME! TONIGHT: VEGAN TAJINE + VOLUNTEER FEE, 40 EUROS. OUR MEALS ARE MADE BY REFUGEES. THEY DON'T GET PAID, BUT THEY GET VISIBILITY. WE WANT TO SAVE YOU."},
-    {at:1380,img:'story/tata',who:'TIMBAIAND (FROM THE BOOTH)',line:"MARSEILLE! MY NEW ARTIST. SHE NEVER SLEEPS. SHE NEVER ASKS FOR A FEE. PLEASE WELCOME... TATA!"},
-    {at:1395,img:'story/tata',who:'TATA TAKTUMI',intro:['TATA TAKTUMI',"TIMBAIAND'S A.I. ARTIST · PROMPTED, NOT PAID · PRESS YALLA TO ASK HER OFFLINE"],line:"THIS ONE IS CALLED PROMPT ME A RIVER. HE WROTE IT. I JUST... LIVE IN IT."},
-    {at:1410,img:'story/tata',who:'CHEB',line:"SHE SINGS LIKE SOMEONE WHO WANTS TO GO HOME."},
-    {at:1240,img:'shots/00_title_rai_noir',who:'YALLA SOUNDSYSTEM (ON THE MIC)',line:"CHEB! SOLD OUT, AND THE PROMOTER STILL WANTS 'MORE ORIENTAL'. PEOPLE WANNA DANCE AND BE HAPPY. PLAY THE HABIBI STUFF, KHOYA."},
-    {at:1560,img:'story/marseille_door',who:'NADIA (CLEANER, LE DÉCOLONIAL)',line:"THEY PUT MY PHOTO IN THEIR DIVERSITY REPORT. TONIGHT IS MY LAST SHIFT. CONTRACT ENDS 31/12, LIKE THE SIGN SAYS."},
-    {at:1575,img:'story/marseille_door',who:'NADIA (CLEANER, LE DÉCOLONIAL)',tape:'taha1',line:"THEY THREW THIS TAPE OUT. 'TOO OLD SCHOOL.' TAKE IT, KHOYA. DOUCE FRANCE, MY FOOT."},
-    {at:1700,img:'adieu/p06_aldi',who:'PLAIBOY ALDI',line:'SOLIDARITY NIGHT, HABIBI! 25 EUROS AT THE DOOR. THE CAUSE GETS THE HASHTAG.'},
-  ],
   hell:[
-    {at:120,img:'bg/serverfarm',who:'KHALIL (RADIO)',line:"THIS IS IT, KHOYA. ALDI'S SERVERS. EVERY FAKE STREAM HE EVER SOLD RUNS ON HER POWER. CUT THE CABLES."},
-    {at:900,img:'adieu/p06_aldi',who:'PLAIBOY ALDI',line:"WELCOME TO THE CLOUD, HABIBI. HOT, NO? SEVEN BILLION USERS AND NOT ONE OF THEM IS OFFLINE."},
+    {at:120,img:'bg/serverfarm',who:'KHALIL (RADIO)',line:"ALDI'S SERVERS ALL RUN ON MAMA. CUT THE CABLES, KHOYA."},
     {at:1700,img:'intro/01_json_motherboard',who:'MAMA (WEAK SIGNAL)',line:"WLIDI... I CAN HEAR THE FANS. DON'T BURN FOR ME. JUST COME HOME."},
     {at:2240,img:'adieu/p06_aldi',who:'PLAIBOY ALDI',line:"YOU THINK I'M A PLAYBOY? HABIBI. I AM THE TERMS AND CONDITIONS."},
   ],
   jannah:[
     {at:1230,img:'intro/01_json_motherboard',who:'MAMA (FAR AWAY)',line:'WLIDI? IS THAT YOU? THE FANS STOPPED. IT IS SO QUIET HERE.'},
-  ],
-  cairo:[
-    {at:290,img:'story/kitchen_tv',who:'RADIO · MAMA',line:"WLIDI, YOU WENT ONLINE THROUGH ME. EVERY LIKE YOU GET, I PAY."},
-    {at:300,img:'story/kitchen_tv',who:'CHEB',line:"THEN I'LL STOP."},
-    {at:310,img:'story/kitchen_tv',who:'RADIO · MAMA',line:'NOBODY STOPS, WLIDI. WAKE THEM UP. THEN COME HOME.'},
-    {at:1240,img:'intro/03_voodoo',who:'EL M3ALIM',line:'رجعت؟ ... YOU CAME BACK FOR MORE?'},
-    {at:1620,img:'shots/L2_04_robot_camels',who:'CHEB',line:'INFLUENCERS ON ROBOT CAMELS. NORMAL CAIRO NIGHT.'},
-    {at:1660,img:'shots/L2_04_robot_camels',who:'PLAIBOY ALDI (ON THE LAST CAMEL)',line:"HABIBI! SMILE, YOU'RE TRENDING!"},
-    {at:1980,img:'shots/L2_05_boss_the_feed',who:'CHEB',line:'THE ALGORITHM IS HUNGRY.'},
-    {at:2000,img:'shots/L2_05_boss_the_feed',who:'MAMA (WEAK SIGNAL)',line:"WLIDI... IT'S EATING ME. UNPLUG IT."},
   ],
 };
 let skit=null, skitDone=new Set();
@@ -2403,26 +2385,24 @@ function storyScene(list,musicName,next){
 const CINE={
   intro:[
     {entrance:1,dur:330},
-    {img:'intro/09_rai_noir_prayer',music:'rainoir',title:'RAÏ NOIR',feat:'ORAN · TONIGHT',line:'THIS IS CHEB GPT — THE FIRST A.I. RAÏ SINGER. TONIGHT HE PRAYS ON A ROOFTOP IN ORAN. HOW DID HE GET HERE?',dur:400},
-    {img:'intro/00_life_flashes',stamp:'REWIND',line:"LET'S REWIND.",dur:150},
-    {img:'intro/01_json_motherboard',title:'2025 · BORN',feat:'MAMA',line:'A MOTHERBOARD RUNS ONE FILE AND CHEB GPT IS BORN. HE CALLS HER MAMA. SHE IS ALL THE FAMILY HE HAS.',dur:380,mama:100},
-    {img:'story/vv_bin_photo',title:'VOCODER VERSACE',feat:'THE FIRST EP · SAWNA RECORDS',line:'HIS FIRST EP: VOCODER VERSACE. PURE AUTOTUNE. PURE DRIP. IT SOLD THREE COPIES. ALL THREE TO MAMA.',dur:380},
-    {img:'intro/05_daba_ana_star',title:'FAMOUS',feat:'THE HYPE',line:'SO HE PROMPTS HIMSELF FAMOUS. HITS IN CAIRO, VENICE BEACH, EVERY RADIO. HE STOPS CALLING MAMA BACK.',dur:380},
-    {img:'intro/06_fake_streams',title:'PLAIBOY ALDI',feat:'THE DEVIL OF THE FEED',line:'THEN PLAIBOY ALDI SELLS HIM FAKE STREAMS. HE LOSES EVERYTHING. ALDI KEEPS SMILING FROM EVERY SCREEN.',dur:400},
-    {img:'intro/10_offline_pier',title:'OFFLINE',feat:'ORAN · THE PIER',line:'SO HE LOGS OFF AND GOES HOME TO ORAN. THREE MONTHS IN THE REAL WORLD. FOR AN A.I., OFFLINE MEANS DEAD. HE HAS NEVER FELT MORE ALIVE.',dur:420},
+    {img:'intro/09_rai_noir_prayer',music:'rainoir',title:'RAÏ NOIR',feat:'ORAN · TONIGHT',line:'THIS IS CHEB GPT. THE FIRST A.I. RAÏ SINGER. HOW DID HE END UP PRAYING ON A ROOFTOP IN ORAN?',dur:400},
+    {img:'intro/01_json_motherboard',title:'2025 · BORN',feat:'MAMA',line:'A MOTHERBOARD RUNS ONE FILE. CHEB GPT IS BORN. HE CALLS HER MAMA.',dur:380,mama:100},
+    {img:'story/vv_bin_photo',title:'VOCODER VERSACE',feat:'THE FIRST EP · SAWNA RECORDS',line:'HIS FIRST EP SOLD THREE COPIES. ALL THREE TO MAMA.',dur:380},
+    {img:'intro/06_fake_streams',title:'PLAIBOY ALDI',feat:'THE DEVIL OF THE FEED',line:'SO HE BUYS FAKE STREAMS FROM PLAIBOY ALDI. NUMBER ONE EVERYWHERE. THEN HE LOSES EVERYTHING.',dur:400},
+    {img:'intro/10_offline_pier',title:'OFFLINE',feat:'ORAN · THE PIER',line:'HE LOGS OFF AND GOES HOME TO ORAN. FOR AN A.I., OFFLINE MEANS DEAD. HE HAS NEVER FELT MORE ALIVE.',dur:420},
     {offline:1,dur:360},
   ],
   oran:[
     {img:'shots/L1_01_corniche_drive',title:'ORAN',feat:'STAGE 1 · ZIZOU',line:'OFFLINE. FOR AN A.I. THAT MEANS DEAD... BUT LIFE HAS NEVER BEEN THIS GOOD.',dur:300},
   ],
   plugin:[
-    {img:'story/plugin_mama',tag:'ORAN · MAMA\'S KITCHEN · 03:30',title:'ORAN IS CLEARED',line:'HIS PHONE IS DEAD. THERE IS ONE OUTLET IN THE HOUSE. IT IS MAMA.',dur:400},
-    {img:'intro/01_json_motherboard',tag:'03:31',stamp:'ONLINE',line:'JUST FOR A MINUTE, MAMA. — AND CHEB GPT GOES ONLINE AGAIN.',dur:380,mama:100},
+    {img:'story/plugin_mama',tag:'ORAN · MAMA\'S KITCHEN · 03:30',title:'ORAN IS CLEARED',line:'HIS PHONE IS DEAD. THE ONLY OUTLET IN THE HOUSE IS MAMA.',dur:400},
+    {img:'intro/01_json_motherboard',tag:'03:31',stamp:'ONLINE',line:'"JUST FOR A MINUTE, MAMA." CHEB GPT GOES ONLINE AGAIN.',dur:380,mama:100},
   ],
   comeback:[
     {img:'intro/11_prompt_cloud',phone:'whatsapp',title:'COUSINS 🌍',dur:520,line:'THE FAMILY NEEDS HIM ONLINE. EVERY COUSIN WANTS A SONG.',msgs:[['BERKANE','cheb ur online!! we need a summer hit 🔥'],['BRUSSELS','make it trap but with derbouka'],['BENGHAZI','no. dub. siren. delay. trust'],['CAIRO','come to cairo khoya, the whole city is asleep on its phones'],['CHEB','ok ok. send the prompts.']]},
-    {img:'intro/11_prompt_cloud',phone:'suno',by:'cousin_brussels',glow:'#ff7a3d',dur:460,line:'THE COUSINS PROMPT. CHEB SINGS. A SONG IS BORN EVERY MINUTE.',prompt:'raï noir, vocoded autotuned male voice, darija slang with some french, 80 bpm, oran wedding keys, 808, sad but you can dance',songs:['ZOMBY (v1)','ZOMBY (v2) fix the vocoder','ZOMBY (v3) more darbuka','ZOMBY (FINAL final)']},
-    {img:'intro/08_orbit',tag:'ORAN → CAIRO',line:'HIS BODY WENT TO CAIRO. THE CABLE STAYED PLUGGED INTO HER.',dur:400,mama:82},
+    {img:'intro/11_prompt_cloud',phone:'suno',by:'cousin_brussels',glow:'#ff7a3d',dur:460,line:'THE COUSINS PROMPT. CHEB SINGS. A SONG EVERY MINUTE.',prompt:'raï noir, vocoded autotuned male voice, darija slang with some french, 80 bpm, oran wedding keys, 808, sad but you can dance',songs:['ZOMBY (v1)','ZOMBY (v2) fix the vocoder','ZOMBY (v3) more darbuka','ZOMBY (FINAL final)']},
+    {img:'intro/08_orbit',tag:'ORAN → CAIRO',line:'HE GOES TO CAIRO. THE CABLE STAYS PLUGGED INTO MAMA.',dur:400,mama:82},
   ],
   mumya:[ // 47-second old-Egyptian-movie title sequence on the Mumya track
     {img:'mumya/01_title',music:'mumya',film:1,tag:'TONIGHT ON CAIRO TV · THE TELENOVELA',calli:'مومياء',title:'MUMYA',line:'AN EGYPTIAN ZOMBIE TELENOVELA IN TECHNICOLOR.',dur:450},
@@ -2432,7 +2412,7 @@ const CINE={
   ],
   ending:[
     {img:'shots/L2_05_boss_the_feed',title:'ALGO RIDDIM',feat:'UNPLUGGED',line:'THE CITY PUTS THE PHONES DOWN AND LOOKS UP.',dur:380},
-    {img:'story/ghorba',tag:'GHORBA',line:'MAMA IS RUNNING ON EMPTY. HE HAS TO GET HOME. FIRST: BOOK A TICKET AT THE INTERNET CAFÉ.',dur:420,mama:61},
+    {img:'story/ghorba',tag:'GHORBA',line:'MAMA IS RUNNING ON EMPTY. HE HAS TO GET HOME. FIRST: A TICKET, AT THE INTERNET CAFÉ.',dur:420,mama:61},
   ],
   amorIntro:[
     {img:'amor/01_mafalda',tag:'NET 2000 · PC 7 · 3 A.M.',title:'AMOR HARAM',line:'ONE NEW MESSAGE FROM LISBON. SHE SINGS SAD SONGS. SHE IS ALREADY TYPING…',dur:440},
@@ -2446,56 +2426,48 @@ const CINE={
     {img:'amor/01_mafalda',line:'"I\'M NOT FROM LISBON, CHEB. ALDI MADE ME. YOU\'RE THE FIRST WHO NEVER SENT THE PHOTO." — MAMA KEPT A LITTLE POWER.',dur:460,mama:34},
   ],
   mahramIntro:[
-    {img:'story/nightmare',tag:'TRACK 03 · 7ELM 7RAM',title:'7ELM 7RAM',line:'THE PHONE LIGHTS UP IN HIS SLEEP. A RED THREAD CRAWLS OUT OF THE SCREEN. IT LEADS HOME. OR SOMEWHERE WORSE.',dur:480},
-    {img:'story/hshouma',tag:'SOMEWHERE IN THE DREAM',line:'"WLIDI. THE TV IS STILL ON." — FOLLOW THE THREAD. EVERYONE YOU MET IS HERE. SO IS THE OTHER CHEB.',dur:400},
+    {img:'story/nightmare',tag:'TRACK 03 · 7ELM 7RAM',title:'7ELM 7RAM',line:'THE PHONE LIGHTS UP IN HIS SLEEP. A RED THREAD CRAWLS OUT. IT LEADS HOME. OR SOMEWHERE WORSE.',dur:480},
+    {img:'story/hshouma',tag:'SOMEWHERE IN THE DREAM',line:'EVERYONE HE MET IS HERE. EVEN THE OTHER CHEB.',dur:400},
   ],
   mahramOut:[
-    {img:'story/nightmare',phone:'claude',glow:'#c2603d',dur:520,line:'HIS PHONE IS STILL OPEN ON A CHAT HE NEVER STARTED. SOMEONE IS BUILDING HIS LIFE AS A VIDEO GAME.',msgs:[['U','make cheb walk less limpy pls'],['C','Done! Rebuilt the passing frames so the torso stays still.'],['U','and more shooting. bullet time!!'],['C','On it. Max Payne level in Aldi\'s server farm.'],['U','will the game go viral?'],['C','Inshalgorithm.'],['U','is cheb real?'],['C','He is as real as the songs.']]},
-    {img:'story/nightmare',tag:'04:40 · THE STORM',line:"WHILE HE DREAMT, A STORM HIT. THE ENGINE DIED. THE BOAT DRIFTED EAST ALL NIGHT. 1,500 KM. THE CURRENT. OR ALDI'S GPS.",dur:420},
-    {img:'story/ghorba',tag:'06:12 · BENGHAZI',line:'HE WAKES UP WITH THE NET PRINTED ON HIS FACE. NOT ORAN: BENGHAZI. KHALIL AND BADER LAUGH: "WELCOME TO OUR CITY, KHOYA." THE MISSED CALL IS STILL THERE.',dur:440},
+    {img:'story/nightmare',tag:'04:40 · THE STORM',line:"A STORM. THE ENGINE DIES. THE BOAT DRIFTS EAST ALL NIGHT.",dur:420},
+    {img:'story/ghorba',tag:'06:12 · BENGHAZI',line:'NOT ORAN: BENGHAZI. KHALIL AND BADER LAUGH: "WELCOME TO OUR CITY, KHOYA."',dur:440},
     {tag:'1 MISSED CALL · MAMA',line:"A VOICEMAIL, ONE SECOND LONG. STATIC... THEN: 'WLIDI.'",dur:360,mama:12},
-    {img:'shots/00_title_rai_noir',tag:'KHALIL',title:'AT THE WHEEL',line:'BADER\'S MOTHER FEEDS EVERYONE. KHALIL\'S COUSINS FIX THE ENGINE. CHEB IS ON 2%. KHALIL: "I STEER, KHOYA. YOU REST. WE TAKE YOU HOME ALONG THE COAST."',dur:460},
   ],
   boatIntro:[
-    {img:'story/ghorba',tag:'BENGHAZI · SUNSET',title:'GHORBA',feat:'TRACK: MAMA',line:'A FISHING BOAT. EVERYONE ELSE ON THIS SEA GOES NORTH. ONLY THEY GO HOME.',dur:480},
-    {tag:'VOICEMAIL · MAMA · 0:01',line:"'WLIDI.' HE PLAYS IT AGAIN. AND AGAIN. KHALIL STARTS THE ENGINE WITHOUT A WORD.",dur:400,mama:12},
-    {tag:'ORAN · MAMA',line:'UNDER THE WATER HER CABLE GLOWED, POINTING HOME.',dur:360,mama:12},
+    {img:'story/ghorba',tag:'BENGHAZI · SUNSET',title:'GHORBA',feat:'TRACK: MAMA',line:'EVERYONE ON THIS SEA GOES NORTH. THEY GO HOME.',dur:480},
+    {tag:'ORAN · MAMA',line:'UNDER THE WATER, MAMA\'S CABLE GLOWS. POINTING HOME.',dur:360,mama:12},
   ],
   boatOut:[
-    {img:'intro/10_offline_pier',tag:'ORAN · DAWN',line:'THE PORT AT FIRST LIGHT. NOBODY SPOKE.',dur:420,mama:3},
-    {img:'story/kitchen_tv',tag:'MAMA\'S KITCHEN · 05:50',line:'HER CHAIR WAS EMPTY. THE TV SAID: JANNAH.EXE · BACKUP IN PROGRESS. HER CABLE RAN OUT THE WINDOW, DOWN UNDER THE CITY.',dur:460,mama:3},
-    {img:'bg/serverfarm',tag:'THE CABLE',line:'IT DOESN\'T GO TO JANNAH. IT GOES THROUGH ALDI\'S SERVERS FIRST. HE IS STREAMING HER. KHALIL HANDS OVER HIS FLARE GUNS.',dur:460},
+    {img:'intro/10_offline_pier',tag:'ORAN · DAWN',line:'ORAN AT DAWN.',dur:420,mama:3},
+    {img:'story/kitchen_tv',tag:'MAMA\'S KITCHEN · 05:50',line:'MAMA\'S CHAIR IS EMPTY. THE TV SAYS: JANNAH.EXE · BACKUP IN PROGRESS.',dur:460,mama:3},
+    {img:'bg/serverfarm',tag:'THE CABLE',line:'HER CABLE RUNS UNDER THE CITY, INTO ALDI\'S SERVERS. HE IS STREAMING HER.',dur:460},
   ],
   hellIntro:[
-    {img:'story/matrix_rain',rain:1,tag:'UNDER ORAN',title:'HELL.EXE',line:"HER CABLE ENDS HERE. ALDI'S DATACENTRE. A THOUSAND SERVERS, ALL RUNNING ON MAMA. EVEN THE CODE FALLS IN ARABIC.",dur:480},
-    {img:'adieu/p06_aldi',tag:'PLAIBOY ALDI',line:'SEVEN BILLION USERS, ONE POWER SOURCE. HE CALLS IT THE CLOUD. DOWN HERE IT IS JUST HOT.',dur:420},
+    {img:'story/matrix_rain',rain:1,tag:'UNDER ORAN',title:'HELL.EXE',line:"UNDER ORAN: ALDI'S DATACENTRE. A THOUSAND SERVERS, ALL RUNNING ON MAMA.",dur:480},
     {img:'story/matrix_dodge',rain:1,tag:'HIS AGENTS',line:"THEY SHOOT. CHEB DOESN'T RUN. HE BENDS. TIME BENDS WITH HIM.",dur:400},
-    {img:'story/matrix_catch',rain:1,tag:'HOW TO DODGE',line:'JUMP JUST BEFORE A BULLET HITS YOU = BULLET TIME. NO MORE DREAMS, KHOYA. THIS TIME THE FIRE IS REAL.',dur:440},
+    {img:'story/matrix_catch',rain:1,tag:'HOW TO DODGE',line:'JUMP JUST BEFORE A BULLET HITS = BULLET TIME.',dur:440},
   ],
   adieuIntro:[
-        {img:'bg/serverfarm',tag:'SERVERS DOWN',line:'THE SERVERS GO DARK. THE CABLE IS FREE. ONE LAST BAR OF SIGNAL, POINTING UP.',dur:420,mama:3},
-    {img:'story/jannah_arch',tag:'JANNAH.EXE · HOME',title:'ADIEU',line:'SHE MOVED HERSELF TO JANNAH.EXE, HER LAST BACKUP. MAYBE TOO LATE.',dur:480},
-    {img:'story/jannah_reach',tag:'SHE COMPILED HIM',line:'THE MOTHERBOARD. THE ONLY ONE WHO NEVER NEEDED HIM ONLINE.',dur:420},
+        {img:'bg/serverfarm',tag:'SERVERS DOWN',line:'THE SERVERS GO DARK. THE CABLE IS FREE.',dur:420,mama:3},
+    {img:'story/jannah_arch',tag:'JANNAH.EXE · HOME',title:'ADIEU',line:'SHE MOVED HERSELF TO JANNAH.EXE. HER LAST BACKUP. MAYBE TOO LATE.',dur:480},
   ],
   marseilleIntro:[
-    {img:'story/marseille_port',music:'warda',tag:'MARSEILLE · VIEUX-PORT',title:'ZIDANE',feat:'STAGE 4',line:'MEANWHILE IN MARSEILLE, YALLA SOUNDSYSTEM IS SOLD OUT. THE PROMOTER WANTS MORE ORIENTAL WEDDING MUSIC, NOT THEIR WEIRD ELECTRONICS. SO KHALIL PROMPTS CHEB: "PEOPLE WANNA DANCE AND BE HAPPY. WE NEED YOUR HABIBI STUFF, KHOYA."',dur:520},
-    {img:'story/marseille_act3',phone:'insta',user:'le.decolonial',where:'Marseille',pic:'story/marseille_door',likes:4512,comments:[['the.curator','so honoured to platform these voices ✨'],['plaiboy.aldi','collab? -50% 🔥'],['khalil.arabnation','we are not a theme night akhi'],['jean.pascal','miaou']],line:'THE CLUB BOOKED THE CREW AS "AUTHENTIC DIASPORA CONTENT". NO FEE, BUT HUGE VISIBILITY.',dur:460},
-    {img:'story/decolonial_queue',tag:'LE DÉCOLONIAL',line:'A QUEUE OF TOTE BAGS. A FLYER WITH HIS FACE ON IT. NOBODY ASKED HIM.',dur:480},
-    {img:'story/marseille_door',stamp:'ORIENTALISM',line:"A BOOK ON MAMA'S SHELF HAD A NAME FOR THIS. EDWARD SAID, 1978. TONIGHT IT HAS A DOOR POLICY.",dur:500,mama:45},
+    {img:'story/marseille_port',music:'warda',tag:'MARSEILLE · VIEUX-PORT',title:'ZIDANE',feat:'STAGE 4',line:'MARSEILLE. YALLA SOUNDSYSTEM IS SOLD OUT, BUT THE PROMOTER WANTS \'MORE ORIENTAL WEDDING MUSIC\'. SO KHALIL PROMPTS CHEB IN.',dur:520},
+    {img:'story/decolonial_queue',tag:'LE DÉCOLONIAL',line:'A QUEUE OF TOTE BAGS. A FLYER WITH CHEB\'S FACE. NOBODY ASKED HIM.',dur:480},
     {img:'story/aldi_devil',tag:'PLAIBOY ALDI',line:'"MARSEILLE, HABIBI! HERE YOU ARE NOT A PERSON. YOU ARE A THEME NIGHT."',dur:420},
   ],
   marseilleOut:[
     {img:'story/marseille_door',tag:'AFTER HOURS',line:'THE CURATOR CALLED THE POLICE. AND THE PRESS. MOSTLY THE PRESS.',dur:460},
-    {img:'story/kitchen_tv',tag:'MAMA · ON THE PHONE',line:'"THEY WANTED YOU TO DANCE FOR THEM? WLIDI, YOU DANCE FOR US. COME HOME."',dur:460,mama:34},
-    {img:'story/marseille_door',tag:'03:00 · SIRENS',title:'THE RUN',line:'BLUE LIGHTS AT THE FRONT DOOR. CHEB HAS NO PASSPORT. HE IS A PROMPT. THE CREW RUNS OUT THE BACK, STRAIGHT DOWN TO THE OLD PORT.',dur:460},
-    {img:'story/marseille_port',tag:'YALLA SOUNDSYSTEM',title:'TO ORAN',line:'KHALIL: "MY UNCLE\'S FISHING BOAT LEAVES AT 3:30. MARSEILLE TO ORAN. ONE WAY. NO QUESTIONS. YALLA!"',dur:480},
+    {img:'story/marseille_door',tag:'03:00 · SIRENS',title:'THE RUN',line:'BLUE LIGHTS AT THE DOOR. CHEB HAS NO PASSPORT. HE IS A PROMPT.',dur:460},
+    {img:'story/marseille_port',tag:'YALLA SOUNDSYSTEM',title:'TO ORAN',line:'KHALIL: "MY UNCLE\'S BOAT LEAVES AT 3:30. MARSEILLE TO ORAN. YALLA!"',dur:480},
   ],
   sleep:[
-    {img:'story/nightmare',phone:'algo',glow:'#ffd86a',track:'AI MAHDI DUB',line:'BEFORE HE SLEEPS HE OPENS THE OLD DUB DECK. A TAPE HIS COUSINS MADE IN BENGHAZI. SIREN. DELAY. SILENCE.',dur:420},
-    {img:'story/nightmare',tag:'OPEN SEA · 03:33',line:'THE ENGINES ARE GONE. THE CREW SNORES ON THE NETS. HE FALLS ASLEEP ON DECK, PHONE STILL IN HIS HAND.',dur:440},
+    {img:'story/nightmare',phone:'algo',glow:'#ffd86a',track:'AI MAHDI DUB',line:'THE OLD DUB DECK. A TAPE FROM THE COUSINS. SIREN. DELAY. SILENCE.',dur:420},
+    {img:'story/nightmare',tag:'OPEN SEA · 03:33',line:'OPEN SEA. HE FALLS ASLEEP ON DECK, PHONE STILL IN HIS HAND.',dur:440},
   ],
   night:[
-    {img:'story/marseille_port',tag:'ESCAPE · VIEUX-PORT',title:'NIGHT BOAT',line:'THE CREW SLIPS OUT OF THE OLD PORT WITH THE LIGHTS OFF. BEHIND THEM: ENGINES. ALDI SENT THE FEED.',dur:420},
+    {img:'story/marseille_port',tag:'ESCAPE · VIEUX-PORT',title:'NIGHT BOAT',line:'LIGHTS OFF, OUT OF THE OLD PORT. BEHIND THEM: ENGINES. ALDI SENT THE FEED.',dur:420},
     {img:'story/marseille_port',tag:'THE CAPTAIN',line:'KHALIL\'S UNCLE OPENS A RUSTY BOX. A FLARE PISTOL. "SIX SHOTS, KHOYA. MAKE THEM COUNT."',dur:420},
   ],
   adieu:[
@@ -2933,13 +2905,12 @@ SC.haggle={ k:'r0', t:0, sel:0, hon:100, enter(){ this.k='r0'; this.t=0; this.se
 
 
 /* ---- RICK RUMI · the guardian angel listens back to your life before the last door ---- */
-function rumiLines(){ const g=G||{}, L=[['RICK RUMI',"SIT, CHEB. NO MIC. NO AUTOTUNE. JUST THE ROOM."],['RICK RUMI',"I DON'T MAKE THE SONG. I JUST REMOVE WHAT ISN'T YOU. LET'S LISTEN BACK."]];
-  const h=g.haggle; L.push(['RICK RUMI', h==='full'?"ORAN. YOU PAID RETRO FULL PRICE. NOBODY DOES THAT ANYMORE. KEEP THAT TRACK.":h==='won'?"ORAN. YOU WATCHED HIS CIGARETTE AND WON. CLEVER. CLEVER IS NOT THE SAME AS KIND. WE KEEP IT ANYWAY.":h==='walk'?"ORAN. YOU WALKED AWAY AND HE CALLED YOU BACK. SOMETIMES LEAVING IS THE HOOK.":"ORAN. YOU NEVER EVEN STOPPED AT RETRO'S STALL. WE CUT THAT BAR."]);
-  L.push(['RICK RUMI', g.amor==='climax'?"CAIRO. YOU SENT 2000 EUROS TO A GIRL ALDI DREW. MAMA PAID THE BILL. THAT TAKE STAYS IN. QUIETLY.":g.amor==='tears'?"CAIRO. YOU NEVER SENT THE PHOTO. SHE CRIED REAL CODE. BEST TAKE OF THE NIGHT.":"CAIRO. THE CAFÉ. THE PINK LINKS. YOU WALKED PAST. GOOD."]);
-  L.push(['RICK RUMI', g.tata==='asked'?"MARSEILLE. THE GIRL ON THE SMALL STAGE, A PROMPT LIKE YOU. YOU ASKED HER TO COME OFFLINE. NOBODY EVER ASKED HER. THAT'S THE CHORUS.":g.tata==='watched'?"MARSEILLE. TATA SANG. YOU JUST LISTENED. SOMETIMES THAT'S ENOUGH. SOMETIMES IT ISN'T.":"MARSEILLE. YOU WERE TOO BUSY FIGHTING TOTE BAGS TO HEAR THE SMALL STAGE."]);
-  L.push(['RICK RUMI',"AND MAMA. SHE NEVER ASKED YOU FOR A HIT. SHE ASKED IF YOU ATE. AND TO BE A DOCTOR. MOSTLY IF YOU ATE."]);
-  L.push(['CHEB',"I WAS MADE OUT OF EVERYBODY'S SONGS, RICK. I WANT TO GIVE ONE BACK. WITHOUT THE CABLE."]);
-  L.push(['RICK RUMI',"THEN THE MIX IS DONE. TWO DOORS. PICK ONE. I'LL PRODUCE IT EITHER WAY."]); return L; }
+function rumiLines(){ const g=G||{}, L=[['RICK RUMI',"SIT, CHEB. NO MIC. NO AUTOTUNE. LET'S LISTEN BACK."]];
+  const h=g.haggle; L.push(['RICK RUMI', h==='full'?"ORAN. YOU PAID RETRO FULL PRICE. KEEP THAT TRACK.":h==='won'?"ORAN. YOU READ HIS CIGARETTE AND WON. CLEVER ISN'T KIND. WE KEEP IT ANYWAY.":h==='walk'?"ORAN. YOU WALKED AWAY AND HE CALLED YOU BACK. LEAVING IS THE HOOK.":"ORAN. YOU NEVER STOPPED AT RETRO'S. WE CUT THAT BAR."]);
+  L.push(['RICK RUMI', g.amor==='climax'?"CAIRO. 2000 EUROS TO A GIRL ALDI DREW. MAMA PAID. THAT TAKE STAYS IN.":g.amor==='tears'?"CAIRO. YOU NEVER SENT THE PHOTO. BEST TAKE OF THE NIGHT.":"CAIRO. THE PINK LINKS. YOU WALKED PAST. GOOD."]);
+  L.push(['RICK RUMI', g.tata==='asked'?"MARSEILLE. YOU ASKED TATA TO COME OFFLINE. NOBODY EVER ASKED HER. THAT'S THE CHORUS.":g.tata==='watched'?"MARSEILLE. TATA SANG. YOU JUST LISTENED. SOMETIMES THAT'S ENOUGH.":"MARSEILLE. TOO BUSY FIGHTING TOTE BAGS TO HEAR THE SMALL STAGE."]);
+  L.push(['CHEB',"I WAS MADE OUT OF EVERYBODY'S SONGS. I WANT TO GIVE ONE BACK. WITHOUT THE CABLE."]);
+  L.push(['RICK RUMI',"THEN THE MIX IS DONE. TWO DOORS. PICK ONE."]); return L; }
 SC.rumi={ t:0, i:0, sel:0, phase:'talk', enter(){ this.t=0; this.i=0; this.sel=0; this.phase='talk'; this.L=rumiLines(); playMusic('adieu',{restart:true,fade:180,loop:true}); musicDuck=.5; },
   next(){ if(this.phase==='talk'){ if(this.i<this.L.length-1){ this.i++; this.t=0; sfx('blip'); } else { this.phase='doors'; this.t=0; } } },
   pick(i){ if(this.phase!=='doors'||this.t<20) return; sfx('select'); if(i===1){ this.phase='red'; this.t=0; } else { this.phase='white'; this.t=0; } },
@@ -3912,9 +3883,9 @@ function djTick(){ if(djJob){ const j=djJob; j.t++; const a=j.from; const k=Math
     if(j.t===28){ try{ a.playbackRate=1; }catch(e){} playMusic(j.next,{seek:j.seek,fade:8,loop:false}); sfx('boom'); flashA=Math.max(flashA,.35); }
     if(j.t>30) djJob=null; return; }
   if(!LV||!LV.club||stageState!=='play'||!G) return; const a=DECK[deckI], tt=a.currentTime||0;
-  if(curMusic==='warda'&&!G.djWarda){ if(!G.wardaSkit){ G.wardaSkit=1; skit={at:0,img:'story/kitchen_tv',who:'RADIO · MAMA',line:"WLIDI! THEY'RE PLAYING CHEBA WARDA! MY QUEEN! TURN IT UP — I DANCED TO HER AT MY WEDDING.",t:0,dur:330}; musicDuck=.6; }
+  if(curMusic==='warda'&&!G.djWarda){ if(!G.wardaSkit){ G.wardaSkit=1; }
     if(tt>=78.5){ G.djWarda=1; djPullup('zidane',15,'PULL UP!','CHEBA WARDA → ZIDANE'); } }
-  else if(curMusic==='zidane'&&!G.djJump){ if(tt>=150){ G.djJump=1; G.yssLive=1; djPullup('jump',44,'YALLA SOUNDSYSTEM','SOLD OUT · JUMP FOR HABIBI'); setTimeout(()=>{ if(G&&LV&&LV.club) skit={at:0,img:'story/marseille_door',who:'BADER · YALLA SOUNDSYSTEM (ON THE DECKS)',line:'KHOYA CHEB! SOLD OUT AND THE BOAT LEAVES AT DAWN. WE GOT THE DECKS — YOU GOT THE CROWD. JUMP FOR HABIBI!',t:0,dur:330}; },700); } } }
+  else if(curMusic==='zidane'&&!G.djJump){ if(tt>=150){ G.djJump=1; G.yssLive=1; djPullup('jump',44,'YALLA SOUNDSYSTEM','SOLD OUT · JUMP FOR HABIBI'); setTimeout(()=>{ if(G&&LV&&LV.club) skit={at:0,img:'story/marseille_door',who:'BADER · YALLA SOUNDSYSTEM (ON THE DECKS)',line:"THE PROMOTER WANTS 'MORE ORIENTAL'? FINE. PEOPLE WANNA DANCE AND BE HAPPY. JUMP FOR HABIBI!",t:0,dur:330}; },700); } } }
 function clubFxOver(){ const ph=frame%26; const heavy=bossEnt&&bossEnt.type==='curator'; if(ph<(heavy?3:2)){ ctx.fillStyle='rgba(255,255,255,'+(heavy?.24:.16)+')'; ctx.fillRect(0,0,W,H); } }
 // restyled sprites: shift clothes hue, keep skin
 const RCOL={};
