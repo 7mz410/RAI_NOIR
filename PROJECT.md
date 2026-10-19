@@ -131,8 +131,11 @@ Skip: threejs-webgl, gsap-scrolltrigger, scroll-reveal-libraries and modern-web-
 - Every stage clear builds a 9:16 poster (hero sprite, RAÏ NOIR chrome type, the line of the level, score, hit chain). Y or tap = share (native share sheet, or save-image fallback).
 - Hit chain counter + hype words at 5/10/15/20/30/50/80 hits (WALLAH! YA SALAM! SAHHA! MABROUK! 3ASSAL! LEGEND, KHOYA! MAMA SAW THAT.) with hit-stop and shake.
 
-## Flow pass (Oct 19): fewer popups, clearer story
-- Rule: a story beat is at most two short lines; a cutscene is at most ~3 text panels. The art and backgrounds carry the rest.
-- Removed: kiosk skit, El M3alim taunt, robot-camel line, Marseille radio (couscous + Warda), volunteer door, YSS mic skit (the deck moment covers it), Aldi's solidarity line, Aldi in hell #1, boat radio #1, intro REWIND/FAMOUS panels, Marseille 'authentic diaspora'/Edward Said panels, Mama phone panel after the raid, the meta chat panel, Khalil's Benghazi panel, the voicemail replay, hell's 'seven billion users' panel.
+## Flow pass (Oct 19): the Sunday text, fewer popups, 7 stages
+- Wording: the Sunday-evening (6d8ff20) sentences are back. Lennart liked them better than the trimmed Monday rewrite. The popup cuts are kept: kiosk, El M3alim taunt, robot-camel line, couscous radio, volunteer door, YSS mic skit, Aldi solidarity, Aldi in hell #1, boat radio #1, intro REWIND/FAMOUS, 'authentic diaspora'/Edward Said, Mama phone after the raid, meta chat, Khalil's Benghazi panel, voicemail replay, 'seven billion users'.
+- Kept on purpose: Mama's Cheba Warda radio call in Marseille ("too good to let go").
+- Optional stops: Retro Cassetta (Oran, haggle), Tata (Cairo) and Nadia (Cyber Cairo, Carte de Séjour tape) no longer pop up. They stand in the level with a cassette/♪ icon; walk up and press A to talk, or walk past (one short shout). Code: `stop:` field on SKITS, `startSkit`, `stopsUpdate`, `drawStops`.
+- Club Le Décolonial: no jokes about queer people. The line-up checkbox poster is now an "Authentic Diaspora Night / fee: exposure" poster; DJ Checkbox says "I filled in 14 forms to play one set." Satire targets the club and funders, never identities.
+- Stages 9 → 7: Hell.exe, the lift and Jannah.exe are one STAGE 7 · FINALE (`part:1` levels: no poster, a short KEEP GOING beat between parts). The lift has 4 floors instead of 6. Hell and Jannah are ~20% shorter; the dream (7elm 7ram) is ~25% shorter.
 - Fixed: SKITS had two `cairo:` keys, so the Spiderman/TIRIRIRI skit never played. Merged.
-- Total story text went from ~1,900 to ~1,150 words. Changed lines still need FR/AR (Hamza).
+- Changed lines still need FR/AR (Hamza).
