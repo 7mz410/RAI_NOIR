@@ -2,7 +2,7 @@
 // Usage: node tests/smoke.js [url]   (exit code 1 when anything fails)
 const { chromium } = require('playwright');
 const URL = process.argv[2] || 'http://localhost:8777/index.html';
-const STAGES = ['stage1','stage2','stage3','stage7','stage4','stage6','stage5'];
+const STAGES = ['stage1','stage2','stage3','stage7','stage4','stage6','stage8','stage9','stage5'];
 (async () => {
   const b = await chromium.launch({ args: ['--autoplay-policy=no-user-gesture-required','--mute-audio'] });
   const p = await b.newPage({ viewport: { width: 768, height: 448 } });
@@ -28,7 +28,7 @@ const STAGES = ['stage1','stage2','stage3','stage7','stage4','stage6','stage5'];
     // every level: walk right, clear waves, must reach STAGE CLEAR
     for (const st of STAGES) {
       const r = await run(st => { __rr.newRun(0); __rr.G.story = true; __rr.go(__rr.SC[st]); __rr.step(60, 30); __rr.skipSkits(); __rr.setState('play');
-        let n = 0; for (; n < 260 && __rr.stageState !== 'clear' && __rr.scene === __rr.SC[st]; n++) { __rr.held = { right: true }; __rr.killAll(); __rr.step(30, 30); if (__rr.player && __rr.player.dead) { __rr.player.dead = false; __rr.player.hp = 100; } }
+        let n = 0; for (; n < 340 && __rr.stageState !== 'clear' && __rr.scene === __rr.SC[st]; n++) { __rr.held = { right: true }; __rr.killAll(); __rr.step(30, 30); if (__rr.player && __rr.player.dead) { __rr.player.dead = false; __rr.player.hp = 100; } }
         __rr.held = { right: false }; const cleared = __rr.stageState === 'clear' || __rr.scene !== __rr.SC[st]; __rr.step(600, 60);
         return { cleared, steps: n * 30, scene: Object.keys(__rr.SC).find(k => __rr.SC[k] === __rr.scene) }; }, st);
       check(`level ${st}`, r && r.cleared, r ? `${r.cleared ? 'cleared' : 'NOT CLEARED'} after ${r.steps} frames → next: ${r.scene}` : '');

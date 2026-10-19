@@ -60,6 +60,18 @@ RAÏ NOIR is a single-file browser arcade game (side-scrolling beat 'em up) them
 - Unconfirmed: the nightIntro cutscene once replayed over the shooter (a `setTimeout` in marseilleOut's next callback).
 - Arabic was only spot-checked on 4 screens. A native-speaker pass is still needed.
 
+### Branch claude/final-level-hell (2026-10-18, Lennart's request)
+- New final boss level HELL.EXE (LEVELS[7], SC.stage8): Aldi's datacentre after the boat, on Poète maudit du bled (audio/poete.mp3). Story: boatOut → hellIntro → stage8 → adieuIntro → stage5 (Jannah).
+- Boss: PLAIBOY ALDI (`aldiboss`). On the drop at 1:23 (`POETE_DROP`) or at 30% hp his mask cracks and he becomes SHAYTAN.EXE (`shaytan`, red recolor, hellfire pillars). Beating him starts the Adieu piano, which then keeps playing through Jannah, the ending and the credits.
+- Jannah.exe is now fight-free (Aldi is gone from it). The outro tape is no longer between Adieu and the credits, so the piano never cuts.
+- After Mama's last message (stinger) a bloopers video plays if assets/video/bloopers.mp4 exists; otherwise straight to the gift screen.
+- Fixed: Aldi showed DJ Playbak's boss subtitle. Smoke test now includes stage8: 103/103 green.
+- Round 2 (same branch): Matrix intro for HELL.EXE (green Arabic-calligraphy code rain over Higgsfield panels, `drawArabicRain`); AGENT.EXE gunmen; Neo dodge = jump just before a bullet hits → 110 frames of bullet time (world at 1/3 speed, song at 0.45 playbackRate, green grade). New hell backgrounds bg/hell_a + bg/hell_b.
+- Higgsfield art loads from assets/*.webp if present, else from the Higgsfield CDN. Run `sh tools/fetch_hf_art.sh` once and commit the files to drop the CDN dependency.
+- Amor Haram: the song is the clock. "LAST SONG 0:45" countdown; when amorharam ends the cabaret closes (`cabaretCloses`) → ending B (tears) unless the love phone was beaten.
+- 7elm 7ram: cracks removed, gun in hand in every pose (Max Payne poses), fast dive (no slow-mo), Yung Jnoun 260-frame build-up from red smoke, hshouma words floating through the dream.
+- Background seams: 176 px eased cross-fades plus a blurred blend at every open seam (`buildFromImages`).
+
 ## Next (proposed order)
 1. ~~Housekeeping~~ done.
 2. ~~Bug sweep 1~~ done. Next: Hamza and Lennart playtest on real phones.
@@ -102,3 +114,25 @@ Use per task:
 - `run`: launch and drive the game locally.
 
 Skip: threejs-webgl, gsap-scrolltrigger, scroll-reveal-libraries and modern-web-design (wrong fit for a canvas game), and replica-recon/architect/brand (this isn't a clone).
+
+## Story continuity (Oct 18 pass)
+- Intro: Mama (motherboard) makes Cheb; Vocoder Versace flops; Aldi's fake streams; he goes home to Oran for three months in the real world.
+- Oran: K7 shows Cheb around, Oran mocks the A.I. artist, the fixers attack, they hide in Sawna Rec (Retro, haggle, the rare K7 hunt vs the hipster from Brussels), they come out to more fixers. Vocoder Versace sits in a -90% bin by the door (background only).
+- Currency: Oran = dinar (DA). Cairo vendors joke about it.
+- Cairo: no Aicha yet. Mama's weak signal warns him (every like costs her power).
+- Marseille: Yalla Soundsystem is sold out but the promoter wants more oriental wedding music, so Khalil prompts Cheb into the club. Aicha (his sister, lives in Marseille) is introduced here. Police raid; Cheb has no passport (he is a prompt), so the crew gets him out on the boat.
+- Marseille (Le Décolonial): el.7mz mural at the entrance (drop the real file at assets/art/mural_7mz.png), booker in red jeans, Nadia's last shift at the staff exit gives the Carte de Séjour tape. Hipster one-liners only play in Marseille.
+- Boat: Benghazi → Oran, only the crew aboard.
+- Credits: CAMEOS section lists every real artist/parody; fates include Retro, the man from Brussels, Le Décolonial and Nadia.
+- Consent: Retro Cassetta said yes (Oct 18). Wililah and 3phaz said yes earlier. SHAYTAN.EXE design: Hamza decides (no real politician's face).
+
+## Short-attention-span pass (Oct 18)
+- Instant start: tap → Sawna logo (~2s) → title. The intro videos/cutscene still play on title idle (40s).
+- Every stage clear builds a 9:16 poster (hero sprite, RAÏ NOIR chrome type, the line of the level, score, hit chain). Y or tap = share (native share sheet, or save-image fallback).
+- Hit chain counter + hype words at 5/10/15/20/30/50/80 hits (WALLAH! YA SALAM! SAHHA! MABROUK! 3ASSAL! LEGEND, KHOYA! MAMA SAW THAT.) with hit-stop and shake.
+
+## Flow pass (Oct 19): fewer popups, clearer story
+- Rule: a story beat is at most two short lines; a cutscene is at most ~3 text panels. The art and backgrounds carry the rest.
+- Removed: kiosk skit, El M3alim taunt, robot-camel line, Marseille radio (couscous + Warda), volunteer door, YSS mic skit (the deck moment covers it), Aldi's solidarity line, Aldi in hell #1, boat radio #1, intro REWIND/FAMOUS panels, Marseille 'authentic diaspora'/Edward Said panels, Mama phone panel after the raid, the meta chat panel, Khalil's Benghazi panel, the voicemail replay, hell's 'seven billion users' panel.
+- Fixed: SKITS had two `cairo:` keys, so the Spiderman/TIRIRIRI skit never played. Merged.
+- Total story text went from ~1,900 to ~1,150 words. Changed lines still need FR/AR (Hamza).
