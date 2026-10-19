@@ -3068,7 +3068,7 @@ SC.sound={ cur:0, beat:false, bpm:112, lit:new Array(16).fill(0), hitT:0, ponchT
     const beatOn=this.beat&&AC&&((this.step+15)%4===0); const sw=W-190;
     for(let k=0;k<6;k++){ ctx.fillStyle='rgba('+(k%2?'255,61,139':'95,240,255')+','+(beatOn?.14:.06)+')'; ctx.beginPath(); ctx.moveTo(20+k*30,0); ctx.lineTo(k*30-10,196); ctx.lineTo(k*30+50,196); ctx.closePath(); ctx.fill(); }
     R(0,196,sw,H-196,'#1a0f2a'); R(0,196,sw,1,'#ff3d8b'); for(let x=0;x<sw;x+=16) R(x,197,1,H-197,'#2a1a40');
-    chromeText('SOUND ROOM',sw/2,6,10); backBtn(); text('ACID PONCH ON THE MPC',sw/2,24,'#7dff8a',5,'center',null);
+    chromeText('SOUND ROOM',(54+sw)/2,6,10); backBtn(); text('ACID PONCH ON THE MPC',(54+sw)/2,24,'#7dff8a',5,'center',null);
     // the carrier: a tattoo hipster, MPC strapped to his back
     const carrier={kind:'enemy',type:'tote',T:ETYPES.tote,look:LOOKS[ETYPES.tote.look],dir:1,sc:K*.95,x:118,y:196,z:0,state:this.hitT>4?'hurt':'idle',anim:frame,team:1};
     const ponch={look:LOOKS.ponch,dir:1,sc:K*.95,x:80,y:196,z:0,state:this.ponchT?(this.side?'jab':'cross'):'idle',anim:frame,kind:'player'};
