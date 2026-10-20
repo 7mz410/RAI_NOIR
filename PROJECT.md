@@ -52,13 +52,23 @@ RAÏ NOIR is a single-file browser arcade game (side-scrolling beat 'em up) them
 - In story mode the server farm takes stage4's slot (`G.level=3`, then exits to mahramOut), so stage4 (ZIDANE) can only be played from stage select. Is that intended?
 
 ### Known, not fixed
-- 85 MB of media. Some files are requested twice or aborted (zizou, rainoir, the intro videos). Lazy-load them per level.
-- Touch targets under 44px: PLAY PORTRAIT ANYWAY, YALLA (30px high), the landscape D-pad (36px).
-- The SOUND ROOM title sits under the BACK button. The EN/FR/عربي selector and the OPTIONS button touch the logo on the title screen.
-- The Press Start 2P font lacks some accented capitals (Ê renders as a glyph box in fr, e.g. "RÊVE").
+- Sweep 2 (2026-10-19, the أحمد التبّاع agents 1-4, after PR #3 merged). Fixed:
+  - touch targets are now 44px;
+  - the SOUND ROOM and title-screen overlaps;
+  - the duplicate boot music preload;
+  - vault rows hidden under the prize panel;
+  - the stageDraw crash with no level loaded;
+  - the bloopers 404;
+  - 200 new Arabic strings.
+- Media is still heavy. unlockDecks loads yalla.mp3 into both decks, unlockAudio primes every tape video on the first tap, and kick() bypasses MBLOB for rainoir.
+- French: the Rick Rumi talk, the Tata skit and the hellIntro body lines are still English, because their FR_T keys use the old wording. In FR, the continue-screen coin animation overlaps the long stage-9 subtitle.
+- assets/video/bloopers.mp4 is missing, so the bloopers reel is skipped. Add the file to bring it back.
+- Press Start 2P draws accented capitals with small accents (É looks like é). This is the font's design, so it is left as is.
+- In portrait with the D-pad on, the pause button overlaps the bottom-right D-pad key.
+- The haggle HUD: "HIS HONOUR" touches its bar.
 - RESET SAVE keeps the options and language. Confirm that this is intended.
-- Unconfirmed: the nightIntro cutscene once replayed over the shooter (a `setTimeout` in marseilleOut's next callback).
-- Arabic was only spot-checked on 4 screens. A native-speaker pass is still needed.
+- Content call for Hamza and Lennart: some lines are put in real people's mouths (TimbAIand, Rick Rumi, Bro Gawdat). The credits carry a disclaimer.
+- Arabic still needs a native-speaker pass.
 
 ### Branch claude/final-level-hell (2026-10-18, Lennart's request)
 - New final boss level HELL.EXE (LEVELS[7], SC.stage8): Aldi's datacentre after the boat, on Poète maudit du bled (audio/poete.mp3). Story: boatOut → hellIntro → stage8 → adieuIntro → stage5 (Jannah).
