@@ -149,3 +149,14 @@ Skip: threejs-webgl, gsap-scrolltrigger, scroll-reveal-libraries and modern-web-
 - Stages 9 → 7: Hell.exe, the lift and Jannah.exe are one STAGE 7 · FINALE (`part:1` levels: no poster, a short KEEP GOING beat between parts). The lift has 4 floors instead of 6. Hell and Jannah are ~20% shorter; the dream (7elm 7ram) is ~25% shorter.
 - Fixed: SKITS had two `cairo:` keys, so the Spiderman/TIRIRIRI skit never played. Merged.
 - Changed lines still need FR/AR (Hamza).
+
+## Streamline pass (Oct 20): fight first, the Nokia, side quests
+- Start: Sawna logo, then the title. START = you are fighting in Oran within seconds. The Vocoder Versace intro is in the menu (STORY SO FAR · INTRO).
+- Save: every stage start is saved (`rainoir-save`). START on the title asks CONTINUE / NEW GAME when there is a save.
+- Hero: you are always Cheb. Unc K7 (Oran) and Aicha (Marseille) stand in the levels and talk; meeting them unlocks them on the title (`rainoir-met`). No follower.
+- Popups: max one story popup per level. Everything else is a text on the Nokia (bottom right, you keep fighting): Mama, nephew Yacine, Plaiboy Aldi, Khalil. Mama's Cheba Warda moment is a Nokia call.
+- The thread: Mama = god, Plaiboy Aldi = the devil, both just Cheb's training data. In the dream they finish each other's text: "I'M THE HALF OF YOU THAT PRESSED SEND." / "AND I AM THE HALF THAT WAITS."
+- Side quests (walk up + A, or walk past): Retro Cassetta at the end of Oran (real art: `assets/chars/retro_74.png` cut from his sheet, swoosh painted out; popup art `assets/story/retro_stall.webp`), the Hoodie Man (Cairo), Tata and Nadia (Marseille). The others hang as polaroids on the wall.
+- Bro Gawdat runs the net café in Cyber Cairo ("BE KIND TO IT. IT LEARNS FROM YOU, LIKE A CHILD.").
+- Boat: Benghazi → Oran is one stage now: flare-gun shooter first, then the deck fight. Marseille goes straight into the dream.
+- New/changed lines need FR/AR.
