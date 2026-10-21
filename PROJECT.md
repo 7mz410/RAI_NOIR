@@ -160,3 +160,11 @@ Skip: threejs-webgl, gsap-scrolltrigger, scroll-reveal-libraries and modern-web-
 - Bro Gawdat runs the net café in Cyber Cairo ("BE KIND TO IT. IT LEARNS FROM YOU, LIKE A CHILD.").
 - Boat: Benghazi → Oran is one stage now: flare-gun shooter first, then the deck fight. Marseille goes straight into the dream.
 - New/changed lines need FR/AR.
+
+## Solid-first pass (Oct 21)
+- Chain now: Oran → Cairo → Cyber Cairo → Marseille → (club boss down: Habibi's "Jump" starts) → the run → flare-gun shooter on "Jump" → Mama on the deck → hell.exe → Rumi → Jannah. 6 stages.
+- Parked (code stays, not in the chain): the dream (7elm 7ram + bullet time), the lift, all side quests (`SIDEQUESTS=false`).
+- Oran: one popup, one text, one Unc K7 line. Texts moved to Cyber Cairo and the boat. Aldi + Mama "two halves" texts are on the boat now.
+- Before Marseille, CALL A FRIEND brings the family (Unc K7, Aicha). Yalla Soundsystem only appears from the Marseille club on.
+- Story start: the old Oran VHS (5 s, skippable) opens the run, then the fight.
+- Levels end with their song: in Oran, Cyber Cairo, Marseille and the boat, the boss is cued ~38 s before the track ends. Reach it early and the selecta seeks the track to the drop ("PULL UP!"); slow players get the boss where they stand. No offline track after Oran.
