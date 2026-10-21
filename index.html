@@ -1415,7 +1415,7 @@ function drawFighter(e,camX){
   const NS=e.type==='shaytan'&&key&&key.startsWith('e_aldi_')&&ATLAS['s_n_'+key.slice(7)]&&IMG['chars/N']&&IMG['chars/N'].naturalWidth>0; if(NS) key='s_n_'+key.slice(7);
   if(key&&ATLAS[key]&&IMG[ATLAS[key][4]||'spr/atlas']){
     const [ax,ay,aw,ah]=ATLAS[key]; A=IMG[ATLAS[key][4]||'spr/atlas']; const gx=Math.round(e.x-camX), gy=Math.round(e.y-e.z)+(e._bob||0)-((e.T&&e.T.hop&&e.state==='walk')||(e.kind==='enemy'&&LV&&LV.club&&curMusic==='jump'&&!['down','dead','fall'].includes(e.state))?Math.round(Math.abs(Math.sin((e.anim||frame)*.25))*4):0);
-    const sc=(s/K)*1.38*(e.T&&e.T.boss?1.1:1)*(e.look&&e.look.look==='cheb'?1.07:1)*(NS?(1.18/1.5)*(76/80):1);
+    const sc=(s/K)*1.38*(e.T&&e.T.boss?1.1:1)*(e.look&&e.look.look==='cheb'?1.07:1)*(NS?(1.35/1.5)*(76/80):1);
     const w=Math.round(aw*sc), h=Math.round(ah*sc);
     ctx.fillStyle='rgba(0,0,0,.35)'; ctx.beginPath(); ctx.ellipse(gx,Math.round(e.y)+1,(h<40?18:11)*s,2.5*s,0,0,Math.PI*2); ctx.fill();
     if(e.blink&&Math.floor(frame/3)%2) return;
