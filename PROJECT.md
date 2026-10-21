@@ -46,7 +46,7 @@ RAÏ NOIR is a single-file browser arcade game (a side-scrolling beat 'em up) th
 - Hamza approves every delete, push and deploy. Lennart may change Hamza's audio tracks freely; mention it, don't flag it.
 - No Google Drive desktop app. Upload through the Drive MCP, or ask Hamza.
 - Story writing: max one popup per level; the rest goes on the Nokia or in the decor. Cutscenes use the longer "Sunday" wording (Lennart's call, Oct 20). No jokes about queer people. Every changed line needs FR and AR.
-- Real people: only with consent (Retro Cassetta, Wililah and 3phaz said yes). No real politician's face. The credits carry a parody disclaimer.
+- Real people: only with consent (Retro Cassetta, Wililah and 3phaz said yes). No real politician's face, except SHAYTAN.EXE (N atlas: deliberate political parody, Hamza's call 2026-10-22; tell Lennart). The credits carry a parody disclaimer.
 
 ## 6. Team
 - **Hamza** (director / owner): vision, story, art, music, copy and assets; playtests on real devices; approves what ships.
@@ -71,7 +71,7 @@ RAÏ NOIR is a single-file browser arcade game (a side-scrolling beat 'em up) th
 
 ## 9. Status (2026-10-21)
 - Playable end to end: 8 levels, server farm, boat shooter, menus, cassettes, cheats and credits, in 3 languages. `main` has PR #5 (Streamline) merged; issue #4 settled by it.
-- Untracked, waiting for Hamza: `assets/N001–N005`, `assets/chars/N/` (N atlas, a "Pixel Devil Businessman" sheet; possibly the SHAYTAN design) and `Emails/`.
+- SHAYTAN.EXE uses `assets/chars/N/N_atlas` (n_0..10 = e_aldi_0..10) with a reveal glitch; fallback is recoloured Aldi. Untracked: `Emails/`, two N reference PNGs.
 - Many stale local branches (ahmad-1..4, integ, pr3, pr-3, gta-oran-vendor, a worktree branch). Prune only with Hamza's ok.
 
 ## 10. Open
@@ -80,14 +80,12 @@ RAÏ NOIR is a single-file browser arcade game (a side-scrolling beat 'em up) th
 - Shooter (`SC.shoot`): unlimited free continues; it never reaches `SC.cont`.
 - In story mode the server farm takes stage4's slot, so ZIDANE is playable only from stage select. Is that intended?
 - RESET SAVE keeps options and language. Is that intended?
-- The SHAYTAN.EXE design.
 
 **Known bugs / polish**
 - Heavy media: unlockDecks loads yalla.mp3 into both decks, unlockAudio primes every tape video on the first tap, and kick() bypasses MBLOB for rainoir.
-- FR: the Rick Rumi talk, the Tata skit and the hellIntro body are still English (stale FR_T keys). The continue-screen coin animation overlaps the long stage-9 subtitle.
 - `assets/video/bloopers.mp4` is missing, so the reel is skipped.
-- Portrait with the D-pad: the pause button overlaps the bottom-right key.
-- Haggle HUD: "HIS HONOUR" touches its bar.
+- AR missing for: Rumi Cairo lines (3), bullet-time hellIntro line, FINALE · PART 2/3, THE LIFT — GOING UP.
+- SHAYTAN size now equals Aldi's; maybe bigger? A dark bar under "x3" seen once at reveal (unconfirmed).
 - PR #5 lines need FR/AR. Draft from tata 01/02 (Oran darija, not reviewed) is in the 2026-10-21 session scratchpad as pr5_i18n_v2.json; Hamza reviews before it goes in. Check: "جوج" should be "زوج", "UNC K7" = "عمي K7"?
 - Nokia LCD at 4px: line 2 of a long text looked overprinted in a screenshot; check on a phone.
 - Bro Gawdat now has a speaking role: confirm consent.
@@ -107,3 +105,4 @@ RAÏ NOIR is a single-file browser arcade game (a side-scrolling beat 'em up) th
 - 10-19: flow pass (story text ~1,900 to ~1,150 words; duplicate `cairo:` skit key fixed); PR #3 merged (audio at -12 LUFS); sweep 2 (44px targets, overlaps, stageDraw crash, 200 AR strings).
 - 10-20: PROJECT.md restructured. Lennart's PR #5 (fight first, Nokia, side quests, save, one boat stage, 7-stage finale).
 - 10-21: PR #5 merged by Hamza; dead code removed (oranDetails, STORYCAST lookup in startLevel); AR stage list ends in الفينال; smoke 104/104.
+- 10-22: agents لولي 01–05: pause/D-pad + haggle label, FR stale strings + continue screen, SHAYTAN design doc, reveal glitch, N atlas wired (political parody, Hamza's call); smoke 104/104; pushed.
