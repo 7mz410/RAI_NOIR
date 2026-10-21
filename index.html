@@ -25,13 +25,11 @@ canvas{display:block;width:100%;aspect-ratio:384/224;image-rendering:pixelated;i
   box-shadow:0 0 0 7px #241633, 0 0 0 9px #0d0718, 0 0 0 10px rgba(255,255,255,.07), 0 18px 34px rgba(0,0,0,.65), 0 0 60px rgba(255,61,139,.20);outline:none}
 .help{font-size:8px;color:var(--dim);line-height:1.9;text-align:center;max-width:70ch}
 .help b{color:var(--mint);font-weight:400}
-.credit{font-size:8px;color:var(--dim);text-align:center;margin:4px 0}
-.credit a{color:var(--mint);display:inline-block;padding:8px 4px}
 body.notouch #touch{visibility:hidden!important}
 body.cinemode #touch .dpad,body.cinemode #touch .round,body.cinemode #stick{visibility:hidden!important}
 #touch{display:none;width:min(100%,560px);justify-content:space-between;align-items:center;gap:12px;position:relative}
 #pausebtn{position:absolute;bottom:0;inset-inline-start:50%;transform:translateX(-50%);width:44px;height:44px;font-size:8px;opacity:.7}
-@media (pointer:coarse){#touch{display:flex}.help,.credit{display:none}#screen{width:min(100%, calc((100vh - 230px) * 384 / 224))}}
+@media (pointer:coarse){#touch{display:flex}.help{display:none}#screen{width:min(100%, calc((100vh - 230px) * 384 / 224))}}
 /* arcade controls: real buttons, not web chrome */
 .dpad{padding:6px;background:linear-gradient(180deg,#1a1028,#0d0818);border-radius:16px;box-shadow:inset 0 0 0 2px #2f2045, 0 6px 16px rgba(0,0,0,.55)}
 .dpad .tb{background:linear-gradient(180deg,#453a5e,#1d1730);color:#efe7ff;border:0;border-radius:7px;font-size:12px;
@@ -111,7 +109,6 @@ button:focus-visible,canvas:focus-visible{outline:2px solid var(--mint);outline-
 <div id="wrap">
   <div id="screen"><canvas id="c" width="768" height="448" tabindex="0" aria-label="RAÏ NOIR game screen"></canvas></div>
   <div class="help"><b>MOVE</b> arrows / WASD &nbsp; <b>PUNCH</b> J or Z &nbsp; <b>KICK</b> K or X &nbsp; <b>JUMP</b> space, I or U &nbsp; <b>SPECIAL</b> L or C &nbsp; <b>CALL A FRIEND</b> Y &nbsp; <b>START</b> enter &nbsp; <b>PAUSE</b> P &nbsp; · gamepad works too</div>
-  <p class="credit">Design by <a href="https://el7mz.com" target="_blank" rel="noopener">el7mz.com</a></p>
   <div id="stick" aria-hidden="true"><div class="base"></div><div class="knob"></div><div class="hint">◀ THUMB ANYWHERE ▶</div></div>
   <div id="touch" aria-hidden="true">
     <div class="dpad">
