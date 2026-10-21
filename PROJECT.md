@@ -1,162 +1,109 @@
 # RAÏ NOIR — Project Index
 
-Read this first at the start of every session. Update the "Status" and "Next" sections at the end of every session.
+Read this first every session. At session end, update **Status**, **Open** and **Next**, and add one line to **Log**. Keep this file under ~200 lines: when the Log grows, collapse old entries into one line each.
 
-## What it is
-RAÏ NOIR is a single-file browser arcade game (side-scrolling beat 'em up) themed around Raï music and Algeria/Oran, built as a companion to the *RAÏ NOIR* album. It runs in a 384×224 pixel canvas inside an arcade-cabinet frame, with touch controls on phones and gamepad support. It is available in three languages (en / fr / ar).
+## 1. What it is
+RAÏ NOIR is a single-file browser arcade game (a side-scrolling beat 'em up) themed on Raï music and Algeria/Oran, and a companion to the *RAÏ NOIR* album. It runs in a 384×224 canvas inside an arcade-cabinet frame, with touch controls on phones and gamepad support, in three languages (en / fr / ar).
 
-## Layout
-- `index.html` (~420 KB): the whole game: CSS, engine, scenes, sprites, audio and i18n. No build step and no dependencies except Google Fonts (Bungee, Press Start 2P, Noto Kufi Arabic).
-- `tests/smoke.js`: Playwright release check. It drives every menu and story scene in all 3 languages, clears every level, the server farm (bullet time) and the boat shooter. Run it with `node tests/smoke.js [url]` (default `http://localhost:8777/index.html`). Exit code 1 means a failure.
-- `audio/`: one music track per level/scene (zidane, zizou, warda, mumya, voodoo, adieu, amorharam, yalla…), plus `vv01–08` voice lines and `pads/`.
-- `assets/`: bg, spr (sprite atlases), portraits, covers, story, intro, fmv + video (mp4 + webm pairs), ui, shots, and scene-specific folders (amor, adieu, mumya).
-- `RAI_NOIR_album_cover.jpg`: album art.
-- `../RAÏ NOIR.zip` (85 MB): backup of the project. Don't delete it.
+- Live: https://7mz410.github.io/RAI_NOIR/ (GitHub Pages from `main`)
+- Repo: https://github.com/7mz410/RAI_NOIR (public; GitHub doesn't allow "Ï" in repo names)
+- Made for Hamza's friend Lennart in Belgium, who also contributes.
 
-## Engine map (inside index.html)
-- Scenes live in the `SC` object: `boot, title, select, stagesel, sound, k7, tape, opts, cheats, credits, cont, gift, stinger, sawna`, levels `stage1–stage7` (story order: 1,2,3,7,4,6,5), `payne` (server farm / bullet time) and `shoot` (boat shooter). Cine scenes are flagged `isCine`.
-- Navigation uses `go(scene)` / `fadeTo`. `newRun()` resets a run. `startLevel` / `spawnEnemy` / `bossIntro` handle levels, and `checkSkits` / `skitDraw` handle comic skits.
-- Language: `setLang`, `tr`, `frIt`. Persistence: `saveColl`, `saveOpt`, `saveCheat`, `unlockCrew`, `unlockDecks` (localStorage).
-- Audio: `playMusic`, `musicURL`, `sfx`, `tone`, `noise`, and the cassette system `mkTape`/`tapePlay`.
-- Test hook: `window.__rr` exposes `SC, G, go, step, press, held, killAll, skipSkits, setState, setLang, newRun, player, scene, stageState`. Keep it, because the smoke test depends on it.
-- Theme: a single dark arcade look by design. Tokens are in `:root` (`--void --cab --bezel --chrome --neon --mint --dim --pixel`).
+## 2. Commands
+- `npm run serve`: serves the game at http://localhost:8777/index.html. Port 8766 is taken by Creative Studio.
+- `npm test`: runs `tests/smoke.js` (Playwright, default Chromium), or `node tests/smoke.js [url]`. Exit code 1 means a failure. Last result: 104/104 green (2026-10-21).
+- `sh tools/fetch_hf_art.sh`: vendors Higgsfield art into assets/ (already done on gta-oran-vendor).
 
-## Status (2026-10-16)
-- The game is playable end to end: 7 levels, server farm, boat shooter, menus, cassettes, cheats and credits, in 3 languages.
-- Done 2026-10-16: removed the artifact-wrapper line from index.html, ran git init with a first commit, added package.json (`npm run serve` serves on port 8777, `npm test` runs the smoke test), and the smoke test now uses the default Playwright Chromium. Result: smoke 99/99 green.
-- Port 8766 is taken by another local app (Creative Studio), which is why the game now uses 8777.
-- Live on GitHub Pages: repo https://github.com/7mz410/RAI_NOIR (public), game at https://7mz410.github.io/RAI_NOIR/ (made for Hamza's friend Lennart in Belgium). GitHub doesn't allow "Ï" in repo names, which is why the repo is called RAI_NOIR.
-- Bug sweep 1 done 2026-10-16 (3 Haiku QA agents). Fixed:
-  - stage2's FEED boss was skipped, because the wave cleared on the frame the boss spawned (`updateWaves`);
-  - the server-farm boss spawned off screen, and the player could walk past it;
-  - the portrait pause button was off screen (it is now 44px);
-  - the weapon hint overlapped "WOKE UP" in the HUD;
-  - the server farm had no pause menu;
-  - the shooter hint overlapped the RELOAD button and the captain's line;
-  - the boss banner overlapped the caption panel;
-  - the "NEXT ▶" hint overlapped the story text (removed; the bottom bar already shows A NEXT);
-  - the `willReadFrequently` warning.
-- Arabic: 558 new darija strings were added to `AR_T`, and `text()`/`wrapText()` now set `ctx.direction` for Arabic so mixed text is in the right order. Cine scenes show the Arabic as a subtitle above the English line, which is the original design.
+## 3. Layout
+- `index.html` (~645 KB): the whole game: CSS, engine, scenes, sprites, audio and i18n. There is no build step. The only external dependency is Google Fonts (Bungee, Press Start 2P, Noto Kufi Arabic).
+- `gta.html`: redirect to `index.html?demo=gta` (the GRAND THEFT AUTOTUNE: ORAN demo).
+- `tests/smoke.js`: the release check. It drives every menu and story scene in all 3 languages and clears every level, the server farm, the boat shooter and HELL.EXE.
+- `audio/`: one track per level/scene (all level-matched to -12 LUFS), `vv01–08` voice lines, `pads/`.
+- `assets/`: bg, spr (sprite atlases), chars, portraits, covers, story, intro, fmv, video (mp4 + webm pairs), ui, shots, art, plus scene folders (amor, adieu, mumya).
+- `docs/`: character sheets, marketing art, sprite-gen pose references. Not loaded by the game.
+- `sprites_backup/`: originals, then `after_magenta/` and `after_repack/` snapshots. Don't delete it.
+- `Emails/`: saved GitHub/PR emails (untracked).
+- `../RAÏ NOIR.zip` (85 MB): old backup. Don't delete it.
 
-- Sprite pass done 2026-10-16:
-  - Magenta key leftovers were removed with tlween (magic wand plus colour range) from atlas, atlas3, atlas4, atlas5, atlas8 and atlas10.
-  - All sheets except atlas6, atlas7, atlas9 and props were repacked with 2px padding. Art pieces that had been sliced into a neighbouring frame went back to their own frame, and leftovers of other poses that were cut by the frame's side edge were dropped. Each frame keeps its bottom-centre pivot.
-  - Backups: `sprites_backup/` holds the originals; `sprites_backup/after_magenta/` holds the state before the repack.
-  - Not fixed: the riderless camel (atlas9 `camelx_*`) was redrawn by Hamza on 2026-10-17. The k7 down pose (`k7_8_0`) was rebuilt as one frame because it had been split in two. A few small side-cut pieces were kept on purpose (cheb_5 shoe, oran_4 feet). cheb_6, aicha_3, boss_7_1, boss_7_3, jnoun_3 and atlas8 k7_3 sit 1-4px higher because a returned piece reaches below the old bottom.
+## 4. Engine map (inside index.html)
+- Scenes live in `SC`: `boot, title, select, stagesel, sound, k7, tape, opts, cheats, credits, cont, gift, stinger, sawna`; levels `stage1–stage8`; `payne` (server farm, bullet time); `shoot` (boat shooter). Cine scenes are flagged `isCine`.
+- Story order: 7 stages. Oran, Cairo, Amor Haram, server farm (takes stage4's slot), Marseille, the dream, boat (shooter then deck), then STAGE 7 · FINALE = hell + lift + jannah (`part:1` levels: no poster, KEEP GOING between parts), credits, stinger, gift, title.
+- Start: Sawna logo, title, START = fighting in Oran. The intro is in the menu (STORY SO FAR · INTRO). Save: `saveProgress` at every stage start (`rainoir-save`); title asks CONTINUE / NEW GAME.
+- Hero: always Cheb. K7 and Aicha are NPCs that unlock on the title when met (`metChar`, `rainoir-met`).
+- Nokia: `sms(from,txt,{call})` queues a 3310 text (`PHONE`, `phoneUpdate`, `drawNokia`). SKITS entries with `sms:1` go there; max one story popup per level.
+- Side quests: SKITS entries with `stop:'id'` (retro, spider, tata, nadia) stand in the level; walk up + A (`stopsUpdate`, `drawStops`, `STOPSHOUT`).
+- Navigation: `go(scene)` / `fadeTo`. Runs: `newRun()`. Levels: `startLevel`, `spawnEnemy`, `bossIntro`, `updateWaves`. Skits: `SKITS`, `checkSkits`, `skitDraw`.
+- Language: `setLang`, `tr`, `frIt`; strings in `FR_T` / `AR_T`. For Arabic, `text()`/`wrapText()` set `ctx.direction`. Cine scenes show the Arabic as a subtitle above the English line.
+- Persistence (localStorage): `saveColl`, `saveOpt`, `saveCheat`, `unlockCrew`, `unlockDecks`.
+- Audio: `playMusic`, `musicURL`, `sfx`, `tone`, `noise`; cassettes `mkTape` / `tapePlay`.
+- Backgrounds: `buildFromImages` (176 px eased cross-fades at seams).
+- Test hook `window.__rr` exposes `SC, G, go, step, press, held, killAll, skipSkits, setState, setLang, newRun, player, scene, stageState`. The smoke test depends on it, so keep it.
+- Theme: one dark arcade look by design. Tokens are in `:root` (`--void --cab --bezel --chrome --neon --mint --dim --pixel`).
 
-- Sprite pass 2 (2026-10-17): every loose piece in every frame was reviewed by eye. 165 leftover pieces (neighbour limbs, slivers, specks under 8px at the frame side) were cleared in tlween, and the magenta edge fringe was removed from atlas14, atlas (k7), atlas4 (mother) and atlas2 (khamaseen). Kept on purpose: effects, sparks, smoke, sound waves, props and cords. The backup before this pass is `sprites_backup/after_repack/`.
+## 5. Rules
+- Smallest diff that works. Fix the root cause, and grep every caller first.
+- Run `npm test` before saying "done", look at screenshots, and say plainly what wasn't checked.
+- Hamza approves every delete, push and deploy. Lennart may change Hamza's audio tracks freely; mention it, don't flag it.
+- No Google Drive desktop app. Upload through the Drive MCP, or ask Hamza.
+- Story writing: max one popup per level; the rest goes on the Nokia or in the decor. Cutscenes use the longer "Sunday" wording (Lennart's call, Oct 20). No jokes about queer people. Every changed line needs FR and AR.
+- Real people: only with consent (Retro Cassetta, Wililah and 3phaz said yes). No real politician's face. The credits carry a parody disclaimer.
 
-### FLAG: design questions, parked until Hamza/Lennart decide
-- The server farm (`SC.payne`) has no game over: lives reach 0 and the run continues.
-- The shooter (`SC.shoot`) gives unlimited free continues and never reaches `SC.cont`.
-- In story mode the server farm takes stage4's slot (`G.level=3`, then exits to mahramOut), so stage4 (ZIDANE) can only be played from stage select. Is that intended?
+## 6. Team
+- **Hamza** (director / owner): vision, story, art, music, copy and assets; playtests on real devices; approves what ships.
+- **Lennart**: co-builder; opens PRs (Oct 18 mega-branch, PR #3) and owns audio mastering.
+- **Claude** (lead engineer + QA): reads this file, builds, tests and keeps this file current. Haiku workers do sweeps (the "أحمد التبّاع" agents).
+- **Workflow:** goal, then a 1–3 line plan, then Hamza's yes, then build, smoke test and screenshots, then Hamza playtests, then commit, then update this file.
 
-### Known, not fixed
-- Sweep 2 (2026-10-19, the أحمد التبّاع agents 1-4, after PR #3 merged). Fixed:
-  - touch targets are now 44px;
-  - the SOUND ROOM and title-screen overlaps;
-  - the duplicate boot music preload;
-  - vault rows hidden under the prize panel;
-  - the stageDraw crash with no level loaded;
-  - the bloopers 404;
-  - 200 new Arabic strings.
-- Media is still heavy. unlockDecks loads yalla.mp3 into both decks, unlockAudio primes every tape video on the first tap, and kick() bypasses MBLOB for rainoir.
-- French: the Rick Rumi talk, the Tata skit and the hellIntro body lines are still English, because their FR_T keys use the old wording. In FR, the continue-screen coin animation overlaps the long stage-9 subtitle.
-- assets/video/bloopers.mp4 is missing, so the bloopers reel is skipped. Add the file to bring it back.
-- Press Start 2P draws accented capitals with small accents (É looks like é). This is the font's design, so it is left as is.
-- In portrait with the D-pad on, the pause button overlaps the bottom-right D-pad key.
-- The haggle HUD: "HIS HONOUR" touches its bar.
-- RESET SAVE keeps the options and language. Confirm that this is intended.
-- Content call for Hamza and Lennart: some lines are put in real people's mouths (TimbAIand, Rick Rumi, Bro Gawdat). The credits carry a disclaimer.
-- Arabic still needs a native-speaker pass.
+## 7. Skills
+- Always: `conductor` (voice, build, design, crew rules). `hamza` is the older equivalent.
+- Per task: `replica-test` (test plans, extending smoke.js), `code-review` / `simplify` (after change sets), `animate` (hit feel, transitions), `impeccable` / `ui-ux-pro-max` (menus, HUD, touch UX), `banner-design` / `design` (promo art), `run` (drive the game locally).
+- Skip: threejs, gsap, scroll-reveal, modern-web-design, replica-recon/architect/brand.
 
-### Branch claude/final-level-hell (2026-10-18, Lennart's request)
-- New final boss level HELL.EXE (LEVELS[7], SC.stage8): Aldi's datacentre after the boat, on Poète maudit du bled (audio/poete.mp3). Story: boatOut → hellIntro → stage8 → adieuIntro → stage5 (Jannah).
-- Boss: PLAIBOY ALDI (`aldiboss`). On the drop at 1:23 (`POETE_DROP`) or at 30% hp his mask cracks and he becomes SHAYTAN.EXE (`shaytan`, red recolor, hellfire pillars). Beating him starts the Adieu piano, which then keeps playing through Jannah, the ending and the credits.
-- Jannah.exe is now fight-free (Aldi is gone from it). The outro tape is no longer between Adieu and the credits, so the piano never cuts.
-- After Mama's last message (stinger) a bloopers video plays if assets/video/bloopers.mp4 exists; otherwise straight to the gift screen.
-- Fixed: Aldi showed DJ Playbak's boss subtitle. Smoke test now includes stage8: 103/103 green.
-- Round 2 (same branch): Matrix intro for HELL.EXE (green Arabic-calligraphy code rain over Higgsfield panels, `drawArabicRain`); AGENT.EXE gunmen; Neo dodge = jump just before a bullet hits → 110 frames of bullet time (world at 1/3 speed, song at 0.45 playbackRate, green grade). New hell backgrounds bg/hell_a + bg/hell_b.
-- Higgsfield art loads from assets/*.webp if present, else from the Higgsfield CDN. Run `sh tools/fetch_hf_art.sh` once and commit the files to drop the CDN dependency.
-- Amor Haram: the song is the clock. "LAST SONG 0:45" countdown; when amorharam ends the cabaret closes (`cabaretCloses`) → ending B (tears) unless the love phone was beaten.
-- 7elm 7ram: cracks removed, gun in hand in every pose (Max Payne poses), fast dive (no slow-mo), Yung Jnoun 260-frame build-up from red smoke, hshouma words floating through the dream.
-- Background seams: 176 px eased cross-fades plus a blurred blend at every open seam (`buildFromImages`).
+## 8. Story canon (short)
+- Intro: Mama (the motherboard) makes Cheb; Vocoder Versace flops; Aldi's fake streams; Cheb goes home to Oran for three months in the real world.
+- Oran: K7 shows Cheb around; fixers attack; they hide in Sawna Rec (Retro, the haggle, the rare-K7 hunt against the hipster from Brussels). Currency: dinar (DA).
+- Cairo: no Aicha yet. Mama's signal is weak, because every like costs her power.
+- Marseille / Le Décolonial: Aicha (Cheb's sister) is introduced; Khalil prompts Cheb into the club for wedding music; Nadia gives the Carte de Séjour tape. A police raid follows, and Cheb has no passport (he is a prompt), so the crew gets him out on the boat.
+- Thread: Mama = god, Plaiboy Aldi = the devil, both Cheb's training data. Side quests: Retro (end of Oran), Hoodie Man, Tata, Nadia. Bro Gawdat runs the Cyber Cairo net café.
+- Boat: Benghazi to Oran, one stage (flare-gun shooter, then the deck). Then the FINALE: HELL.EXE: PLAIBOY ALDI becomes SHAYTAN.EXE on the drop at 1:23 or at 30% hp. Beating him starts the Adieu piano, which plays on through Jannah (no fights), the ending and the credits.
+- Amor Haram: the song is the clock. When it ends, the cabaret closes and ending B plays, unless the love phone was beaten.
+- Every stage clear builds a 9:16 share poster. A hit-chain counter shows hype words at 5–80 hits.
 
-## Next (proposed order)
-1. ~~Housekeeping~~ done.
-2. ~~Bug sweep 1~~ done. Next: Hamza and Lennart playtest on real phones.
-3. Polish: the "Known, not fixed" list above, then a performance pass on low-end phones.
-4. Decide the FLAG questions.
+## 9. Status (2026-10-21)
+- Playable end to end: 8 levels, server farm, boat shooter, menus, cassettes, cheats and credits, in 3 languages. `main` has PR #5 (Streamline) merged; issue #4 settled by it.
+- Untracked, waiting for Hamza: `assets/N001–N005`, `assets/chars/N/` (N atlas, a "Pixel Devil Businessman" sheet; possibly the SHAYTAN design) and `Emails/`.
+- Many stale local branches (ahmad-1..4, integ, pr3, pr-3, gta-oran-vendor, a worktree branch). Prune only with Hamza's ok.
 
-## Team roles
-**Hamza (director / owner)**
-- Decides on vision, story, art and music direction, and what ships.
-- Supplies the assets (art, audio, video) and the copy.
-- Playtests on real devices and reports what feels wrong.
-- Approves before any delete, push or deploy.
+## 10. Open
+**Decisions for Hamza and Lennart**
+- Server farm (`SC.payne`): there is no game over at 0 lives.
+- Shooter (`SC.shoot`): unlimited free continues; it never reaches `SC.cont`.
+- In story mode the server farm takes stage4's slot, so ZIDANE is playable only from stage select. Is that intended?
+- RESET SAVE keeps options and language. Is that intended?
+- The SHAYTAN.EXE design.
 
-**Claude (lead engineer + QA)**
-- Reads this file first, and changes code with the smallest diff that works (ponytail ladder).
-- Fixes the root cause, never the symptom. Greps every caller first.
-- Runs `tests/smoke.js` before saying "done", and says plainly what wasn't checked.
-- Updates the Status and Next sections of this file at the end of each session.
+**Known bugs / polish**
+- Heavy media: unlockDecks loads yalla.mp3 into both decks, unlockAudio primes every tape video on the first tap, and kick() bypasses MBLOB for rainoir.
+- FR: the Rick Rumi talk, the Tata skit and the hellIntro body are still English (stale FR_T keys). The continue-screen coin animation overlaps the long stage-9 subtitle.
+- `assets/video/bloopers.mp4` is missing, so the reel is skipped.
+- Portrait with the D-pad: the pause button overlaps the bottom-right key.
+- Haggle HUD: "HIS HONOUR" touches its bar.
+- PR #5 lines need FR/AR. Draft from tata 01/02 (Oran darija, not reviewed) is in the 2026-10-21 session scratchpad as pr5_i18n_v2.json; Hamza reviews before it goes in. Check: "جوج" should be "زوج", "UNC K7" = "عمي K7"?
+- Nokia LCD at 4px: line 2 of a long text looked overprinted in a screenshot; check on a phone.
+- Bro Gawdat now has a speaking role: confirm consent.
+- Arabic needs a native-speaker pass. Lines changed in the Oct 19 flow pass still need FR/AR.
+- Won't fix: Press Start 2P draws small accents on capitals (É).
 
-**Workflow per task**
-1. Hamza states the goal.
-2. Claude reads this file and the relevant code, then proposes a plan in 1–3 lines.
-3. Hamza says yes or adjusts.
-4. Claude builds.
-5. Claude runs the smoke test and looks at screenshots.
-6. Hamza playtests.
-7. Commit.
-8. Update this file.
+## 11. Next
+1. Hamza and Lennart playtest on real phones.
+2. Settle the Decisions above.
+3. Fix the Known bugs list, then a performance pass on low-end phones (media first).
+4. Native Arabic pass and the FR catch-up.
 
-## Skills to use
-Always on: `hamza` (it includes the caveman voice and ponytail build rules, so invoking `hamza` covers both).
-
-Use per task:
-- `replica-test`: Playwright test plans and bug reports. Use it for the bug sweep and to extend `smoke.js`.
-- `code-review` / `simplify`: run them after each change set, once git exists.
-- `animate`, `review-animations`-style motion work: hit feel and transitions.
-- `impeccable` / `ui-ux-pro-max`: menus, HUD and touch-control UX polish.
-- `replica-deploy`: the release step (host, domain, DNS).
-- `banner-design` / `design`: store and social promo art for the launch.
-- `run`: launch and drive the game locally.
-
-Skip: threejs-webgl, gsap-scrolltrigger, scroll-reveal-libraries and modern-web-design (wrong fit for a canvas game), and replica-recon/architect/brand (this isn't a clone).
-
-## Story continuity (Oct 18 pass)
-- Intro: Mama (motherboard) makes Cheb; Vocoder Versace flops; Aldi's fake streams; he goes home to Oran for three months in the real world.
-- Oran: K7 shows Cheb around, Oran mocks the A.I. artist, the fixers attack, they hide in Sawna Rec (Retro, haggle, the rare K7 hunt vs the hipster from Brussels), they come out to more fixers. Vocoder Versace sits in a -90% bin by the door (background only).
-- Currency: Oran = dinar (DA). Cairo vendors joke about it.
-- Cairo: no Aicha yet. Mama's weak signal warns him (every like costs her power).
-- Marseille: Yalla Soundsystem is sold out but the promoter wants more oriental wedding music, so Khalil prompts Cheb into the club. Aicha (his sister, lives in Marseille) is introduced here. Police raid; Cheb has no passport (he is a prompt), so the crew gets him out on the boat.
-- Marseille (Le Décolonial): el.7mz mural at the entrance (drop the real file at assets/art/mural_7mz.png), booker in red jeans, Nadia's last shift at the staff exit gives the Carte de Séjour tape. Hipster one-liners only play in Marseille.
-- Boat: Benghazi → Oran, only the crew aboard.
-- Credits: CAMEOS section lists every real artist/parody; fates include Retro, the man from Brussels, Le Décolonial and Nadia.
-- Consent: Retro Cassetta said yes (Oct 18). Wililah and 3phaz said yes earlier. SHAYTAN.EXE design: Hamza decides (no real politician's face).
-
-## Short-attention-span pass (Oct 18)
-- Instant start: tap → Sawna logo (~2s) → title. The intro videos/cutscene still play on title idle (40s).
-- Every stage clear builds a 9:16 poster (hero sprite, RAÏ NOIR chrome type, the line of the level, score, hit chain). Y or tap = share (native share sheet, or save-image fallback).
-- Hit chain counter + hype words at 5/10/15/20/30/50/80 hits (WALLAH! YA SALAM! SAHHA! MABROUK! 3ASSAL! LEGEND, KHOYA! MAMA SAW THAT.) with hit-stop and shake.
-
-## Flow pass (Oct 19): the Sunday text, fewer popups, 7 stages
-- Wording: the Sunday-evening (6d8ff20) sentences are back. Lennart liked them better than the trimmed Monday rewrite. The popup cuts are kept: kiosk, El M3alim taunt, robot-camel line, couscous radio, volunteer door, YSS mic skit, Aldi solidarity, Aldi in hell #1, boat radio #1, intro REWIND/FAMOUS, 'authentic diaspora'/Edward Said, Mama phone after the raid, meta chat, Khalil's Benghazi panel, voicemail replay, 'seven billion users'.
-- Kept on purpose: Mama's Cheba Warda radio call in Marseille ("too good to let go").
-- Optional stops: Retro Cassetta (Oran, haggle), Tata (Cairo) and Nadia (Cyber Cairo, Carte de Séjour tape) no longer pop up. They stand in the level with a cassette/♪ icon; walk up and press A to talk, or walk past (one short shout). Code: `stop:` field on SKITS, `startSkit`, `stopsUpdate`, `drawStops`.
-- Club Le Décolonial: no jokes about queer people. The line-up checkbox poster is now an "Authentic Diaspora Night / fee: exposure" poster; DJ Checkbox says "I filled in 14 forms to play one set." Satire targets the club and funders, never identities.
-- Stages 9 → 7: Hell.exe, the lift and Jannah.exe are one STAGE 7 · FINALE (`part:1` levels: no poster, a short KEEP GOING beat between parts). The lift has 4 floors instead of 6. Hell and Jannah are ~20% shorter; the dream (7elm 7ram) is ~25% shorter.
-- Fixed: SKITS had two `cairo:` keys, so the Spiderman/TIRIRIRI skit never played. Merged.
-- Changed lines still need FR/AR (Hamza).
-
-## Streamline pass (Oct 20): fight first, the Nokia, side quests
-- Start: Sawna logo, then the title. START = you are fighting in Oran within seconds. The Vocoder Versace intro is in the menu (STORY SO FAR · INTRO).
-- Save: every stage start is saved (`rainoir-save`). START on the title asks CONTINUE / NEW GAME when there is a save.
-- Hero: you are always Cheb. Unc K7 (Oran) and Aicha (Marseille) stand in the levels and talk; meeting them unlocks them on the title (`rainoir-met`). No follower.
-- Popups: max one story popup per level. Everything else is a text on the Nokia (bottom right, you keep fighting): Mama, nephew Yacine, Plaiboy Aldi, Khalil. Mama's Cheba Warda moment is a Nokia call.
-- The thread: Mama = god, Plaiboy Aldi = the devil, both just Cheb's training data. In the dream they finish each other's text: "I'M THE HALF OF YOU THAT PRESSED SEND." / "AND I AM THE HALF THAT WAITS."
-- Side quests (walk up + A, or walk past): Retro Cassetta at the end of Oran (real art: `assets/chars/retro_74.png` cut from his sheet, swoosh painted out; popup art `assets/story/retro_stall.webp`), the Hoodie Man (Cairo), Tata and Nadia (Marseille). The others hang as polaroids on the wall.
-- Bro Gawdat runs the net café in Cyber Cairo ("BE KIND TO IT. IT LEARNS FROM YOU, LIKE A CHILD.").
-- Boat: Benghazi → Oran is one stage now: flare-gun shooter first, then the deck fight. Marseille goes straight into the dream.
-- New/changed lines need FR/AR.
+## 12. Log (one line per session)
+- 10-16: git init, package.json, smoke test; GitHub Pages live; bug sweep 1 (9 fixes); 558 darija strings; sprite pass 1 (magenta cleanup, 2px repack).
+- 10-17: sprite pass 2 (165 leftover pieces cleared); camel redrawn by Hamza.
+- 10-18: HELL.EXE final level (Matrix intro, Neo dodge); Amor Haram clock; story continuity pass; share posters and hit chain; Higgsfield art vendored.
+- 10-19: flow pass (story text ~1,900 to ~1,150 words; duplicate `cairo:` skit key fixed); PR #3 merged (audio at -12 LUFS); sweep 2 (44px targets, overlaps, stageDraw crash, 200 AR strings).
+- 10-20: PROJECT.md restructured. Lennart's PR #5 (fight first, Nokia, side quests, save, one boat stage, 7-stage finale).
+- 10-21: PR #5 merged by Hamza; dead code removed (oranDetails, STORYCAST lookup in startLevel); AR stage list ends in الفينال; smoke 104/104.

@@ -676,7 +676,7 @@ const AR_T={
 "CHEB GPT · 2025 – 2026":"شاب جي بي تي · 2025 – 2026",
 "TAP THE BUTTON / A = OPEN · TAP ELSEWHERE / START = TITLE":"كبّس الزر / A = حلّ · كبّس بلاصة أخرى / START = العنوان",
 "◀ ▶  VOCODER WAVE  ·  DASH: SHOULDER":"◀ ▶  موجة الفوكودر  ·  الاندفاع: الكتف",
-"ZIZOU → ZOMBY → AMOR HARAM → ZIDANE → 7ELM 7RAM → GHORBA → FINALE":"زيزو → زومبي → أمور حرام → زيدان → حلم حرام → غربة → أديو",
+"ZIZOU → ZOMBY → AMOR HARAM → ZIDANE → 7ELM 7RAM → GHORBA → FINALE":"زيزو → زومبي → أمور حرام → زيدان → حلم حرام → غربة → الفينال",
 "HIDDEN SOMEWHERE IN MARSEILLE · RARE":"مخبّى في مارسيليا · نادر",
 "◀ NORMAL ▶":"◀ عادي ▶",
 "TEK":"تك",
@@ -2099,7 +2099,7 @@ function shortLevel(L){ if(L._short) return L._short; const f=SHORTF[L.id]||.7, 
   for(const n of (c.npcs||[])) n[1]=Math.round(n[1]*f); for(const pr of (c.props||[])) pr[1]=Math.round(pr[1]*f);
   if(SKITS[L.id]&&!SKITS[L.id]._s){ SKITS[L.id].forEach(sk=>sk.at=Math.round(sk.at*f)); SKITS[L.id]._s=1; }
   L._short=c; return c; }
-function startLevel(i){ saveProgress(i); try{ if(G){ if(G.mainCi==null) G.mainCi=G.ci; const sc=null; /* you are always Cheb; Unc K7 (Oran) and Aicha (Marseille) are in the levels and unlock */ /* story: K7 leads in Oran, Aicha in Marseille; everywhere else you keep your own fighter */ const ci=sc?CHARS.findIndex(c=>c.id===sc.id):G.mainCi; if(ci>=0){ G.char=CHARS[ci]; } G.castMsg=sc?sc.why:null; } }catch(e){}
+function startLevel(i){ saveProgress(i); try{ if(G){ if(G.mainCi==null) G.mainCi=G.ci; /* you are always Cheb; Unc K7 (Oran) and Aicha (Marseille) are in the levels and unlock */ const ci=G.mainCi; if(ci>=0){ G.char=CHARS[ci]; } G.castMsg=null; } }catch(e){}
   try{ const L=LEVELS[i], k=LVTRACKS[L.id]||[L.music]; trimMusic(k); prefetchMusic(k); }catch(e){}
   G.level=i; LV=shortLevel(LEVELS[i]); G.waveSongDone=0; G.holdMsg=0; G.holdT=0; G.djEarly=0; G.djWarda=0; G.djJump=0; G.yssWant=0; G.yssLive=0; G.wardaSkit=0;
   const imgs = LV.id==='boat' ? null : i===0 ? (IMG['bg/oran_corniche']&&IMG['bg/oran_souk']? [{img:IMG['bg/oran_corniche']},{img:IMG['bg/oran_blvd']},{img:IMG['bg/oran_old']},{img:IMG['bg/oran_souk']}]:null)
@@ -4108,9 +4108,6 @@ function drawHUD(){
 }
 /* ---------- MARSEILLE · LE DÉCOLONIAL (club stage, track: ZIDANE) ---------- */
 const MURAL=[120,470]; let muralPeekT=0;
-function oranDetails(){ return; if(!LV||LV.id!=='oran') return; const x=Math.round(268-camX), y=146; if(x<-40||x>W+10) return; // the EP nobody bought, by Retro's door
-  R(x,y-12,30,12,'#7a5230'); R(x,y-12,30,1,'#b07a48'); for(let i=0;i<6;i++){ R(x+2+i*4.6,y-17+(i%2),4,6,i===2?'#c9a227':'#5a4a7a'); R(x+2+i*4.6,y-15+(i%2),4,1,'#111'); }
-  R(x-2,y-28,34,10,'#ffe066'); text('-90%',x+15,y-27,'#c8102e',5,'center',null); text('VOCODER VERSACE',x+15,y-8,'#ffe066',3,'center',null); }
 function muralPeek(){ if(!LV||!LV.club||!player||stageState!=='play'||skit) return; const near=Math.abs(player.x-(MURAL[1]-50))<40&&player.state==='idle'; muralPeekT=near?muralPeekT+1:0; if(muralPeekT===100){ floatText(player.x,player.y-80,"BOUNCER: THE WALL GOT A BETTER CONTRACT THAN ME.",'#ffd2ee'); if(G){ G.mural=1; } } }
 function buildClub(len){
   const sky=mk(W,224), g=sky.getContext('2d');
@@ -4219,7 +4216,7 @@ function stageDraw(noHud){
   if(BG.far){ ctx.drawImage(BG.far,-Math.round(camX*BG.farRate),0); }
   if(LV&&LV.boat){ for(let i=0;i<26;i++){ const y=116+((i*13)%32), x=((i*71+frame*(0.3+(i%3)*.2))%(W+20))-10; if((frame+i*7)%40<26) R(x,y,2+(i%3),1,i%2?'#ffd27a':'#ff8ab8'); } R(255,113,22,34,'rgba(255,170,90,.18)'); ctx.translate(0,Math.round(Math.sin(frame*.035)*1.4)); }
   ctx.drawImage(BG.mid,Math.round(camX),0,W,224,0,0,W,224);
-  if(LV&&LV.club){ clubFxUnder(); clubYss(); } oranDetails(); drawStops();
+  if(LV&&LV.club){ clubFxUnder(); clubYss(); } drawStops();
   // drawables sorted by y
   const list=[...ents.filter(e=>!(e.dead&&e!==player)||e===player&&!player.dead), ...items, ...projs]; if(assist) list.push(assist);
   list.sort((a,b)=>a.y-b.y);
