@@ -95,7 +95,7 @@ body.cinemode #touch .dpad,body.cinemode #touch .round,body.cinemode #stick{visi
 #rotate{display:none;position:fixed;inset:0;background:var(--void);z-index:9;flex-direction:column;align-items:center;justify-content:center;gap:16px;text-align:center;font-size:9px;line-height:2;color:var(--chrome)}
 #rotate .ph{width:34px;height:60px;border:3px solid var(--mint);border-radius:7px;animation:rot 1.6s ease-in-out infinite}
 @keyframes rot{0%,20%{transform:rotate(0)}60%,100%{transform:rotate(-90deg)}}
-@media (pointer:coarse) and (orientation:portrait){#rotate{display:flex}}
+@media (pointer:coarse) and (orientation:portrait){#rotate{display:flex}#pausebtn{bottom:-52px}}
 .dpad{display:grid;grid-template-columns:repeat(3,48px);grid-template-rows:repeat(3,48px);gap:4px}
 .btns{display:grid;grid-template-columns:repeat(2,60px);gap:8px;align-items:center}
 .tb{font-family:var(--pixel);font-size:10px;color:var(--chrome);background:#24163a;border:2px solid #4a3470;border-radius:10px;touch-action:none;display:flex;align-items:center;justify-content:center;padding:0;-webkit-tap-highlight-color:transparent}
@@ -3170,7 +3170,7 @@ SC.haggle={ k:'r0', t:0, sel:0, hon:100, enter(){ this.k='r0'; this.t=0; this.se
     if(n.flip&&t>40&&t<130){ const k=(t-40)/90; const cx=px+pw*.42, cy=py+ph*.30; ctx.save(); ctx.translate(cx+Math.sin(k*Math.PI)*-14,cy-Math.sin(k*Math.PI)*22); ctx.rotate(k*12); R(-4,-1,8,2,'#f4efe2'); R(3,-1,2,2,'#ff7a1a'); ctx.restore(); if(t<100) text('*FLIP*',cx+18,cy-26,'#ffe066',5,'center',null); }
     // bars
     const bx=px, by=py+ph+8; text(tr('PRICE'),bx,by,'#8a7fa3',5,'left',null); text((n.price||HAGGLE.r2.price)+' DA',bx+40,by,'#ffe066',6,'left',null);
-    text(tr('HIS HONOUR'),bx+100,by,'#8a7fa3',5,'left',null); R(bx+150,by,50,6,'#2a1640'); R(bx+150,by,Math.round(50*this.hon/100),6,this.hon>50?'#7dff8a':this.hon>25?'#ffe066':'#ff3d5a');
+    text(tr('HIS HONOUR'),bx+145,by,'#8a7fa3',5,'right',null); R(bx+150,by,50,6,'#2a1640'); R(bx+150,by,Math.round(50*this.hon/100),6,this.hon>50?'#7dff8a':this.hon>25?'#ffe066':'#ff3d5a');
     // dialogue
     let shown=Math.floor(t*1.5), y=16; const bxx=220, bw=W-bxx-8;
     for(const [who,line] of n.say){ if(shown<=0) break; const s0=tw(line,shown); shown-=line.length+20; const lines=wrapText(s0,bw-12,7).slice(0,6); const h=comicBubble(bxx,y,bw,lines.length?lines:[' '],who||null,bxx-2,y+18,1); y+=h+12; if(y>H-70) break; }
