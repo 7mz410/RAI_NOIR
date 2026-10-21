@@ -168,3 +168,11 @@ Skip: threejs-webgl, gsap-scrolltrigger, scroll-reveal-libraries and modern-web-
 - Before Marseille, CALL A FRIEND brings the family (Unc K7, Aicha). Yalla Soundsystem only appears from the Marseille club on.
 - Story start: the old Oran VHS (5 s, skippable) opens the run, then the fight.
 - Levels end with their song: in Oran, Cyber Cairo, Marseille and the boat, the boss is cued ~38 s before the track ends. Reach it early and the selecta seeks the track to the drop ("PULL UP!"); slow players get the boss where they stand. No offline track after Oran.
+
+## Oct 22 pass
+- Cairo: zomby plays almost to the end (boss cued 8 s before the track ends). El M3alim is the end boss on "Voodoo", entering at 62 s where the little voice starts (drop at 69 s), then the rottweilers. The Hoodie Man / TIRIRIRI skit is the one popup, right before him. The Feed boss and the camel wave are out of Cairo.
+- Cut for now: Rick Rumi (hell goes straight to Jannah), the Zomby client and Amm Shisha in the café. Bro Gawdat stays.
+- Difficulty ramp per stage (`RAMP`): Oran .7 → Cairo .85 → Cyber Cairo .95 → Marseille 1.05 → boat 1.15 → hell 1.35 → Jannah 1.45 (enemy HP and damage to you).
+- Nokia v2: status bar (signal, battery = Mama's power), "1 NEW MESSAGE" first, sender icons. Mama's Cairo radio and Aldi's "theme night" are texts now.
+- Marseille: Cheb answers the club in darija on KOs (`SLANG.club`). DUCK.EXE (an original glitchy rubber duck) shows up once in wave 1, quacks, and crashes itself.
+- Title: drops in `assets/ui/title_heroes.jpg` (text-free hero art) and overlays the exact logo `assets/ui/logo_v3.png`. Until that file exists the old title art shows.
