@@ -1292,6 +1292,7 @@ const PROPSPR={ bin:['po_0'], crate:['po_1','po_7','po_2','po_6'], barrel:['pc_0
 let ATLAS=null; fetch('assets/spr/atlas.json?v='+AV).then(r=>r.json()).then(j=>{ATLAS=Object.assign(j,ATLAS||{});}).catch(()=>{});
 ASSET_LIST['spr/atlas2']='assets/spr/atlas2.png';
 ASSET_LIST['spr/atlas3']='assets/spr/atlas3.png'; ASSET_LIST['spr/atlas4']='assets/spr/atlas4.png'; ASSET_LIST['spr/atlas6']='assets/spr/atlas6.png'; ASSET_LIST['spr/atlas7']='assets/spr/atlas7.png'; ASSET_LIST['spr/atlas8']='assets/spr/atlas8.png'; ASSET_LIST['story/kitchen_tv']='assets/story/kitchen_tv.jpg'; ASSET_LIST['story/nightmare']='assets/story/nightmare.jpg'; ASSET_LIST['bg/nightmare_a']='assets/bg/nightmare_a.jpg'; ASSET_LIST['bg/nightmare_b']='assets/bg/nightmare_b.jpg'; ASSET_LIST['story/ghorba']='assets/story/ghorba.jpg';
+ASSET_LIST['chars/N']='assets/chars/N/N_atlas.png'; let HASN=false; fetch('assets/chars/N/N_atlas.json?v='+AV).then(r=>r.json()).then(j=>{ const m={}; for(const k in j){ m['s_'+k]=[...j[k],'chars/N']; } ATLAS=Object.assign(ATLAS||{},m); HASN=true; }).catch(()=>{});
 let HAS3=false; fetch('assets/spr/atlas3.json?v='+AV).then(r=>r.json()).then(j=>{ const m={}; for(const k in j){ m['e_'+k]=[...j[k],'spr/atlas3']; } ATLAS=Object.assign(ATLAS||{},m); HAS3=true; }).catch(()=>{});
 let HAS4=false; fetch('assets/spr/atlas4.json?v='+AV).then(r=>r.json()).then(j=>{ const m={}; for(const k in j){ m['a_'+k]=[...j[k],'spr/atlas4']; } ATLAS=Object.assign(ATLAS||{},m); HAS4=true; }).catch(()=>{});
 let HAS5=false; fetch('assets/spr/atlas5.json?v='+AV).then(r=>r.json()).then(j=>{ const m={}; for(const k in j){ m['c_'+k]=[...j[k],'spr/atlas5']; } ATLAS=Object.assign(ATLAS||{},m); HAS5=true; }).catch(()=>{});
@@ -1397,7 +1398,7 @@ function spriteKey(e){
   return k;
 }
 const SPR=mk(220,220), SPRC=SPR.getContext('2d'), SIL=mk(220,220), SILC=SIL.getContext('2d');
-// SHAYTAN.EXE: RGB-split band glitch on reveal + rare flicker, and horns / cracked-screen head (docs/shaytan_design.md)
+// SHAYTAN.EXE: RGB-split band glitch on reveal + rare flicker (docs/shaytan_design.md)
 const RM=matchMedia('(prefers-reduced-motion: reduce)').matches;
 function shGlitch(e){ const a=frame-(e.revealF||-999); if(a<54) return RM?(a<12?.5:0):1-a/70; if(RM) return 0; const c=(frame+(e.id|0)*37)%200; return c<7?.35:0; }
 function glitchBlit(img,sx,sy,sw,sh,ox,oy,w,h,g){
@@ -1406,33 +1407,26 @@ function glitchBlit(img,sx,sy,sw,sh,ox,oy,w,h,g){
   for(const [c,dx] of [['#ff2a4a',-o],['#3a8ad8',o]]){ SILC.globalCompositeOperation='source-over'; SILC.clearRect(0,0,220,220); SILC.drawImage(SPR,0,0); SILC.globalCompositeOperation='source-in'; SILC.fillStyle=c; SILC.fillRect(0,0,220,220); SILC.globalCompositeOperation='source-over'; ctx.globalAlpha=.7; ctx.drawImage(SIL,0,0,w,h,ox+dx,oy,w,h); }
   ctx.globalAlpha=1; const bh=4, sd=Math.floor(frame/3);
   for(let y=0;y<h;y+=bh){ const r=Math.sin(y*12.9898+sd*78.233)*43758.5; const f=r-Math.floor(r); const dx=f<.45*g?Math.round((f*2-.45*g)*14*g):0; ctx.drawImage(SPR,0,y,w,Math.min(bh,h-y),ox+dx,oy+y,w,Math.min(bh,h-y)); } }
-const HTOP={}; function headTop(k,A,ax,ay,aw,ah,w,h){ const c=k+w; if(HTOP[c]!=null) return HTOP[c]; SPRC.setTransform(1,0,0,1,0,0); SPRC.clearRect(0,0,220,220); SPRC.drawImage(A,ax,ay,aw,ah,0,0,w,h);
-  const d=SPRC.getImageData(0,0,w,h).data; let y=0, xs=0, n=0; for(;y<h;y++){ for(let x=0;x<w;x++) if(d[(y*w+x)*4+3]>128){ n++; xs+=x; } if(n>=3) break; } return HTOP[c]=[y,Math.round(xs/Math.max(1,n))]; }
-function shaytanHead(e,hx,top,h){ if(['down','dead','fall','getup'].includes(e.state)) return;
-  const d=e.dir>=0?1:-1, u=Math.max(1,Math.round(h/60)), P=(x,y,ww,hh,c)=>{ ctx.fillStyle=c; ctx.fillRect(Math.round(x),Math.round(y),ww*u,hh*u); };
-  for(const k of [-1,1]){ const x=hx+k*4*u-u; P(x,top-2*u,2,3,'#1a0006'); P(x+k*u,top-5*u,2,3,'#ff5a2a'); P(x+k*u,top-6*u,2,1,frame%20<10?'#ffe066':'#ffb347'); }
-  // cracked screen + loading spinner over the face
-  const fy=top+7*u; P(hx-3*u,fy,1,2,'#f4e7c8'); P(hx-2*u,fy+2*u,1,2,'#f4e7c8'); P(hx-u,fy+3*u,2,1,'#f4e7c8'); P(hx+u,fy+4*u,1,2,'#f4e7c8');
-  const sp=Math.floor(frame/5)%8; for(let i=0;i<8;i++){ const an=i*Math.PI/4; P(hx+d*3*u+Math.cos(an)*3*u,fy+2*u+Math.sin(an)*3*u,1,1,i===sp?'#ff3d5a':(i===(sp+7)%8?'#ff2a4a':'rgba(58,138,216,.6)')); } }
 function drawFighter(e,camX){
   const s=e.sc||1;
   let A=IMG['spr/atlas'];
-  const key=ATLAS?spriteKey(e):null;
+  let key=ATLAS?spriteKey(e):null;
+  // SHAYTAN.EXE wears the N sheet (n_0..10 = e_aldi_0..10); falls back to recoloured Aldi if it didn't load
+  const NS=e.type==='shaytan'&&key&&key.startsWith('e_aldi_')&&ATLAS['s_n_'+key.slice(7)]&&IMG['chars/N']&&IMG['chars/N'].naturalWidth>0; if(NS) key='s_n_'+key.slice(7);
   if(key&&ATLAS[key]&&IMG[ATLAS[key][4]||'spr/atlas']){
     const [ax,ay,aw,ah]=ATLAS[key]; A=IMG[ATLAS[key][4]||'spr/atlas']; const gx=Math.round(e.x-camX), gy=Math.round(e.y-e.z)+(e._bob||0)-((e.T&&e.T.hop&&e.state==='walk')||(e.kind==='enemy'&&LV&&LV.club&&curMusic==='jump'&&!['down','dead','fall'].includes(e.state))?Math.round(Math.abs(Math.sin((e.anim||frame)*.25))*4):0);
-    const sc=(s/K)*1.38*(e.T&&e.T.boss?1.1:1)*(e.look&&e.look.look==='cheb'?1.07:1);
+    const sc=(s/K)*1.38*(e.T&&e.T.boss?1.1:1)*(e.look&&e.look.look==='cheb'?1.07:1)*(NS?(1.18/1.5)*(76/80):1);
     const w=Math.round(aw*sc), h=Math.round(ah*sc);
     ctx.fillStyle='rgba(0,0,0,.35)'; ctx.beginPath(); ctx.ellipse(gx,Math.round(e.y)+1,(h<40?18:11)*s,2.5*s,0,0,Math.PI*2); ctx.fill();
     if(e.blink&&Math.floor(frame/3)%2) return;
     const faceL=ATLAS[key][5]==='L'; ctx.save(); ctx.translate(gx,gy); if((e.dir<0)!==faceL) ctx.scale(-1,1);
     // anchor on the idle frame's width so wide attack / kick frames extend forward instead of shifting the body
-    let bw=w, hk=key; { const nm=e.look&&e.look.look; const M=sprm15(e)||(HAS3&&e.kind==='enemy'&&SPRMAP3[e.type==='scooter'?'hustler':(e.type==='zombie'?'z':((e.T&&e.T.base)||e.type))])||(HAS2&&SPRMAP2[nm])||null; const ik=M&&M.idle; const ie=ik&&ATLAS[ik]; if(ie){ bw=Math.round(ie[2]*sc); hk=ik; } }
+    let bw=w, hk=key; { const nm=e.look&&e.look.look; const M=sprm15(e)||(HAS3&&e.kind==='enemy'&&SPRMAP3[e.type==='scooter'?'hustler':(e.type==='zombie'?'z':((e.T&&e.T.base)||e.type))])||(HAS2&&SPRMAP2[nm])||null; const ik=NS?'s_n_0':M&&M.idle; const ie=ik&&ATLAS[ik]; if(ie){ bw=Math.round(ie[2]*sc); hk=ik; } }
     const lying=['down','dead','fall','getup'].includes(e.pose||e.state)||w>h*1.3; const pad=Math.round((ATLAS[key][6]||0)*sc); const ox=lying?-Math.round(w*0.5):-Math.round(Math.min(w-2*pad,bw)*0.45)-pad, oy=-h+2;
     if(e.shadow){ SPRC.setTransform(1,0,0,1,0,0); SPRC.clearRect(0,0,220,220); SPRC.drawImage(A,ax,ay,aw,ah,0,0,w,h); SPRC.globalCompositeOperation='source-atop'; SPRC.fillStyle=e.flashT>0?'rgba(255,60,90,.9)':'rgba(8,0,18,.92)'; SPRC.fillRect(0,0,220,220); SPRC.globalCompositeOperation='source-over'; ctx.drawImage(SPR,0,0,w,h,ox,oy,w,h); if(!lying){ const ey=oy+Math.round(h*0.14), ex=ox+Math.round(Math.min(w,bw)*0.45)+2; R(ex,ey,2,2,'#ff2a4a'); R(ex+5,ey,2,2,'#ff2a4a'); if(frame%30<6){ R(ex-1,ey-1,4,4,'rgba(255,42,74,.35)'); } } }
     else if(e.flashT>0){ SPRC.setTransform(1,0,0,1,0,0); SPRC.clearRect(0,0,220,220); SPRC.drawImage(A,ax,ay,aw,ah,0,0,w,h); SPRC.globalCompositeOperation='source-atop'; SPRC.fillStyle='rgba(255,255,255,.8)'; SPRC.fillRect(0,0,220,220); SPRC.globalCompositeOperation='source-over'; ctx.drawImage(SPR,0,0,w,h,ox,oy,w,h); }
-    else { const rc=(e.kind==='enemy'&&e.T&&e.T.hue!=null)?recolored(key,e.T):null; const gl=e.type==='shaytan'?shGlitch(e):0; if(gl) glitchBlit(rc||A,rc?0:ax,rc?0:ay,aw,ah,ox,oy,w,h,gl); else if(rc) ctx.drawImage(rc,0,0,aw,ah,ox,oy,w,h); else ctx.drawImage(A,ax,ay,aw,ah,ox,oy,w,h); }
+    else { const rc=(!NS&&e.kind==='enemy'&&e.T&&e.T.hue!=null)?recolored(key,e.T):null; const gl=e.type==='shaytan'?shGlitch(e):0; if(gl) glitchBlit(rc||A,rc?0:ax,rc?0:ay,aw,ah,ox,oy,w,h,gl); else if(rc) ctx.drawImage(rc,0,0,aw,ah,ox,oy,w,h); else ctx.drawImage(A,ax,ay,aw,ah,ox,oy,w,h); }
     ctx.restore();
-    if(e.type==='shaytan'){ const I=ATLAS[hk], hw=Math.round(I[2]*sc), hh=Math.round(I[3]*sc), hp=Math.round((I[6]||0)*sc), [ty,tx]=headTop(hk,IMG[I[4]||'spr/atlas'],I[0],I[1],I[2],I[3],hw,hh); shaytanHead(e,gx+(((e.dir<0)!==faceL)?-1:1)*(-Math.round(Math.min(hw-2*hp,bw)*0.45)-hp+tx),gy-hh+2+ty,hh); }
     if(e.T&&e.T.acc) drawAcc(e,gx,gy,w,h);
     if(e.weapon) drawWeaponInHand(e,gx,gy,w-2*pad,h,s,ox+pad);
     return;
