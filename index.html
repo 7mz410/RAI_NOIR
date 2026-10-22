@@ -2152,7 +2152,7 @@ function startLevel(i){ saveProgress(i); try{ if(G){ if(G.mainCi==null) G.mainCi
   if(LV.drive){ ents.push({kind:'car',team:-1,x:150,y:206,z:0,dir:1,state:'idle',t:0,sc:1,hp:1}); }
   if(LV.npcs){ for(const [k,x,y,nm,line,cid] of LV.npcs){ ents.push({kind:'npc',npc:k,cid,team:-1,x,y,z:0,dir:-1,state:'idle',t:0,anim:0,sc:1,hp:1,name:nm,line,said:0,talkT:0,frame:0}); } }
   chamber=null; chat=null; nmT=0; if(LV.amor) G.amor=null; petals=[]; if(LV.jannah){ for(let k=0;k<26;k++) petals.push({x:rnd(0,W),y:rnd(0,H),vx:rnd(-.3,.1),vy:rnd(.2,.5),c:k%3?'#ffd9e6':'#fff6d8',s:k%4?2:3}); }
-  levelT=0; assist=null; if(G.mama==null) G.mama=100; G.mama=Math.min(G.mama,MAMA_AT[i]??100); mamaFx=0; demoCallT=0; if(i===0) G.demoCall=1; if(i>=1) G.calls=Math.min(3,(G.calls||0)+1); playMusic(LV.music,{loop:!!LV.jannah,restart:curMusic!==LV.music,fade:120}); msg={t:170,big:LV.title,small:LV.sub,stage:1};
+  levelT=0; assist=null; if(G.mama==null) G.mama=100; G.mama=Math.min(G.mama,MAMA_AT[i]??100); mamaFx=0; demoCallT=0; if(i===0) G.demoCall=1; if(i>=1) G.calls=Math.min(3,(G.calls||0)+1); playMusic(LV.music,{loop:!!LV.jannah,restart:curMusic!==LV.music,fade:120}); msg={t:IMG[POSTER_COVER[LV.id]]?220:170,big:LV.title,small:LV.sub,stage:1};
 }
 
 /* ---------------- combat ---------------- */
@@ -2469,7 +2469,7 @@ const FRIENDS=[
 ];
 // before Marseille the help is family: Unc K7 and little sister Aicha. Yalla Soundsystem only enters the story at the club.
 const FAMILY=[{id:'k7',name:'UNC K7',tag:'BOOMBOX BLAST',fx:'acid'},{id:'aicha',name:'AICHA',tag:'LITTLE SISTER',fx:'wind'}];
-function friendPool(){ return (LV&&['oran','cairo','amor'].includes(LV.id))?FAMILY:FRIENDS; }
+function friendPool(){ return FAMILY; }
 let assist=null;
 function callFriend(free){ if(!G||player.dead||stageState!=='play') return; if(assist){ return; } if(free){ G.calls++; } if(G.calls<=0){ floatText(player.x,player.y-70,'NO CALLS LEFT','#ff3d5a'); sfx('blip'); return; } if(!(CHEAT.yalla&&cheatsOpen())) G.calls--; mamaCost(2); const pool=friendPool(), f=pool[(G.callN++)%pool.length];
   assist={f,t:0,x:camX-24,y:clamp(player.y,YMIN+6,YMAX-6),z:0,vz:0,dir:1,state:'walk',anim:0,look:LOOKS[f.id],sc:K,kind:'friend',inv:0,flashT:0,team:0}; musicDuck=.5; duckT=150; sfx('special'); shake=3;
@@ -3480,7 +3480,7 @@ SC.select={ i:0, st:0, enter(){ this.i=0; this.st=0; if(curMusic!=='zizou') play
     const o=[tr('CONTINUE')+' · '+e[0],tr('NEW GAME · ORAN')]; o.forEach((l,i)=>{ const on=this.ask===i+1; text((on?'▶ ':'  ')+l,W/2-96,84+i*18,on?'#ffe066':'#9aa6b8',7,'left'); }); text(tr('▲▼ CHOOSE · PUN OK'),W/2,122,'#5a6a88',4,'center',null); }; }
 const STAGELIST=[['FULL GAME','ZIZOU → ZOMBY → AMOR HARAM → ZIDANE → GHORBA → FINALE',()=>go(SC.stage1)],['STAGE 1 · ZIZOU','ORAN — OFFLINE AND LOVING IT',()=>go(SC.stage1)],['STAGE 2 · ZOMBY','MUMYA REEL + CAIRO — BACK ONLINE',()=>go(SC.mumya)],['STAGE 3 · AMOR HARAM','CYBER CAIRO — THE CHAT, THE CABARET, THE LOVE PHONE',()=>playAmorTape()],['STAGE 4 · ZIDANE','MARSEILLE — LE CLUB DÉCOLONIAL · NO PASSPORT',()=>go(SC.marseilleIntro)],['STAGE 5 · GHORBA','MARSEILLE → ORAN — FLARE GUN, THEN THE DECK · TRACK: MAMA',()=>go(SC.boatIntro)],['STAGE 6 · FINALE',"7ELM 7RAM → HELL.EXE → JANNAH.EXE — BEAT IT = FREE SAWNA DOWNLOAD",()=>go(SC.mahramIntro)],['INTRO · RAÏ NOIR','THE TAPE + THE FLASHBACK AGAIN',()=>playChebTape()]];
 ['oran','cairo','cybercairo','marseille','sea','benghazi','jannah','rainoir','serverfarm'].forEach(n=>{ if(!IMG['covers/'+n]) loadImg('covers/'+n,'assets/covers/'+n+'.jpg'); });
-const STAGETHUMB=['shots/00_title_trio','covers/oran','covers/cairo','covers/cybercairo','covers/marseille','covers/7elm7ram','covers/ghorba','covers/serverfarm','covers/serverfarm','covers/jannah','covers/rainoir'];
+const STAGETHUMB=['shots/00_title_trio','covers/oran','covers/cairo','covers/cybercairo','covers/marseille','covers/ghorba','covers/7elm7ram','covers/rainoir'];
 const STAGECOL=['#ffe066','#ff9a4a','#7dff8a','#ff5fa8','#ff3d8b','#b06aff','#ffb36a','#2aff7a','#e8c25a','#5ff0ff','#f4e7c8'];
 SC.stagesel={ i:0, enter(){ this.i=Math.min(this.i||0,STAGELIST.length-1); this.slide=0; },
   update(){ const n=STAGELIST.length;
@@ -3505,7 +3505,7 @@ SC.stagesel={ i:0, enter(){ this.i=Math.min(this.i||0,STAGELIST.length-1); this.
     const pul=frame%30<15; for(const d of [-1,1]){ const ax=d<0?22:W-22; ctx.fillStyle=pul?'#ffe066':'#ff5fa8'; ctx.beginPath(); ctx.moveTo(ax+d*10,cy); ctx.lineTo(ax-d*8,cy-14); ctx.lineTo(ax-d*8,cy+14); ctx.closePath(); ctx.fill(); }
     for(let k=0;k<n;k++) R(W/2-n*6+k*12,cy+ch/2+14,8,3,k===this.i?'#ffe066':'#3a2a5a');
     { const ez=OPT.diff==='easy', hd=OPT.diff==='hard'; const dw=150; R(W/2-dw/2,cy+ch/2+18,dw,11,'rgba(8,4,18,.85)'); text((ez?'▲▼ STORY (EASY)':hd?'▲▼ HARD ×1.5':'▲▼ NORMAL')+'  ·  A / TAP = PLAY',W/2,cy+ch/2+21,ez?'#7dff8a':'#8a7fa3',5,'center',null); }
-    if(this.i===0) text('STORY CAST: CHEB · FATIH IN THE CLUB · KHALIL AT THE WHEEL',W/2,25,'#5ff0ff',5,'center',null);
+    if(this.i===0) text('YOU PLAY CHEB · THE FAMILY HAS YOUR BACK',W/2,25,'#5ff0ff',5,'center',null);
     { R(0,H-20,W,20,'rgba(0,0,0,.55)'); text(tr('RARE K7')+' '+COLL.size+'/'+TAPES.length,6,H-17,'#ffe066',5,'left',null); const tsp=Math.min(18,(W-80)/TAPES.length); TAPES.forEach((t,k)=>{ const x=70+k*tsp, y=H-1; const have=COLL.has(t.id); ctx.save(); if(!have) ctx.globalAlpha=.25; if(!drawAtlas('t_'+t.id,x+8,y,0.5)) { R(x,y-10,14,9,have?'#ffe066':'#444'); } ctx.restore(); }); text(G.char.name+' · B BACK',W-6,H-12,'#8a7fa3',5,'right',null); } } };
 SC.oranStory=cineScene(CINE.oran,'zizou',()=>go(SC.stage1));
 SC.stage1={ isStage:true, enter(){ startLevel(0); }, update(){ stageUpdate(()=>go(SC.plugin)); }, draw(){ stageDraw(); } };
@@ -4304,7 +4304,9 @@ function stageDraw(noHud){
   if(flashA>0){ ctx.fillStyle='rgba(255,255,255,'+clamp(flashA,0,1)*.7+')'; ctx.fillRect(0,0,W,H); }
   if(!noHud) drawHUD();
   if(goT>0&&frame%40<26){ neonText('YALLA!',W-56,90,'#ffe066',14); text('▶',W-24,104,'#ffe066',16,'center'); }
-  if(msg&&(msg.big||msg.small)){ const a=clamp(msg.t/20,0,1); const my=msg.top?34:84; ctx.globalAlpha=a; R(0,my,W,msg.top?34:46,'rgba(0,0,0,.65)'); if(msg.big) chromeText(msg.big,W/2,my+4,msg.top?10:(msg.stage?14:12)); if(msg.small) text(msg.small,W/2,my+(msg.top?22:30),'#ff5fa8',msg.top?6:7,'center'); ctx.globalAlpha=1; }
+  if(msg&&msg.stage&&LV&&IMG[POSTER_COVER[LV.id]]){ const a=clamp(msg.t/20,0,1), im=IMG[POSTER_COVER[LV.id]], age=Math.max(0,220-msg.t), z=1+.06*Math.min(1,age/220), w=Math.round(W*.82*z), h=Math.round(w*im.height/im.width), x=Math.round((W-w)/2), y=Math.round((H-h)/2)-4;
+    ctx.globalAlpha=a; R(0,0,W,H,'rgba(6,2,14,.72)'); R(x-3,y-3,w+6,h+6,'#ffe066'); R(x-1,y-1,w+2,h+2,'#000'); ctx.imageSmoothingEnabled=true; ctx.drawImage(im,x,y,w,h); if(age<10){ R(x,y,w,h,'rgba(255,255,255,'+(1-age/10)*.6+')'); } ctx.globalAlpha=1; }
+  else if(msg&&(msg.big||msg.small)){ const a=clamp(msg.t/20,0,1); const my=msg.top?34:84; ctx.globalAlpha=a; R(0,my,W,msg.top?34:46,'rgba(0,0,0,.65)'); if(msg.big) chromeText(msg.big,W/2,my+4,msg.top?10:(msg.stage?14:12)); if(msg.small) text(msg.small,W/2,my+(msg.top?22:30),'#ff5fa8',msg.top?6:7,'center'); ctx.globalAlpha=1; }
   if(stageState==='clear'&&G.level===0&&stageT>150){ const a=clamp((stageT-150)/60,0,1); ctx.fillStyle='rgba(20,60,120,'+a*.35+')'; ctx.fillRect(0,0,W,H); R(0,84,W,46,'rgba(0,0,0,.7)'); neonText('EVERYBODY WENT ONLINE...',W/2,100,'#5ff0ff',9); text('...AND NEVER LOOKED UP AGAIN',W/2,114,'#ff5fa8',7,'center'); }
   if(stageState==='clear'&&!(G.level===0&&stageT>150)){ R(0,70,W,80,'rgba(0,0,0,.7)'); chromeText(LV.part?'KEEP GOING':'STAGE CLEAR',W/2,78,18); text('SCORE '+String(Math.round(G.score)).padStart(7,'0'),W/2,108,'#ffe066',8,'center'); text(tr('RARE K7')+' '+COLL.size+'/'+TAPES.length,W/2,138,'#ffe066',6,'center',null); if(G.level>=1) text('MAMA '+Math.round(G.mama)+'%',W/2,147,'#7dff8a',6,'center',null); if(LV.battery) text('WOKE UP: '+G.woke,W/2,124,'#5ff0ff',8,'center'); else text('OFFLINE = THE GOOD LIFE',W/2,124,'#5ff0ff',7,'center'); }
   drawNokia(); drawCafe(); drawSlomo(); drawEpic(); if(stageState==='clear') drawPosterPeek();
