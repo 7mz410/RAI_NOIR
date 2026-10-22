@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<meta name="theme-color" content="#07040d">
+<title>RAÏ NOIR · rebuild</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Bungee&display=swap">
+<style>
+:root{--bg:#07040d;--neon:#ff3d8b;--gold:#ffe066;--mint:#2fd1c1;--pad:#1a1228;--padline:#3a2a55;--safe:max(env(safe-area-inset-left,0px),env(safe-area-inset-right,0px))}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;height:100%;background:var(--bg);color:#eee;font-family:'Press Start 2P',monospace;overflow:hidden;touch-action:none;user-select:none;-webkit-user-select:none}
+body{display:flex;align-items:center;justify-content:center}
+#screen{position:relative;width:min(100vw,calc(100vh*384/224));aspect-ratio:384/224}
+canvas{display:block;width:100%;height:100%;image-rendering:pixelated;image-rendering:crisp-edges;background:#000}
+/* touch controls: only on coarse pointers */
+#touch{display:none}
+@media (pointer:coarse){
+  #touch{display:block;position:fixed;inset:0;pointer-events:none;z-index:5}
+  #screen{width:min(calc(100vw - 236px - 2*var(--safe)),calc(100vh*384/224))}
+  #stick{position:absolute;left:0;top:0;bottom:0;width:45vw;pointer-events:auto}
+  #stickbase{position:absolute;width:104px;height:104px;border-radius:50%;background:rgba(255,255,255,.07);border:2px solid rgba(255,255,255,.18);left:calc(24px + var(--safe));bottom:24px;opacity:.75}
+  #knob{position:absolute;width:48px;height:48px;border-radius:50%;background:rgba(255,255,255,.35);left:28px;top:28px}
+  #btns{position:absolute;right:calc(6px + var(--safe));bottom:16px;display:grid;grid-template-columns:repeat(2,54px);gap:8px;pointer-events:auto}
+  .b{width:54px;height:54px;border-radius:50%;border:2px solid rgba(255,255,255,.25);font:7px 'Press Start 2P',monospace;color:#fff;display:flex;align-items:center;justify-content:center;text-shadow:0 1px 0 #000;opacity:.85;pointer-events:auto}
+  .b:active,.b.on{opacity:1;transform:scale(.94)}
+  .b[data-k=a]{background:#b8143a}.b[data-k=k]{background:#0e5fb8}.b[data-k=b]{background:#178a3e}.b[data-k=c]{background:#b07d00}
+  #start{position:absolute;top:10px;right:calc(14px + var(--safe));width:52px;height:28px;border-radius:14px;background:#2a1c3d;border:1px solid var(--padline);font:6px 'Press Start 2P',monospace;color:#cbb;display:flex;align-items:center;justify-content:center;pointer-events:auto}
+}
+@media (pointer:coarse) and (orientation:portrait){
+  #rotate{display:flex}
+}
+#rotate{display:none;position:fixed;inset:0;background:var(--bg);z-index:9;align-items:center;justify-content:center;text-align:center;font-size:9px;line-height:2;color:var(--gold);padding:24px}
+#rotate b{display:block;font-size:26px;margin-bottom:12px;animation:rot 1.6s ease-in-out infinite}
+@keyframes rot{0%,100%{transform:rotate(0)}50%{transform:rotate(-90deg)}}
+</style>
+</head>
+<body>
+<div id="screen"><canvas id="cv" width="768" height="448"></canvas></div>
+<div id="touch">
+  <div id="stick"><div id="stickbase"><div id="knob"></div></div></div>
+  <div id="btns">
+    <div class="b" data-k="b">JUMP</div><div class="b" data-k="a">PUNCH</div>
+    <div class="b" data-k="c">SPECIAL</div><div class="b" data-k="k">KICK</div>
+  </div>
+  <div id="start">START</div>
+</div>
+<div id="rotate"><div><b>📱</b>ROTATE YOUR PHONE<br>RAÏ NOIR PLAYS IN LANDSCAPE</div></div>
+<script src="src/core.js"></script>
+<script src="src/assets.js"></script>
+<script src="src/sprites.js"></script>
+<script src="src/levels.js"></script>
+<script src="src/fight.js"></script>
+<script src="src/scenes.js"></script>
+<script src="src/main.js"></script>
+</body>
+</html>
