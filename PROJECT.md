@@ -145,3 +145,5 @@ RAÏ NOIR is a single-file browser arcade game (a side-scrolling beat 'em up) th
 - Fixed: the boss-KO white flash froze over the stage-clear screen (flashA didn't decay in the clear state).
 - Credits: LENNART THIENPONT AKA LAMARTINE PONCH; art direction Bader Shashit, Hamza Abu Ayyash, Lamartine Ponch.
 - Music chain: zizou → mumya → zomby → voodoo → amorharam → warda → zidane → jump (Marseille boss → shooter) → mama (deck) → helm7ram (dream) → poete (hell) → adieu (Jannah, ending, credits).
+- Oct 22 (later): the dream is a short bit, not a level: two 7ELM 7RAM panels (the real Cheb GPT passes by) + two "two halves" panels (Aldi, Mama → the cable) on helm7ram, which slides (4 s crossfade) into Poète maudit du bled at HELL.EXE (STAGE 6 · FINALE), then JANNAH (PART 2). The thesis is on screen once in the ending: "MAMA AND ALDI WERE JUST WHAT HE WAS TRAINED ON. THIS TIME HE PICKED WHO TO LISTEN TO."
+- First screen of Oran is pure brawling: enemy one-liners start at screen two and come less often. Marseille joke pools thinned (ally, tote: 5 lines each; no pronoun/safe-space jokes). Aicha is labelled "YOUR LITTLE SISTER".
