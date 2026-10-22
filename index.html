@@ -95,7 +95,7 @@ body.cinemode #touch .dpad,body.cinemode #touch .round,body.cinemode #stick{visi
 #rotate{display:none;position:fixed;inset:0;background:var(--void);z-index:9;flex-direction:column;align-items:center;justify-content:center;gap:16px;text-align:center;font-size:9px;line-height:2;color:var(--chrome)}
 #rotate .ph{width:34px;height:60px;border:3px solid var(--mint);border-radius:7px;animation:rot 1.6s ease-in-out infinite}
 @keyframes rot{0%,20%{transform:rotate(0)}60%,100%{transform:rotate(-90deg)}}
-@media (pointer:coarse) and (orientation:portrait){#rotate{display:flex}}
+@media (pointer:coarse) and (orientation:portrait){#rotate{display:flex}#pausebtn{bottom:-52px}}
 .dpad{display:grid;grid-template-columns:repeat(3,48px);grid-template-rows:repeat(3,48px);gap:4px}
 .btns{display:grid;grid-template-columns:repeat(2,60px);gap:8px;align-items:center}
 .tb{font-family:var(--pixel);font-size:10px;color:var(--chrome);background:#24163a;border:2px solid #4a3470;border-radius:10px;touch-action:none;display:flex;align-items:center;justify-content:center;padding:0;-webkit-tap-highlight-color:transparent}
@@ -676,7 +676,7 @@ const AR_T={
 "CHEB GPT · 2025 – 2026":"شاب جي بي تي · 2025 – 2026",
 "TAP THE BUTTON / A = OPEN · TAP ELSEWHERE / START = TITLE":"كبّس الزر / A = حلّ · كبّس بلاصة أخرى / START = العنوان",
 "◀ ▶  VOCODER WAVE  ·  DASH: SHOULDER":"◀ ▶  موجة الفوكودر  ·  الاندفاع: الكتف",
-"ZIZOU → ZOMBY → AMOR HARAM → ZIDANE → GHORBA → FINALE":"زيزو → زومبي → أمور حرام → زيدان → حلم حرام → غربة → أديو",
+"ZIZOU → ZOMBY → AMOR HARAM → ZIDANE → GHORBA → FINALE":"زيزو → زومبي → أمور حرام → زيدان → غربة → الفينال",
 "HIDDEN SOMEWHERE IN MARSEILLE · RARE":"مخبّى في مارسيليا · نادر",
 "◀ NORMAL ▶":"◀ عادي ▶",
 "TEK":"تك",
@@ -1198,6 +1198,7 @@ Object.assign(FR_T,{"Y / TAP":"Y / TOUCHE","HIS FIRST EP: VOCODER VERSACE. PURE 
 Object.assign(FR_T,{"MORE ARE COMING. IN HERE, WLIDI. YALLA!":"IL EN ARRIVE D'AUTRES. LÀ-DEDANS, WLIDI. YALLA !","HIDING IN MY SHOP AGAIN, K7? A HIPSTER FROM BRUSSELS IS BUYING ALL OUR OLD TAPES.":"ENCORE CACHÉ DANS MA BOUTIQUE, K7 ? UN HIPSTER DE BRUXELLES ACHÈTE TOUTES NOS VIEILLES CASSETTES.","FIND MY RARE K7S BEFORE HE DOES. ...THIS ONE? LET'S TALK.":"TROUVE MES K7 RARES AVANT LUI. ...CELLE-CI ? ON EN PARLE.","WLIDI, YOU'RE THIN. EAT. AND BE A DOCTOR.":"WLIDI, T'ES MAIGRE. MANGE. ET DEVIENS MÉDECIN.","AFTER, MAMA.":"APRÈS, MAMA.","HEAR THAT? THE KIOSK PLAYS YOUR TRACK. BOUGHT FOR ONE DINAR.":"T'ENTENDS ? LE KIOSQUE PASSE TON SON. ACHETÉ POUR UN DINAR.","1997. MY FIRST COMPUTER UNDERLINED EVERY ARABIC WORD IN RED. EVEN MY NAME.":"1997. MON PREMIER ORDI SOULIGNAIT EN ROUGE CHAQUE MOT ARABE. MÊME MON NOM.","THEY WAITED.":"ILS ONT ATTENDU."});
 Object.assign(FR_T,{"SALAM, KHOYA. SAME NAME. DIFFERENT JOB. I BRING THE OLD SONGS BACK.":"SALAM, KHOYA. MÊME NOM. AUTRE MÉTIER. MOI, JE RAMÈNE LES VIEILLES CHANSONS.","...YOU'RE NOT HERE TO FIGHT ME?":"...T'ES PAS LÀ POUR ME COMBATTRE ?","THE SONG IS BIGGER THAN BOTH OF US. NOW WAKE UP.":"LA CHANSON EST PLUS GRANDE QUE NOUS DEUX. MAINTENANT, RÉVEILLE-TOI.","THE OTHER CHEB GPT":"L'AUTRE CHEB GPT"});
 Object.assign(FR_T,{"DJ NEPOTISM":"DJ NÉPOTISME","MY DAD OWNS THE CLUB. AND THE LABEL.":"MON PÈRE POSSÈDE LE CLUB. ET LE LABEL.","I DON'T TOUCH THE DECKS. THE DECKS TOUCH ME.":"JE TOUCHE PAS LES PLATINES. ELLES ME TOUCHENT.","THIS USB HAS ONE SONG. MINE.":"CETTE CLÉ USB A UN SEUL SON. LE MIEN.","BOOKED? I WAS BORN BOOKED.":"BOOKÉ ? JE SUIS NÉ BOOKÉ.","I FILLED IN 14 FORMS TO PLAY ONE SET.":"J'AI REMPLI 14 FORMULAIRES POUR JOUER UN SET.","MY SET IS 45 MINUTES. MY APPLICATION WAS 90 PAGES.":"MON SET FAIT 45 MINUTES. MON DOSSIER FAISAIT 90 PAGES.","I DON'T HAVE A SOUND. I HAVE A PROFILE.":"J'AI PAS DE SON. J'AI UN PROFIL.","I PLAY WHATEVER THE FUND LIKES.":"JE JOUE CE QUE LE FONDS AIME."});
+Object.assign(FR_T,{"CAIRO. YOU SENT 2000 EUROS TO A GIRL ALDI DREW. MAMA PAID THE BILL. THAT TAKE STAYS IN. QUIETLY.":"LE CAIRE. TU AS ENVOYÉ 2000 EUROS À UNE FILLE DESSINÉE PAR ALDI. MAMA A PAYÉ LA NOTE. CETTE PRISE, ON LA GARDE. EN SILENCE.","CAIRO. YOU NEVER SENT THE PHOTO. SHE CRIED REAL CODE. BEST TAKE OF THE NIGHT.":"LE CAIRE. TU N'AS JAMAIS ENVOYÉ LA PHOTO. ELLE A PLEURÉ DU VRAI CODE. MEILLEURE PRISE DE LA NUIT.","CAIRO. THE CAFÉ. THE PINK LINKS. YOU WALKED PAST. GOOD.":"LE CAIRE. LE CAFÉ. LES LIENS ROSES. TU ES PASSÉ TON CHEMIN. BIEN.","JUMP JUST BEFORE A BULLET HITS YOU = BULLET TIME. NO MORE DREAMS, KHOYA. THIS TIME THE FIRE IS REAL.":"SAUTE JUSTE AVANT QUE LA BALLE TE TOUCHE = BULLET TIME. FINI LES RÊVES, KHOYA. CETTE FOIS, LE FEU EST RÉEL.","FINALE · PART 2":"FINALE · PARTIE 2","FINALE · PART 3":"FINALE · PARTIE 3","THE LIFT — GOING UP":"L'ASCENSEUR — ÇA MONTE"});
 Object.assign(AR_T,{"INSERT 1 DINAR":"دخّل دينار واحد","DINAR ACCEPTED":"الدينار تقبل","SAHA. BACK ONLINE.":"صحّة. رجعنا أونلاين.","PRESS START = PAY":"START = خلّص","NO DINAR? CALL MAMA.":"ما عندكش دينار؟ عيّط لماما.","FINISH THE STORY TO UNLOCK THE CREW":"كمّل القصة باش تفتح الكرو","MOVE LIST":"الضربات"});
 
 function frIt(it){ if(LANG!=='fr'||!it) return it; if(it.__fr) return it.__fr; const c=Object.assign({},it); for(const k of ['line','title','tag','feat','sub','who','stamp']) if(typeof c[k]==='string'&&FR_T[c[k]]) c[k]=FR_T[c[k]]; if(Array.isArray(c.msgs)) c.msgs=c.msgs.map(m=>[m[0],FR_T[m[1]]||m[1]]); Object.defineProperty(it,'__fr',{value:c,enumerable:false}); return c; }
@@ -1291,6 +1292,7 @@ const PROPSPR={ bin:['po_0'], crate:['po_1','po_7','po_2','po_6'], barrel:['pc_0
 let ATLAS=null; fetch('assets/spr/atlas.json?v='+AV).then(r=>r.json()).then(j=>{ATLAS=Object.assign(j,ATLAS||{});}).catch(()=>{});
 ASSET_LIST['spr/atlas2']='assets/spr/atlas2.png';
 ASSET_LIST['spr/atlas3']='assets/spr/atlas3.png'; ASSET_LIST['spr/atlas4']='assets/spr/atlas4.png'; ASSET_LIST['spr/atlas6']='assets/spr/atlas6.png'; ASSET_LIST['spr/atlas7']='assets/spr/atlas7.png'; ASSET_LIST['spr/atlas8']='assets/spr/atlas8.png'; ASSET_LIST['story/kitchen_tv']='assets/story/kitchen_tv.jpg'; ASSET_LIST['story/nightmare']='assets/story/nightmare.jpg'; ASSET_LIST['bg/nightmare_a']='assets/bg/nightmare_a.jpg'; ASSET_LIST['bg/nightmare_b']='assets/bg/nightmare_b.jpg'; ASSET_LIST['story/ghorba']='assets/story/ghorba.jpg';
+ASSET_LIST['chars/N']='assets/chars/N/N_atlas.png'; let HASN=false; fetch('assets/chars/N/N_atlas.json?v='+AV).then(r=>r.json()).then(j=>{ const m={}; for(const k in j){ m['s_'+k]=[...j[k],'chars/N']; } ATLAS=Object.assign(ATLAS||{},m); HASN=true; }).catch(()=>{});
 let HAS3=false; fetch('assets/spr/atlas3.json?v='+AV).then(r=>r.json()).then(j=>{ const m={}; for(const k in j){ m['e_'+k]=[...j[k],'spr/atlas3']; } ATLAS=Object.assign(ATLAS||{},m); HAS3=true; }).catch(()=>{});
 let HAS4=false; fetch('assets/spr/atlas4.json?v='+AV).then(r=>r.json()).then(j=>{ const m={}; for(const k in j){ m['a_'+k]=[...j[k],'spr/atlas4']; } ATLAS=Object.assign(ATLAS||{},m); HAS4=true; }).catch(()=>{});
 let HAS5=false; fetch('assets/spr/atlas5.json?v='+AV).then(r=>r.json()).then(j=>{ const m={}; for(const k in j){ m['c_'+k]=[...j[k],'spr/atlas5']; } ATLAS=Object.assign(ATLAS||{},m); HAS5=true; }).catch(()=>{});
@@ -1396,23 +1398,34 @@ function spriteKey(e){
   return k;
 }
 const SPR=mk(220,220), SPRC=SPR.getContext('2d'), SIL=mk(220,220), SILC=SIL.getContext('2d');
+// SHAYTAN.EXE: RGB-split band glitch on reveal + rare flicker (docs/shaytan_design.md)
+const RM=matchMedia('(prefers-reduced-motion: reduce)').matches;
+function shGlitch(e){ const a=frame-(e.revealF||-999); if(a<54) return RM?(a<12?.5:0):1-a/70; if(RM) return 0; const c=(frame+(e.id|0)*37)%200; return c<7?.35:0; }
+function glitchBlit(img,sx,sy,sw,sh,ox,oy,w,h,g){
+  SPRC.setTransform(1,0,0,1,0,0); SPRC.clearRect(0,0,220,220); SPRC.drawImage(img,sx,sy,sw,sh,0,0,w,h);
+  const o=Math.max(1,Math.round(6*g));
+  for(const [c,dx] of [['#ff2a4a',-o],['#3a8ad8',o]]){ SILC.globalCompositeOperation='source-over'; SILC.clearRect(0,0,220,220); SILC.drawImage(SPR,0,0); SILC.globalCompositeOperation='source-in'; SILC.fillStyle=c; SILC.fillRect(0,0,220,220); SILC.globalCompositeOperation='source-over'; ctx.globalAlpha=.7; ctx.drawImage(SIL,0,0,w,h,ox+dx,oy,w,h); }
+  ctx.globalAlpha=1; const bh=4, sd=Math.floor(frame/3);
+  for(let y=0;y<h;y+=bh){ const r=Math.sin(y*12.9898+sd*78.233)*43758.5; const f=r-Math.floor(r); const dx=f<.45*g?Math.round((f*2-.45*g)*14*g):0; ctx.drawImage(SPR,0,y,w,Math.min(bh,h-y),ox+dx,oy+y,w,Math.min(bh,h-y)); } }
 function drawFighter(e,camX){
   const s=e.sc||1;
   let A=IMG['spr/atlas'];
-  const key=ATLAS?spriteKey(e):null;
+  let key=ATLAS?spriteKey(e):null;
+  // SHAYTAN.EXE wears the N sheet (n_0..10 = e_aldi_0..10); falls back to recoloured Aldi if it didn't load
+  const NS=e.type==='shaytan'&&key&&key.startsWith('e_aldi_')&&ATLAS['s_n_'+key.slice(7)]&&IMG['chars/N']&&IMG['chars/N'].naturalWidth>0; if(NS) key='s_n_'+key.slice(7);
   if(key&&ATLAS[key]&&IMG[ATLAS[key][4]||'spr/atlas']){
     const [ax,ay,aw,ah]=ATLAS[key]; A=IMG[ATLAS[key][4]||'spr/atlas']; const gx=Math.round(e.x-camX), gy=Math.round(e.y-e.z)+(e._bob||0)-((e.T&&e.T.hop&&e.state==='walk')||(e.kind==='enemy'&&LV&&LV.club&&curMusic==='jump'&&!['down','dead','fall'].includes(e.state))?Math.round(Math.abs(Math.sin((e.anim||frame)*.25))*4):0);
-    const sc=(s/K)*1.38*(e.T&&e.T.boss?1.1:1)*(e.look&&e.look.look==='cheb'?1.07:1);
+    const sc=(s/K)*1.38*(e.T&&e.T.boss?1.1:1)*(e.look&&e.look.look==='cheb'?1.07:1)*(NS?(1.35/1.5)*(76/80):1);
     const w=Math.round(aw*sc), h=Math.round(ah*sc);
     ctx.fillStyle='rgba(0,0,0,.35)'; ctx.beginPath(); ctx.ellipse(gx,Math.round(e.y)+1,(h<40?18:11)*s,2.5*s,0,0,Math.PI*2); ctx.fill();
     if(e.blink&&Math.floor(frame/3)%2) return;
     const faceL=ATLAS[key][5]==='L'; ctx.save(); ctx.translate(gx,gy); if((e.dir<0)!==faceL) ctx.scale(-1,1);
     // anchor on the idle frame's width so wide attack / kick frames extend forward instead of shifting the body
-    let bw=w; { const nm=e.look&&e.look.look; const M=sprm15(e)||(HAS3&&e.kind==='enemy'&&SPRMAP3[e.type==='scooter'?'hustler':(e.type==='zombie'?'z':((e.T&&e.T.base)||e.type))])||(HAS2&&SPRMAP2[nm])||null; const ik=M&&M.idle; const ie=ik&&ATLAS[ik]; if(ie){ bw=Math.round(ie[2]*sc); } }
+    let bw=w, hk=key; { const nm=e.look&&e.look.look; const M=sprm15(e)||(HAS3&&e.kind==='enemy'&&SPRMAP3[e.type==='scooter'?'hustler':(e.type==='zombie'?'z':((e.T&&e.T.base)||e.type))])||(HAS2&&SPRMAP2[nm])||null; const ik=NS?'s_n_0':M&&M.idle; const ie=ik&&ATLAS[ik]; if(ie){ bw=Math.round(ie[2]*sc); hk=ik; } }
     const lying=['down','dead','fall','getup'].includes(e.pose||e.state)||w>h*1.3; const pad=Math.round((ATLAS[key][6]||0)*sc); const ox=lying?-Math.round(w*0.5):-Math.round(Math.min(w-2*pad,bw)*0.45)-pad, oy=-h+2;
     if(e.shadow){ SPRC.setTransform(1,0,0,1,0,0); SPRC.clearRect(0,0,220,220); SPRC.drawImage(A,ax,ay,aw,ah,0,0,w,h); SPRC.globalCompositeOperation='source-atop'; SPRC.fillStyle=e.flashT>0?'rgba(255,60,90,.9)':'rgba(8,0,18,.92)'; SPRC.fillRect(0,0,220,220); SPRC.globalCompositeOperation='source-over'; ctx.drawImage(SPR,0,0,w,h,ox,oy,w,h); if(!lying){ const ey=oy+Math.round(h*0.14), ex=ox+Math.round(Math.min(w,bw)*0.45)+2; R(ex,ey,2,2,'#ff2a4a'); R(ex+5,ey,2,2,'#ff2a4a'); if(frame%30<6){ R(ex-1,ey-1,4,4,'rgba(255,42,74,.35)'); } } }
     else if(e.flashT>0){ SPRC.setTransform(1,0,0,1,0,0); SPRC.clearRect(0,0,220,220); SPRC.drawImage(A,ax,ay,aw,ah,0,0,w,h); SPRC.globalCompositeOperation='source-atop'; SPRC.fillStyle='rgba(255,255,255,.8)'; SPRC.fillRect(0,0,220,220); SPRC.globalCompositeOperation='source-over'; ctx.drawImage(SPR,0,0,w,h,ox,oy,w,h); }
-    else { const rc=(e.kind==='enemy'&&e.T&&e.T.hue!=null)?recolored(key,e.T):null; if(rc) ctx.drawImage(rc,0,0,aw,ah,ox,oy,w,h); else ctx.drawImage(A,ax,ay,aw,ah,ox,oy,w,h); }
+    else { const rc=(!NS&&e.kind==='enemy'&&e.T&&e.T.hue!=null)?recolored(key,e.T):null; const gl=e.type==='shaytan'?shGlitch(e):0; if(gl) glitchBlit(rc||A,rc?0:ax,rc?0:ay,aw,ah,ox,oy,w,h,gl); else if(rc) ctx.drawImage(rc,0,0,aw,ah,ox,oy,w,h); else ctx.drawImage(A,ax,ay,aw,ah,ox,oy,w,h); }
     ctx.restore();
     if(e.T&&e.T.acc) drawAcc(e,gx,gy,w,h);
     if(e.weapon) drawWeaponInHand(e,gx,gy,w-2*pad,h,s,ox+pad);
@@ -2106,7 +2119,7 @@ function shortLevel(L){ if(L._short) return L._short; const f=SHORTF[L.id]||.7, 
   for(const n of (c.npcs||[])) n[1]=Math.round(n[1]*f); for(const pr of (c.props||[])) pr[1]=Math.round(pr[1]*f);
   if(SKITS[L.id]&&!SKITS[L.id]._s){ SKITS[L.id].forEach(sk=>sk.at=Math.round(sk.at*f)); SKITS[L.id]._s=1; }
   L._short=c; return c; }
-function startLevel(i){ saveProgress(i); try{ if(G){ if(G.mainCi==null) G.mainCi=G.ci; const sc=null; /* you are always Cheb; Unc K7 (Oran) and Aicha (Marseille) are in the levels and unlock */ /* story: K7 leads in Oran, Aicha in Marseille; everywhere else you keep your own fighter */ const ci=sc?CHARS.findIndex(c=>c.id===sc.id):G.mainCi; if(ci>=0){ G.char=CHARS[ci]; } G.castMsg=sc?sc.why:null; } }catch(e){}
+function startLevel(i){ saveProgress(i); try{ if(G){ if(G.mainCi==null) G.mainCi=G.ci; /* you are always Cheb; Unc K7 (Oran) and Aicha (Marseille) are in the levels and unlock */ const ci=G.mainCi; if(ci>=0){ G.char=CHARS[ci]; } G.castMsg=null; } }catch(e){}
   try{ const L=LEVELS[i], k=LVTRACKS[L.id]||[L.music]; trimMusic(k); prefetchMusic(k); }catch(e){}
   G.level=i; LV=shortLevel(LEVELS[i]); G.waveSongDone=0; G.holdMsg=0; G.holdT=0; G.djEarly=0; G.djWarda=0; G.djJump=0; G.yssWant=0; G.yssLive=0; G.wardaSkit=0;
   const imgs = LV.id==='boat' ? null : i===0 ? (IMG['bg/oran_corniche']&&IMG['bg/oran_souk']? [{img:IMG['bg/oran_corniche']},{img:IMG['bg/oran_blvd']},{img:IMG['bg/oran_old']},{img:IMG['bg/oran_souk']}]:null)
@@ -2544,7 +2557,7 @@ function neoTick(){ G.neoT--; const a=DECK[deckI]; try{ a.preservesPitch=false; 
 // the moment Poète maudit du bled explodes (seconds). Placeholder until the real track is in.
 const POETE_DROP=83; // 1:23
 let hellPillars=[], hellEmbers=[];
-function shaytanReveal(e){ if(e.revealed) return; e.revealed=1;
+function shaytanReveal(e){ if(e.revealed) return; e.revealed=1; e.revealF=frame;
   const T=ETYPES.shaytan; e.type='shaytan'; e.T=T; e.name=T.name; e.look=LOOKS[T.look]; e.sc=T.sc*K;
   e.hp=e.maxhp=Math.round(T.hp*(OPT.diff==='easy'?.7:OPT.diff==='hard'?1.35:1)); e.state='hurt'; e.t=0; e.inv=120; e.stun=0; e.fireT=150; bossEnt=e;
   flashA=1; shake=20; hitstop=36; sfx('boom'); sfx('boss'); G.hellRed=1;
@@ -3181,7 +3194,7 @@ SC.haggle={ k:'r0', t:0, sel:0, hon:100, enter(){ this.k='r0'; this.t=0; this.se
     if(n.flip&&t>40&&t<130){ const k=(t-40)/90; const cx=px+pw*.42, cy=py+ph*.30; ctx.save(); ctx.translate(cx+Math.sin(k*Math.PI)*-14,cy-Math.sin(k*Math.PI)*22); ctx.rotate(k*12); R(-4,-1,8,2,'#f4efe2'); R(3,-1,2,2,'#ff7a1a'); ctx.restore(); if(t<100) text('*FLIP*',cx+18,cy-26,'#ffe066',5,'center',null); }
     // bars
     const bx=px, by=py+ph+8; text(tr('PRICE'),bx,by,'#8a7fa3',5,'left',null); text((n.price||HAGGLE.r2.price)+' DA',bx+40,by,'#ffe066',6,'left',null);
-    text(tr('HIS HONOUR'),bx+100,by,'#8a7fa3',5,'left',null); R(bx+150,by,50,6,'#2a1640'); R(bx+150,by,Math.round(50*this.hon/100),6,this.hon>50?'#7dff8a':this.hon>25?'#ffe066':'#ff3d5a');
+    text(tr('HIS HONOUR'),bx+145,by,'#8a7fa3',5,'right',null); R(bx+150,by,50,6,'#2a1640'); R(bx+150,by,Math.round(50*this.hon/100),6,this.hon>50?'#7dff8a':this.hon>25?'#ffe066':'#ff3d5a');
     // dialogue
     let shown=Math.floor(t*1.5), y=16; const bxx=220, bw=W-bxx-8;
     for(const [who,line] of n.say){ if(shown<=0) break; const s0=tw(line,shown); shown-=line.length+20; const lines=wrapText(s0,bw-12,7).slice(0,6); const h=comicBubble(bxx,y,bw,lines.length?lines:[' '],who||null,bxx-2,y+18,1); y+=h+12; if(y>H-70) break; }
@@ -3791,7 +3804,7 @@ SC.credits={ t:0, isCine:true, enter(){ this.t=0; petals=[]; if(!this.fromMenu) 
     { const a=CREDITS.indexOf('A WORD FROM BRO GAWDAT'), b=CREDITS.indexOf('— BRO GAWDAT'), im=IMG['story/gawdat']; if(im&&a>=0){ const ya=y0+a*16, yb=y0+b*16; if(yb>-40&&ya<H+40){ const k=clamp(Math.min((H+40-ya)/80,(yb+40)/80),0,1), h=150, w=Math.round(im.width*h/im.height); ctx.globalAlpha=k*.32; ctx.imageSmoothingEnabled=true; ctx.drawImage(im,4,Math.round(H/2-h/2),w,h); ctx.imageSmoothingEnabled=false; ctx.globalAlpha=1; } } }
     CREDITS.forEach((l,i)=>{ const y=y0+i*16; if(y<-10||y>H+10) return; const big=i===0; if(big) chromeText(l,W/2,y,16); else text(tr(l),W/2,y,i%2?'#f4e7c8':'#ffd9e6',big?10:(l===l.toUpperCase()&&l.length<14&&CREDITS[i+1]!==''&&CREDITS[i-1]===''?6:6),'center'); });
     if(this.t>1200&&frame%50<30) text(tr('PRESS START'),W/2,H-14,'#8a7fa3',5,'center'); } };
-SC.cont={ t:600, coin:0, enter(){ this.t=600; this.coin=0; stopMusic(); sfx('hurt'); },
+SC.cont={ t:600, coin:0, enter(){ msg=null; this.t=600; this.coin=0; stopMusic(); sfx('hurt'); },
   update(){ if(this.coin){ if(--this.coin===0){ this.resume(); } return; } this.t--; const n=charsAvail(); if(pressed.left){ G.ci=(G.ci+n-1)%n; G.char=CHARS[G.ci]; sfx('blip'); } if(pressed.right){ G.ci=(G.ci+1)%n; G.char=CHARS[G.ci]; sfx('blip'); }
     if(OPT.diff==='hard'&&G.contUsed>=(vaultHas('retro_won')?2:1)){ if(this.t<540) endRun(()=>go(SC.title)); return; } if(pressed.start||pressed.a){ this.coin=70; G.contUsed=(G.contUsed||0)+1; sfx('life'); return; } if(this.t<=0){ endRun(()=>go(SC.title)); } },
   resume(){ { const c=G.char; player.look=LOOKS[c.look]; player.name=c.name; player.maxhp=c.hp||100; G.lives=2; G.score=Math.floor(G.score/2); G.tapes=2; G.calls=Math.max(G.calls,2); player.dead=false; player.hp=player.maxhp; player.state='jump'; player.air=true; player.z=110; player.inv=150; ents.includes(player)||ents.push(player); playMusic(LV.music); scene=[SC.stage1,SC.stage2,SC.stage3,SC.stage4,SC.stage5,SC.stage6,SC.stage7,SC.stage8,SC.stage9][G.level]||SC.stage1; yalla(); } },
@@ -4128,9 +4141,6 @@ function drawHUD(){
 }
 /* ---------- MARSEILLE · LE DÉCOLONIAL (club stage, track: ZIDANE) ---------- */
 const MURAL=[120,470]; let muralPeekT=0;
-function oranDetails(){ return; if(!LV||LV.id!=='oran') return; const x=Math.round(268-camX), y=146; if(x<-40||x>W+10) return; // the EP nobody bought, by Retro's door
-  R(x,y-12,30,12,'#7a5230'); R(x,y-12,30,1,'#b07a48'); for(let i=0;i<6;i++){ R(x+2+i*4.6,y-17+(i%2),4,6,i===2?'#c9a227':'#5a4a7a'); R(x+2+i*4.6,y-15+(i%2),4,1,'#111'); }
-  R(x-2,y-28,34,10,'#ffe066'); text('-90%',x+15,y-27,'#c8102e',5,'center',null); text('VOCODER VERSACE',x+15,y-8,'#ffe066',3,'center',null); }
 function muralPeek(){ if(!LV||!LV.club||!player||stageState!=='play'||skit) return; const near=Math.abs(player.x-(MURAL[1]-50))<40&&player.state==='idle'; muralPeekT=near?muralPeekT+1:0; if(muralPeekT===100){ floatText(player.x,player.y-80,"BOUNCER: THE WALL GOT A BETTER CONTRACT THAN ME.",'#ffd2ee'); if(G){ G.mural=1; } } }
 function buildClub(len){
   const sky=mk(W,224), g=sky.getContext('2d');
@@ -4239,7 +4249,7 @@ function stageDraw(noHud){
   if(BG.far){ ctx.drawImage(BG.far,-Math.round(camX*BG.farRate),0); }
   if(LV&&LV.boat){ for(let i=0;i<26;i++){ const y=116+((i*13)%32), x=((i*71+frame*(0.3+(i%3)*.2))%(W+20))-10; if((frame+i*7)%40<26) R(x,y,2+(i%3),1,i%2?'#ffd27a':'#ff8ab8'); } R(255,113,22,34,'rgba(255,170,90,.18)'); ctx.translate(0,Math.round(Math.sin(frame*.035)*1.4)); }
   ctx.drawImage(BG.mid,Math.round(camX),0,W,224,0,0,W,224);
-  if(LV&&LV.club){ clubFxUnder(); clubYss(); } oranDetails(); drawStops();
+  if(LV&&LV.club){ clubFxUnder(); clubYss(); } drawStops();
   // drawables sorted by y
   const list=[...ents.filter(e=>!(e.dead&&e!==player)||e===player&&!player.dead), ...items, ...projs]; if(assist) list.push(assist);
   list.sort((a,b)=>a.y-b.y);
@@ -4295,7 +4305,7 @@ function loop(now){
 window.__rr={step(n,draw){ for(let i=0;i<n;i++){ frame++; musicTick(); transTick(); if(!trans) scene.update(); for(const k in pressed) pressed[k]=false; if(draw&&i%draw===0){ ctx.setTransform(S,0,0,S,0,0); scene.draw(); transDraw(); } } },
   killAll(){ for(const e of ents){ if(e.kind!=='enemy'||e.team!==1||e.dead) continue; if(e.type==='feed'){ feedHit({x:e.x-10,y:e.y,dir:1,z:0,team:0},e,999,9999); continue; } if(e.state==='grabbed'){ if(player&&player.grab===e) player.grab=null; e.state='hurt'; e.t=0; } if(['fall','down','dead','woke','leave'].includes(e.state)||e.hp<=0) continue; if(e.type==='zombie'){ hurt(e,9,true,player); continue; } e.inv=0; hurt(e,9999,true,player); } },
   get stageState(){ return stageState; }, set held(v){ Object.assign(held,v); }, press(k){ pressed[k]=true; }, get LANG(){ return LANG; }, setLang,
-  warp(wi){ ents=ents.filter(e=>e===player||e.kind==='prop'); wave=null; waveIdx=wi; lockX=Infinity; camX=Math.max(0,LV.waves[wi].at-200); player.x=LV.waves[wi].at+5; },setCam(x){camX=x;},get camX(){return camX},get scene(){return scene},SC,go,get G(){return G},get player(){return player},get ents(){return ents},startLevel,newRun,spawn:t=>spawnEnemy(t),skipSkits(){ for(const k in SKITS) SKITS[k].forEach(x=>skitDone.add(x)); skit=null; },setState(v){ stageState=v; if(v==='play'){ DRV=null; player.hide=false; player.x=camX+80; } }};
+  warp(wi){ ents=ents.filter(e=>e===player||e.kind==='prop'); wave=null; waveIdx=wi; lockX=Infinity; camX=Math.max(0,LV.waves[wi].at-200); player.x=LV.waves[wi].at+5; },setCam(x){camX=x;},get camX(){return camX},get scene(){return scene},SC,go,get G(){return G},get player(){return player},get ents(){return ents},startLevel,newRun,spawn:t=>spawnEnemy(t),reveal:e=>shaytanReveal(e),skipSkits(){ for(const k in SKITS) SKITS[k].forEach(x=>skitDone.add(x)); skit=null; },setState(v){ stageState=v; if(v==='play'){ DRV=null; player.hide=false; player.x=camX+80; } }};
 </script>
 
 </body></html>
