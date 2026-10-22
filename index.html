@@ -1891,9 +1891,9 @@ const SKITS={
   // one popup per level (the story beat). sms:1 = a Nokia text, you keep fighting. stop:'x' = optional side quest (walk up, press A).
   // the thread: MAMA = god, PLAIBOY ALDI = the devil. Both are just Cheb's training data talking.
   oran:[
-    {at:500,sms:1,who:'NEPHEW YACINE',line:"KHALI!! MY FRIENDS SAY YOU'RE AN A.I. ARE YOU REAL?? SEND A VOICE NOTE."},
-    {at:700,img:'story/kitchen_tv',who:'MAMA (FROM THE BALCONY)',meet:'k7',line:"WLIDI, YOU'RE THIN. EAT. AND BE A DOCTOR."},
-    {at:720,img:'story/kitchen_tv',who:'CHEB',line:'AFTER, MAMA.'},
+    {at:760,sms:1,who:'NEPHEW YACINE',line:"KHALI!! MY FRIENDS SAY YOU'RE AN A.I. ARE YOU REAL?? SEND A VOICE NOTE."},
+    {at:900,img:'story/kitchen_tv',who:'MAMA (FROM THE BALCONY)',meet:'k7',line:"WLIDI, YOU'RE THIN. EAT. AND BE A DOCTOR."},
+    {at:920,img:'story/kitchen_tv',who:'CHEB',line:'AFTER, MAMA.'},
   ],
   cairo:[
     {at:290,sms:1,who:'MAMA',line:"WLIDI, YOU WENT ONLINE THROUGH ME. EVERY LIKE YOU GET, I PAY."},
@@ -2087,7 +2087,7 @@ function skitDraw(){ const t=skit.t, p=t/skit.dur, sv=SKITV[skit.img], im=(sv&&s
   if(frame%60<40) comicCaption(W-8,H-14,'A ▶','#fff','#000',5,'right'); }
 const LEVELS=[
   {id:'oran',title:'STAGE 1 · ZIZOU',sub:'ORAN — OFFLINE AND LOVING IT',music:'zizou',len:2000,battery:false,dur:100,yMin:176,
-   npcs:[['crew',470,178,'UNC K7',"OFFLINE, WLIDI. NO FEED. NO FANS. JUST ORAN. ...AND THEM.",'k7']],
+   npcs:[['crew',640,178,'UNC K7',"OFFLINE, WLIDI. NO FEED. NO FANS. JUST ORAN. ...AND THEM.",'k7']],
    waves:[{at:180,tAt:5,list:['hustler','hustler']},{at:520,tAt:22,list:['hustler','scooter','tote']},{at:900,tAt:40,list:['goon','hustler','scooter','hustler']},
           {at:1280,tAt:56,list:['hustler','goon','scooter','goon']},{at:1620,tAt:70,boss:1,list:['playback','hustler','scooter']}],
    props:[['bin',345,164,'karantika'],['bin',412,206,'babouche'],['bin',573,204,'pipe'],['crate',853,176,'micstand'],['crate',735,206,'oranges'],['bin',470,170,'tajine'],['crate',985,206,'baguette'],['bin',1191,172,'k7tape'],['crate',1514,206,'tray'],['bin',1794,172,'chechia'],['bin',1470,206,'shisha'],['bin',941,190,'hasni'],['crate',1073,170,'sardines'],['crate',1264,206,'cassette'],['crate',1397,170,'babouche'],['crate',1588,180,'karantika'],['bin',1691,200,'darbuka'],['crate',1853,206,'yamaha'],['crate',1750,168,'sardines']]},
@@ -2230,7 +2230,7 @@ function feedDie(e){ sfx('boom'); flashA=1; shake=16; for(let i=0;i<60;i++) fx.p
   G.score+=20000; bossEnt=null; if(!e.mini) msg={t:240,big:'',small:"ALDI: YOU BROKE MY BEST PRODUCT, HABIBI. I HAVE OTHERS.",top:1}; }
 function spark(x,y){ fx.push({k:'spark',x,y,life:8}); }
 let SAY_LAST=-999; const SAY_SEEN=new Set(); let SAY_ALL=new Set(); try{ SAY_ALL=new Set(JSON.parse(localStorage.getItem('rainoir-jokes')||'[]')); }catch(e){} // enemy one-liners: one at a time, unseen ones first, so every joke gets read
-function floatText(x,y,s,c){ const L=String(tr(s)).length; fx.push({k:'txt',x,y,s,c,life:L>10?Math.min(240,70+L*2.6):55,slow:L>10}); }
+function floatText(x,y,s,c){ if(stageState==='drive'){ if(frame-(floatText.last||0)<45) return; floatText.last=frame; } /* the car ride was a flood of +250s */ const L=String(tr(s)).length; fx.push({k:'txt',x,y,s,c,life:L>10?Math.min(240,70+L*2.6):55,slow:L>10}); }
 function bowlTick(){ for(const g of ents){ if(!g.thrown||g.dead) continue; if(g.state!=='fall'||g.z<=0){ g.thrown=0; continue; }
     for(const o of ents){ if(o===g||o.kind!=='enemy'||o.team!==1||o.dead||g.bowled.has(o)||['down','dead','fall','woke','leave'].includes(o.state)) continue; if(Math.abs(o.x-g.x)<22&&Math.abs(o.y-g.y)<14){ g.bowled.add(o); hurt(o,12*(G.char.pow||1),true,{dir:sgn(g.vx)||1,x:g.x}); floatText(o.x,o.y-60,'STRIKE!','#ff5fa8'); G.score+=300; G.sp=Math.min(100,(G.sp||0)+6); shake=Math.max(shake,4); } } } }
 function breakProp(p){ if(p.dead) return; p.dead=true; sfx('break'); for(let i=0;i<8;i++) fx.push({k:'debris',x:p.x,y:p.y,z:10,vx:rnd(-2,2),vz:rnd(1,3),life:40,c:p.prop==='crate'?'#9a6a3a':p.prop==='barrel'?'#a04a2a':'#2f7a3a'}); items.push({kind:'item',it:p.item,x:p.x,y:p.y,z:12,vz:2,t:0}); if(p.tape){ items.push({kind:'item',it:'tape',tape:p.tape,x:p.x+10,y:p.y,z:30,vz:3,t:0}); sfx('life'); } }
@@ -2291,9 +2291,10 @@ function playerUpdate(p){
   if(p.state==='knee'){ if(p.t===4&&p.grab){ p.kneeN=(p.kneeN||0)+1; if(p.kneeN>=3){ p.kneeN=0; p.state='throwE'; p.t=0; return; } p.grab.inv=0; hurt(p.grab,9*C.pow,false,p); if(p.grab){ p.grab.x=p.x+p.dir*14; p.grab.state='grabbed'; } } if(p.t>=12){ p.state='idle'; } }
   if(p.state==='throwE'){ if(p.t===5&&p.grab){ const g=p.grab; g.state='fall'; g.t=0; g.vz=4.5; g.vx=p.dir*4.6; g.dir=-p.dir; g.hp-=12*C.pow; g.thrown=1; g.bowled=new Set(); sfx('heavy'); shake=5; hitstop=Math.max(hitstop,8); G.sp=Math.min(100,(G.sp||0)+10); floatText(g.x,g.y-60,'THROW!','#ffe066'); for(const o of ents){ if(o!==g&&o.team===1&&o.kind==='enemy'&&!o.dead&&Math.abs(o.x-(g.x+p.dir*40))<30&&Math.abs(o.y-g.y)<14) hurt(o,10,true,p); } p.grab=null; } if(p.t>=16) p.state='idle'; }
   // auto-grab: walking into a stunned enemy
-  if(!busy&&!p.air&&!p.grab&&(held.left||held.right)){ for(const e of ents){ if(e.kind==='enemy'&&e.team===1&&!e.dead&&['hurt','walk','idle','wind'].includes(e.state)&&e.type!=='zombie'&&e.type!=='camel'&&e.type!=='feed'&&!(e.T&&e.T.boss)&&Math.abs(e.x-p.x)<20&&Math.abs(e.y-p.y)<9&&(e.x-p.x)*p.dir>0){ p.grab=e; e.state='grabbed'; e.t=0; e.dir=-p.dir; floatText(p.x,p.y-56,'GRAB','#5ff0ff'); break; } } }
+  if(p.grabCD>0) p.grabCD--;
+  if(!busy&&!p.air&&!p.grab&&!(p.grabCD>0)&&(held.left||held.right)&&!ents.some(o=>o.kind==='enemy'&&o.team===1&&!o.dead&&o.hp>0&&Math.abs(o.x-p.x)>=20&&Math.abs(o.x-p.x)<140)){ for(const e of ents){ if(e.kind==='enemy'&&e.team===1&&!e.dead&&['hurt','walk','idle','wind'].includes(e.state)&&e.type!=='zombie'&&e.type!=='camel'&&e.type!=='feed'&&!(e.T&&e.T.boss)&&Math.abs(e.x-p.x)<20&&Math.abs(e.y-p.y)<9&&(e.x-p.x)*p.dir>0){ p.grab=e; e.state='grabbed'; e.t=0; e.dir=-p.dir; if(G&&!G.grabHint){ G.grabHint=1; floatText(p.x,p.y-56,'GRAB! PUNCH = KNEE · BACK + PUNCH = THROW','#5ff0ff'); } else floatText(p.x,p.y-56,'GRAB','#5ff0ff'); break; } } }
   if(p.grab&&(p.grab.dead||p.grab.state!=='grabbed'&&!['knee','throwE'].includes(p.state))) p.grab=null;
-  if(p.grab&&p.grab.state==='grabbed'){ p.grab.x=p.x+p.dir*14; p.grab.y=p.y; if(p.grab.t>110){ p.grab.state='walk'; p.grab=null; } }
+  if(p.grab&&p.grab.state==='grabbed'){ p.grab.x=p.x+p.dir*14; p.grab.y=p.y; if(p.grab.t>110){ p.grab.state='walk'; p.grab=null; p.grabCD=90; } } // no instant re-grab loop
   if(p.state==='upper'||p.state==='kick'){ if(p.t===Math.round(5*AT)){ const hit=strike(p,p.state==='kick'?30:21,11,(p.state==='kick'?13:11)*C.pow,true); if(!hit) sfx('whiff'); } if(p.t>=Math.round(16*AT)) p.state='idle'; }
   if(p.state==='special'){ specialTick(p); }
   if(p.state==='hurt'){ if(p.t>=14) p.state='idle'; }
