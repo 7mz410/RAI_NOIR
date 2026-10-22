@@ -1754,7 +1754,7 @@ function liftDraw(){ const sp=stageState==='play'&&!wave?3.2:.6; G.liftY=((G.lif
     text(String(1+((Math.floor((frame*sp)/224)+k)%9+9)%9),camX+W-46,y-12,'rgba(255,224,102,.7)',8,'center',null); }
   ctx.restore(); }
 function buildFromImages(len,segs){ // segs:[{img,to}] — plays the panels in order (a journey), no mirroring, soft cross-fades
-  const mid=mk(len,224), m=mid.getContext('2d'); m.imageSmoothingEnabled=false; const XF=180; let x=0, k=0; const seams=[]; // wide, eased cross-fades: one place melts into the next
+  const mid=mk(len,224), m=mid.getContext('2d'); m.imageSmoothingEnabled=false; const XF=180; let x=0, k=0; const seams=[], ends=[]; // wide, eased cross-fades: one place melts into the next
   const SG=segs.filter(s=>s&&s.img), list=SG.map(s=>s.img); if(!list.length) return {far:null,mid,farRate:0};
   const tmp=mk(1400,224), tg=tmp.getContext('2d');
   const nat=list.map(i=>i.width*224/i.height), T=nat.reduce((a,b)=>a+b,0)-XF*(list.length-1), f=T<len&&len/T<1.6?len/T:1; // stretch to fit instead of wrapping
@@ -1763,10 +1763,10 @@ function buildFromImages(len,segs){ // segs:[{img,to}] — plays the panels in o
     else { tg.clearRect(0,0,tmp.width,224); tg.globalCompositeOperation='source-over'; tg.drawImage(img,0,0,w,224); tg.globalCompositeOperation='destination-in'; const g=tg.createLinearGradient(0,0,w,0); const q=XF/w; g.addColorStop(0,'rgba(0,0,0,0)'); g.addColorStop(q*.35,'rgba(0,0,0,.15)'); g.addColorStop(q*.5,'rgba(0,0,0,.5)'); g.addColorStop(q*.65,'rgba(0,0,0,.85)'); g.addColorStop(q,'rgba(0,0,0,1)'); g.addColorStop(1,'rgba(0,0,0,1)'); tg.fillStyle=g; tg.fillRect(0,0,w,224); tg.globalCompositeOperation='source-over'; m.drawImage(tmp,0,0,w,224,x-XF,0,w,224); }
     if(x>0&&!SG[k%SG.length].door){ const c0=x-XF/2, D=64; const g=m.createLinearGradient(c0-D,0,c0+D,0); g.addColorStop(0,'rgba(10,6,24,0)'); g.addColorStop(.5,'rgba(10,6,24,.16)'); g.addColorStop(1,'rgba(10,6,24,0)'); m.fillStyle=g; m.fillRect(c0-D,0,2*D,224); seams.push(c0); }
     if(x>0&&SG[k%SG.length].door){ const c0=x-XF/2, D=70; const g=m.createLinearGradient(c0-D,0,c0+D,0); g.addColorStop(0,'rgba(4,2,10,0)'); g.addColorStop(.42,'rgba(4,2,10,.96)'); g.addColorStop(.58,'rgba(4,2,10,.96)'); g.addColorStop(1,'rgba(4,2,10,0)'); m.fillStyle=g; m.fillRect(c0-D,0,2*D,224); m.fillStyle='rgba(255,224,102,.10)'; m.fillRect(Math.round(c0)-1,40,2,150); }
-    x+=w-(x===0?0:XF); k++; }
+    x+=w-(x===0?0:XF); k++; ends.push(Math.min(x,len)); }
   // hide every open seam behind a silhouette prop (palm, lamp post, column, server rack) like classic beat 'em ups do
   for(const c0 of seams) seamProp(m,Math.round(c0),(typeof LV!=='undefined'&&LV&&LV.id)||'');
-  return {far:null,mid,farRate:0};
+  return {far:null,mid,farRate:0,ends};
 }
 
 /* ================================================================
@@ -2515,9 +2515,14 @@ function drawDS(x,y,wheelA,wob){ // blue Citroën DS, side view, facing right �
   // Cheb leaning out of the window with the heater
   R(x-26,Y-30,8,8,'#c98a5a'); R(x-27,Y-33,10,4,'#f4e7c8'); R(x-18,Y-24,10,3,'#15151c'); R(x-8,Y-24,8,2,'#444');
 }
-function driveDraw(){ const D=DRV; const bw=BG.mid.width; let s=Math.floor(D.scroll)%(bw-W); // tiled scroll
-  ctx.drawImage(BG.mid,s,0,W,224,0,0,W,224);
-  if(BG.far){ ctx.drawImage(BG.far,-Math.round((D.scroll*.3)%BG.far.width),0); ctx.drawImage(BG.far,BG.far.width-Math.round((D.scroll*.3)%BG.far.width),0); ctx.drawImage(BG.mid,s,0,W,224-110,0,0,W,224-110); }
+function driveLoop(){ // the ride loops street→flyover→(cross-fade)→street with no hard wrap; the alley/Nile end is kept for the walk
+  if(BG.loop) return BG.loop; const src=BG.mid, XF=180, L=Math.min(src.width,BG.ends&&BG.ends.length>2?BG.ends[1]:src.width), P=L-XF;
+  const c=mk(P+XF+W,224), g=c.getContext('2d'); g.imageSmoothingEnabled=false; g.drawImage(src,0,0,L,224,0,0,L,224);
+  const t=mk(XF,224), tg=t.getContext('2d'); tg.drawImage(src,0,0,XF,224,0,0,XF,224); tg.globalCompositeOperation='destination-in'; const gr=tg.createLinearGradient(0,0,XF,0); gr.addColorStop(0,'rgba(0,0,0,0)'); gr.addColorStop(.5,'rgba(0,0,0,.5)'); gr.addColorStop(1,'rgba(0,0,0,1)'); tg.fillStyle=gr; tg.fillRect(0,0,XF,224);
+  g.drawImage(t,P,0); g.drawImage(src,XF,0,W,224,P+XF,0,W,224); return BG.loop={c,P,XF}; }
+function driveDraw(){ const D=DRV; const lp=driveLoop(), sc=Math.floor(D.scroll); let s=sc<lp.P+lp.XF?sc:lp.XF+(sc-lp.XF)%lp.P; // seamless loop
+  ctx.drawImage(lp.c,s,0,W,224,0,0,W,224);
+  if(BG.far){ ctx.drawImage(BG.far,-Math.round((D.scroll*.3)%BG.far.width),0); ctx.drawImage(BG.far,BG.far.width-Math.round((D.scroll*.3)%BG.far.width),0); ctx.drawImage(lp.c,s,0,W,224-110,0,0,W,224-110); }
   // road speed lines
   for(let i=0;i<8;i++){ const lx=(i*61-(D.scroll*2)%61+W)%W; R(lx,140+i*9,18,1,'rgba(255,255,255,.12)'); }
   const list=[...D.en,{car:1,y:D.y}]; list.sort((a,b)=>a.y-b.y);
