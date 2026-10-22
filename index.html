@@ -2363,13 +2363,15 @@ function doSpecial(p){
 }
 function specialTick(p){ const id=G.char.id; if(id==='cheb' && p.t===8){ strike(p,64,30,18,true,{around:true}); } if(id==='aicha'){ if(p.t%5===0&&p.t<=25){ strike(p,34,14,7,p.t===25,{around:true}); if(p.t%10===0) sfx('whiff'); } if(p.t%3===0) fx.push({k:'debris',x:p.x+rnd(-14,14),y:p.y,z:2,vx:rnd(-2,2),vz:1,life:12,c:'#5ff0ff'}); if(p.t>=30) p.state='idle'; } if(G.char.crew&&p.t===8&&!(id==='ponch'&&p.mount)){ crewFx(G.char.crew,p); }
   if(id==='ponch'&&p.mount){ const e=p.mount; if(e.dead||e.state==='dead'){ p.mount=null; } else { p.x=e.x-p.dir*12; p.y=e.y; e.dir=p.dir; e.state='hurt'; e.t=0; e.stun=Math.max(e.stun,20); if(p.t%6===0){ hurt(e,4*(G.char.pow||1),false,p); e.state='hurt'; sfx(p.t%12===0?'dum':'heavy'); fx.push({k:'note',x:e.x+rnd(-8,8),y:e.y,z:50,life:26}); } if(p.t>=48){ e.state='fall'; e.t=0; e.vz=4; e.vx=p.dir*3; e.dir=-p.dir; e.stun=0; p.mount=null; p.state='idle'; sfx('down'); return; } } } if(p.t>=(id==='k7'?34:(id==='ponch'&&p.mount?60:26))) p.state='idle'; }
-function playerDie(p){
+function playerDie(p){ try{ if(G&&LV) G.contAt=(curMusic===LV.music&&DECK[deckI])?DECK[deckI].currentTime:0; }catch(e){}
   if(G.lives>0){ G.lives--; p.hp=p.maxhp; p.state='jump'; p.air=true; p.z=110; p.vz=0; p.inv=150; p.weapon=null; G.calls=Math.max(G.calls||0,2); floatText(p.x,p.y-60,'BACK ONLINE · CREW RELOADED','#5ff0ff'); }
   else { p.dead=true; go(SC.cont); }
 }
 
 /* ---------------- enemy update ---------------- */
 function enemyUpdate(e){
+  if(e.team===1&&!e.dead&&e.hp>0) e.age=(e.age||0)+1;
+  if(lockX!==Infinity&&e.team===1&&!e.dead&&e.hp>0){ if(e.age>90){ if(e.x>camX+W-18) e.x-=1.4; else if(e.x<camX+18) e.x+=1.4; } }
   if(SLOMO>0&&e.team===1&&frame%3) return; // bullet time: enemies at a third of the speed
   if(e.inv>0) e.inv--; if(e.flashT>0) e.flashT--;
   e.t++; e.anim++;
@@ -2563,8 +2565,8 @@ function amorClock(){ const a=DECK[deckI]; if(curMusic!=='amorharam'||!a||!a.dur
 
 /* ---------------- NEO MODE: Aldi's agents shoot. Jump right before a bullet hits = bullet time ---------------- */
 function agentUpdate(e){ if(!['walk','idle'].includes(e.state)||!player||player.dead) return false; const p=player;
-  const dx=p.x-e.x, want=sgn(dx)*-130; e.dir=dx<0?-1:1; e.gunT=(e.gunT==null?irnd(60,120):e.gunT)-1;
-  const tx=p.x+want; e.x+=clamp(tx-e.x,-e.T.spd,e.T.spd); e.y+=clamp(p.y-e.y,-.5,.5); e.state='walk'; e.anim++;
+  const dx=p.x-e.x, want=(e.age||0)>420?sgn(dx)*-24:sgn(dx)*-130; /* after ~7 s they stop kiting and come close */ e.dir=dx<0?-1:1; e.gunT=(e.gunT==null?irnd(60,120):e.gunT)-1;
+  const tx=clamp(p.x+want,camX+20,camX+W-20); e.x+=clamp(tx-e.x,-e.T.spd,e.T.spd); e.y+=clamp(p.y-e.y,-.5,.5); e.state='walk'; e.anim++;
   if(e.gunT<=0&&Math.abs(p.y-e.y)<8&&Math.abs(dx)<230){ e.gunT=irnd(120,180); projs.push({kind:'bullet',x:e.x+e.dir*16,y:e.y,z:40,vx:e.dir*3.4,team:1,life:160,dmg:9}); sfx('zap'); spark(e.x+e.dir*16,e.y-40);
     if(!G.neoTip){ G.neoTip=1; msg={t:200,big:'',small:'BULLETS! JUMP JUST BEFORE ONE HITS YOU = BULLET TIME',top:1}; } }
   return true; }
@@ -3820,7 +3822,7 @@ SC.credits={ t:0, isCine:true, enter(){ this.t=0; petals=[]; if(!this.fromMenu) 
 SC.cont={ t:600, coin:0, enter(){ msg=null; this.t=600; this.coin=0; stopMusic(); sfx('hurt'); },
   update(){ if(this.coin){ if(--this.coin===0){ this.resume(); } return; } this.t--; const n=charsAvail(); if(pressed.left){ G.ci=(G.ci+n-1)%n; G.char=CHARS[G.ci]; sfx('blip'); } if(pressed.right){ G.ci=(G.ci+1)%n; G.char=CHARS[G.ci]; sfx('blip'); }
     if(OPT.diff==='hard'&&G.contUsed>=(vaultHas('retro_won')?2:1)){ if(this.t<540) endRun(()=>go(SC.title)); return; } if(pressed.start||pressed.a){ this.coin=70; G.contUsed=(G.contUsed||0)+1; sfx('life'); return; } if(this.t<=0){ endRun(()=>go(SC.title)); } },
-  resume(){ { const c=G.char; player.look=LOOKS[c.look]; player.name=c.name; player.maxhp=c.hp||100; G.lives=2; G.score=Math.floor(G.score/2); G.tapes=2; G.calls=Math.max(G.calls,2); player.dead=false; player.hp=player.maxhp; player.state='jump'; player.air=true; player.z=110; player.inv=150; ents.includes(player)||ents.push(player); playMusic(LV.music); scene=[SC.stage1,SC.stage2,SC.stage3,SC.stage4,SC.stage5,SC.stage6,SC.stage7,SC.stage8,SC.stage9][G.level]||SC.stage1; yalla(); } },
+  resume(){ { const c=G.char; player.look=LOOKS[c.look]; player.name=c.name; player.maxhp=c.hp||100; G.lives=2; G.score=Math.floor(G.score/2); G.tapes=2; G.calls=Math.max(G.calls,2); player.dead=false; player.hp=player.maxhp; player.state='jump'; player.air=true; player.z=110; player.inv=150; ents.includes(player)||ents.push(player); if(curMusic!==LV.music||DECK[deckI].paused) playMusic(LV.music,{seek:(G.contAt||0)}); /* continue picks the song up where it was */ scene=[SC.stage1,SC.stage2,SC.stage3,SC.stage4,SC.stage5,SC.stage6,SC.stage7,SC.stage8,SC.stage9][G.level]||SC.stage1; yalla(); } },
   draw(){ stageDraw(true); ctx.fillStyle='rgba(0,0,0,.82)'; ctx.fillRect(0,0,W,H); const sec=Math.ceil(this.t/60);
     neonText('OFFLINE',W/2,24,'#ff3d5a',20); text('CONTINUE?',W/2,50,'#f4e7c8',9,'center');
     if(this.coin){ // the dinar drops into the slot
