@@ -105,4 +105,33 @@ RAÏ NOIR is a single-file browser arcade game (a side-scrolling beat 'em up) th
 - 10-19: flow pass (story text ~1,900 to ~1,150 words; duplicate `cairo:` skit key fixed); PR #3 merged (audio at -12 LUFS); sweep 2 (44px targets, overlaps, stageDraw crash, 200 AR strings).
 - 10-20: PROJECT.md restructured. Lennart's PR #5 (fight first, Nokia, side quests, save, one boat stage, 7-stage finale).
 - 10-21: PR #5 merged by Hamza; dead code removed (oranDetails, STORYCAST lookup in startLevel); AR stage list ends in الفينال; smoke 104/104.
+- 10-21/22: Lennart's playtest passes (PR #6): 6 stages, Jump through the boat, Cairo boss on Voodoo, Nokia v2, darija club lines, DUCK.EXE, difficulty ramp. Details in the section below.
 - 10-22: agents لولي 01–05: pause/D-pad + haggle label, FR stale strings + continue screen, SHAYTAN design doc, reveal glitch, N atlas wired (political parody, Hamza's call); smoke 104/104; pushed.
+
+## Lennart playtest passes Oct 20–22 (merged from claude/gta-oran)
+### Streamline pass (Oct 20): fight first, the Nokia, side quests
+- Start: Sawna logo, then the title. START = you are fighting in Oran within seconds. The Vocoder Versace intro is in the menu (STORY SO FAR · INTRO).
+- Save: every stage start is saved (`rainoir-save`). START on the title asks CONTINUE / NEW GAME when there is a save.
+- Hero: you are always Cheb. Unc K7 (Oran) and Aicha (Marseille) stand in the levels and talk; meeting them unlocks them on the title (`rainoir-met`). No follower.
+- Popups: max one story popup per level. Everything else is a text on the Nokia (bottom right, you keep fighting): Mama, nephew Yacine, Plaiboy Aldi, Khalil. Mama's Cheba Warda moment is a Nokia call.
+- The thread: Mama = god, Plaiboy Aldi = the devil, both just Cheb's training data. In the dream they finish each other's text: "I'M THE HALF OF YOU THAT PRESSED SEND." / "AND I AM THE HALF THAT WAITS."
+- Side quests (walk up + A, or walk past): Retro Cassetta at the end of Oran (real art: `assets/chars/retro_74.png` cut from his sheet, swoosh painted out; popup art `assets/story/retro_stall.webp`), the Hoodie Man (Cairo), Tata and Nadia (Marseille). The others hang as polaroids on the wall.
+- Bro Gawdat runs the net café in Cyber Cairo ("BE KIND TO IT. IT LEARNS FROM YOU, LIKE A CHILD.").
+- Boat: Benghazi → Oran is one stage now: flare-gun shooter first, then the deck fight. Marseille goes straight into the dream.
+- New/changed lines need FR/AR.
+
+### Solid-first pass (Oct 21)
+- Chain now: Oran → Cairo → Cyber Cairo → Marseille → (club boss down: Habibi's "Jump" starts) → the run → flare-gun shooter on "Jump" → Mama on the deck → hell.exe → Rumi → Jannah. 6 stages.
+- Parked (code stays, not in the chain): the dream (7elm 7ram + bullet time), the lift, all side quests (`SIDEQUESTS=false`).
+- Oran: one popup, one text, one Unc K7 line. Texts moved to Cyber Cairo and the boat. Aldi + Mama "two halves" texts are on the boat now.
+- Before Marseille, CALL A FRIEND brings the family (Unc K7, Aicha). Yalla Soundsystem only appears from the Marseille club on.
+- Story start: the old Oran VHS (5 s, skippable) opens the run, then the fight.
+- Levels end with their song: in Oran, Cyber Cairo, Marseille and the boat, the boss is cued ~38 s before the track ends. Reach it early and the selecta seeks the track to the drop ("PULL UP!"); slow players get the boss where they stand. No offline track after Oran.
+
+### Oct 22 pass
+- Cairo: zomby plays almost to the end (boss cued 8 s before the track ends). El M3alim is the end boss on "Voodoo", entering at 62 s where the little voice starts (drop at 69 s), then the rottweilers. The Hoodie Man / TIRIRIRI skit is the one popup, right before him. The Feed boss and the camel wave are out of Cairo.
+- Cut for now: Rick Rumi (hell goes straight to Jannah), the Zomby client and Amm Shisha in the café. Bro Gawdat stays.
+- Difficulty ramp per stage (`RAMP`): Oran .7 → Cairo .85 → Cyber Cairo .95 → Marseille 1.05 → boat 1.15 → hell 1.35 → Jannah 1.45 (enemy HP and damage to you).
+- Nokia v2: status bar (signal, battery = Mama's power), "1 NEW MESSAGE" first, sender icons. Mama's Cairo radio and Aldi's "theme night" are texts now.
+- Marseille: Cheb answers the club in darija on KOs (`SLANG.club`). DUCK.EXE (an original glitchy rubber duck) shows up once in wave 1, quacks, and crashes itself.
+- Title: drops in `assets/ui/title_heroes.jpg` (text-free hero art) and overlays the exact logo `assets/ui/logo_v3.png`. Until that file exists the old title art shows.
