@@ -2097,7 +2097,7 @@ const LEVELS=[
    props:[['barrel',370,170,'koshary'],['box',533,206,'bendir'],['barrel',666,204,'cassette'],['box',962,180,'pipe'],['box',1081,204,'ringlight'],['barrel',814,206,'dish'],['box',444,206,'chechia'],['barrel',1222,172,'tray'],['box',1481,206,'k7tape'],['barrel',1851,172,'tajine'],['box',1814,206,'shisha'],['barrel',1925,176,'dish'],['barrel',1333,196,'koshary'],['box',1555,176,'darbuka'],['box',1703,170,'hasni'],['barrel',2000,200,'koshary'],['box',2118,186,'ringlight'],['barrel',2162,206,'cassette']]},
   {id:'amor',title:'STAGE 3 · AMOR HARAM',sub:'CYBER CAIRO — SHE IS TYPING…',music:'amorharam',len:2600,battery:true,dur:199,amor:1,yMin:166,
    waves:[{at:200,tAt:12,list:['punk','zombie','punk']},{at:1100,tAt:75,list:['alien','zombie','hustler','dabke']},{at:1500,tAt:105,list:['wiggz','zombie','alien']},{at:1900,tAt:135,list:['punk','dervish','goon','zombie']},{at:2250,tAt:165,boss:1,list:['wiggzboss','punk']}],
-   npcs:[['cafedoor',997,170,'BRO GAWDAT',"YA BASHA, EL AI DA EBNAK. RABBEEH KWAYYES. PC 7 IS FREE. AND YOUR MOTHER CALLED. TWICE."],['dancer',1444,198,'SAMIA','YOU LOOK LIKE A MAN WHO TYPES WITH ONE HAND, HABIBI. THE BOYS OUTSIDE DON\'T LIKE YOUR KIND.'],['stagedancer',2420,150,'SAMIA','']],
+   npcs:[['pc',997,172,'PC 7',''],['owner',1150,178,'BRO GAWDAT',"YA BASHA, EL AI DA EBNAK. RABBEEH KWAYYES. PC 7 IS FREE. AND YOUR MOTHER CALLED. TWICE."],['dancer',1444,198,'SAMIA','YOU LOOK LIKE A MAN WHO TYPES WITH ONE HAND, HABIBI. THE BOYS OUTSIDE DON\'T LIKE YOUR KIND.'],['stagedancer',2420,150,'SAMIA','']],
    props:[['box',380,206,'koshary'],['barrel',560,204,'cassette'],['box',900,206,'k7tape'],['barrel',1200,172,'tray'],['box',1420,206,'shisha'],['barrel',1650,206,'dish'],['box',2000,180,'ringlight'],['barrel',2150,206,'koshary']]},
   {id:'mahram',title:'STAGE 6 · FINALE',sub:'PART 1 · 7ELM 7RAM — A DREAM AT SEA',part:1,music:'helm7ram',len:2800,battery:false,dur:200,nightmare:1,
    waves:[{at:300,tAt:18,list:['sh_hustler','sh_hustler','sh_zombie']},{at:900,tAt:60,list:['sh_goon','sh_punk','sh_influencer']},{at:1700,tAt:112,list:['sh_punk','sh_dervish','sh_zombie']},{at:2450,tAt:165,boss:1,list:['sh_goon','sh_dervish','sh_punk']}],
@@ -2141,7 +2141,7 @@ function startLevel(i){ saveProgress(i); try{ if(G){ if(G.mainCi==null) G.mainCi
   const imgs = LV.id==='boat' ? null : i===0 ? (IMG['bg/oran_corniche']&&IMG['bg/oran_souk']? [{img:IMG['bg/oran_corniche']},{img:IMG['bg/oran_blvd']},{img:IMG['bg/oran_old']},{img:IMG['bg/oran_souk']}]:null)
                      : LV.id==='jannah' ? (IMG['bg/jannah']&&IMG['bg/jannah_chamber']? [{img:IMG['bg/serverfarm']},{img:IMG['bg/jannah'],door:1},{img:IMG['bg/jannah']},{img:IMG['bg/jannah_chamber']}]:null)
                      : LV.id==='hell' ? (IMG['bg/hell_a']&&IMG['bg/hell_b']? [{img:IMG['bg/serverfarm']},{img:IMG['bg/hell_a']},{img:IMG['bg/hell_a']},{img:IMG['bg/hell_b']}] : IMG['bg/serverfarm']? [{img:IMG['bg/serverfarm']},{img:IMG['bg/serverfarm'],door:1},{img:IMG['bg/serverfarm']}]:null)
-                     : LV.id==='amor' ? (IMG['bg/cairo_cafe']&&IMG['bg/cairo_cabaret']? [{img:IMG['bg/amor_nile']},{img:IMG['bg/amor_street'],door:1},{img:IMG['bg/cairo_cabaret'],door:1}]:null)
+                     : LV.id==='amor' ? (IMG['bg/cairo_cafe']&&IMG['bg/cairo_cabaret']? [{img:IMG['bg/amor_nile']},{img:IMG['bg/cairo_cafe'],door:1},{img:IMG['bg/amor_street'],door:1},{img:IMG['bg/cairo_cabaret'],door:1}]:null)
                      : LV.id==='mahram' ? (IMG['bg/nightmare_a']&&IMG['bg/nightmare_b']? [{img:IMG['bg/nightmare_a'],to:LV.len-1100},{img:IMG['bg/nightmare_b'],to:1e9}]:null)
                      : (IMG['bg/cairo_street']&&IMG['bg/cairo_rave_nile']? [{img:IMG['bg/cairo_street']},{img:IMG['bg/cairo_fly']},{img:IMG['bg/cairo_rave_nile']}]:null);
   BG = LV.lift ? buildLift(LV.len) : LV.id==='boat' ? buildBoat(LV.len) : LV.club ? buildClub(LV.len) : imgs? buildFromImages(LV.len,imgs) : (i===0? buildOran(LV.len): buildCairo(LV.len));
@@ -3968,6 +3968,8 @@ function drawNpc(n){ const sx=Math.round(n.x-camX), sy=Math.round(n.y); const fl
       const d=Math.abs(player.x-n.x); if(d<260){ const by=sy-104+Math.round(Math.sin(frame*.2)*3); comicCaption(sx,by,tr(d<30?'PUNCH = LOG ON':'LOG ON TO PC 7'),d<30?'#ffe066':'#fff'); ctx.fillStyle='#ffe066'; ctx.beginPath(); ctx.moveTo(sx-6,by+12); ctx.lineTo(sx+6,by+12); ctx.lineTo(sx,by+19); ctx.fill(); } }
     if(n.talkT>0) qb(sx,sy-40,n.line,n.name,clamp(n.talkT/20,0,1)); return; }
   if(n.npc==='stagedancer'){ const fr=Math.floor(n.anim/10)%2; const bob=Math.round(Math.sin(n.anim*.2)*2); const sway=Math.round(Math.sin(n.anim*.1)*6); if(frame%3===0&&Math.random()<.3) fx.push({k:'note',x:n.x+rnd(-14,14),y:n.y,z:50+rnd(0,20),life:30}); if(!drawAtlas('c_npc_'+(2+fr),sx+sway,sy+bob,1.0,Math.sin(n.anim*.1)<0)){ R(sx-6,sy-40,12,40,'#d02040'); } return; }
+  if(n.npc==='owner'&&IMG['chars/gawdat_idle']){ const g=IMG['chars/gawdat_idle'], sm=ctx.imageSmoothingEnabled; ctx.imageSmoothingEnabled=false; ctx.drawImage(g,Math.round(sx-g.width/2),Math.round(sy-g.height-16+Math.sin(n.anim*.08))); ctx.imageSmoothingEnabled=sm; R(sx-28,sy-22,56,22,'#3a2416'); R(sx-28,sy-22,56,2,'#7a5a3a'); R(sx-26,sy-18,52,1,'rgba(255,190,110,.25)');
+    if(n.talkT<=0) comicCaption(sx,sy-84,tr("BRO GAWDAT'S NET CAFÉ"),'#5ff0ff','#001',5); if(n.talkT>0) qb(sx,sy-74,n.line,n.name,clamp(n.talkT/20,0,1)); return; }
   if(['owner','zclient','shisha','dancer'].includes(n.npc)){ ctx.fillStyle='rgba(0,0,0,.3)'; ctx.beginPath(); ctx.ellipse(sx,sy+1,11,2.5,0,0,7); ctx.fill(); const fr=n.talkT>0?(Math.floor(n.anim/9)%2):0; const key=n.npc==='owner'?'c_npc_'+fr:n.npc==='dancer'?'c_npc_'+(2+fr):n.npc==='shisha'?'c_npc_'+(4+fr):null;
     if(!(key&&drawAtlas(key,sx,sy,1.0,flip))){ const f={look:n.npc==='zclient'?ZLOOKS[2]:LOOKS.k7,dir:n.dir,sc:K,x:n.x,y:n.y,z:0,state:'idle',anim:n.anim}; drawFighter(f,camX); }
     if(n.npc==='owner'&&n.talkT<=0) comicCaption(sx,sy-84,tr("BRO GAWDAT'S NET CAFÉ"),'#5ff0ff','#001',5);
@@ -4025,7 +4027,7 @@ function stageUpdate(onClear){
   if(LV.hell&&!(G.neoT>0)&&player&&!player.dead&&player.state==='jump'&&player.t<3&&incomingBullet()) neoStart();
   if(stageState==='play'&&LV.jannah&&waveIdx>=LV.waves.length&&!wave&&player.x>LV.len-W+40){ chamberStart(); return; }
   if(CAFE){ CAFE.t++; if(CAFE.t>20&&(pressed.a||pressed.start)){ pressed.a=false; pressed.start=false; CAFE=null; chatStart(); } else if(CAFE.t>20&&(pressed.b||pressed.pause)){ pressed.b=false; CAFE=null; } return; }
-  if(stageState==='play'&&LV.amor&&!G.amor&&!wave&&pressed.a&&!player.air){ const pc=ents.find(n=>n.kind==='npc'&&n.npc==='cafedoor'); if(pc&&Math.abs(player.x-pc.x)<34&&Math.abs(player.y-pc.y)<44){ pressed.a=false; CAFE={t:0}; sfx('select'); musicDuck=.5; return; } }
+  if(stageState==='play'&&LV.amor&&!G.amor&&!wave&&pressed.a&&!player.air){ const pc=ents.find(n=>n.kind==='npc'&&n.npc==='pc'); if(pc&&Math.abs(player.x-pc.x)<30&&Math.abs(player.y-pc.y)<40){ pressed.a=false; chatStart(); return; } }
   assistUpdate();
   for(const e of ents) if(e.kind==='enemy'&&!e.dead) enemyUpdate(e);
   // items fall
