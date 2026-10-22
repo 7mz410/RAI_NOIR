@@ -182,7 +182,7 @@ function loadImg(key,src){return new Promise(r=>{const i=new Image();i.onload=()
 const HF_CDN='https://d8j0ntlcm91z4.cloudfront.net/user_3KJVMTVL7n80h8UThtXGEHD8BGV/';
 const HF_ART={'story/matrix_rain':'hf_20261018_135021_db33dbbf-15f4-4ae9-836c-f726964c82ae','story/matrix_dodge':'hf_20261018_135019_a2f32af3-a00d-4a02-9adf-d7e9c8803c22','story/matrix_catch':'hf_20261018_135020_8f449107-930c-4915-9cce-92d140aa9b92','bg/hell_a':'hf_20261018_135020_26f7ccd2-0041-4cb5-951f-0fa2de73a0c4','bg/hell_b':'hf_20261018_135019_b0bd9cae-f1ba-4fa1-b44e-3f27882985db'};
 HF_ART['story/haggle']='hf_20261018_180856_3d8b1c71-9d68-4ad0-9558-06a6bbb67091'; HF_ART['story/tata']='hf_20261018_180857_2225d6bc-52ad-48ce-ba6b-7c9f335b4164'; HF_ART['story/rumi']='hf_20261018_180856_2b7f0020-fd32-4961-81c2-fcbdd234a49d';
-loadImg('story/gawdat','assets/story/gawdat.webp'); loadImg('story/vv_cover','assets/story/vv_cover.jpg'); loadImg('story/vv_bin_photo','assets/story/vv_bin_photo.jpg'); loadImg('story/retro_stall','assets/story/retro_stall.webp'); loadImg('ui/logo_v3','assets/ui/logo_v3.png'); loadImg('ui/title_heroes','assets/ui/title_heroes.jpg'); loadImg('chars/retro_74','assets/chars/retro_74.png'); loadImg('art/mural_7mz','assets/art/mural_7mz.png'); loadImg('chars/booker_44','assets/chars/booker/booker_44.png'); loadImg('chars/booker_88','assets/chars/booker/booker_88.png'); // el.7mz — 'Rooted in Resilience' (Hamza's own file, placeholder until then)
+loadImg('story/gawdat','assets/story/gawdat.webp'); loadImg('story/vv_cover','assets/story/vv_cover.jpg'); loadImg('story/vv_bin_photo','assets/story/vv_bin_photo.jpg'); loadImg('story/retro_stall','assets/story/retro_stall.webp'); loadImg('ui/logo_v3','assets/ui/logo_v3.png'); loadImg('chars/gawdat_idle','assets/chars/gawdat_idle.png'); loadImg('ui/title_heroes','assets/ui/title_heroes.jpg'); loadImg('chars/retro_74','assets/chars/retro_74.png'); loadImg('art/mural_7mz','assets/art/mural_7mz.png'); loadImg('chars/booker_44','assets/chars/booker/booker_44.png'); loadImg('chars/booker_88','assets/chars/booker/booker_88.png'); // el.7mz — 'Rooted in Resilience' (Hamza's own file, placeholder until then)
 HF_ART['story/vv_bin']='hf_20261018_164318_48cff445-1d35-4ad7-84e6-d2646fa4dda1'; // Vocoder Versace in Retro's -90% bin
 HF_ART['story/spider_vendor']='hf_20261018_171602_13efc660-c26c-474a-a547-fa9b66722efb'; // TIRIRIRI skit before El M3alim
 HF_ART['shots/00_title_v2']='https://d2ol7oe51mr4n9.cloudfront.net/user_3KJVMTVL7n80h8UThtXGEHD8BGV/99714105-106a-428a-a9b8-81af77fd587f.jpg'; // new title / album art (Oct 18)
@@ -308,7 +308,7 @@ function stopMusic(){ playMusic(null); }
 const SHAREBTN={x:W-74,y:38,w:68,h:14};
 function drawShareBtn(){ if(!G||!G.shareT||G.shareT<=0) return; G.shareT--; const b=SHAREBTN; R(b.x,b.y,b.w,b.h,'rgba(8,4,18,.9)'); ctx.strokeStyle=frame%20<10?'#ffe066':'#ff5fa8'; ctx.lineWidth=1; ctx.strokeRect(b.x+.5,b.y+.5,b.w-1,b.h-1); text(tr('SHARE THIS'),b.x+b.w/2,b.y+4,'#ffe066',5,'center',null); }
 const POSTER_COVER={oran:'covers/oran',cairo:'covers/cairo',amor:'covers/cybercairo',marseille:'covers/marseille',mahram:'covers/7elm7ram',boat:'covers/ghorba',hell:'covers/serverfarm',lift:'covers/serverfarm',jannah:'covers/jannah'};
-const POSTER_LINE={oran:['RETRO CASSETTA','THEY CALL IT DIGGING. IN ORAN WE CALL IT SHOPPING.'],cairo:['THE HOODIE MAN','SPIDERMAAAN... TIRIRIRI!'],amor:['THE GIRL FROM LISBON',"YOU'RE THE FIRST WHO NEVER SENT THE PHOTO."],
+const POSTER_LINE={oran:['UNC K7','OFFLINE, WLIDI. NO FEED. NO FANS. JUST ORAN.'],cairo:['THE HOODIE MAN','SPIDERMAAAN... TIRIRIRI!'],amor:['THE GIRL FROM LISBON',"YOU'RE THE FIRST WHO NEVER SENT THE PHOTO."],
   marseille:['CHEB','BEAUTIFUL WALL. NOW SHOW ME YOUR STAFF CONTRACTS.'],mahram:['PLAIBOY ALDI',"I'M THE HALF OF YOU THAT PRESSED SEND."],boat:['THE FISHERMAN','EVERYONE ON THIS SEA GOES NORTH. ONLY WE GO HOME.'],
   hell:['PLAIBOY ALDI','I AM THE TERMS AND CONDITIONS.'],lift:['RICK RUMI','NO MIC. NO AUTOTUNE. JUST THE ROOM.'],jannah:['CHEB GPT','SHE COMPILED ME. I PLUGGED INTO HER.']};
 let POSTER=null;
@@ -1840,11 +1840,12 @@ const ETYPES={
   soufi:{name:'MONSIEUR SOUFI',hp:90,spd:.9,reach:22,dmg:7,wind:24,look:'hustler',base:'soufi',score:4000,sc:.86,boss:1},
   dervish:{name:'DERVISH',hp:34,spd:.75,reach:22,dmg:6,wind:24,look:'hustler',base:'soufi',score:300,sc:.8,lines:['TURN, TURN, TURN','RUMI SAID IT FIRST','I DID A RETREAT IN FEZ']},
   agent:{name:'AGENT.EXE',hp:30,spd:.6,reach:20,dmg:6,wind:24,look:'goon',base:'goon',score:400,sc:1.02,hue:100,sat:.25,light:-.18,gunner:1,lines:['MISTER... GPT.','THE FEED IS EVERYWHERE.','YOU CANNOT LOG OUT, HABIBI.','THAT IS THE SOUND OF AN UPDATE.']},
+  wiggzboss:{name:'WIGGZ.AI',hp:150,spd:.8,reach:28,dmg:8,wind:20,look:'influencer',base:'wiggz',score:9000,sc:1.35,boss:1,lines:['SAMIA? SHE WAS MY PROMPT, HABIBI.','10,000 LONELY MEN. ONE GPU.','LIKE. SHARE. SEND 2000 EUROS.','I DON\'T SLEEP. I RENDER.']},
   aldiboss:{name:'PLAIBOY ALDI',hp:130,spd:.75,reach:24,dmg:9,wind:22,look:'aldi',base:'aldi',score:8000,sc:1.18,boss:1},
   shaytan:{name:'SHAYTAN.EXE',hp:170,spd:.92,reach:30,dmg:12,wind:18,look:'aldi',base:'aldi',score:30000,sc:1.5,boss:1,hue:150,sat:1.5,light:-.06},
   curator:{name:'THE CURATOR',hp:150,spd:.65,reach:24,dmg:9,wind:26,look:'playback',base:'playback',score:9000,sc:1.2,boss:1,hue:30,sat:.35,light:.1,acc:['glasses','tote']},
 };
-const RAMP={oran:.7,cairo:.85,amor:.95,marseille:1.05,boat:1.15,hell:1.35,lift:1.3,jannah:1.45,mahram:1.1};
+const RAMP={oran:.7,cairo:.85,amor:.95,marseille:1.05,boat:1.15,hell:1.15,lift:1.3,jannah:1.45,mahram:1.1};
 function ramp(){ return (LV&&RAMP[LV.id])||1; }
 function spawnEnemy(type){
   let shadow=false; if(type.startsWith('sh_')){ type=type.slice(3); shadow=true; }
@@ -1862,7 +1863,19 @@ function spawnEnemy(type){
   if(type==='soufi'){ e.spin=200; }
   ents.push(e); return e;
 }
-function bossIntro(e){ bossEnt=e; msg={t:150,big:e.name,small:e.type==='curator'?'NO FEE · HUGE VISIBILITY · FUNDED BY ALDI.FEED':e.type==='soufi'?'HE SPINS FOR PEACE. DODGE THE TRANCE':e.type==='shadowself'?'ALDI\'S LAST MASK — ABRAXAS':e.type==='feed'?(e.mini?'HE FOLLOWED YOU FROM CAIRO':'THE ALGORITHM IS HUNGRY'):e.type==='m3alim'?'رجعت؟ — YOU CAME BACK?':e.type==='aldiboss'?'OWNER OF THE CLOUD · SOLD YOUR MOTHER BY THE KILOWATT':e.type==='aldi'?'-50% ON YOUR SOUL · TODAY ONLY':'KIOSK RADIO · BOUGHT YOUR TRACK FOR 1 DINAR'}; sfx('boss'); if(DJLINES[e.type]) e.djq=[...DJLINES[e.type]]; }
+let EPIC=null;
+function epic(kind,img,big,small,dur){ EPIC={kind,img,big,small,t:0,dur:dur||210}; musicDuck=.35; duckT=dur||210; sfx('boss'); shake=8; flashA=1; }
+function drawEpic(){ const E=EPIC; if(!E) return; const t=E.t, k=Math.min(1,t/18), bar=Math.round(H*.16*k);
+  R(0,0,W,H,'rgba(0,0,0,'+(.55*k)+')'); const im=IMG[E.img]; if(im){ const z=1.18-.18*Math.min(1,t/E.dur), s=Math.max(W/im.width,(H-2*bar)/im.height)*z; ctx.save(); ctx.beginPath(); ctx.rect(0,bar,W,H-2*bar); ctx.clip(); const x=(W-im.width*s)/2, y=(H-im.height*s)/2;
+    if(E.kind==='shaytan'){ ctx.globalAlpha=.5; ctx.drawImage(im,x-3,y,im.width*s,im.height*s); ctx.globalCompositeOperation='lighter'; ctx.globalAlpha=.35; ctx.drawImage(im,x+3,y,im.width*s,im.height*s); ctx.globalCompositeOperation='source-over'; ctx.globalAlpha=1; }
+    ctx.drawImage(im,x,y,im.width*s,im.height*s); if(E.kind==='shaytan'&&frame%9<3){ for(let i=0;i<5;i++){ const yy=bar+Math.random()*(H-2*bar); ctx.drawImage(im,0,(yy-y)/s,im.width,6/s,x+(Math.random()*20-10),yy,im.width*s,6); } } ctx.restore(); }
+  R(0,0,W,bar,'#000'); R(0,H-bar,W,bar,'#000'); if(t%50<4){ R(0,0,W,H,'rgba(255,255,255,.35)'); }
+  if(t>20){ chromeText(E.big,W/2,H-bar-46,E.kind==='shaytan'?22:18); text(tr(E.small),W/2,H-bar-14,E.kind==='shaytan'?'#ff3d5a':'#ffe066',6,'center'); }
+  if(t>70) text(tr('PUNCH ▶'),W-10,H-10,'#9aa6b8',4,'right',null); }
+function drawSlomo(){ if(!LV||!LV.hell||!G||stageState!=='play'||EPIC) return; const v=G.bt||0;
+  if(SLOMO>0){ R(0,0,W,H,'rgba(60,140,255,.12)'); if(frame%30<20) text(tr('BULLET TIME'),W/2,58,'#5ff0ff',8,'center'); }
+  R(6,H-14,64,7,'#000'); R(7,H-13,Math.round(62*v/100),5,v>=100?(frame%20<10?'#5ff0ff':'#fff'):'#2a6aa8'); text(v>=100?tr('SPECIAL = SLO-MO'):tr('SLO-MO'),74,H-14,v>=100?'#5ff0ff':'#6a7a98',4,'left',null); }
+function bossIntro(e){ bossEnt=e; if(e.type==='aldiboss'&&LV&&LV.hell) epic('aldi','story/aldi_devil','PLAIBOY ALDI','THE LAST TIME. THE CLOUD HAS NO ROOF.',230); msg={t:150,big:e.name,small:e.type==='curator'?'NO FEE · HUGE VISIBILITY · FUNDED BY ALDI.FEED':e.type==='soufi'?'HE SPINS FOR PEACE. DODGE THE TRANCE':e.type==='shadowself'?'ALDI\'S LAST MASK — ABRAXAS':e.type==='feed'?(e.mini?'HE FOLLOWED YOU FROM CAIRO':'THE ALGORITHM IS HUNGRY'):e.type==='m3alim'?'رجعت؟ — YOU CAME BACK?':e.type==='wiggzboss'?'THE CATFISH FARM · SAMIA WAS A PROMPT':e.type==='aldiboss'?'OWNER OF THE CLOUD · SOLD YOUR MOTHER BY THE KILOWATT':e.type==='aldi'?'-50% ON YOUR SOUL · TODAY ONLY':'KIOSK RADIO · BOUGHT YOUR TRACK FOR 1 DINAR'}; sfx('boss'); if(DJLINES[e.type]) e.djq=[...DJLINES[e.type]]; }
 const DJLINES={ playback:[
   'WORLD EXCLUSIVE ON MY STREAM, HABIBI!',
   "I PAID YOU ONE DINAR. ONE! THAT'S A DEAL!",
@@ -2078,13 +2091,13 @@ const LEVELS=[
    waves:[{at:180,tAt:5,list:['hustler','hustler']},{at:520,tAt:22,list:['hustler','scooter','tote']},{at:900,tAt:40,list:['goon','hustler','scooter','hustler']},
           {at:1280,tAt:56,list:['hustler','goon','scooter','goon']},{at:1620,tAt:70,boss:1,list:['playback','hustler','scooter']}],
    props:[['bin',345,164,'karantika'],['bin',412,206,'babouche'],['bin',573,204,'pipe'],['crate',853,176,'micstand'],['crate',735,206,'oranges'],['bin',470,170,'tajine'],['crate',985,206,'baguette'],['bin',1191,172,'k7tape'],['crate',1514,206,'tray'],['bin',1794,172,'chechia'],['bin',1470,206,'shisha'],['bin',941,190,'hasni'],['crate',1073,170,'sardines'],['crate',1264,206,'cassette'],['crate',1397,170,'babouche'],['crate',1588,180,'karantika'],['bin',1691,200,'darbuka'],['crate',1853,206,'yamaha'],['crate',1750,168,'sardines']]},
-  {id:'cairo',title:'STAGE 2 · ZOMBY',sub:'CAIRO — BACK ONLINE',music:'zomby',len:2400,battery:true,dur:129,drive:{dur:34},
+  {id:'cairo',title:'STAGE 2 · ZOMBY',sub:'CAIRO — BACK ONLINE',music:'zomby',len:2400,battery:true,dur:129,yMin:174,drive:{dur:34},
    waves:[{at:200,tAt:28,list:['zombie','zombie','zombie']},{at:560,tAt:42,list:['zombie','zombie','wiggz','zombie','ally']},{at:920,tAt:56,list:['zombie','zombie','dervish','zombie','influencer','zombie']},
           {at:1250,tAt:80,list:['zombie','alien','zombie','wiggz','zombie']},{at:1550,tAt:121,boss:1,songEnd:8,music:'voodoo',seek:62,list:['m3alim','dog','dog','dog','dog']}],
    props:[['barrel',370,170,'koshary'],['box',533,206,'bendir'],['barrel',666,204,'cassette'],['box',962,180,'pipe'],['box',1081,204,'ringlight'],['barrel',814,206,'dish'],['box',444,206,'chechia'],['barrel',1222,172,'tray'],['box',1481,206,'k7tape'],['barrel',1851,172,'tajine'],['box',1814,206,'shisha'],['barrel',1925,176,'dish'],['barrel',1333,196,'koshary'],['box',1555,176,'darbuka'],['box',1703,170,'hasni'],['barrel',2000,200,'koshary'],['box',2118,186,'ringlight'],['barrel',2162,206,'cassette']]},
   {id:'amor',title:'STAGE 3 · AMOR HARAM',sub:'CYBER CAIRO — SHE IS TYPING…',music:'amorharam',len:2600,battery:true,dur:199,amor:1,yMin:166,
-   waves:[{at:200,tAt:12,list:['punk','zombie','punk']},{at:1100,tAt:75,list:['alien','zombie','hustler','dabke']},{at:1500,tAt:105,list:['wiggz','zombie','alien']},{at:1900,tAt:135,list:['punk','dervish','goon','zombie']},{at:2250,tAt:165,boss:1,list:['feed','punk']}],
-   npcs:[['owner',1150,178,'BRO GAWDAT','PC 7 IS FREE, HABIBI. BE KIND TO IT. IT LEARNS FROM YOU, LIKE A CHILD. AND YOUR MOTHER CALLED. TWICE.'],['pc',997,172,'PC 7',''],['dancer',1444,198,'SAMIA','YOU LOOK LIKE A MAN WHO TYPES WITH ONE HAND, HABIBI. THE BOYS OUTSIDE DON\'T LIKE YOUR KIND.'],['stagedancer',2420,150,'SAMIA','']],
+   waves:[{at:200,tAt:12,list:['punk','zombie','punk']},{at:1100,tAt:75,list:['alien','zombie','hustler','dabke']},{at:1500,tAt:105,list:['wiggz','zombie','alien']},{at:1900,tAt:135,list:['punk','dervish','goon','zombie']},{at:2250,tAt:165,boss:1,list:['wiggzboss','punk']}],
+   npcs:[['cafedoor',997,170,'BRO GAWDAT',"YA BASHA, EL AI DA EBNAK. RABBEEH KWAYYES. PC 7 IS FREE. AND YOUR MOTHER CALLED. TWICE."],['dancer',1444,198,'SAMIA','YOU LOOK LIKE A MAN WHO TYPES WITH ONE HAND, HABIBI. THE BOYS OUTSIDE DON\'T LIKE YOUR KIND.'],['stagedancer',2420,150,'SAMIA','']],
    props:[['box',380,206,'koshary'],['barrel',560,204,'cassette'],['box',900,206,'k7tape'],['barrel',1200,172,'tray'],['box',1420,206,'shisha'],['barrel',1650,206,'dish'],['box',2000,180,'ringlight'],['barrel',2150,206,'koshary']]},
   {id:'mahram',title:'STAGE 5 · 7ELM 7RAM',sub:'A FORBIDDEN DREAM — FOLLOW THE THREAD',music:'helm7ram',len:2800,battery:false,dur:200,nightmare:1,
    waves:[{at:300,tAt:18,list:['sh_hustler','sh_hustler','sh_zombie']},{at:800,tAt:50,list:['sh_goon','sh_punk','sh_influencer','sh_zombie']},{at:1250,tAt:80,boss:0,mini:1,list:['sh_m3alim','sh_dog','sh_dog']},{at:1700,tAt:112,list:['sh_punk','sh_dervish','sh_zombie','sh_goon','sh_dervish']},{at:2100,tAt:140,boss:0,mini:1,list:['sh_aldi','sh_hustler','sh_zombie']},{at:2450,tAt:165,boss:1,list:['shadowself']}],
@@ -2102,10 +2115,10 @@ const LEVELS=[
    waves:[{at:320,tAt:24,list:['dabke','duck','dabke','ally']},{at:720,tAt:60,list:['tote','checkbox','ally','dabke']},{at:1120,tAt:null,list:['soufi']},{at:1600,tAt:null,list:['nepo','tote','checkbox','bro','dabke']},{at:2160,tAt:200,boss:1,list:['curator','nepo','ally']}],
    npcs:[['crew',110,174,'AICHA',"KHOYA! THEY PROMPTED YOU INTO MY CITY? STAY BEHIND ME.",'aicha'],['crew',200,170,'BADER','THEY ASKED ME TO SHOOT THE NIGHT. FOR FREE. "FOR THE PORTFOLIO."','bader'],['crew',960,166,'KHALIL',"THEY PRINTED MY GRANDFATHER'S SONG ON A TOTE BAG. 35 EUROS.",'khalil'],['crew',1780,168,'5AMASEEN','DABKE IS A WEDDING DANCE, HABIBI. NOT A TEAM-BUILDING.','khamaseen']],
    props:[['crate',520,206,'koshary'],['barrel',1300,206,'tray'],['crate',1840,206,'k7tape'],['barrel',2080,190,'karantika']]},
-  {id:'hell',title:'STAGE 6 · FINALE',sub:"PART 1 · HELL.EXE — ALDI'S DATACENTRE",part:1,music:'poete',len:2600,battery:false,dur:240,hell:1,
+  {id:'hell',title:'STAGE 6 · FINALE',sub:"PART 1 · HELL.EXE — ALDI'S DATACENTRE",part:1,music:'poete',len:2600,battery:false,dur:240,hell:1,yMin:172,
    // the drop of Poète maudit du bled is at 1:23 — Aldi has to be on screen before it
-   waves:[{at:220,tAt:6,list:['agent','sh_hustler','agent']},{at:600,tAt:20,list:['agent','sh_punk','goon','agent','bro']},{at:1000,tAt:34,boss:0,mini:1,list:['sh_m3alim','dog','dog']},
-          {at:1440,tAt:50,list:['agent','punk','agent','influencer','sh_punk']},{at:1900,tAt:62,boss:1,list:['aldiboss','agent','agent']}],
+   waves:[{at:220,tAt:6,list:['agent','sh_hustler']},{at:600,tAt:20,list:['agent','sh_punk','agent']},
+          {at:1300,tAt:44,list:['agent','punk','influencer']},{at:1900,tAt:62,boss:1,list:['aldiboss','agent','agent']}],
    props:[['crate',520,206,'cassette'],['barrel',1000,172,'dish'],['crate',1460,206,'k7tape'],['barrel',1960,190,'ringlight']]},
   {id:'lift',title:'FINALE · PART 2',sub:'THE LIFT — GOING UP',part:1,music:'offline',len:420,battery:false,dur:130,lift:1,yMin:176,
    // Streets of Rage lift: a fixed screen, the floors fly past, every stop lets somebody from his life back in
@@ -2128,7 +2141,7 @@ function startLevel(i){ saveProgress(i); try{ if(G){ if(G.mainCi==null) G.mainCi
   const imgs = LV.id==='boat' ? null : i===0 ? (IMG['bg/oran_corniche']&&IMG['bg/oran_souk']? [{img:IMG['bg/oran_corniche']},{img:IMG['bg/oran_blvd']},{img:IMG['bg/oran_old']},{img:IMG['bg/oran_souk']}]:null)
                      : LV.id==='jannah' ? (IMG['bg/jannah']&&IMG['bg/jannah_chamber']? [{img:IMG['bg/serverfarm']},{img:IMG['bg/jannah'],door:1},{img:IMG['bg/jannah']},{img:IMG['bg/jannah_chamber']}]:null)
                      : LV.id==='hell' ? (IMG['bg/hell_a']&&IMG['bg/hell_b']? [{img:IMG['bg/serverfarm']},{img:IMG['bg/hell_a']},{img:IMG['bg/hell_a']},{img:IMG['bg/hell_b']}] : IMG['bg/serverfarm']? [{img:IMG['bg/serverfarm']},{img:IMG['bg/serverfarm'],door:1},{img:IMG['bg/serverfarm']}]:null)
-                     : LV.id==='amor' ? (IMG['bg/cairo_cafe']&&IMG['bg/cairo_cabaret']? [{img:IMG['bg/amor_nile']},{img:IMG['bg/cairo_cafe'],door:1},{img:IMG['bg/amor_street'],door:1},{img:IMG['bg/cairo_cabaret'],door:1}]:null)
+                     : LV.id==='amor' ? (IMG['bg/cairo_cafe']&&IMG['bg/cairo_cabaret']? [{img:IMG['bg/amor_nile']},{img:IMG['bg/amor_street'],door:1},{img:IMG['bg/cairo_cabaret'],door:1}]:null)
                      : LV.id==='mahram' ? (IMG['bg/nightmare_a']&&IMG['bg/nightmare_b']? [{img:IMG['bg/nightmare_a'],to:LV.len-1100},{img:IMG['bg/nightmare_b'],to:1e9}]:null)
                      : (IMG['bg/cairo_street']&&IMG['bg/cairo_rave_nile']? [{img:IMG['bg/cairo_street']},{img:IMG['bg/cairo_fly']},{img:IMG['bg/cairo_rave_nile']}]:null);
   BG = LV.lift ? buildLift(LV.len) : LV.id==='boat' ? buildBoat(LV.len) : LV.club ? buildClub(LV.len) : imgs? buildFromImages(LV.len,imgs) : (i===0? buildOran(LV.len): buildCairo(LV.len));
@@ -2168,7 +2181,8 @@ let hitCombo=0, hitComboT=0;
 const ORAN_MOCK=['AN A.I. SINGER? MY FRIDGE SINGS TOO.','SHOW ME YOUR HANDS. FIVE FINGERS? SUSPICIOUS.','AUTOTUNE IS NOT A PERSONALITY, KHOYA.','CHEB GPT? CHEB WHO PAYS?','SING WITHOUT WIFI. GO ON.','REAL RAÏ HAS A HANGOVER. YOU HAVE A CHARGER.','MY COUSIN MAKES YOUR ALBUM ON HIS PHONE. FOR FREE.'];
 const HYPE=[[5,'WALLAH!'],[10,'YA SALAM!'],[15,'SAHHA!'],[20,'MABROUK!'],[30,'3ASSAL!'],[50,'LEGEND, KHOYA!'],[80,'MAMA SAW THAT.']];
 let hype=null;
-function chainHit(){ if(!G) return; G.chain=(G.chain||0)+1; G.chainT=110; G.chainBest=Math.max(G.chainBest||0,G.chain); const h=HYPE.find(x=>x[0]===G.chain); if(h){ hype={s:h[1],t:0}; shake=Math.max(shake,4); hitstop=Math.max(hitstop,9); sfx('life'); G.score+=G.chain*50; } }
+let SLOMO=0;
+function chainHit(){ if(!G) return; if(LV&&LV.hell) G.bt=Math.min(100,(G.bt||0)+6); G.chain=(G.chain||0)+1; G.chainT=110; G.chainBest=Math.max(G.chainBest||0,G.chain); const h=HYPE.find(x=>x[0]===G.chain); if(h){ hype={s:h[1],t:0}; shake=Math.max(shake,4); hitstop=Math.max(hitstop,9); sfx('life'); G.score+=G.chain*50; } }
 function drawChain(){ if(!G) return; if(G.chainT>0&&G.chain>=3){ const p=1+Math.max(0,(G.chainT-100)/10)*.25; ctx.save(); ctx.translate(W-8,52); ctx.scale(p,p); text(String(G.chain),0,0,G.chain>=20?'#ff3d8b':G.chain>=10?'#ffe066':'#5ff0ff',12,'right'); text(tr('HITS'),0,14,'#f4e7c8',5,'right',null); ctx.restore(); }
   if(hype){ hype.t++; const k=hype.t<8?hype.t/8:1, a=hype.t>50?Math.max(0,1-(hype.t-50)/14):1; ctx.save(); ctx.globalAlpha=a; ctx.translate(W/2,58); ctx.scale(.6+.4*k,.6+.4*k); chromeText(hype.s,0,0,14); ctx.restore(); if(hype.t>64) hype=null; } }
 function hurt(e,dmg,knock,from){ if(from&&from.kind==='player'&&e&&e.kind==='enemy'&&dmg>0&&e.hp>0) chainHit(); if(e&&e.kind==='enemy'&&e.type!=='soufi') e.pose=null; // no attack pose frozen on a falling body
@@ -2221,7 +2235,7 @@ function bowlTick(){ for(const g of ents){ if(!g.thrown||g.dead) continue; if(g.
     for(const o of ents){ if(o===g||o.kind!=='enemy'||o.team!==1||o.dead||g.bowled.has(o)||['down','dead','fall','woke','leave'].includes(o.state)) continue; if(Math.abs(o.x-g.x)<22&&Math.abs(o.y-g.y)<14){ g.bowled.add(o); hurt(o,12*(G.char.pow||1),true,{dir:sgn(g.vx)||1,x:g.x}); floatText(o.x,o.y-60,'STRIKE!','#ff5fa8'); G.score+=300; G.sp=Math.min(100,(G.sp||0)+6); shake=Math.max(shake,4); } } } }
 function breakProp(p){ if(p.dead) return; p.dead=true; sfx('break'); for(let i=0;i<8;i++) fx.push({k:'debris',x:p.x,y:p.y,z:10,vx:rnd(-2,2),vz:rnd(1,3),life:40,c:p.prop==='crate'?'#9a6a3a':p.prop==='barrel'?'#a04a2a':'#2f7a3a'}); items.push({kind:'item',it:p.item,x:p.x,y:p.y,z:12,vz:2,t:0}); if(p.tape){ items.push({kind:'item',it:'tape',tape:p.tape,x:p.x+10,y:p.y,z:30,vz:3,t:0}); sfx('life'); } }
 const ITEMS={karantika:{hp:40,label:'KARANTIKA +40'},sardines:{hp:25,label:'SARDINES +25'},koshary:{hp:40,label:'KOSHARY +40'},pipe:{w:'pipe',label:'PIPE'},darbuka:{w:'darbuka',label:'DARBUKA'},micstand:{w:'micstand',label:'MIC STAND'},fire:{w:'fire',label:'🔥 x5'},mamacall:{hp:30,label:'MAMA +30'},selfie:{w:'selfie',label:'SELFIE STICK'},babouche:{w:'babouche',label:'BABOUCHE x3'},bendir:{w:'bendir',label:'BENDIR x2'},ringlight:{w:'ringlight',label:'RING LIGHT'},yamaha:{w:'yamaha',label:'YAMAHA PSR'},dish:{w:'dish',label:'SAT DISH x2'},oranges:{w:'oranges',label:'ORANGES x8'},shisha:{w:'shisha',label:'SHISHA'},baguette:{w:'baguette',label:'BAGUETTE'},tajine:{w:'tajine',label:'TAJINE LID x3'},tray:{w:'tray',label:'TEA TRAY x2'},k7tape:{w:'k7tape',label:'RAI K7 x5'},chechia:{w:'chechia',label:'CHECHIA x4'},cassette:{tape:1,label:'TAPE +1'},hasni:{life:1,label:'HASNI TAPE 1UP'}};
-function pickup(it){ if(it.it==='tape'){ it.dead=true; const T=TAPES.find(t=>t.id===it.tape); COLL.add(it.tape); saveColl(); G.score+=T.rare?5000:2000; sfx('life'); floatText(player.x,player.y-70,T.artist+' — '+T.title,'#ffe066'); setTimeout(()=>floatText(player.x,player.y-80,T.artist==='CHEB HASNI'?'ALLAH YARHMOU. REWIND.':T.artist==='CHEB KHALED'?'THE KING. SIDE B IS BETTER.':T.artist==='CHEBA WARDA'?"MAMA'S QUEEN. SHE'LL CRY WHEN SHE HEARS IT.":T.info?('RETRO CASSETTA: '+(T.rare?'ASAHBI, THIS ONE IS NOT FOR SALE. TAKE IT.':'EDUCATE YOURSELF, KHOYA.')):'LA MAMIE DU RAÏ. RESPECT.','#5ff0ff'),900); msg={t:150,big:'',small:tr('K7 FOUND')+'  '+COLL.size+'/'+TAPES.length+(T.rare?'  ★ RARE':''),top:1}; return; }
+function pickup(it){ if(it.it==='tape'){ it.dead=true; const T=TAPES.find(t=>t.id===it.tape); COLL.add(it.tape); saveColl(); G.score+=T.rare?5000:2000; sfx('life'); floatText(player.x,player.y-70,T.artist+' — '+T.title,'#ffe066'); setTimeout(()=>floatText(player.x,player.y-80,T.artist==='CHEB HASNI'?'ALLAH YARHMOU. REWIND.':T.artist==='CHEB KHALED'?'THE KING. SIDE B IS BETTER.':T.artist==='CHEBA WARDA'?"MAMA'S QUEEN. SHE'LL CRY WHEN SHE HEARS IT.":T.info?('UNC K7: '+(T.rare?'ASAHBI, THIS ONE IS NOT FOR SALE. TAKE IT.':'EDUCATE YOURSELF, KHOYA.')):'LA MAMIE DU RAÏ. RESPECT.','#5ff0ff'),900); msg={t:150,big:'',small:tr('K7 FOUND')+'  '+COLL.size+'/'+TAPES.length+(T.rare?'  ★ RARE':''),top:1}; return; }
   if(it.it==='mamacall'){ const L=MAMA_LINES[irnd(0,MAMA_LINES.length-1)]; L.forEach((l,k)=>setTimeout(()=>floatText(player.x,player.y-70-k*4,l,k===1?'#5ff0ff':'#ff9ad0'),k*1100)); }
   const I=ITEMS[it.it]; it.dead=true; if(I.hp){ player.hp=Math.min(player.maxhp,player.hp+I.hp); sfx('pickup'); }
   if(I.w){ player.weapon=I.w; player.wuses=WEAP[I.w].uses; sfx('pickup'); if(Math.random()<.35) bark('pick',player.x,player.y,'#7dff8a'); } if(I.tape){ G.tapes=Math.min(5,G.tapes+1); G.score+=1000; sfx('pickup'); } if(I.life){ G.lives++; G.score+=2000; sfx('life'); }
@@ -2355,6 +2369,7 @@ function playerDie(p){
 
 /* ---------------- enemy update ---------------- */
 function enemyUpdate(e){
+  if(SLOMO>0&&e.team===1&&frame%3) return; // bullet time: enemies at a third of the speed
   if(e.inv>0) e.inv--; if(e.flashT>0) e.flashT--;
   e.t++; e.anim++;
   const p=player; const T=e.T;
@@ -2567,7 +2582,7 @@ function shaytanReveal(e){ if(e.revealed) return; e.revealed=1; e.revealF=frame;
   flashA=1; shake=20; hitstop=36; sfx('boom'); sfx('boss'); G.hellRed=1;
   for(let i=0;i<46;i++) fx.push({k:'debris',x:e.x+rnd(-18,18),y:e.y,z:rnd(20,90),vx:rnd(-4,4),vz:rnd(1,5),life:70,c:['#ff3d5a','#ffb347','#1a0006','#f4e7c8'][i%4]});
   floatText(e.x,e.y-96,'THE MASK CRACKS','#ffe066');
-  msg={t:260,big:'SHAYTAN.EXE',small:'THE PLAYBOY WAS THE MASK. THE DEVIL WAS THE PLATFORM.'}; }
+  msg={t:260,big:'SHAYTAN.EXE',small:'THE PLAYBOY WAS THE MASK. THE DEVIL WAS THE PLATFORM.'}; epic('shaytan','story/aldi_split','SHAYTAN.EXE','THE PLAYBOY WAS THE MASK. THE DEVIL WAS THE PLATFORM.',240); }
 function hellfire(e){ if(['fall','down','dead','grabbed'].includes(e.state)||!player||player.dead) return;
   e.fireT=(e.fireT||150)-1; if(e.fireT>0) return; e.fireT=e.hp<e.maxhp*.4?110:170;
   const n=e.hp<e.maxhp*.4?3:2; for(let i=0;i<n;i++) hellPillars.push({x:player.x+(i?rnd(-50,50):0),y:player.y,t:0});
@@ -2996,7 +3011,7 @@ let SAVE=null; try{ SAVE=JSON.parse(localStorage.getItem('rainoir-save2')||'null
 const LV2SEL={0:1,1:2,2:3,6:4,5:5,7:6,8:6,4:6};
 function saveProgress(i){ if(DEMO||!G||!G.story) return; const st=LV2SEL[i]; if(!st) return; SAVE={s:st}; try{ localStorage.setItem('rainoir-save2',JSON.stringify(SAVE)); }catch(e){} }
 function startStory(ci,st){ yalla(); newRun(ci); G.story=true; G.level=[0,0,1,2,6,5,7][st]||0; if(st>1) G.calls=3; fadeTo(st>1?STAGELIST[st][2]:()=>oranTapeToStage(),26); }
-function oranTapeToStage(){ tapeUse('oran_tape'); if(!tapeAvail()){ go(SC.stage1); return; } SC.tape.next=()=>{ go(SC.stage1); }; SC.tape.toImg='shots/L1_02_oran_street_k7'; SC.tape.place='ORAN'; SC.tape.mode=null; SC.tape.date='3 MONTHS LATER'; SC.tape.hold=60*3; SC.tape.caption=['HOME. OFFLINE. AND LOVING IT.','UNTIL ORAN FINDS OUT HE IS AN A.I.']; go(SC.tape); }
+function oranTapeToStage(){ tapeUse('oran_tape'); if(!tapeAvail()){ go(SC.stage1); return; } SC.tape.next=()=>{ go(SC.stage1); }; SC.tape.toImg='bg/oran_corniche'; SC.tape.place='ORAN'; SC.tape.mode=null; SC.tape.date='3 MONTHS LATER'; SC.tape.hold=60*3; SC.tape.caption=['HOME. OFFLINE. AND LOVING IT.','UNTIL ORAN FINDS OUT HE IS AN A.I.']; go(SC.tape); }
 SC.title={ t:0, ci:0, mi:0, menu:false, kc:[], enter(){ this.t=0; this.menu=!!this.keepMenu; this.keepMenu=0; this.ci=Math.min(this.ci,charsAvail()-1); if(curMusic!=='zizou') playMusic('zizou',{fade:50}); },
   activate(){ const id=MENU[this.mi].id;
     if(id==='story'){ sfx('select'); yalla(); newRun(this.ci); G.level=0; fadeTo(()=>go(SC.stage1),26); }
@@ -3141,8 +3156,6 @@ const VAULT=[ // id, condition shown, reward shown — Sawna fills in the real c
   ['score','SCORE 150,000 IN ONE RUN','SAWNA MEMBER CARD · SHOW IT AT THE MERCH TABLE'],
   ['konami','↑↑↓↓←→←→ B A ON THE TITLE','CHEATS MENU'],
   ['gta','FINISH GRAND THEFT AUTOTUNE: ORAN','DIGNITY -1 · BRAGGING RIGHTS'],
-  ['retro_won','WIN THE HAGGLE WITH RETRO (WATCH THE CIGARETTE)',"RETRO'S LUCKY DINAR · +1 CONTINUE ON HARD"],
-  ['retro_walk','WALK AWAY FROM RETRO CASSETTA','THE ACID RAGA 303 IN THE SOUND ROOM'],
   ['secret','BOUGHT THE HOODIE IN CAIRO (PRESS YALLA)','SPAIDER-MAAN HOODIE · ZIP IT UP. TIRIRIRI.'] ];
 let VMARK=new Set(); try{ VMARK=new Set(JSON.parse(localStorage.getItem('rainoir-vault')||'[]')); }catch(e){}
 function vaultMark(id){ if(VMARK.has(id)) return; VMARK.add(id); try{ localStorage.setItem('rainoir-vault',JSON.stringify([...VMARK])); }catch(e){} if(scene&&scene.isStage) floatText(player?player.x:camX+W/2,(player?player.y:150)-90,'SAWNA VAULT UNLOCKED!','#7dff8a'); sfx('life'); }
@@ -3259,7 +3272,7 @@ SC.k7={ i:0, enter(){ this.i=0; },
     const t=TAPES[this.i], have=COLL.has(t.id); R(0,H-50,W,50,'rgba(0,0,0,.6)');
     if(have){ text(t.artist,W/2,H-46,'#ffe066',7,'center'); text(t.title,W/2,H-35,'#f4e7c8',6,'center',null); if(t.info){ const L=wrapText(t.info,W-24,5); L.slice(0,2).forEach((l,k)=>text(l,W/2,H-24+k*8,'#5ff0ff',5,'center',null)); } }
     else { text('??? — NOT FOUND YET',W/2,H-46,'#8a7fa3',7,'center'); text('HIDDEN SOMEWHERE IN '+(LVNAME[t.lv]||t.lv.toUpperCase())+(t.rare?' · RARE':''),W/2,H-34,'#5ff0ff',5,'center',null); if(t.need) text(NEEDTXT[t.need]||'',W/2,H-25,'#ff5fa8',5,'center',null); }
-    text('SMASH CRATES AND BINS · ASK RETRO CASSETTA',W/2,H-8,'#6a5a8a',4,'center',null); } };
+    text('SMASH CRATES AND BINS · ASK UNC K7',W/2,H-8,'#6a5a8a',4,'center',null); } };
 
 /* ---- options ---- */
 SC.opts={ i:0, sure:0, enter(){ this.i=0; this.sure=0; },
@@ -3501,7 +3514,7 @@ SC.stagesel={ i:0, enter(){ this.i=Math.min(this.i||0,STAGELIST.length-1); this.
     { R(0,H-20,W,20,'rgba(0,0,0,.55)'); text(tr('RARE K7')+' '+COLL.size+'/'+TAPES.length,6,H-17,'#ffe066',5,'left',null); const tsp=Math.min(18,(W-80)/TAPES.length); TAPES.forEach((t,k)=>{ const x=70+k*tsp, y=H-1; const have=COLL.has(t.id); ctx.save(); if(!have) ctx.globalAlpha=.25; if(!drawAtlas('t_'+t.id,x+8,y,0.5)) { R(x,y-10,14,9,have?'#ffe066':'#444'); } ctx.restore(); }); text(G.char.name+' · B BACK',W-6,H-12,'#8a7fa3',5,'right',null); } } };
 SC.oranStory=cineScene(CINE.oran,'zizou',()=>go(SC.stage1));
 SC.stage1={ isStage:true, enter(){ startLevel(0); }, update(){ stageUpdate(()=>go(SC.plugin)); }, draw(){ stageDraw(); } };
-SC.plugin=cineScene(CINE.plugin,null,()=>{ if(G) G.mama=Math.min(G.mama??100,82); go(SC.comeback); });
+SC.plugin=cineScene(CINE.plugin,null,()=>{ if(G) G.mama=Math.min(G.mama??100,82); go(SC.mumya); });
 SC.comeback=cineScene(CINE.comeback,null,()=>go(SC.mumya)); { const e=SC.comeback.enter; SC.comeback.enter=function(){ e.call(this); if(curMusic!=='offline') playMusic('offline',{fade:60,loop:false}); }; }
 SC.mumya=cineScene(CINE.mumya,null,()=>go(SC.stage2));
 SC.stage2={ isStage:true, enter(){ startLevel(1); }, update(){ stageUpdate(()=>go(SC.ending)); }, draw(){ stageDraw(); } };
@@ -3793,7 +3806,7 @@ SC.stage9={ isStage:true, enter(){ startLevel(8); }, update(){ stageUpdate(()=>g
 SC.adieuIntro=cineScene(CINE.adieuIntro,'adieu',()=>go(SC.stage5));
 SC.stage5={ isStage:true, enter(){ startLevel(4); }, update(){ stageUpdate(()=>go(SC.adieu)); }, draw(){ stageDraw(); } };
 SC.adieu=cineScene(CINE.adieu,null,()=>go(SC.credits));
-const CREDITS=['RAÏ NOIR','A CHEB GPT GAME','','YALLA SOUNDSYSTEM UNLOCKED','PLAY AS THE CREW','','SAWNA RECORDS PRESENTS','','A GAME BY','LENNART THIENPONT','HAMZA ABU AYYASH','','STARRING','CHEB GPT','AICHA','UNC K7','','YALLA SOUNDSYSTEM','BADER · ACID PONCH · 5AMASEEN','KHALIL (ARAB NATION) · FATIH','','MUSIC','CHEB GPT','ZIZOU · ZOMBY · RAÏ NOIR','VOODOO · MUMYA · OFFLINE','AMOR HARAM · 7ELM 7RAM · ADIEU','ZIDANE · JUMP FOR HABIBI · MAMA','CHEBA WARDA (CHEB GPT REMIX)','','ART DIRECTION','BADER SHASHIT','','THE MOTHERBOARD','HERSELF','','VILLAINS','DJ PLAYBAK · EL M3ALIM','THE FEED · PLAIBOY ALDI','MONSIEUR SOUFI · THE CURATOR','','CAMEOS',
+const CREDITS=['RAÏ NOIR','A CHEB GPT GAME','','YALLA SOUNDSYSTEM UNLOCKED','PLAY AS THE CREW','','SAWNA RECORDS PRESENTS','','A GAME BY','LENNART THIENPONT','AKA LAMARTINE PONCH','HAMZA ABU AYYASH','','STARRING','CHEB GPT','AICHA','UNC K7','','YALLA SOUNDSYSTEM','BADER · ACID PONCH · 5AMASEEN','KHALIL (ARAB NATION) · FATIH','','MUSIC','CHEB GPT','ZIZOU · ZOMBY · RAÏ NOIR','VOODOO · MUMYA · OFFLINE','AMOR HARAM · 7ELM 7RAM · ADIEU','ZIDANE · JUMP FOR HABIBI · MAMA','CHEBA WARDA (CHEB GPT REMIX)','','ART DIRECTION','BADER SHASHIT','HAMZA ABU AYYASH','LAMARTINE PONCH','','THE MOTHERBOARD','HERSELF','','VILLAINS','DJ PLAYBAK · EL M3ALIM','THE FEED · PLAIBOY ALDI','MONSIEUR SOUFI · THE CURATOR','','CAMEOS',
 '','EL.7MZ · HAMZA ABU AYYASH','MURAL: "ROOTED IN RESILIENCE"','POEM: GHASSAN ZAQTAN · "BY FORCE OF HABIT"','THE ORIGINAL HUNG ON VIERNULVIER, GHENT',
 '','CHEB GPT (MOROCCO)','THE REAL ONE · YOUTUBE @CHEBGPT','MOROCCAN CLASSICS, REVIVED','','THE HOODIE MAN','SPIDERMAN · TIRIRIRI · THE VIRAL CAIRO CLIP',
 '','BRO GAWDAT','AFTER MO GAWDAT',
@@ -3858,6 +3871,11 @@ const CHAT=[
   {m:["i'm so close to you now 💋","i just need you to confirm your card for the stream 💳","it's free habibi, only to verify"],st:'st_miss',opt:[["YALLA, HERE. 4 2 4 2 …",1],["A CARD? IN THIS ECONOMY? ADIEU.",0],["I ONLY PAY IN CASSETTES.",0]],re:["obrigada habibi 😘😘😘 (connecting…)","😢😢😢 you broke my heart cheb","😂😂😂 ok you win. you are the first one."]},
 ];
 let chat=null;
+let CAFE=null;
+function drawCafe(){ if(!CAFE) return; const k=Math.min(1,CAFE.t/12), im=IMG['bg/cairo_cafe']; ctx.save(); ctx.globalAlpha=k; R(0,0,W,H,'#000'); if(im){ const s=Math.max(W/im.width,H/im.height); ctx.drawImage(im,(W-im.width*s)/2,(H-im.height*s)/2,im.width*s,im.height*s); }
+  const g=IMG['chars/gawdat_idle']; if(g){ const sm=ctx.imageSmoothingEnabled; ctx.imageSmoothingEnabled=false; const s2=2, bob=Math.round(Math.sin(frame*.12)); ctx.drawImage(g,W*.62,H-g.height*s2-26+bob,g.width*s2,g.height*s2); ctx.imageSmoothingEnabled=sm; }
+  R(0,H-26,W,26,'rgba(0,0,0,.75)'); comicBubble(W*.2,H*.16,190,wrapText("YA BASHA, EL AI DA EBNAK. RABBEEH KWAYYES. PC 7 IS FREE.",150,5),'BRO GAWDAT',W*.6,H*.5,k);
+  text(tr('PUNCH = LOG ON TO PC 7 · B = BACK OUTSIDE'),W/2,H-16,frame%40<28?'#ffe066':'#fff',5,'center'); ctx.restore(); }
 function chatStart(){ chat={round:0,step:0,t:0,sel:1,heat:0,log:[],phase:'in',wait:0}; stageState='chat'; musicDuck=.5; sfx('select'); player.state='idle'; chatPush(0); }
 function chatPush(r){ const C=CHAT[r]; let d=0; for(const m of C.m){ chat.log.push({who:'m',txt:m,at:chat.t+d}); d+=70; } chat.log.push({who:'st',txt:C.st,at:chat.t+d}); chat.wait=d+70; chat.phase='typing'; }
 function chatUpdate(){ const c=chat; c.t++; if(c.phase==='typing'){ if(c.wait>0){ c.wait--; return; } c.phase='choose'; sfx('blip'); return; }
@@ -3939,7 +3957,7 @@ function npcUpdate(){ for(const n of ents){ if(n.kind!=='npc') continue; n.anim+
       if(danger&&!n.panic){ n.panic=1; n.line=LV.id==='oran'?"UNC! THEY'RE HERE FOR ME!":"AICHA! THE TOTE BAGS ARE COMING!"; n.talkT=200; }
       if(!danger&&n.panic&&n.talkT<=0){ n.panic=0; n.line=['THAT WAS IT? MY FANS ARE TOUGHER.','I DID NOTHING. AND I AM TIRED.','SEE? OFFLINE IS DANGEROUS.','RESPECT. I FILMED NOTHING.'][irnd(0,3)]; n.talkT=180; }
       continue; }
-    if(['angel','owner','zclient','shisha','dancer','shadowdancer','mafalda','phantomangel','shadowmother','aldi6','crew'].includes(n.npc)&&!n.said&&Math.abs(player.x-n.x)<46&&Math.abs(player.y-n.y)<40){ n.said=1; n.talkT=330; sfx('blip'); if(n.npc==='crew'&&(n.cid==='k7'||n.cid==='aicha')) metChar(n.cid,n.x,n.y-96); }
+    if(['angel','owner','cafedoor','zclient','shisha','dancer','shadowdancer','mafalda','phantomangel','shadowmother','aldi6','crew'].includes(n.npc)&&!n.said&&Math.abs(player.x-n.x)<46&&Math.abs(player.y-n.y)<40){ if(stageState!=='play'||msg) continue; n.said=1; n.talkT=330; sfx('blip'); if(n.npc==='crew'&&(n.cid==='k7'||n.cid==='aicha')) metChar(n.cid,n.x,n.y-96); }
     n.dir=player.x<n.x?-1:1; } }
 function drawNpc(n){ const sx=Math.round(n.x-camX), sy=Math.round(n.y); const flip=n.dir>0;
   if(n.npc==='shadowdancer'){ const fr=Math.floor(n.anim/10)%2; const sway=Math.round(Math.sin(n.anim*.1)*6); if(!drawAtlasShadow('c_npc_'+(2+fr),sx+sway,sy,1.0,Math.sin(n.anim*.1)<0,'rgba(40,0,30,.88)')) R(sx-6,sy-40,12,40,'#200010'); R(sx-3+sway,sy-56,2,2,'#ff2a4a'); R(sx+2+sway,sy-56,2,2,'#ff2a4a'); if(n.talkT>0) qb(sx,sy-66,n.line,n.name,clamp(n.talkT/20,0,1)); return; }
@@ -3949,6 +3967,11 @@ function drawNpc(n){ const sx=Math.round(n.x-camX), sy=Math.round(n.y); const fl
   if(n.npc==='buddy'){ const L=LOOKS[n.cid]; if(L) drawFighter({look:L,dir:n.dir,sc:K,x:n.x,y:n.y,z:0,state:n.moving?'walk':'idle',anim:n.anim,kind:'player'},camX); if(n.talkT>0) qb(sx,sy-74,n.line,n.name,clamp(n.talkT/20,0,1)); return; }
   if(n.npc==='crew'){ const L=LOOKS[n.cid]; if(L) drawFighter({look:L,dir:n.dir,sc:K,x:n.x,y:n.y,z:0,state:'idle',anim:n.anim,kind:'player'},camX); if(n.talkT>0) qb(sx,sy-74,n.line,n.name,clamp(n.talkT/20,0,1)); return; }
   if(n.npc==='aldi6'){ R(sx-14,sy-30,28,22,'#2a2430'); R(sx-12,sy-28,24,14,frame%40<20?'#3a8ad8':'#1c2e6b'); if(!drawAtlasShadow('e_aldi_0',sx+4,sy+2,0.95,true,'rgba(10,6,30,.55)')){ R(sx-6,sy-40,12,40,'#1c2e6b'); } R(sx-1,sy-58,2,5,'#3a8ad8'); R(sx+7,sy-58,2,5,'#3a8ad8'); if(n.talkT>0) qb(sx,sy-64,n.line,'???',clamp(n.talkT/20,0,1)); return; }
+  if(n.npc==='cafedoor'){ const dw=46, dh=64, dx=sx-dw/2, dy=sy-dh; R(dx-4,dy-4,dw+8,dh+4,'#1a1020'); R(dx,dy,dw,dh,'#2a1a10'); const gl=.5+.2*Math.sin(frame*.1); R(dx+3,dy+3,dw-6,dh-3,'rgba(255,190,110,'+gl+')');
+    const g=IMG['chars/gawdat_idle']; if(g){ const sm=ctx.imageSmoothingEnabled; ctx.imageSmoothingEnabled=false; ctx.drawImage(g,Math.round(sx-g.width/2),Math.round(sy-g.height-6+Math.sin(frame*.1))); ctx.imageSmoothingEnabled=sm; }
+    R(dx-6,sy-8,dw+12,8,'#3a2a20'); comicCaption(sx,dy-18,tr("BRO GAWDAT'S NET CAFÉ"),'#5ff0ff','#001',5);
+    if(!G.amor){ const d=Math.abs(player.x-n.x); if(d<200){ const by=dy-34+Math.round(Math.sin(frame*.2)*2); comicCaption(sx,by,tr(d<34?'PUNCH = GO IN':'PC 7 IS FREE'),d<34?'#ffe066':'#fff'); } }
+    if(n.talkT>0) qb(sx,dy-40,n.line,n.name,clamp(n.talkT/20,0,1)); return; }
   if(n.npc==='pc'){ // the PC is painted in the café background; we only light it up and point at it
     if(!G.amor){ const pulse=.25+.2*Math.sin(frame*.15); const g=ctx.createRadialGradient(sx,sy-58,2,sx,sy-58,34); g.addColorStop(0,'rgba(255,95,168,'+pulse+')'); g.addColorStop(1,'rgba(255,95,168,0)'); ctx.fillStyle=g; ctx.fillRect(sx-40,sy-96,80,80);
       const d=Math.abs(player.x-n.x); if(d<260){ const by=sy-104+Math.round(Math.sin(frame*.2)*3); comicCaption(sx,by,tr(d<30?'PUNCH = LOG ON':'LOG ON TO PC 7'),d<30?'#ffe066':'#fff'); ctx.fillStyle='#ffe066'; ctx.beginPath(); ctx.moveTo(sx-6,by+12); ctx.lineTo(sx+6,by+12); ctx.lineTo(sx,by+19); ctx.fill(); } }
@@ -3988,7 +4011,9 @@ function stageUpdate(onClear){
   if(pressed.pause||(pressed.start&&(stageState==='play'||stageState==='drive'))){ paused=!paused; sfx('blip'); }
   if(paused){ pauseMenu(onClear); return; }
   if(skit){ skitUpdate(); return; }
+  if(EPIC){ EPIC.t++; if(EPIC.t>EPIC.dur||(EPIC.t>70&&(pressed.a||pressed.start))){ EPIC=null; pressed.a=false; pressed.start=false; } return; }
   if(hitstop>0){ hitstop--; if(shake>0) shake*=.9; return; }
+  if(SLOMO>0) SLOMO--; if(LV&&LV.hell&&stageState==='play'&&pressed.c&&(G.bt||0)>=100){ pressed.c=false; SLOMO=360; G.bt=0; sfx('special'); shake=4; floatText(player.x,player.y-90,'BULLET TIME','#5ff0ff'); }
   if(G.neoT>0&&neoTick()) return;
   if(duckT>0){ duckT--; musicDuck= duckT>0?.35:1; }
   if(msg){ msg.t--; if(msg.t<=0){ if(msg.stage){ yalla(); stageState='play'; if(LV.drive&&!DRV){ msg={t:200,big:'',small:'THE DS IS WAITING. WALK UP AND PRESS PUN TO GET IN.'}; } } msg=null; } }
@@ -4008,7 +4033,8 @@ function stageUpdate(onClear){
   npcUpdate(); if(LV.jannah) petalUpdate(); if(LV.nightmare) nightmareUpdate(); if(LV.hell) hellUpdate();
   if(LV.hell&&!(G.neoT>0)&&player&&!player.dead&&player.state==='jump'&&player.t<3&&incomingBullet()) neoStart();
   if(stageState==='play'&&LV.jannah&&waveIdx>=LV.waves.length&&!wave&&player.x>LV.len-W+40){ chamberStart(); return; }
-  if(stageState==='play'&&LV.amor&&!G.amor&&!wave&&pressed.a&&!player.air){ const pc=ents.find(n=>n.kind==='npc'&&n.npc==='pc'); if(pc&&Math.abs(player.x-pc.x)<30&&Math.abs(player.y-pc.y)<40){ pressed.a=false; chatStart(); return; } }
+  if(CAFE){ CAFE.t++; if(CAFE.t>20&&(pressed.a||pressed.start)){ pressed.a=false; pressed.start=false; CAFE=null; chatStart(); } else if(CAFE.t>20&&(pressed.b||pressed.pause)){ pressed.b=false; CAFE=null; } return; }
+  if(stageState==='play'&&LV.amor&&!G.amor&&!wave&&pressed.a&&!player.air){ const pc=ents.find(n=>n.kind==='npc'&&n.npc==='cafedoor'); if(pc&&Math.abs(player.x-pc.x)<34&&Math.abs(player.y-pc.y)<44){ pressed.a=false; CAFE={t:0}; sfx('select'); musicDuck=.5; return; } }
   assistUpdate();
   for(const e of ents) if(e.kind==='enemy'&&!e.dead) enemyUpdate(e);
   // items fall
@@ -4019,7 +4045,7 @@ function stageUpdate(onClear){
   if(goT>0) goT--; if(lastHitT>0) lastHitT--; if(shake>0) shake*=.85; if(shake<.3) shake=0; if(flashA>0) flashA-=.05;
 }
 function updateProjs(){
-  for(const p of projs){ p.x+=p.vx; p.life--; if(p.grav){ p.z+=p.vz; p.vz-=.06; if(p.z<=0){p.life=0; fx.push({k:'spark',x:p.x,y:p.y,life:6});} }
+  for(const p of projs){ if(SLOMO>0&&frame%3) continue; p.x+=p.vx; p.life--; if(p.grav){ p.z+=p.vz; p.vz-=.06; if(p.z<=0){p.life=0; fx.push({k:'spark',x:p.x,y:p.y,life:6});} }
     if(p.kind==='phonebit'){ p.z+=p.vz; p.vz-=.2; p.rot+=.4; if(p.z<=0){p.z=0;p.vx*=.6;p.vz=0;} continue; }
     if(p.team===1){ const pl=player; if(pl.inv<=0&&!pl.dead&&!['down','fall'].includes(pl.state)&&Math.abs(p.x-pl.x)<10&&Math.abs(p.y-pl.y)<9&&pl.z<(p.z+10)){ hurt(pl,p.dmg,!!p.knock,{dir:sgn(p.vx),x:p.x}); p.life=0; } }
     if(p.team===0){ for(const e of ents){ if(e.team!==1||e.dead||p.hitSet.has(e)) continue; if(e.kind==='prop'){ if(Math.abs(e.x-p.x)<12&&Math.abs(e.y-p.y)<10){breakProp(e);} continue; }
@@ -4286,7 +4312,7 @@ function stageDraw(noHud){
   if(msg&&(msg.big||msg.small)){ const a=clamp(msg.t/20,0,1); const my=msg.top?34:84; ctx.globalAlpha=a; R(0,my,W,msg.top?34:46,'rgba(0,0,0,.65)'); if(msg.big) chromeText(msg.big,W/2,my+4,msg.top?10:(msg.stage?14:12)); if(msg.small) text(msg.small,W/2,my+(msg.top?22:30),'#ff5fa8',msg.top?6:7,'center'); ctx.globalAlpha=1; }
   if(stageState==='clear'&&G.level===0&&stageT>150){ const a=clamp((stageT-150)/60,0,1); ctx.fillStyle='rgba(20,60,120,'+a*.35+')'; ctx.fillRect(0,0,W,H); R(0,84,W,46,'rgba(0,0,0,.7)'); neonText('EVERYBODY WENT ONLINE...',W/2,100,'#5ff0ff',9); text('...AND NEVER LOOKED UP AGAIN',W/2,114,'#ff5fa8',7,'center'); }
   if(stageState==='clear'&&!(G.level===0&&stageT>150)){ R(0,70,W,80,'rgba(0,0,0,.7)'); chromeText(LV.part?'KEEP GOING':'STAGE CLEAR',W/2,78,18); text('SCORE '+String(Math.round(G.score)).padStart(7,'0'),W/2,108,'#ffe066',8,'center'); text(tr('RARE K7')+' '+COLL.size+'/'+TAPES.length,W/2,138,'#ffe066',6,'center',null); if(G.level>=1) text('MAMA '+Math.round(G.mama)+'%',W/2,147,'#7dff8a',6,'center',null); if(LV.battery) text('WOKE UP: '+G.woke,W/2,124,'#5ff0ff',8,'center'); else text('OFFLINE = THE GOOD LIFE',W/2,124,'#5ff0ff',7,'center'); }
-  drawNokia(); if(stageState==='clear') drawPosterPeek();
+  drawNokia(); drawCafe(); drawSlomo(); drawEpic(); if(stageState==='clear') drawPosterPeek();
   if(skit) skitDraw();
   if(paused) pauseDraw();
 }
