@@ -1,6 +1,6 @@
 // RAÏ NOIR rebuild · assets: images, atlases, music decks, synth sfx
 'use strict';
-const ROOT='../', AV='f1';
+const ROOT=window.ASSET_ROOT, AV='f1';
 const IMG={}, ATLAS={};   // ATLAS[key]=[x,y,w,h,imgKey]
 function loadImg(key,src){ return new Promise(res=>{ const im=new Image(); im.onload=()=>{IMG[key]=im;res(im);}; im.onerror=()=>res(null); im.src=ROOT+src+'?v='+AV; }); }
 async function loadAtlas(name,prefix){
