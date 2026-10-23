@@ -51,7 +51,7 @@ document.getElementById('start').addEventListener('pointerdown',e=>{ e.preventDe
   zone.addEventListener('pointerup',end); zone.addEventListener('pointercancel',end);
 }
 // canvas tap = start (menus only)
-cv.addEventListener('pointerdown',e=>{ firstGesture(); if(scene&&scene.tapStart) pressed.start=true; });
+cv.addEventListener('pointerdown',e=>{ firstGesture(); if(scene&&scene.tapStart) pressed.start=true; pressed.tap=true; });
 // gamepad
 let padPrev={};
 function pollPad(){

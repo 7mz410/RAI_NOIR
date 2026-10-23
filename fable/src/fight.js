@@ -15,8 +15,8 @@ function buildBG(keys){
   const ov=ims.length>1?Math.max(60,Math.round((sum-total)/(ims.length-1))):0; let x=0;
   ims.forEach((im,i)=>{ const w=pw[i]; if(i===0){ g.drawImage(im,0,0,w,H); }
     else { const t=document.createElement('canvas'); t.width=w; t.height=H; const tg=t.getContext('2d'); tg.drawImage(im,0,0,w,H);
-      tg.globalCompositeOperation='destination-in'; const gr=tg.createLinearGradient(0,0,ov,0); gr.addColorStop(0,'rgba(0,0,0,0)'); gr.addColorStop(1,'#000'); tg.fillStyle=gr; tg.fillRect(0,0,w,H);
-      g.drawImage(t,x,0); }
+      tg.globalCompositeOperation='destination-in'; const m=ov/2, gr=tg.createLinearGradient(m-20,0,m+20,0); gr.addColorStop(0,'rgba(0,0,0,0)'); gr.addColorStop(1,'#000'); tg.fillStyle=gr; tg.fillRect(0,0,w,H);
+      g.drawImage(t,x,0); const pg=g.createLinearGradient(x+m-28,0,x+m+28,0); pg.addColorStop(0,'rgba(10,4,18,0)'); pg.addColorStop(.5,'rgba(10,4,18,.75)'); pg.addColorStop(1,'rgba(10,4,18,0)'); g.fillStyle=pg; g.fillRect(x+m-28,0,56,H); }
     x+=w-ov; });
   return c;
 }
@@ -172,7 +172,7 @@ let POP=null;
 function popupUpdate(){
   const pp=LV.popup; if(!pp||pp.done) return;
   if(!POP){ if(player.x>pp.at){ const clear=!ents.some(e=>e.kind==='enemy'&&!e.dead); pp.waitT=(pp.waitT||0)+1; if(clear||pp.waitT>480){ POP={i:0,t:0}; } } return; }
-  POP.t++; if(POP.t>40&&(pressed.a||pressed.start||pressed.k)){ POP.i++; POP.t=20; sfx('blip'); if(POP.i>=pp.lines.length){ pp.done=true; POP=null; } }
+  POP.t++; if(POP.t>40&&(pressed.a||pressed.start||pressed.k||pressed.b||pressed.c||pressed.tap)){ POP.i++; POP.t=20; sfx('blip'); if(POP.i>=pp.lines.length){ pp.done=true; POP=null; } }
 }
 function popupDraw(){
   if(!POP) return; const pp=LV.popup, [who,line]=pp.lines[POP.i], k=clamp(POP.t/14,0,1);
@@ -180,7 +180,7 @@ function popupDraw(){
   const bw=300, bh=120, bx=(W-bw)/2, by=Math.round(lerp(H,52,k)); R(bx-2,by-2,bw+4,bh+4,'#ffe066'); R(bx,by,bw,bh,'#0b0616');
   coverImg(IMG[pp.img],bx+4,by+4,112,bh-8);
   text(who,bx+124,by+10,'#ff3d8b',6,'left'); wrap(line,bw-136,7).forEach((l,i)=>text(l,bx+124,by+28+i*11,'#fff',7,'left'));
-  if(POP.t>40&&frame%40<28) text('▶ PUNCH',bx+bw-8,by+bh-12,'#ffe066',5,'right');
+  if(POP.t>40&&frame%40<28) text('▶ TAP',bx+bw-8,by+bh-12,'#ffe066',5,'right');
 }
 
 // ---- stage ----
@@ -192,7 +192,7 @@ function startLevel(i){
   playMusic(LV.music,{restart:true,fade:1});
 }
 function stageUpdate(){
-  levelT++; if(pressed.pause&&stageState==='play'){ stageState='pause'; return; } if(stageState==='pause'){ if(pressed.pause||pressed.start) stageState='play'; return; }
+  levelT++; if((pressed.pause||pressed.start)&&stageState==='play'&&!POP){ stageState='pause'; return; } if(stageState==='pause'){ if(pressed.pause||pressed.start) stageState='play'; return; }
   if(stageState==='play'){
     if(POP){ popupUpdate(); return; }
     if(G.bossIntroT>0){ G.bossIntroT--; }
@@ -206,7 +206,7 @@ function stageUpdate(){
     const target=clamp(player.x-W*.4,0,lockX!=null?lockX:LV.len); camX=Math.round(lerp(camX,Math.max(camX,target),.12)); if(lockX!=null) camX=Math.min(camX,lockX);
   } else if(stageState==='clear'){ stageT++; updatePlayer(); for(const e of ents) if(e.kind==='enemy') updateEnemy(e); ents=ents.filter(e=>!e.remove); updateItems(); phoneUpdate();
     if(stageT===1){ floatText(player.x,player.y-80,'STAGE CLEAR','#ffe066'); } const left=trackLeft(); if(stageT>120&&(left==null||left<.3||stageT>60*14)){ stageState='done'; fadeTo(()=>scene.onClear(),40); }
-  } else if(stageState==='gameover'){ stageT++; if(stageT>60&&(pressed.start||pressed.a)){ if(G.lives>0){ G.lives--; startLevel(G.level); } else go(SC.title); } }
+  } else if(stageState==='gameover'){ stageT++; if(stageT>30&&(pressed.start||pressed.a)){ if(G.lives>0){ G.lives--; startLevel(G.level); } else go(SC.title); } }
   for(const f of floats) f.t++; floats=floats.filter(f=>f.t<70); if(hype){ hype.t++; if(hype.t>70) hype=null; }
 }
 function stageDraw(){
@@ -220,7 +220,7 @@ function stageDraw(){
   for(const f of floats){ text(f.s,clamp(f.x-camX,60,W-60),f.y-f.t*.6,f.col,f.s.length>20?5:7,'center'); }
   hudDraw(); phoneDraw(); popupDraw();
   if(stageState==='pause'){ ctx.fillStyle='rgba(0,0,0,.6)'; ctx.fillRect(0,0,W,H); text('PAUSED',W/2,H/2-8,'#ffe066',12,'center',null,DFONT); }
-  if(stageState==='gameover'){ ctx.fillStyle='rgba(0,0,0,.65)'; ctx.fillRect(0,0,W,H); text('MAMA IS CALLING',W/2,80,'#ff3d8b',14,'center',null,DFONT); text(G.lives>0?'CONTINUE · '+G.lives+' LEFT':'GAME OVER',W/2,112,'#fff',7,'center'); if(stageT>60&&frame%40<28) text('PRESS START',W/2,136,'#ffe066',6,'center'); }
+  if(stageState==='gameover'){ ctx.fillStyle='rgba(0,0,0,.65)'; ctx.fillRect(0,0,W,H); text('MAMA IS CALLING',W/2,80,'#ff3d8b',14,'center',null,DFONT); text(G.lives>0?'CONTINUE · '+G.lives+' LEFT':'GAME OVER',W/2,112,'#fff',7,'center'); if(stageT>30&&frame%40<28) text('PRESS START',W/2,136,'#ffe066',6,'center'); }
 }
 function hudDraw(){
   // player
