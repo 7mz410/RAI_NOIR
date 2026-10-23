@@ -135,3 +135,15 @@ RAÏ NOIR is a single-file browser arcade game (a side-scrolling beat 'em up) th
 - Nokia v2: status bar (signal, battery = Mama's power), "1 NEW MESSAGE" first, sender icons. Mama's Cairo radio and Aldi's "theme night" are texts now.
 - Marseille: Cheb answers the club in darija on KOs (`SLANG.club`). DUCK.EXE (an original glitchy rubber duck) shows up once in wave 1, quacks, and crashes itself.
 - Title: drops in `assets/ui/title_heroes.jpg` (text-free hero art) and overlays the exact logo `assets/ui/logo_v3.png`. Until that file exists the old title art shows.
+
+### Oct 22 evening pass
+- Finale = one dream: after the boat deck he falls asleep on the nets → 7ELM 7RAM (Part 1, the dream, with the real Cheb GPT cameo and Aldi/Mama "two halves" texts) → the red thread becomes Mama's cable → HELL.EXE (Part 2) → JANNAH.EXE (Part 3) → he wakes up in Oran's port: "A DREAM? THE CLOUD? MAKTOUB." Heaven/hell stays ambiguous on purpose. The bullet-time shooter (payne) and Benghazi are out.
+- Hell: SPECIAL = bullet time when the SLO-MO bar is full (fills with hits). Fewer, faster waves; no shadow El M3alim. Aldi's last entrance and the SHAYTAN.EXE turn are letterboxed full-screen moments (`epic()`).
+- Cyber Cairo: corniche → street → cabaret. The café is a door with Bro Gawdat (`assets/chars/gawdat_idle.png`, cut from his sheet); punch at the door = inside, PC 7. Boss: WIGGZ.AI ("THE CATFISH FARM · SAMIA WAS A PROMPT") instead of a second Algo Riddim/Feed.
+- Oran → plugin → mumya (comeback panels and the offline track are out). The VHS lands on the Oran corniche.
+- Walk bounds: Cairo yMin 174, hell 172 (no walking on buildings).
+- Fixed: the boss-KO white flash froze over the stage-clear screen (flashA didn't decay in the clear state).
+- Credits: LENNART THIENPONT AKA LAMARTINE PONCH; art direction Bader Shashit, Hamza Abu Ayyash, Lamartine Ponch.
+- Music chain: zizou → mumya → zomby → voodoo → amorharam → warda → zidane → jump (Marseille boss → shooter) → mama (deck) → helm7ram (dream) → poete (hell) → adieu (Jannah, ending, credits).
+- Oct 22 (later): the dream is a short bit, not a level: two 7ELM 7RAM panels (the real Cheb GPT passes by) + two "two halves" panels (Aldi, Mama → the cable) on helm7ram, which slides (4 s crossfade) into Poète maudit du bled at HELL.EXE (STAGE 6 · FINALE), then JANNAH (PART 2). The thesis is on screen once in the ending: "MAMA AND ALDI WERE JUST WHAT HE WAS TRAINED ON. THIS TIME HE PICKED WHO TO LISTEN TO."
+- First screen of Oran is pure brawling: enemy one-liners start at screen two and come less often. Marseille joke pools thinned (ally, tote: 5 lines each; no pronoun/safe-space jokes). Aicha is labelled "YOUR LITTLE SISTER".
