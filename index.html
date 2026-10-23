@@ -343,7 +343,7 @@ function prefetchMusic(list){ for(const n of list){ if(!n||MBLOB[n]) continue; M
 function musicURL(n){ const b=MBLOB[n]; return (b&&b!=='loading')?b:'audio/'+n+'.mp3?m=3'; }
 function trimMusic(keep){ for(const n in MBLOB){ if(keep.includes(n)||n===curMusic) continue; const b=MBLOB[n]; if(b&&b!=='loading'){ const inUse=DECK.some(a=>a.src===b); if(!inUse){ try{ URL.revokeObjectURL(b); }catch(e){} delete MBLOB[n]; } } } }
 const STORYCAST={oran:{id:'k7',why:"UNC K7 SHOWS CHEB HIS ORAN. OFFLINE. NO RUSH. UNTIL...",buddy:'cheb'},marseille:{id:'aicha',why:"AICHA'S CITY. SHE KNOWS EVERY DOOR. AND EVERY HIPSTER.",buddy:'cheb'}};
-const LVTRACKS={lift:['offline','adieu'],hell:['poete','adieu'],oran:['zizou','offline','zizou_remix','zomby'],cairo:['zomby','voodoo','amorharam'],amor:['amorharam','warda','zidane'],marseille:['warda','zidane','jump','helm7ram'],mahram:['helm7ram','mama'],boat:['mama','adieu'],jannah:['adieu']};
+const LVTRACKS={lift:['offline','adieu'],hell:['helm7ram','poete','adieu'],oran:['zizou','zomby'],cairo:['zomby','voodoo','amorharam'],amor:['amorharam','warda','zidane'],marseille:['warda','zidane','jump','helm7ram'],mahram:['helm7ram','mama'],boat:['mama','adieu'],jannah:['adieu']};
 function musicTick(){ for(const j of fadeJobs){ j.t++; const k=Math.min(1,j.t/j.dur); j.a.volume=Math.max(0,Math.min(1,(j.from+(j.to-j.from)*k)*musicDuck)); if(k>=1&&j.stop){ j.a.pause(); j.a.removeAttribute('src'); j.a.load(); } } fadeJobs=fadeJobs.filter(j=>j.t<j.dur); const cur=DECK[deckI]; if(curMusic&&!fadeJobs.some(j=>j.a===cur)) cur.volume=musicVol*musicDuck*musicQuiet; if(typeof djTick==='function') djTick(); }
 let yallaEl=null;
 function yalla(){ try{ if(!yallaEl){yallaEl=new Audio('audio/yalla.mp3');} const a=yallaEl.cloneNode(); a.volume=1; a.play().catch(()=>{}); duckT=110; }catch(e){} }
@@ -1891,7 +1891,7 @@ const SKITS={
   // one popup per level (the story beat). sms:1 = a Nokia text, you keep fighting. stop:'x' = optional side quest (walk up, press A).
   // the thread: MAMA = god, PLAIBOY ALDI = the devil. Both are just Cheb's training data talking.
   oran:[
-    {at:760,sms:1,who:'NEPHEW YACINE',line:"KHALI!! MY FRIENDS SAY YOU'RE AN A.I. ARE YOU REAL?? SEND A VOICE NOTE."},
+    {at:1280,sms:1,who:'NEPHEW YACINE',line:"KHALI!! MY FRIENDS SAY YOU'RE AN A.I. ARE YOU REAL?? SEND A VOICE NOTE."},
     {at:900,img:'story/kitchen_tv',who:'MAMA (FROM THE BALCONY)',meet:'k7',line:"WLIDI, YOU'RE THIN. EAT. AND BE A DOCTOR."},
     {at:920,img:'story/kitchen_tv',who:'CHEB',line:'AFTER, MAMA.'},
   ],
@@ -2115,10 +2115,10 @@ const LEVELS=[
    waves:[{at:320,tAt:24,list:['dabke','duck','dabke','ally']},{at:720,tAt:60,list:['tote','checkbox','ally','dabke']},{at:1120,tAt:null,list:['soufi']},{at:1600,tAt:null,list:['nepo','tote','checkbox','bro','dabke']},{at:2160,tAt:200,boss:1,list:['curator','nepo','ally']}],
    npcs:[['crew',110,174,'AICHA · YOUR LITTLE SISTER',"KHOYA! THEY PROMPTED YOU INTO MY CITY? STAY BEHIND ME.",'aicha'],['crew',200,170,'BADER','THEY ASKED ME TO SHOOT THE NIGHT. FOR FREE. "FOR THE PORTFOLIO."','bader'],['crew',960,166,'KHALIL',"THEY PRINTED MY GRANDFATHER'S SONG ON A TOTE BAG. 35 EUROS.",'khalil'],['crew',1780,168,'5AMASEEN','DABKE IS A WEDDING DANCE, HABIBI. NOT A TEAM-BUILDING.','khamaseen']],
    props:[['crate',520,206,'koshary'],['barrel',1300,206,'tray'],['crate',1840,206,'k7tape'],['barrel',2080,190,'karantika']]},
-  {id:'hell',title:'STAGE 6 · FINALE',sub:"HELL.EXE — ALDI'S DATACENTRE",part:1,music:'poete',len:2600,battery:false,dur:240,hell:1,yMin:172,
+  {id:'hell',title:'STAGE 6 · FINALE',sub:"HELL.EXE — ALDI'S DATACENTRE",part:1,music:'helm7ram',len:2600,battery:false,dur:240,hell:1,yMin:172,
    // the drop of Poète maudit du bled is at 1:23 — Aldi has to be on screen before it
    waves:[{at:220,tAt:6,list:['agent','sh_hustler']},{at:600,tAt:20,list:['agent','sh_punk','agent']},
-          {at:1300,tAt:44,list:['agent','punk','influencer']},{at:1900,tAt:62,boss:1,list:['aldiboss','agent','agent']}],
+          {at:1300,tAt:44,music:'poete',seek:0,list:['agent','punk','influencer']},{at:1900,tAt:62,boss:1,list:['aldiboss','agent','agent']}],
    props:[['crate',520,206,'cassette'],['barrel',1000,172,'dish'],['crate',1460,206,'k7tape'],['barrel',1960,190,'ringlight']]},
   {id:'lift',title:'FINALE · PART 2',sub:'THE LIFT — GOING UP',part:1,music:'offline',len:420,battery:false,dur:130,lift:1,yMin:176,
    // Streets of Rage lift: a fixed screen, the floors fly past, every stop lets somebody from his life back in
@@ -2178,6 +2178,7 @@ function strike(att,range,depth,dmg,knock,opts={}){
   return hitAny;
 }
 let hitCombo=0, hitComboT=0;
+const ORAN_FANS=['CHEB GPT!! ONE SELFIE, KHOYA!','MY MOTHER LOVES YOUR SONG!','WALLAH IT IS HIM! FILM, FILM!','SIGN MY PHONE CASE!','ONE STORY WITH ME, CHEB, JUST ONE!','SAY HI TO MY COUSIN! HE IS ON LIVE!'];
 const ORAN_MOCK=['AN A.I. SINGER? MY FRIDGE SINGS TOO.','KHOYA, EVEN THE KIOSK RADIO HAS MORE SOUL.','AUTOTUNE IS NOT A PERSONALITY, KHOYA.','CHEB GPT? CHEB WHO PAYS?','SING WITHOUT WIFI. GO ON.','REAL RAÏ HAS A HANGOVER. YOU HAVE A CHARGER.','IN ORAN WE SING AT WEDDINGS. YOU SING IN THE CLOUD.'];
 const HYPE=[[5,'WALLAH!'],[10,'YA SALAM!'],[15,'SAHHA!'],[20,'MABROUK!'],[30,'3ASSAL!'],[50,'LEGEND, KHOYA!'],[80,'MAMA SAW THAT.']];
 let hype=null;
@@ -2376,8 +2377,7 @@ function enemyUpdate(e){
   if(e.inv>0) e.inv--; if(e.flashT>0) e.flashT--;
   e.t++; e.anim++;
   const p=player; const T=e.T;
-  if(e.type==='aldiboss') e.age=(e.age||0)+1;
-  if(e.type==='aldiboss'&&curMusic==='poete'&&trackTime()>=POETE_DROP&&e.age>240&&!['fall','down','dead','grabbed'].includes(e.state)){ shaytanReveal(e); return; }
+  if(e.type==='aldiboss'&&curMusic==='poete'&&(DECK[deckI]?DECK[deckI].currentTime:0)>=POETE_DROP&&e.age>240&&!['fall','down','dead','grabbed'].includes(e.state)){ shaytanReveal(e); return; }
   if(e.type==='shaytan') hellfire(e);
   if(T.gunner&&agentUpdate(e)) return;
   // HASNI SHOUT stun: frozen in 'hurt' (so the player can walk in and grab)
@@ -2417,7 +2417,7 @@ function enemyUpdate(e){
     if(e.type==='shadowself'){ if(r<.4&&Math.abs(p.y-e.y)<20){ e.state='wave'; e.pose='special'; e.t=0; floatText(e.x,e.y-70,['OFFLINE IS A LIE','YOU LEFT HER','GO BACK TO SLEEP','WHO WOULD BE BORN MUST DESTROY A WORLD','I AM YOU, HABIBI'][irnd(0,4)],'#ff2a4a'); return;} if(r<.8&&Math.abs(p.x-e.x)>40){ e.state='charge'; e.pose='shoulder'; e.t=0; sfx('heavy'); return; } }
   }
   if(e.type==='dog'&&!e.dead&&curMusic==='voodoo'){ const a=DECK[deckI], b=a?Math.floor((a.currentTime-60.21)*143.55/60):0; if(b!==DOGBEAT){ DOGBEAT=b; if(b%2===0){ sfx('bark'); if(!e.air&&e.z<=0){ e.z=1; e.vz=2.2; } fx.push({k:'txt',x:e.x,y:e.y-34,s:'WRRF!',c:'#ff8a8a',life:24}); } } }
-  if(LV&&(LV.id==='marseille'&&T.lines||LV.id==='oran')&&!e.dead&&e.hp>0){ const LINES=LV.id==='oran'?ORAN_MOCK:T.lines; e.sayCd=(e.sayCd??irnd(40,110))-1; if(e.sayCd<=0&&frame-SAY_LAST>660&&waveIdx>0&&e.x>camX+10&&e.x<camX+W-10){ const fresh=LINES.filter(l=>!SAY_SEEN.has(l)); const pool=fresh.length?fresh:LINES; const l=pool[irnd(0,pool.length-1)]; SAY_SEEN.add(l); SAY_LAST=frame; if(!SAY_ALL.has(l)){ SAY_ALL.add(l); try{ localStorage.setItem('rainoir-jokes',JSON.stringify([...SAY_ALL])); }catch(e){} if(SAY_ALL.size>=40) vaultMark('jokes'); } e.sayCd=520+irnd(0,380); const L=String(tr(l)).length; fx.push({k:'say',e,s:l,who:T.name,life:Math.min(360,130+L*3)}); } }
+  if(LV&&(LV.id==='marseille'&&T.lines||LV.id==='oran')&&!e.dead&&e.hp>0){ const late=LV.id==='oran'&&waveIdx>=LV.waves.length-2, LINES=LV.id==='oran'?(late?ORAN_MOCK:ORAN_FANS):T.lines; e.sayCd=(e.sayCd??irnd(40,110))-1; if(e.sayCd<=0&&frame-SAY_LAST>660&&(waveIdx>0||LV.id==='oran')&&e.x>camX+10&&e.x<camX+W-10){ const fresh=LINES.filter(l=>!SAY_SEEN.has(l)); const pool=fresh.length?fresh:LINES; const l=pool[irnd(0,pool.length-1)]; SAY_SEEN.add(l); SAY_LAST=frame; if(ORAN_FANS.includes(l)){ fx.push({k:'camflash',x:e.x+e.dir*10,y:e.y-38,life:10}); sfx('flash'); } if(!SAY_ALL.has(l)){ SAY_ALL.add(l); try{ localStorage.setItem('rainoir-jokes',JSON.stringify([...SAY_ALL])); }catch(e){} if(SAY_ALL.size>=40) vaultMark('jokes'); } e.sayCd=520+irnd(0,380); const L=String(tr(l)).length; fx.push({k:'say',e,s:l,who:T.name,life:Math.min(360,130+L*3)}); } }
   if(T.thrower&&e.cool<=0&&Math.random()<.02&&Math.abs(p.x-e.x)>60&&Math.abs(p.y-e.y)<14){ e.state='throw'; e.pose='throw'; e.t=0; return; }
   if(['hustler','goon','scooter','influencer','punk'].includes(T.base||e.type) && Math.random()<(T.filmer?.016:.006) && Math.abs(p.x-e.x)>40){ e.state='film'; e.pose='film'; e.t=0; return; }
   // spread out: hang back sometimes
@@ -2612,11 +2612,12 @@ function hellDraw(){ if(G.neoT>0){ ctx.fillStyle='rgba(0,255,120,.10)'; ctx.fill
 let levelT=0;
 function trackTime(){ const a=DECK[deckI]; if(curMusic===LV.music && a && a.currentTime>0.5 && !a.paused) return a.currentTime; return levelT/60; }
 // the level is a video clip: when the last boss falls, the song jumps to its last bars and the stage ends with the song
-function songOutro(){ if(!LV||LV.hell||LV.jannah||!curMusic||curMusic==='adieu') return; const a=DECK[deckI]; if(!a||!isFinite(a.duration)||!a.duration) return; const left=a.duration-a.currentTime, OUT=11;
+function songOutro(){ return; /* songs play whole: no outro seek on clear */ if(!LV||LV.hell||LV.jannah||!curMusic||curMusic==='adieu') return; const a=DECK[deckI]; if(!a||!isFinite(a.duration)||!a.duration) return; const left=a.duration-a.currentTime, OUT=11;
   if(left>OUT+3) playMusic(curMusic,{restart:true,seek:Math.max(0,a.duration-OUT),fade:45,loop:false}); else a.loop=false;
   G.clearHold=Math.round(Math.min(OUT,Math.max(4,left))*60)+40; }
 let musicQuiet=1, DOGBEAT=-1; // voodoo creeps in quietly at the hoodie shop, then erupts when El M3alim attacks
-function onTrackEnd(){ if(!scene||!scene.isStage||stageState!=='play') return; if(curMusic==='adieu') return; if(curMusic==='poete'){ playMusic('poete',{seek:POETE_DROP,fade:10,loop:false}); return; } if(curMusic==='mama'){ playMusic('mama',{restart:true,fade:20,loop:false}); return; } if(curMusic==='zidane'){ playMusic('zidane',{seek:15,fade:10,loop:false}); return; } if(curMusic==='warda'){ playMusic('warda',{restart:true,fade:10,loop:false}); return; } if(curMusic==='jump'){ playMusic('jump',{restart:true,fade:10,loop:false}); return; } if(curMusic==='amorharam'&&LV.amor){ cabaretCloses(); return; } if(curMusic==='amorharam'){ playMusic('amorharam',{restart:true,fade:10,loop:false}); return; } if(curMusic==='helm7ram'){ playMusic('helm7ram',{restart:true,fade:10,loop:false,seek:120}); return; } if(curMusic==='voodoo'){ if(G.waveSongDone&&LV.music!=='voodoo'){ G.waveSongDone=0; playMusic(LV.music,{restart:true,fade:120,loop:false}); } else playMusic('voodoo',{restart:true,fade:10,loop:false}); return; }
+function onTrackEnd(){ if(!scene||!scene.isStage||stageState!=='play') return; if(curMusic==='adieu') return;
+  if(curMusic&&curMusic!=='voodoo'&&!(curMusic==='amorharam'&&LV.amor)){ playMusic(curMusic,{restart:true,fade:10,loop:false}); return; } // the whole song again (Oran: Zizou loops, no Offline) if(curMusic==='poete'){ playMusic('poete',{seek:POETE_DROP,fade:10,loop:false}); return; } if(curMusic==='mama'){ playMusic('mama',{restart:true,fade:20,loop:false}); return; } if(curMusic==='zidane'){ playMusic('zidane',{seek:15,fade:10,loop:false}); return; } if(curMusic==='warda'){ playMusic('warda',{restart:true,fade:10,loop:false}); return; } if(curMusic==='jump'){ playMusic('jump',{restart:true,fade:10,loop:false}); return; } if(curMusic==='amorharam'&&LV.amor){ cabaretCloses(); return; } if(curMusic==='amorharam'){ playMusic('amorharam',{restart:true,fade:10,loop:false}); return; } if(curMusic==='helm7ram'){ playMusic('helm7ram',{restart:true,fade:10,loop:false,seek:120}); return; } if(curMusic==='voodoo'){ if(G.waveSongDone&&LV.music!=='voodoo'){ G.waveSongDone=0; playMusic(LV.music,{restart:true,fade:120,loop:false}); } else playMusic('voodoo',{restart:true,fade:10,loop:false}); return; }
   // ZIZOU runs out in Oran → OFFLINE takes over straight away and carries into the comeback
   if(curMusic==='zizou'&&G.level===0){ playMusic('offline',{fade:70}); return; }
   if(curMusic==='offline'){ playMusic('offline',{restart:true,fade:30}); return; }
@@ -2625,8 +2626,8 @@ function updateWaves(){
   // the level is paced by the track: a wave starts when the player walks into it OR when the track reaches its cue
   const tt=trackTime(); const nw=LV.waves[waveIdx];
   // walking into the next song early: no invisible wall — the selecta pulls it up (zomby → voodoo for El M3alim)
-  if(nw && !wave && nw.minT && nw.music && curMusic===LV.music && tt<nw.minT && player.x>=nw.at-60 && !G.djEarly){ G.djEarly=1; djPullup(nw.music,nw.seek,'PULL UP!',(LV.music||'').toUpperCase()+' → '+nw.music.toUpperCase()); }
-  if(nw && !wave && nw.timed && !nw.music && player.x>nw.at && tt<nw.tAt-3 && curMusic===LV.music && !nw.pulled){ nw.pulled=1; const a=DECK[deckI]; if(a&&isFinite(a.duration)&&a.duration>nw.tAt+10){ try{ a.currentTime=nw.tAt; }catch(e){} floatText(player.x,player.y-80,'PULL UP! THE SELECTA SKIPS TO THE DROP','#ffe066'); sfx('special'); } }
+  if(false && nw && !wave && nw.minT && nw.music && curMusic===LV.music && tt<nw.minT && player.x>=nw.at-60 && !G.djEarly){ G.djEarly=1; djPullup(nw.music,nw.seek,'PULL UP!',(LV.music||'').toUpperCase()+' → '+nw.music.toUpperCase()); }
+  if(false && nw && !wave && nw.timed && !nw.music && player.x>nw.at && tt<nw.tAt-3 && curMusic===LV.music && !nw.pulled){ nw.pulled=1; const a=DECK[deckI]; if(a&&isFinite(a.duration)&&a.duration>nw.tAt+10){ try{ a.currentTime=nw.tAt; }catch(e){} floatText(player.x,player.y-80,'PULL UP! THE SELECTA SKIPS TO THE DROP','#ffe066'); sfx('special'); } }
   if(nw && !wave && (player.x>nw.at || (nw.tAt!=null && (!nw.boss||LV.lift||nw.timed) && tt>=nw.tAt))){
     wave={...nw,queue:[...nw.list],late:tt>=(nw.tAt||1e9)&&player.x<=nw.at}; if(nw.label){ msg={t:170,big:nw.label,small:tr(nw.fsub||''),top:1}; sfx('pickup'); setTimeout(()=>sfx('blip'),160); } lockX=camX; spawnT=10; if(nw.music&&!(G.djEarly&&(curMusic===nw.music||djJob))){ playMusic(nw.music,{fade:20,loop:false,seek:nw.seek,restart:curMusic===nw.music}); } if(musicQuiet<1){ musicQuiet=1; shake=10; flashA=.8; sfx('boss'); floatText(player.x,player.y-90,'VOODOO!','#ff3d5a'); } if(wave.boss&&!wave.late) lockX=LV.len-W; if(wave.boss&&wave.late) lockX=Infinity; }
   // if the track runs ahead while a wave is still alive, pour the next wave in on top (no stalls)
