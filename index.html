@@ -195,7 +195,7 @@ const ASSET_LIST={
   'bg/oran_corniche':'assets/bg/oran_corniche.jpg','bg/oran_souk':'assets/bg/oran_souk.jpg',
   'bg/cairo_street':'assets/bg/cairo_street.jpg','bg/cairo_rave_nile':'assets/bg/cairo_rave_nile.jpg',
 };
-['00_life_flashes','01_json_motherboard','02_les_yeux','03_voodoo','04_tung_tung','05_daba_ana_star','06_fake_streams','07_poete_maudit','08_orbit','09_rai_noir_prayer','10_offline_pier','11_prompt_cloud','12_message','13_en_ligne','20_sawna_rec_k7'].forEach(n=>ASSET_LIST['intro/'+n]='assets/intro/'+n+'.jpg');
+['00_life_flashes','01_birth','01_json_motherboard','02_les_yeux','03_voodoo','04_tung_tung','05_daba_ana_star','06_fake_streams','07_poete_maudit','08_orbit','09_rai_noir_prayer','10_offline_pier','11_prompt_cloud','12_message','13_en_ligne','20_sawna_rec_k7'].forEach(n=>ASSET_LIST['intro/'+n]='assets/intro/'+n+'.jpg');
 ['00_title_trio','00_title_rai_riot','00_title_rai_noir','L1_01_corniche_drive','L1_05_sawna_rec_inside','L2_00_title_zomby','L2_05_boss_the_feed','L1_02_oran_street_k7','L2_04_robot_camels'].forEach(n=>ASSET_LIST['shots/'+n]='assets/shots/'+n+'.jpg');
 ['cheb','aicha','k7','bader','ponch','khamaseen','khalil','fatih'].forEach(n=>ASSET_LIST['portraits/'+n]='assets/portraits/'+n+'.jpg');
 ['01_title','02_mummy','03_star','04_costar','05_villain','06_cairo','07_tomb'].forEach(n=>ASSET_LIST['mumya/'+n]='assets/mumya/'+n+'.jpg');
@@ -1793,7 +1793,7 @@ function drawMamaHUD(){ if(!G||G.level<1) return; const v=clamp(Math.round(G.mam
   const w=Math.round(38*v/100); R(x+1,y,w,5,v<15?'#ff3d3d':v<35?'#ffd23a':'#2fbf5f'); for(let i=x+3;i<x+1+w;i+=6) R(i,y+2,3,1,'#e7c35a');
   text(v+'%',x+46,y,v<15?'#ff3d3d':'#cfe8d0',5,'left',null);
   if(mamaFx>0){ mamaFx--; text((mamaFxV>0?'+♥':'')+(mamaFxV<0?mamaFxV+'%':''),x+20,y+8,mamaFxV>0?'#ff9ad0':'#ff3d3d',5,'center',null); } }
-function drawMamaBattery(v,t){ const k=ease(t/40); const shown=Math.round(v+(1-k)*6), cx=W/2, cy=82; ctx.save(); ctx.globalAlpha=Math.min(1,t/14);
+function drawMamaBattery(v,t){ const k=ease(t/40); const shown=Math.round(v+(1-k)*6), cx=0, cy=0; ctx.save(); ctx.translate(W-46,62); ctx.scale(.5,.5); ctx.globalAlpha=Math.min(1,t/14);
   R(cx-62,cy-22,124,44,'#e8e8e8'); R(cx+62,cy-8,6,16,'#e8e8e8'); R(cx-59,cy-19,118,38,'#071a0e');
   const w=Math.round(114*shown/100), col=shown<15?'#ff3d3d':shown<35?'#ffd23a':'#2fbf5f'; if(!(shown<15&&frame%30<10)) R(cx-57,cy-17,w,34,col);
   for(let i=0;i<w;i+=8){ R(cx-55+i,cy-6,5,1,'#e7c35a'); R(cx-55+i+2,cy+4,1,6,'#e7c35a'); }
@@ -2694,7 +2694,7 @@ const CINE={
   intro:[
     {entrance:1,dur:330},
     {img:'intro/09_rai_noir_prayer',music:'rainoir',title:'RAÏ NOIR',feat:'ORAN · TONIGHT',line:"THIS IS CHEB GPT: THE FIRST R/A.I. SINGER. HE PRAYS ON A ROOFTOP IN ORAN, CONTEMPLATING HIS LIFE. HOW DID IT COME TO THIS?",dur:400},
-    {img:'intro/01_json_motherboard',title:'2025 · BORN',feat:'MAMA',line:'A MOTHERBOARD RUNS ONE FILE AND CHEB GPT IS BORN. HE CALLS HER MAMA. SHE IS ALL THE FAMILY HE HAS.',dur:380,mama:100},
+    {img:'intro/01_birth',title:'2025 · BORN',feat:'MAMA',line:'A MOTHERBOARD RUNS ONE FILE AND CHEB GPT IS BORN. HE CALLS HER MAMA. SHE IS ALL THE FAMILY HE HAS.',dur:380,mama:100},
     {img:'intro/06_fake_streams',title:'PLAIBOY ALDI',feat:'THE DEVIL OF THE FEED',line:'THEN PLAIBOY ALDI SELLS HIM FAKE STREAMS. HE LOSES EVERYTHING. ALDI KEEPS SMILING FROM EVERY SCREEN.',dur:400},
     {img:'story/vv_bin_photo',title:'VOCODER VERSACE',feat:'THE FIRST EP · SAWNA RECORDS',line:"HIS FIRST EP: VOCODER VERSACE. PURE AUTOTUNE HEARTBREAK. IT SOLD THREE COPIES. ALL THREE TO MAMA.",dur:380},
     {img:'intro/10_offline_pier',title:'OFFLINE',feat:'ORAN · THE PIER',line:"SO HE GOES OFFLINE AND GOES HOME TO ORAN. THREE MONTHS IN THE REAL WORLD. OFFLINE = DEAD BUT HE HAS NEVER FELT MORE ALIVE.",dur:420},
@@ -2783,7 +2783,7 @@ function calliText(str,x,y,size,a=1){ ctx.save(); ctx.globalAlpha=a; ctx.font=si
   ctx.shadowColor='#ff3d8b'; ctx.shadowBlur=12; ctx.fillStyle='rgba(255,61,139,.9)'; ctx.fillText(str,x,y+1); ctx.shadowColor='#5ff0ff'; ctx.shadowBlur=8; ctx.fillStyle='rgba(95,240,255,.35)'; ctx.fillText(str,x,y); ctx.shadowBlur=0;
   const g=ctx.createLinearGradient(0,y-size,0,y+size*.25); g.addColorStop(0,'#fff6d8'); g.addColorStop(.34,'#ffd86a'); g.addColorStop(.5,'#9a6a08'); g.addColorStop(.6,'#ffe9a8'); g.addColorStop(1,'#7a4e00');
   ctx.fillStyle=g; ctx.fillText(str,x,y); ctx.lineWidth=1; ctx.globalAlpha=a*.45; ctx.strokeStyle='#5ff0ff'; ctx.strokeText(str,x,y); ctx.restore(); }
-const COVER_FY={'05_daba_ana_star.jpg':0.05,'09b_torch.jpg':0.3}; // keep heads in frame
+const COVER_FY={'01_birth.jpg':0.0,'nightmare.jpg':0.35,'06_fake_streams.jpg':0.2,'05_daba_ana_star.jpg':0.05,'09b_torch.jpg':0.3}; // keep heads in frame
 function drawCover(im,i,p,offX=0){ const iw=im.width,ih=im.height; const sc0=Math.max(W/iw,H/ih); const z=1.06+.14*p; const s2=sc0*z, w=iw*s2,h=ih*s2; const dir=i%2?1:-1;
   const fy=COVER_FY[((im.src||'').split('/').pop()||'').split('?')[0]]; const ox=(W-w)/2 + dir*(w-W)/2*(p*1.6-.8), oy=fy!=null?-(h-H)*fy:(H-h)/2 + ((i%3)-1)*(h-H)/2*(p-.5)*1.4; ctx.drawImage(im,ox+offX,oy,w,h); return [ox,oy,w,h]; }
 const ENT=new Set(); const once=(k,f)=>{ if(!ENT.has(k)){ ENT.add(k); f(); } };
