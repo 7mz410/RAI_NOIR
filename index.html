@@ -200,7 +200,7 @@ const ASSET_LIST={
 ['cheb','aicha','k7','bader','ponch','khamaseen','khalil','fatih'].forEach(n=>ASSET_LIST['portraits/'+n]='assets/portraits/'+n+'.jpg');
 ['01_title','02_mummy','03_star','04_costar','05_villain','06_cairo','07_tomb'].forEach(n=>ASSET_LIST['mumya/'+n]='assets/mumya/'+n+'.jpg');
 ['p01_gates','p02_hand','p03_face','p04_alone','p05_eyes','p06_aldi'].forEach(n=>ASSET_LIST['adieu/'+n]='assets/adieu/'+n+'.jpg');
-['00_title','01_mafalda','02_jnoun','03_climax','04_tears'].forEach(n=>ASSET_LIST['amor/'+n]='assets/amor/'+n+'.jpg'); ASSET_LIST['story/aldi_devil']='assets/story/aldi_devil.jpg'; ASSET_LIST['ui/sawna_logo']='assets/ui/sawna_logo.png'; ASSET_LIST['ui/flaregun']='assets/ui/flaregun.png'; ASSET_LIST['ui/flaregun_px']='assets/ui/flaregun_px.png'; ASSET_LIST['story/marseille_port']='assets/story/marseille_port.jpg'; ASSET_LIST['story/marseille_door']='assets/story/marseille_door.jpg'; ASSET_LIST['story/aldi_split']='assets/story/aldi_split.jpg'; ['st_friend','st_sabah','st_night','st_miss'].forEach(n=>ASSET_LIST['amor/'+n]='assets/amor/'+n+'.jpg'); ASSET_LIST['spr/atlas5']='assets/spr/atlas5.png';
+['00_title','01_mafalda','02_jnoun','03_climax','04_tears'].forEach(n=>ASSET_LIST['amor/'+n]='assets/amor/'+n+'.jpg'); ASSET_LIST['story/aldi_devil']='assets/story/aldi_devil.jpg'; ASSET_LIST['ui/sawna_logo']='assets/ui/sawna_logo.png'; ASSET_LIST['ui/flaregun']='assets/ui/flaregun.png'; ASSET_LIST['ui/flaregun_px']='assets/ui/flaregun_px.png'; ASSET_LIST['story/marseille_port']='assets/story/marseille_port.jpg'; ASSET_LIST['story/marseille_door']='assets/story/marseille_door.jpg'; ASSET_LIST['story/aldi_split']='assets/story/aldi_split.jpg';ASSET_LIST['story/shaytan_crack']='assets/story/shaytan_crack.jpg'; ['st_friend','st_sabah','st_night','st_miss'].forEach(n=>ASSET_LIST['amor/'+n]='assets/amor/'+n+'.jpg'); ASSET_LIST['spr/atlas5']='assets/spr/atlas5.png';
 ['oran_blvd','oran_old','cairo_fly','amor_nile','amor_street'].forEach(n=>ASSET_LIST['bg/'+n]='assets/bg/'+n+'.jpg'); ASSET_LIST['bg/jannah']='assets/bg/jannah.jpg'; ASSET_LIST['bg/cairo_cafe']='assets/bg/cairo_cafe.jpg'; ASSET_LIST['bg/cairo_cabaret']='assets/bg/cairo_cabaret.jpg'; ASSET_LIST['bg/jannah_chamber']='assets/bg/jannah_chamber.jpg'; ASSET_LIST['intro/14_offline_phone']='assets/intro/14_offline_phone.jpg';
 
 /* ---------------- input ---------------- */
@@ -2577,7 +2577,7 @@ function shaytanReveal(e){ if(e.revealed) return; e.revealed=1; e.revealF=frame;
   flashA=1; shake=20; hitstop=36; sfx('boom'); sfx('boss'); G.hellRed=1;
   for(let i=0;i<46;i++) fx.push({k:'debris',x:e.x+rnd(-18,18),y:e.y,z:rnd(20,90),vx:rnd(-4,4),vz:rnd(1,5),life:70,c:['#ff3d5a','#ffb347','#1a0006','#f4e7c8'][i%4]});
   floatText(e.x,e.y-96,'THE MASK CRACKS','#ffe066');
-  msg={t:260,big:'SHAYTAN.EXE',small:'THE PLAYBOY WAS THE MASK. THE DEVIL WAS THE PLATFORM.'}; epic('shaytan','story/aldi_split','SHAYTAN.EXE','THE PLAYBOY WAS THE MASK. THE DEVIL WAS THE PLATFORM.',240); }
+  msg={t:260,big:'SHAYTAN.EXE',small:'THE PLAYBOY WAS THE MASK. THE DEVIL WAS THE PLATFORM.'}; epic('shaytan','story/shaytan_crack','SHAYTAN.EXE','THE PLAYBOY WAS THE MASK. THE DEVIL WAS THE PLATFORM.',240); }
 function hellfire(e){ if(['fall','down','dead','grabbed'].includes(e.state)||!player||player.dead) return;
   e.fireT=(e.fireT||150)-1; if(e.fireT>0) return; e.fireT=e.hp<e.maxhp*.4?110:170;
   const n=e.hp<e.maxhp*.4?3:2; for(let i=0;i<n;i++) hellPillars.push({x:player.x+(i?rnd(-50,50):0),y:player.y,t:0});
