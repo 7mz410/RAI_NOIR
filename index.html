@@ -174,7 +174,7 @@ function registerClear(){ if(G&&G.clearedRun) return; if(G) G.clearedRun=1; CLEA
 const GIFT_URL='https://sawna.bandcamp.com';
 
 /* ---------------- assets (optional images) ---------------- */
-const IMG={}; const AV='16.2a';
+const IMG={}; const AV='16.3a';
 // images first: music and video wait for them, otherwise on a slow connection the sprites show up last
 let imgsReady; const IMGS_READY=new Promise(r=>imgsReady=r);
 function loadImg(key,src){return new Promise(r=>{const i=new Image();i.onload=()=>{IMG[key]=i;r(i)};i.onerror=()=>r(null);i.src=src+'?v='+AV;});}
@@ -1410,12 +1410,15 @@ function glitchBlit(img,sx,sy,sw,sh,ox,oy,w,h,g){
   for(const [c,dx] of [['#ff2a4a',-o],['#3a8ad8',o]]){ SILC.globalCompositeOperation='source-over'; SILC.clearRect(0,0,220,220); SILC.drawImage(SPR,0,0); SILC.globalCompositeOperation='source-in'; SILC.fillStyle=c; SILC.fillRect(0,0,220,220); SILC.globalCompositeOperation='source-over'; ctx.globalAlpha=.7; ctx.drawImage(SIL,0,0,w,h,ox+dx,oy,w,h); }
   ctx.globalAlpha=1; const bh=4, sd=Math.floor(frame/3);
   for(let y=0;y<h;y+=bh){ const r=Math.sin(y*12.9898+sd*78.233)*43758.5; const f=r-Math.floor(r); const dx=f<.45*g?Math.round((f*2-.45*g)*14*g):0; ctx.drawImage(SPR,0,y,w,Math.min(bh,h-y),ox+dx,oy+y,w,Math.min(bh,h-y)); } }
+const TIPSET=new Set(['aldi','aldiboss','shaytan','m3alim','jnoun','playback','curator']);
 function drawFighter(e,camX){
   const s=e.sc||1;
   let A=IMG['spr/atlas'];
   let key=ATLAS?spriteKey(e):null;
   // SHAYTAN.EXE wears the N sheet (n_0..10 = e_aldi_0..10); falls back to recoloured Aldi if it didn't load
   const NS=e.type==='shaytan'&&key&&key.startsWith('e_aldi_')&&ATLAS['s_n_'+key.slice(7)]&&IMG['chars/N']&&IMG['chars/N'].naturalWidth>0; if(NS) key='s_n_'+key.slice(7);
+  // bosses whose sheets have no real fall/down frame: tip the hurt frame over instead
+  const TIP=e.kind==='enemy'&&TIPSET.has(e.type)&&['fall','down','dead'].includes(e.state); if(TIP){ let hk2=spriteKey(Object.assign({},e,{state:'hurt'})); if(NS&&hk2&&hk2.startsWith('e_aldi_')) hk2='s_n_'+hk2.slice(7); if(hk2&&ATLAS[hk2]) key=hk2; }
   if(key&&ATLAS[key]&&IMG[ATLAS[key][4]||'spr/atlas']){
     const [ax,ay,aw,ah]=ATLAS[key]; A=IMG[ATLAS[key][4]||'spr/atlas']; const gx=Math.round(e.x-camX), gy=Math.round(e.y-e.z)+(e._bob||0)-((e.T&&e.T.hop&&e.state==='walk')||(e.kind==='enemy'&&LV&&LV.club&&curMusic==='jump'&&!['down','dead','fall'].includes(e.state))?Math.round(Math.abs(Math.sin((e.anim||frame)*.25))*4):0);
     const sc=(s/K)*1.38*(e.T&&e.T.boss?1.1:1)*(e.look&&e.look.look==='cheb'?1.07:1)*(NS?(1.35/1.5)*(76/80):1);
@@ -1423,14 +1426,15 @@ function drawFighter(e,camX){
     ctx.fillStyle='rgba(0,0,0,.35)'; ctx.beginPath(); ctx.ellipse(gx,Math.round(e.y)+1,(h<40?18:11)*s,2.5*s,0,0,Math.PI*2); ctx.fill();
     if(e.blink&&Math.floor(frame/3)%2) return;
     const faceL=ATLAS[key][5]==='L'; ctx.save(); ctx.translate(gx,gy); if((e.dir<0)!==faceL) ctx.scale(-1,1);
+    if(TIP){ if(e.state==='fall') ctx.rotate(-.8); else { ctx.translate(Math.round(h*.5),-Math.round(w*.36)); ctx.rotate(-Math.PI/2); } }
     // anchor on the idle frame's width so wide attack / kick frames extend forward instead of shifting the body
     let bw=w, hk=key; { const nm=e.look&&e.look.look; const M=sprm15(e)||(HAS3&&e.kind==='enemy'&&SPRMAP3[e.type==='scooter'?'hustler':(e.type==='zombie'?'z':((e.T&&e.T.base)||e.type))])||(HAS2&&SPRMAP2[nm])||null; const ik=NS?'s_n_0':M&&M.idle; const ie=ik&&ATLAS[ik]; if(ie){ bw=Math.round(ie[2]*sc); hk=ik; } }
-    const lying=['down','dead','fall','getup'].includes(e.pose||e.state)||w>h*1.3; const pad=Math.round((ATLAS[key][6]||0)*sc); const ox=lying?-Math.round(w*0.5):-Math.round(Math.min(w-2*pad,bw)*0.45)-pad, oy=-h+2;
+    const lying=!TIP&&(['down','dead','fall','getup'].includes(e.pose||e.state)||w>h*1.3); const pad=Math.round((ATLAS[key][6]||0)*sc); const ox=lying?-Math.round(w*0.5):-Math.round(Math.min(w-2*pad,bw)*0.45)-pad, oy=-h+2;
     if(e.shadow){ SPRC.setTransform(1,0,0,1,0,0); SPRC.clearRect(0,0,220,220); SPRC.drawImage(A,ax,ay,aw,ah,0,0,w,h); SPRC.globalCompositeOperation='source-atop'; SPRC.fillStyle=e.flashT>0?'rgba(255,60,90,.9)':'rgba(8,0,18,.92)'; SPRC.fillRect(0,0,220,220); SPRC.globalCompositeOperation='source-over'; ctx.drawImage(SPR,0,0,w,h,ox,oy,w,h); if(!lying){ const ey=oy+Math.round(h*0.14), ex=ox+Math.round(Math.min(w,bw)*0.45)+2; R(ex,ey,2,2,'#ff2a4a'); R(ex+5,ey,2,2,'#ff2a4a'); if(frame%30<6){ R(ex-1,ey-1,4,4,'rgba(255,42,74,.35)'); } } }
     else if(e.flashT>0){ SPRC.setTransform(1,0,0,1,0,0); SPRC.clearRect(0,0,220,220); SPRC.drawImage(A,ax,ay,aw,ah,0,0,w,h); SPRC.globalCompositeOperation='source-atop'; SPRC.fillStyle='rgba(255,255,255,.8)'; SPRC.fillRect(0,0,220,220); SPRC.globalCompositeOperation='source-over'; ctx.drawImage(SPR,0,0,w,h,ox,oy,w,h); }
     else { const rc=(!NS&&e.kind==='enemy'&&e.T&&e.T.hue!=null)?recolored(key,e.T):null; const gl=e.type==='shaytan'?shGlitch(e):0; if(gl) glitchBlit(rc||A,rc?0:ax,rc?0:ay,aw,ah,ox,oy,w,h,gl); else if(rc) ctx.drawImage(rc,0,0,aw,ah,ox,oy,w,h); else ctx.drawImage(A,ax,ay,aw,ah,ox,oy,w,h); }
     ctx.restore();
-    if(e.T&&e.T.acc) drawAcc(e,gx,gy,w,h);
+    if(e.T&&e.T.acc&&!TIP) drawAcc(e,gx,gy,w,h);
     if(e.weapon) drawWeaponInHand(e,gx,gy,w-2*pad,h,s,ox+pad);
     return;
   }
@@ -1756,6 +1760,8 @@ function liftDraw(){ const sp=stageState==='play'&&!wave?3.2:.6; G.liftY=((G.lif
   for(let k=-1;k<2;k++){ const y=Math.round(G.liftY+k*224-60); if(y>165) continue; for(const x0 of [camX+28,camX+W-64]){ ctx.fillStyle='rgba(255,224,102,.55)'; ctx.fillRect(x0,y,36,3); ctx.fillStyle='rgba(0,0,0,.55)'; ctx.fillRect(x0,y+3,36,10); }
     text(String(1+((Math.floor((frame*sp)/224)+k)%9+9)%9),camX+W-46,y-12,'rgba(255,224,102,.7)',8,'center',null); }
   ctx.restore(); }
+let SEAMOFF=false; const BRIDGE_IN=90, BRIDGE_FE=30; // bridge covers c0±BRIDGE_IN, feathered BRIDGE_FE px into the real art
+function drawBridge(m,br,c0){ const w=2*(BRIDGE_IN+BRIDGE_FE), x0=c0-BRIDGE_IN-BRIDGE_FE, t=mk(w,224), g=t.getContext('2d'); g.drawImage(br,0,0,w,224); g.globalCompositeOperation='destination-in'; const gr=g.createLinearGradient(0,0,w,0), q=BRIDGE_FE/w; gr.addColorStop(0,'rgba(0,0,0,0)'); gr.addColorStop(q,'rgba(0,0,0,1)'); gr.addColorStop(1-q,'rgba(0,0,0,1)'); gr.addColorStop(1,'rgba(0,0,0,0)'); g.fillStyle=gr; g.fillRect(0,0,w,224); m.drawImage(t,x0,0); }
 function buildFromImages(len,segs){ // segs:[{img,to}] — plays the panels in order (a journey), no mirroring, soft cross-fades
   const mid=mk(len,224), m=mid.getContext('2d'); m.imageSmoothingEnabled=false; const XF=180; let x=0, k=0; const seams=[], ends=[]; // wide, eased cross-fades: one place melts into the next
   const SG=segs.filter(s=>s&&s.img), list=SG.map(s=>s.img); if(!list.length) return {far:null,mid,farRate:0};
@@ -1768,8 +1774,10 @@ function buildFromImages(len,segs){ // segs:[{img,to}] — plays the panels in o
     if(x>0&&SG[k%SG.length].door){ const c0=x-XF/2, D=70; const g=m.createLinearGradient(c0-D,0,c0+D,0); g.addColorStop(0,'rgba(4,2,10,0)'); g.addColorStop(.42,'rgba(4,2,10,.96)'); g.addColorStop(.58,'rgba(4,2,10,.96)'); g.addColorStop(1,'rgba(4,2,10,0)'); m.fillStyle=g; m.fillRect(c0-D,0,2*D,224); m.fillStyle='rgba(255,224,102,.10)'; m.fillRect(Math.round(c0)-1,40,2,150); }
     x+=w-(x===0?0:XF); k++; ends.push(Math.min(x,len)); }
   // hide every open seam behind a silhouette prop (palm, lamp post, column, server rack) like classic beat 'em ups do
-  if(!(typeof LV!=='undefined'&&LV&&LV.id==='boat')) for(const c0 of seams) seamProp(m,Math.round(c0),(typeof LV!=='undefined'&&LV&&LV.id)||'');
-  return {far:null,mid,farRate:0,ends};
+  const lid=(typeof LV!=='undefined'&&LV&&LV.id)||'';
+  // painted bridges: an AI-drawn strip that joins the two places, feathered over the cross-fade (assets/bg/seam/<level>_<n>.jpg)
+  seams.forEach((c0,n)=>{ const br=SEAMOFF?null:IMG['bg/seam/'+lid+'_'+n]; if(br&&br.width){ drawBridge(m,br,Math.round(c0)); } else if(lid!=='boat') seamProp(m,Math.round(c0),lid); });
+  return {far:null,mid,farRate:0,ends,seams};
 }
 
 /* ================================================================
@@ -1943,14 +1951,9 @@ const SKITVID={'story/spider_vendor':'https://d2ol7oe51mr4n9.cloudfront.net/user
 function skitVid(k){ const u=SKITVID[k]; if(!u||u.startsWith('__')) return null; let v=SKITV[k]; if(!v){ v=SKITV[k]=document.createElement('video'); v.muted=true; v.loop=true; v.playsInline=true; v.setAttribute('playsinline',''); v.preload='auto'; v.onerror=()=>{ if(v.src.indexOf('assets/')>=0){ v.onerror=null; v.src=u; } }; v.src='assets/video/'+k.split('/')[1].replace('spider_vendor','tiririri')+'.mp4'; } return v; }
 function startSkit(sk,list){ skitDone.add(sk); const talk=[[sk.who,sk.line]]; for(const o of list){ if(o!==sk&&!skitDone.has(o)&&o.img===sk.img&&(!!o.stop===!!sk.stop)&&o.at>sk.at&&o.at-sk.at<=140&&talk.length<3){ skitDone.add(o); talk.push([o.who,o.line]); } } skit={...sk,talk,line:talk.map(x=>x[1]).join(' '),t:0,dur:330}; if(list.some(o=>o.haggle&&o.img===sk.img&&skitDone.has(o))) skit.haggle=1; if(sk.meet&&G){ G.met=G.met||{}; G.met[sk.meet]=1; metChar(sk.meet); skit.joined=CHARS.find(c=>c.id===sk.meet); } musicDuck=.4; { const v=skitVid(sk.img); if(v){ try{ v.currentTime=0; v.play().catch(()=>{}); }catch(e){} } } sfx('flash'); if(sk.img==='story/spider_vendor'&&!VMARK.has('secret')) floatText(player.x,player.y-96,'YALLA (Y) = BUY THE HOODIE','#7dff8a'); if(sk.item) items.push({kind:'item',it:sk.item,x:player.x+40,y:player.y,z:90,vz:0,t:0}); for(const o of list) if(o.tape&&skitDone.has(o)&&o.img===sk.img&&!COLL.has(o.tape)&&!skit.tapeDone){ skit.tapeDone=1; items.push({kind:'item',it:'tape',tape:o.tape,x:player.x+70,y:player.y,z:14,vz:2,t:0}); } }
 /* free-album teasers: one SAWNA REC sms per level */
-{ const TEASE={oran:[900,"FINISH THE GAME = THE RAÏ NOIR ALBUM FOR FREE. YES, FREE. NO, NOT A 'FREE TRIAL'."],
-  cairo:[1200,"BEAT THE FEED, GET THE ALBUM. EXCLUSIVE TRACKS FOR YOUR DJ STREAM. 3 VIEWERS = A FESTIVAL."],
-  amor:[1300,"REMINDER: FREE ALBUM AT THE END. CHEAPER THAN 2000 EUROS TO A GIRL ALDI DREW."],
-  marseille:[1200,"THIS CLUB PAYS ARTISTS IN 'EXPOSURE'. WE PAY YOU IN MP3S. FINISH THE GAME, KHOYA."],
-  boat:[900,"NO WIFI AT SEA. FREE ALBUM AT THE END. PLAY IT TO THE FISH."],
-  mahram:[1200,"EVEN IN YOUR DREAMS: FREE ALBUM. WAKE UP AND FINISH IT."],
-  hell:[1100,"ALDI WANTS 9.99 A MONTH FOR THE ALBUM. WE SAY ZERO. BEAT HIM."],
-  jannah:[600,"ALMOST THERE. THE ALBUM IS WAITING. MAMA ALREADY DOWNLOADED IT. TWICE."]};
+{ const TEASE={oran:[900,"FINISH THE GAME = FREE DOWNLOAD OF THE RAÏ NOIR ALBUM. YES, REALLY FREE."],
+  marseille:[1200,"FREE ALBUM AT THE END. DJ? PLAY THE EXCLUSIVE TRACKS ON YOUR STREAM."],
+  hell:[1100,"BEAT ALDI = FREE ALBUM. HE WANTS 9.99 A MONTH. WE SAY ZERO."]};
   for(const id in TEASE){ (SKITS[id]=SKITS[id]||[]).push({at:TEASE[id][0],sms:1,who:'SAWNA REC',line:TEASE[id][1]}); } }
 function checkSkits(){ muralPeek(); for(const e of ents) if(e.type==='duck'&&!e.dead&&e.hp>0){ e.dk=(e.dk||0)+1; if(e.dk===560){ floatText(e.x,e.y-70,'DUCK.EXE HAS STOPPED WORKING','#5ff0ff'); sfx('zap'); hurt(e,999,true); } } if(skit||stageState!=='play') return; const list=SKITS[LV.id]||[]; for(const sk of list){ if(sk.stop) continue; if(!skitDone.has(sk)&&player.x>=sk.at){ if(sk.sms){ skitDone.add(sk); sms(sk.who,sk.line); continue; } if(ents.some(e=>e.kind==='enemy'&&!e.dead&&e.hp>0&&Math.abs(e.x-player.x)<W*.7)&&(G.skitWait=(G.skitWait||0)+1)<480) break; G.skitWait=0; startSkit(sk,list); break; } } stopsUpdate(list); }
 /* ---------------- THE NOKIA: Mama, the nephews and the devil text you. Read it or keep punching. ---------------- */
@@ -1968,10 +1971,10 @@ function drawNokia(){ const c=PHONE.cur; if(!c) return; const T=PHONE.t, life=ph
   for(let i=0;i<4;i++) R(sx+2+i*3,sy+6-Math.round(i*1.5),2,2+Math.round(i*1.5),ink);
   const pct=(G&&G.mama!=null)?G.mama:100; R(sx+sw-14,sy+2,11,5,ink); R(sx+sw-3,sy+3,1,3,ink); R(sx+sw-13,sy+3,9,3,lcd); R(sx+sw-13,sy+3,Math.max(1,Math.round(9*pct/100)),3,ink);
   text(c.call?'CALL':'SMS',sx+sw/2,sy+2,ink,5,'center',null);
-  R(sx+1,sy+9,sw-2,9,ink); const icon=c.call?'☎':aldi?'♠':mama?'♥':'✉'; text(icon+' '+tr(who)+(c.call?((T>>4)%2?' CALLING':' ...'):''),sx+3,sy+11,lcd,5,'left',null);
-  if(T<28&&!c.call){ text(tr('1 NEW MESSAGE'),sx+sw/2,sy+29,ink,5,'center',null); }
-  else { const lines=wrapText(c.txt,sw-6,5), vis=4, over=Math.max(0,lines.length-vis), off=Math.min(over,Math.floor(Math.max(0,T-110)/80));
-    for(let i=0;i<vis&&i+off<lines.length;i++) text(lines[i+off],sx+3,sy+21+i*9,ink,5,'left',null); if(over>off&&frame%30<20) text('▼',sx+sw-5,sy+sh-6,ink,5,'center',null); }
+  R(sx+1,sy+9,sw-2,9,ink); const icon=c.call?'☎':aldi?'♠':mama?'♥':'✉'; text(icon+' '+tr(who)+(c.call?((T>>4)%2?' CALLING':' ...'):''),sx+3,sy+11,lcd,6,'left',null);
+  if(T<28&&!c.call){ text(tr('1 NEW MESSAGE'),sx+sw/2,sy+29,ink,6,'center',null); }
+  else { const lines=wrapText(c.txt,sw-6,6), vis=3, over=Math.max(0,lines.length-vis), off=Math.min(over,Math.floor(Math.max(0,T-110)/80));
+    for(let i=0;i<vis&&i+off<lines.length;i++) text(lines[i+off],sx+3,sy+22+i*11,ink,6,'left',null); if(over>off&&frame%30<20) text('▼',sx+sw-5,sy+sh-6,ink,5,'center',null); }
   R(x+pw/2-12,y+74,24,8,'#2c3864'); R(x+pw/2-10,y+75,20,1,'#3c4a7a'); R(x+10,y+75,18,5,'#2c3864'); R(x+pw-28,y+75,18,5,'#2c3864'); for(let i=0;i<3;i++) R(x+14+i*40,y+87,16,5,'#26305a'); }
 const STOPSHOUT={spider:"HOODIE MAN: TIRIRIRI! COME BACK, YA BASHA!",retro:"RETRO: ASAHBI! 5000! ...4000? COME BACK!",nadia:"NADIA: ...NOBODY EVER STOPS.",tata:"♪ PROMPT ME A RIVER... ♪"};
 let STOPNEAR=null;
