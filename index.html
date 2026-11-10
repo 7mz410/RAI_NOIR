@@ -174,7 +174,7 @@ function registerClear(){ if(G&&G.clearedRun) return; if(G) G.clearedRun=1; CLEA
 const GIFT_URL='https://sawna.bandcamp.com';
 
 /* ---------------- assets (optional images) ---------------- */
-const IMG={}; const AV='16.7a';
+const IMG={}; const AV='16.8a';
 // images first: music and video wait for them, otherwise on a slow connection the sprites show up last
 let imgsReady; const IMGS_READY=new Promise(r=>imgsReady=r);
 function loadImg(key,src){return new Promise(r=>{const i=new Image();i.onload=()=>{IMG[key]=i;r(i)};i.onerror=()=>r(null);i.src=src+'?v='+AV;});}
@@ -1343,6 +1343,8 @@ const SPRMAP3={
   m3alim:{idle:'e_m3alim_0',walk:['e_m3alim_1','e_m3alim_2'],wind:'e_m3alim_3',slam:'e_m3alim_3',atk:'e_m3alim_4',slamdown:'e_m3alim_4',hurt:'e_m3alim_5',fall:'e_m3alim_6',down:'e_m3alim_7',dead:'e_m3alim_7',getup:'e_m3alim_8',special:'e_m3alim_9',charge:'e_m3alim_10'},
   dog:{idle:'e_dog_0',walk:['e_dog_1','e_dog_2'],wind:'e_dog_3',atk:'e_dog_3',charge:'e_dog_2',hurt:'e_dog_4',fall:'e_dog_4',down:'e_dog_5',dead:'e_dog_5',getup:'e_dog_4'},
 };
+/* the hustler's mirrored stride read as a limp: walk on his two real strides with the idle as passing pose */
+SPRMAP3.hustler.walk=['e_hustler_1','e_hustler_0','e_hustler_2','e_hustler_0'];
 const SPRMAP={
   cheb:{idle:'cheb_0',walk:['cheb_1','cheb_0'],jab:'cheb_2',cross:'cheb_2',swing:'cheb_2',throwing:'cheb_3',upper:'cheb_3',kick:'cheb_4',jumpkick:'cheb_4',jump:'cheb_5',sweep:'cheb_4',shoulder:'cheb_2',knee:'cheb_4',throwE:'cheb_3',hurt:'cheb_6',fall:'cheb_6',down:'cheb_7',dead:'cheb_7',getup:'cheb_6',special:'cheb_3',spin:'cheb_3',film:'cheb_0'},
   aicha:{idle:'aicha_0',walk:['aicha_1','aicha_0'],jab:'aicha_2',cross:'aicha_3',swing:'aicha_3',throwing:'aicha_3',upper:'aicha_3',kick:'aicha_4',jumpkick:'aicha_4',jump:'aicha_5',sweep:'aicha_4',shoulder:'aicha_3',knee:'aicha_4',throwE:'aicha_3',hurt:'aicha_5',fall:'aicha_5',down:'aicha_6',dead:'aicha_6',getup:'aicha_5',special:'aicha_2',spin:'aicha_3'},
@@ -1421,7 +1423,7 @@ function drawFighter(e,camX){
   const TIP=e.kind==='enemy'&&TIPSET.has(e.type)&&['fall','down','dead'].includes(e.state); if(TIP){ let hk2=spriteKey(Object.assign({},e,{state:'hurt'})); if(NS&&hk2&&hk2.startsWith('e_aldi_')) hk2='s_n_'+hk2.slice(7); if(hk2&&ATLAS[hk2]) key=hk2; }
   if(key&&ATLAS[key]&&IMG[ATLAS[key][4]||'spr/atlas']){
     const [ax,ay,aw,ah]=ATLAS[key]; A=IMG[ATLAS[key][4]||'spr/atlas']; const gx=Math.round(e.x-camX), gy=Math.round(e.y-e.z)+(e._bob||0)-((e.T&&e.T.hop&&e.state==='walk')||(e.kind==='enemy'&&LV&&LV.club&&curMusic==='jump'&&!['down','dead','fall'].includes(e.state))?Math.round(Math.abs(Math.sin((e.anim||frame)*.25))*4):0);
-    const sc=(s/K)*1.38*(e.T&&e.T.boss?1.1:1)*(e.look&&e.look.look==='cheb'?1.07:1)*(NS?(1.35/1.5)*(76/80):1);
+    const sc=(s/K)*1.22*(e.T&&e.T.boss?1.1:1)*(e.look&&e.look.look==='cheb'?1.07:1)*(NS?(1.35/1.5)*(76/80):1);
     const w=Math.round(aw*sc), h=Math.round(ah*sc);
     ctx.fillStyle='rgba(0,0,0,.35)'; ctx.beginPath(); ctx.ellipse(gx,Math.round(e.y)+1,(h<40?18:11)*s,2.5*s,0,0,Math.PI*2); ctx.fill();
     if(e.blink&&Math.floor(frame/3)%2) return;
@@ -2097,17 +2099,17 @@ function skitDraw(){ const t=skit.t, p=t/skit.dur, sv=SKITV[skit.img], im=(sv&&s
   if(frame%60<40) comicCaption(W-8,H-14,'A ▶','#fff','#000',5,'right'); }
 const LEVELS=[
   {id:'oran',title:'STAGE 1 · ZIZOU',sub:'ORAN — OFFLINE AND LOVING IT',music:'zizou',len:2000,battery:false,dur:100,yMin:176,
-   npcs:[['crew',640,178,'UNC K7',"OFFLINE, WLIDI. NO FEED.",'k7'],['retro',1150,176,'RETRO CASSETTA',"ORIGINAL CASSETTES, KHOYA. NO STREAMS, NO SKIPS. 200 DINARS."]],
+   npcs:[['crew',640,178,'UNC K7',"OFFLINE, WLIDI. NO FEED.",'k7'],['retro',730,180,'RETRO CASSETTA',"ORIGINAL CASSETTES, KHOYA. NO STREAMS, NO SKIPS. 200 DINARS."]],
    waves:[{at:180,tAt:5,list:['hustler','hustler']},{at:520,tAt:22,list:['hustler','scooter','hustler']},{at:900,tAt:40,list:['goon','hustler','scooter','hustler']},
           {at:1280,tAt:56,list:['hustler','goon','scooter','goon']},{at:1620,tAt:70,boss:1,list:['playback','hustler','scooter']}],
-   props:[['bin',345,164,'karantika'],['bin',412,206,'babouche'],['bin',573,204,'pipe'],['crate',853,176,'micstand'],['crate',735,206,'oranges'],['bin',470,170,'tajine'],['crate',985,206,'baguette'],['bin',1191,172,'k7tape'],['crate',1514,206,'tray'],['bin',1794,172,'chechia'],['bin',1470,206,'shisha'],['bin',941,190,'hasni'],['crate',1073,170,'sardines'],['crate',1264,206,'cassette'],['crate',1397,170,'babouche'],['crate',1588,180,'karantika'],['bin',1691,200,'darbuka'],['crate',1853,206,'yamaha'],['crate',1750,168,'sardines']]},
+   props:[['bin',345,164,'karantika'],['bin',470,170,'tajine'],['crate',735,206,'oranges'],['bin',941,190,'hasni'],['crate',1073,170,'sardines'],['crate',1264,206,'cassette'],['bin',1470,206,'shisha'],['crate',1588,180,'karantika'],['crate',1750,168,'sardines'],['crate',1853,206,'yamaha']]},
   {id:'cairo',title:'STAGE 2 · ZOMBY',sub:'CAIRO — BACK ONLINE',music:'zomby',len:2400,battery:true,dur:129,yMin:174,drive:{dur:34},
    waves:[{at:200,tAt:28,list:['zombie','zombie','zombie']},{at:560,tAt:42,list:['zombie','zombie','wiggz','zombie','ally']},{at:920,tAt:56,list:['zombie','zombie','dervish','zombie','influencer','zombie']},
           {at:1250,tAt:80,list:['zombie','alien','zombie','wiggz','zombie']},{at:1550,tAt:121,boss:1,songEnd:8,music:'voodoo',seek:62,list:['m3alim','dog','dog','dog','dog']}],
-   props:[['barrel',370,170,'koshary'],['box',533,206,'bendir'],['barrel',666,204,'cassette'],['box',962,180,'pipe'],['box',1081,204,'ringlight'],['barrel',814,206,'dish'],['box',444,206,'chechia'],['barrel',1222,172,'tray'],['box',1481,206,'k7tape'],['barrel',1851,172,'tajine'],['box',1814,206,'shisha'],['barrel',1925,176,'dish'],['barrel',1333,196,'koshary'],['box',1555,176,'darbuka'],['box',1703,170,'hasni'],['barrel',2000,200,'koshary'],['box',2118,186,'ringlight'],['barrel',2162,206,'cassette']]},
+   props:[['barrel',370,170,'koshary'],['box',533,206,'bendir'],['barrel',814,206,'dish'],['box',1081,204,'ringlight'],['barrel',1333,196,'koshary'],['box',1555,176,'darbuka'],['box',1814,206,'shisha'],['barrel',1925,176,'dish'],['box',2118,186,'ringlight']]},
   {id:'amor',title:'STAGE 3 · AMOR HARAM',sub:'CYBER CAIRO — SHE IS TYPING…',music:'amorharam',len:2600,battery:true,dur:199,amor:1,yMin:166,
-   waves:[{at:200,tAt:12,list:['punk','zombie','punk']},{at:1100,tAt:75,list:['alien','zombie','hustler','dabke']},{at:1500,tAt:105,list:['wiggz','zombie','alien']},{at:1900,tAt:135,list:['punk','dervish','goon','zombie']},{at:2250,tAt:165,boss:1,list:['wiggzboss','punk']}],
-   npcs:[['pc',230,172,'PC 7',''],['owner',330,178,'BRO GAWDAT',"YA BASHA, EL AI DA EBNAK. RABBEEH KWAYYES. PC 7 IS FREE."],['dancer',1444,198,'SAMIA',"YOU LOOK LIKE A MAN WHO TYPES WITH ONE HAND, HABIBI."],['stagedancer',2420,150,'SAMIA','']],
+   waves:[{at:200,tAt:12,list:['punk','zombie','punk']},{at:1100,tAt:75,list:['alien','zombie','hustler','dabke']},{at:1500,tAt:105,list:['wiggz','zombie','alien']},{at:1900,tAt:135,list:['punk','dervish','goon','zombie']},{at:2420,tAt:165,boss:1,list:['wiggzboss','punk']}],
+   npcs:[['pc',230,172,'PC 7',''],['owner',330,178,'BRO GAWDAT',"YA BASHA, EL AI DA EBNAK. RABBEEH KWAYYES. PC 7 IS FREE."],['dancer',2330,198,'SAMIA',"YOU LOOK LIKE A MAN WHO TYPES WITH ONE HAND, HABIBI."],['stagedancer',2520,150,'SAMIA','']],
    props:[['box',380,206,'koshary'],['barrel',560,204,'cassette'],['box',900,206,'k7tape'],['barrel',1200,172,'tray'],['box',1420,206,'shisha'],['barrel',1650,206,'dish'],['box',2000,180,'ringlight'],['barrel',2150,206,'koshary']]},
   {id:'mahram',title:'STAGE 6 · FINALE',sub:'PART 1 · 7ELM 7RAM — A DREAM AT SEA',part:1,music:'helm7ram',len:2800,battery:false,dur:200,nightmare:1,
    waves:[{at:300,tAt:18,list:['sh_hustler','sh_hustler','sh_zombie']},{at:900,tAt:60,list:['sh_goon','sh_punk','sh_influencer']},{at:1700,tAt:112,list:['sh_punk','sh_dervish','sh_zombie']},{at:2450,tAt:165,boss:1,list:['sh_goon','sh_dervish','sh_punk']}],
@@ -2119,13 +2121,13 @@ const LEVELS=[
    props:[['crate',400,206,'oranges'],['crate',1100,206,'k7tape'],['crate',1500,206,'tajine']]},
   {id:'boat',title:'STAGE 5 · GHORBA',sub:'MARSEILLE → ORAN — TRACK: MAMA',music:'mama',len:1800,yMin:188,battery:false,dur:230,boat:1,
    waves:[{at:300,tAt:22,list:['goon','influencer','hustler']},{at:760,tAt:62,list:['punk','influencer','goon','punk']},{at:1250,tAt:104,list:['influencer','influencer','goon','hustler']},{at:1600,tAt:140,boss:1,list:['punk','goon','influencer','punk','goon']}],
-   npcs:[['crew',160,170,'KHALIL',"THE FISHERMAN OWES MY UNCLE.",'khalil'],['crew',640,166,'BADER','ONE PHOTO, KHOYA. FOR US. NOT FOR THE FEED.','bader'],['crew',1120,168,'5AMASEEN','SMELL THAT? WIND FROM THE WEST. IT SMELLS LIKE HOME.','khamaseen'],['crew',1480,166,'ACID PONCH','I BROUGHT THE MPC. IF WE SINK, WE SINK ON THE BEAT.','ponch'],['crew',1700,170,'FATIH',"LAST VERSE IS FOR MAMA. NO MIC. JUST THE SEA.",'fatih']],
+   npcs:[['crew',160,192,'KHALIL',"THE FISHERMAN OWES MY UNCLE.",'khalil'],['crew',640,192,'BADER','ONE PHOTO, KHOYA. FOR US. NOT FOR THE FEED.','bader'],['crew',1120,192,'5AMASEEN','SMELL THAT? WIND FROM THE WEST. IT SMELLS LIKE HOME.','khamaseen'],['crew',1480,192,'ACID PONCH','I BROUGHT THE MPC. IF WE SINK, WE SINK ON THE BEAT.','ponch'],['crew',1700,192,'FATIH',"LAST VERSE IS FOR MAMA. NO MIC. JUST THE SEA.",'fatih']],
    props:[['crate',420,206,'karantika'],['barrel',700,172,'tray'],['crate',1000,206,'oranges'],['barrel',1380,206,'sardines'],['crate',1620,172,'k7tape'],['barrel',1560,206,'tajine'],['crate',1720,190,'hasni']]},
   {id:'marseille',title:'STAGE 4 · ZIDANE',sub:'MARSEILLE — LE CLUB DÉCOLONIAL',music:'warda',len:2500,battery:false,dur:240,club:1,yMin:184,
-   waves:[{at:300,tAt:null,list:[]},{at:720,tAt:60,list:['checkbox','ally','dabke']},{at:1120,tAt:null,list:['soufi']},{at:1600,tAt:null,list:['booker','nepo','checkbox','bro','dabke']},{at:2160,tAt:200,boss:1,list:['curator','nepo','ally']}],
+   waves:[{at:300,tAt:null,list:[]},{at:720,tAt:60,list:['checkbox','ally','dabke']},{at:1120,tAt:null,list:['soufi']},{at:1380,tAt:null,list:['booker','nepo','checkbox','bro','dabke']},{at:1640,tAt:200,boss:1,list:['curator','nepo','ally']}],
    npcs:[['crew',110,174,'AICHA · YOUR LITTLE SISTER',"KHOYA! THEY PROMPTED YOU INTO MY CITY? STAY BEHIND ME.",'aicha']],
    props:[['crate',520,206,'koshary'],['barrel',1300,206,'tray'],['crate',1840,206,'k7tape'],['barrel',2080,190,'karantika']]},
-  {id:'hell',title:'FINALE · PART 2',sub:"HELL.EXE — ALDI'S DATACENTRE",part:1,music:'helm7ram',len:2600,battery:false,dur:240,hell:1,yMin:172,
+  {id:'hell',title:'FINALE · PART 2',sub:"HELL.EXE — ALDI'S DATACENTRE",part:1,music:'helm7ram',len:2600,battery:false,dur:240,hell:1,yMin:184,
    // the drop of Poète maudit du bled is at 1:23 — Aldi has to be on screen before it
    waves:[{at:220,tAt:6,list:['agent','sh_hustler']},{at:600,tAt:20,list:['agent','sh_punk','agent']},
           {at:1300,tAt:44,music:'poete',seek:0,list:['agent','punk','influencer']},{at:1900,tAt:62,boss:1,list:['aldiboss','agent','agent']}],
@@ -2137,11 +2139,11 @@ const LEVELS=[
           {at:9e9,tAt:76,boss:1,label:'TOP FLOOR',fsub:'PLAIBOY ALDI TOOK THE STAIRS',list:['aldi','agent','agent']}],
    props:[]},
 ];
-const SHORTF={lift:1,hell:.7,oran:.65,cairo:.7,amor:.66,mahram:.5,jannah:.7,boat:.9,marseille:.74};
+const SHORTF={lift:1,hell:.7,oran:.65,cairo:.7,amor:.76,mahram:.5,jannah:.7,boat:.9,marseille:.74};
 function shortLevel(L){ if(L._short) return L._short; const f=SHORTF[L.id]||.7, c=JSON.parse(JSON.stringify(L));
   c.len=Math.round(L.len*f); c.waves=c.waves.map(w=>Object.assign(w,{at:Math.round(w.at*f),tAt:w.tAt==null?w.tAt:Math.round(w.tAt*f)}));
   if(['oran','cairo','amor','marseille','boat'].includes(L.id)&&L.dur){ for(const w of c.waves) if(w.boss&&(w.songEnd||!w.music)){ w.tAt=Math.max(30,L.dur-(w.songEnd||38)); w.timed=1; } }
-  if(c.waves.length>=5&&!c.lift){ const k=c.waves.findIndex((w,i)=>i>=2&&!w.boss&&!w.mini&&!w.music&&!w.list.includes('camel')&&!w.list.includes('soufi')); if(k>=0) c.waves.splice(k,1); }
+  if(c.waves.length>=5&&!c.lift){ const k=c.waves.findIndex((w,i)=>i>=2&&!w.boss&&!w.mini&&!w.music&&!w.list.includes('camel')&&!w.list.includes('soufi')&&!w.list.includes('booker')); if(k>=0) c.waves.splice(k,1); }
   for(const n of (c.npcs||[])) n[1]=Math.round(n[1]*f); for(const pr of (c.props||[])) pr[1]=Math.round(pr[1]*f);
   if(SKITS[L.id]&&!SKITS[L.id]._s){ SKITS[L.id].forEach(sk=>sk.at=Math.round(sk.at*f)); SKITS[L.id]._s=1; }
   L._short=c; return c; }
@@ -2152,7 +2154,7 @@ function startLevel(i){ saveProgress(i); try{ if(G){ if(G.mainCi==null) G.mainCi
                      : LV.id==='jannah' ? (IMG['bg/jannah']&&IMG['bg/jannah_chamber']? [{img:IMG['bg/serverfarm']},{img:IMG['bg/jannah'],door:1},{img:IMG['bg/jannah_garden']||IMG['bg/jannah']},{img:IMG['bg/jannah_chamber']}]:null)
                      : LV.id==='hell' ? (IMG['bg/hell_a']&&IMG['bg/hell_b']? (IMG['bg/hell_office']? [{img:IMG['bg/serverfarm']},{img:IMG['bg/hell_a']},{img:IMG['bg/hell_cool']||IMG['bg/hell_a']},{img:IMG['bg/hell_b']},{img:IMG['bg/hell_office'],door:1}] : [{img:IMG['bg/serverfarm']},{img:IMG['bg/hell_a']},{img:IMG['bg/hell_a']},{img:IMG['bg/hell_b']}]) : IMG['bg/serverfarm']? [{img:IMG['bg/serverfarm']},{img:IMG['bg/serverfarm'],door:1},{img:IMG['bg/serverfarm']}]:null)
                      : LV.id==='marseille' ? (IMG['bg/marseille_street']&&IMG['bg/marseille_back']? [{img:IMG['bg/marseille_street']},{img:IMG['bg/marseille_bar'],door:1},{img:IMG['bg/marseille_floor']},{img:IMG['bg/marseille_back']}]:null)
-                     : LV.id==='amor' ? (IMG['bg/cairo_cafe']&&IMG['bg/cairo_cabaret']? [{img:IMG['bg/cairo_cafe']},{img:IMG['bg/amor_street'],door:1},{img:IMG['bg/cairo_street']},{img:IMG['bg/cairo_cabaret'],door:1}]:null)
+                     : LV.id==='amor' ? (IMG['bg/cairo_cafe']&&IMG['bg/cairo_cabaret']? [{img:IMG['bg/cairo_cafe']},{img:IMG['bg/amor_street'],door:1},{img:IMG['bg/cairo_street']},{img:IMG['bg/cairo_cabaret'],door:1},{img:IMG['bg/cairo_cabaret']}]:null)
                      : LV.id==='mahram' ? (IMG['bg/nightmare_a']&&IMG['bg/nightmare_b']? (IMG['bg/dream_flood']&&IMG['bg/dream_cafe']&&IMG['bg/dream_boat']? [{img:IMG['bg/nightmare_a']},{img:IMG['bg/dream_flood']},{img:IMG['bg/dream_cafe']},{img:IMG['bg/dream_boat']},{img:IMG['bg/nightmare_b']}] : [{img:IMG['bg/nightmare_a'],to:LV.len-1100},{img:IMG['bg/nightmare_b'],to:1e9}]):null)
                      : (IMG['bg/cairo_street']&&IMG['bg/cairo_rave_nile']? [{img:IMG['bg/cairo_street']},{img:IMG['bg/cairo_fly']},{img:IMG['bg/amor_nile']||IMG['bg/cairo_fly']},{img:IMG['bg/cairo_rave_nile']}]:null);
   BG = LV.lift ? buildLift(LV.len) : (LV.id==='boat'&&!imgs) ? buildBoat(LV.len) : (LV.club&&!imgs) ? buildClub(LV.len) : imgs? buildFromImages(LV.len,imgs) : (i===0? buildOran(LV.len): buildCairo(LV.len));
@@ -3989,11 +3991,10 @@ function drawNpc(n){ const sx=Math.round(n.x-camX), sy=Math.round(n.y); const fl
       const d=Math.abs(player.x-n.x); if(d<260){ const by=sy-104+Math.round(Math.sin(frame*.2)*3); comicCaption(sx,by,tr(d<30?'PUNCH = LOG ON':'LOG ON TO PC 7'),d<30?'#ffe066':'#fff'); ctx.fillStyle='#ffe066'; ctx.beginPath(); ctx.moveTo(sx-6,by+12); ctx.lineTo(sx+6,by+12); ctx.lineTo(sx,by+19); ctx.fill(); } }
     if(n.talkT>0) qb(sx,sy-40,n.line,n.name,clamp(n.talkT/20,0,1)); return; }
   if(n.npc==='stagedancer'){ const fr=Math.floor(n.anim/10)%2; const bob=Math.round(Math.sin(n.anim*.2)*2); const sway=Math.round(Math.sin(n.anim*.1)*6); if(frame%3===0&&Math.random()<.3) fx.push({k:'note',x:n.x+rnd(-14,14),y:n.y,z:50+rnd(0,20),life:30}); if(!drawAtlas('c_npc_'+(2+fr),sx+sway,sy+bob,1.0,Math.sin(n.anim*.1)<0)){ R(sx-6,sy-40,12,40,'#d02040'); } return; }
-  if(n.npc==='retro'&&IMG['chars/retro_74']){ const g=IMG['chars/retro_74'], sm=ctx.imageSmoothingEnabled; ctx.imageSmoothingEnabled=false; ctx.drawImage(g,Math.round(sx-g.width/2),Math.round(sy-g.height-12+Math.sin(n.anim*.08))); ctx.imageSmoothingEnabled=sm;
-    R(sx-34,sy-24,68,24,'#4a2c18'); R(sx-34,sy-24,68,2,'#8a5a32'); for(let k=0;k<9;k++){ R(sx-30+k*7,sy-30,5,6,['#ff3d5a','#ffe066','#5ff0ff','#7dff8a','#ff9ad0'][k%5]); R(sx-29+k*7,sy-28,3,1,'#222'); }
-    if(n.talkT<=0) comicCaption(sx,sy-92,tr("RETRO CASSETTA · K7 STALL"),'#ffe066','#210',5); if(n.talkT>0) qb(sx,sy-82,n.line,n.name,clamp(n.talkT/20,0,1)); return; }
-  if(n.npc==='owner'&&IMG['chars/gawdat_idle']){ const g=IMG['chars/gawdat_idle'], sm=ctx.imageSmoothingEnabled; ctx.imageSmoothingEnabled=false; ctx.drawImage(g,Math.round(sx-g.width/2),Math.round(sy-g.height-16+Math.sin(n.anim*.08))); ctx.imageSmoothingEnabled=sm; R(sx-28,sy-22,56,22,'#3a2416'); R(sx-28,sy-22,56,2,'#7a5a3a'); R(sx-26,sy-18,52,1,'rgba(255,190,110,.25)');
-    if(n.talkT<=0) comicCaption(sx,sy-84,tr("BRO GAWDAT'S NET CAFÉ"),'#5ff0ff','#001',5); if(n.talkT>0) qb(sx,sy-74,n.line,n.name,clamp(n.talkT/20,0,1)); return; }
+  if(n.npc==='retro'&&IMG['chars/retro_74']){ const g=IMG['chars/retro_74'], sm=ctx.imageSmoothingEnabled, rs=1.2, rw=Math.round(g.width*rs), rh=Math.round(g.height*rs); ctx.fillStyle='rgba(0,0,0,.3)'; ctx.beginPath(); ctx.ellipse(sx,sy+1,11,2.5,0,0,7); ctx.fill(); ctx.imageSmoothingEnabled=false; ctx.drawImage(g,Math.round(sx-rw/2),Math.round(sy-rh+2+Math.sin(n.anim*.08)),rw,rh); ctx.imageSmoothingEnabled=sm;
+    if(n.talkT<=0) comicCaption(sx,sy-rh-14,tr("RETRO CASSETTA · K7 STALL"),'#ffe066','#210',5); if(n.talkT>0) qb(sx,sy-82,n.line,n.name,clamp(n.talkT/20,0,1)); return; }
+  if(n.npc==='owner'&&IMG['chars/gawdat_idle']){ const g=IMG['chars/gawdat_idle'], sm=ctx.imageSmoothingEnabled, gs=1.3, gw=Math.round(g.width*gs), gh=Math.round(g.height*gs), CT=141; ctx.imageSmoothingEnabled=false; ctx.drawImage(g,Math.round(sx-gw/2),Math.round(CT+16-gh+Math.sin(n.anim*.08)),gw,gh); ctx.imageSmoothingEnabled=sm; if(BG&&BG.mid) ctx.drawImage(BG.mid,Math.round(n.x-gw/2-2),CT,gw+4,30,Math.round(sx-gw/2-2),CT,gw+4,30);
+    if(n.talkT<=0) comicCaption(sx,CT-gh-2,tr("BRO GAWDAT'S NET CAFÉ"),'#5ff0ff','#001',5); if(n.talkT>0) qb(sx,sy-74,n.line,n.name,clamp(n.talkT/20,0,1)); return; }
   if(['owner','zclient','shisha','dancer'].includes(n.npc)){ ctx.fillStyle='rgba(0,0,0,.3)'; ctx.beginPath(); ctx.ellipse(sx,sy+1,11,2.5,0,0,7); ctx.fill(); const fr=n.talkT>0?(Math.floor(n.anim/9)%2):0; const key=n.npc==='owner'?'c_npc_'+fr:n.npc==='dancer'?'c_npc_'+(2+fr):n.npc==='shisha'?'c_npc_'+(4+fr):null;
     if(!(key&&drawAtlas(key,sx,sy,1.0,flip))){ const f={look:n.npc==='zclient'?ZLOOKS[2]:LOOKS.k7,dir:n.dir,sc:K,x:n.x,y:n.y,z:0,state:'idle',anim:n.anim}; drawFighter(f,camX); }
     if(n.npc==='owner'&&n.talkT<=0) comicCaption(sx,sy-84,tr("BRO GAWDAT'S NET CAFÉ"),'#5ff0ff','#001',5);
@@ -4234,7 +4235,7 @@ function buildClub(len){
   return {sky,far,mid,farRate:.5,club:1};
 }
 // live floor tiles + beams; strobe on the beat (kept ≤ ~2.3 flashes/s)
-function clubFxUnder(){ const beat=(frame%26)/26; const BASE=150;
+function clubFxUnder(){ if(camX<600) return; const beat=(frame%26)/26; const BASE=150;
   if(!(BG&&BG.ends)) for(let i=0;i<14;i++){ const tx=((i*53+Math.floor(frame/26)*22)%(W+44))-22, ty=BASE+8+((i*29)%60); ctx.fillStyle=['rgba(255,61,139,.22)','rgba(95,240,255,.2)','rgba(255,224,102,.18)'][i%3]; ctx.fillRect(Math.round(tx),ty,22,6); }
   ctx.save(); ctx.globalCompositeOperation='lighter'; for(let k=0;k<4;k++){ const a=Math.sin(frame*.02+k*1.7)*0.7, x0=48+k*96; ctx.fillStyle=['rgba(255,61,139,.08)','rgba(95,240,255,.08)','rgba(255,224,102,.07)','rgba(125,255,138,.07)'][k]; ctx.beginPath(); ctx.moveTo(x0-2,26); ctx.lineTo(x0+2,26); ctx.lineTo(x0+Math.sin(a)*170+30,224); ctx.lineTo(x0+Math.sin(a)*170-30,224); ctx.fill(); } ctx.restore(); }
 function clubYss(){ if(!G||!LV||!LV.club||!BG||!BG.mid) return; // Yalla Soundsystem lives behind the decks (dancefloor segment), jumping
@@ -4308,7 +4309,7 @@ function stageDraw(noHud){
   const list=[...ents.filter(e=>!(e.dead&&e!==player)||e===player&&!player.dead), ...items, ...projs]; if(assist) list.push(assist);
   list.sort((a,b)=>a.y-b.y);
   for(const o of list){
-    if(o.kind==='car'){ const sx=Math.round(o.x-camX); ctx.fillStyle='rgba(0,0,0,.4)'; ctx.beginPath(); ctx.ellipse(sx,o.y+1,60,5,0,0,7); ctx.fill(); if(!drawAtlas('n_ds_0',sx,o.y+2,1.0)) drawDS(sx,o.y,0,0); if(!DRV&&Math.abs(player.x-o.x)<48&&frame%40<28){ text('PUN = GET IN',sx,o.y-78,'#ffe066',6,'center'); R(sx-3,o.y-68,6,6,'#ffe066'); } continue; }
+    if(o.kind==='car'){ const sx=Math.round(o.x-camX); ctx.fillStyle='rgba(0,0,0,.4)'; ctx.beginPath(); ctx.ellipse(sx,o.y+1,60,5,0,0,7); ctx.fill(); if(!drawAtlas('n_ds_0',sx,o.y+2,1.3)) drawDS(sx,o.y,0,0); if(!DRV&&Math.abs(player.x-o.x)<48&&frame%40<28){ text('PUN = GET IN',sx,o.y-78,'#ffe066',6,'center'); R(sx-3,o.y-68,6,6,'#ffe066'); } continue; }
     if(o.kind==='npc'){ drawNpc(o); continue; }
     if(o.kind==='cat'){ drawCat(o); continue; }
     if(o.kind==='prop') drawProp(o); else if(o.kind==='item') drawItem(o); else if(o.type==='camel') drawCamel(o); else if(o.type==='feed') drawFeed(o); else if(o.type==='duck') drawDuck(o);
