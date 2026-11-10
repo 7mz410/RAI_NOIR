@@ -2105,7 +2105,7 @@ const LEVELS=[
    props:[['crate',420,206,'karantika'],['barrel',700,172,'tray'],['crate',1000,206,'oranges'],['barrel',1380,206,'sardines'],['crate',1620,172,'k7tape'],['barrel',1560,206,'tajine'],['crate',1720,190,'hasni']]},
   {id:'marseille',title:'STAGE 4 · ZIDANE',sub:'MARSEILLE — LE CLUB DÉCOLONIAL',music:'warda',len:2500,battery:false,dur:240,club:1,yMin:184,
    waves:[{at:300,tAt:null,list:[]},{at:720,tAt:60,list:['checkbox','ally','dabke']},{at:1120,tAt:null,list:['soufi']},{at:1600,tAt:null,list:['booker','nepo','checkbox','bro','dabke']},{at:2160,tAt:200,boss:1,list:['curator','nepo','ally']}],
-   npcs:[['crew',110,174,'AICHA · YOUR LITTLE SISTER',"KHOYA! THEY PROMPTED YOU INTO MY CITY? STAY BEHIND ME.",'aicha'],['crew',200,170,'BADER','THEY ASKED ME TO SHOOT THE NIGHT. FOR FREE. "FOR THE PORTFOLIO."','bader'],['crew',960,166,'KHALIL',"THEY PRINTED MY GRANDFATHER'S SONG ON A TOTE BAG. 35 EUROS.",'khalil'],['crew',1780,168,'5AMASEEN','DABKE IS A WEDDING DANCE, HABIBI. NOT A TEAM-BUILDING.','khamaseen']],
+   npcs:[['crew',110,174,'AICHA · YOUR LITTLE SISTER',"KHOYA! THEY PROMPTED YOU INTO MY CITY? STAY BEHIND ME.",'aicha']],
    props:[['crate',520,206,'koshary'],['barrel',1300,206,'tray'],['crate',1840,206,'k7tape'],['barrel',2080,190,'karantika']]},
   {id:'hell',title:'STAGE 6 · FINALE',sub:"HELL.EXE — ALDI'S DATACENTRE",part:1,music:'helm7ram',len:2600,battery:false,dur:240,hell:1,yMin:172,
    // the drop of Poète maudit du bled is at 1:23 — Aldi has to be on screen before it
@@ -4218,10 +4218,11 @@ function buildClub(len){
 function clubFxUnder(){ const beat=(frame%26)/26; const BASE=150;
   if(!(BG&&BG.ends)) for(let i=0;i<14;i++){ const tx=((i*53+Math.floor(frame/26)*22)%(W+44))-22, ty=BASE+8+((i*29)%60); ctx.fillStyle=['rgba(255,61,139,.22)','rgba(95,240,255,.2)','rgba(255,224,102,.18)'][i%3]; ctx.fillRect(Math.round(tx),ty,22,6); }
   ctx.save(); ctx.globalCompositeOperation='lighter'; for(let k=0;k<4;k++){ const a=Math.sin(frame*.02+k*1.7)*0.7, x0=48+k*96; ctx.fillStyle=['rgba(255,61,139,.08)','rgba(95,240,255,.08)','rgba(255,224,102,.07)','rgba(125,255,138,.07)'][k]; ctx.beginPath(); ctx.moveTo(x0-2,26); ctx.lineTo(x0+2,26); ctx.lineTo(x0+Math.sin(a)*170+30,224); ctx.lineTo(x0+Math.sin(a)*170-30,224); ctx.fill(); } ctx.restore(); }
-function clubYss(){ if(!G||!G.yssLive||!BG||!BG.mid) return; const BASE=150, dx=Math.round(Math.min(LV.len-260,camX+W/2-100)); if(dx-camX>W+40||dx+200-camX<-40) return;
-  ['khalil','bader','khamaseen','ponch','fatih'].forEach((id,k)=>{ if(!LOOKS[id]) return; const jump=curMusic==='jump'?Math.abs(Math.sin(frame*.21+k*.9))*7:0; drawFighter({look:LOOKS[id],dir:k<2?1:-1,sc:K*.82,x:dx+24+k*38,y:BASE-8,z:jump,state:'idle',anim:frame+k*9,kind:'player'},camX); });
-  ctx.drawImage(BG.mid,dx,BASE-46,200,44,Math.round(dx-camX),BASE-46,200,44);
-  neonText('SOLD OUT · YALLA SOUNDSYSTEM',Math.round(dx+100-camX),BASE-92,'#ffe066',7); }
+function clubYss(){ if(!G||!LV||!LV.club||!BG||!BG.mid) return; // Yalla Soundsystem lives behind the decks (dancefloor segment), jumping
+  const X0=1082, X1=1292, TOP=92, BOT=134; if(X1-camX<-20||X0-camX>W+20) return;
+  ['khalil','bader','khamaseen','ponch','fatih'].forEach((id,k)=>{ if(!LOOKS[id]) return; const jump=Math.abs(Math.sin(frame*.21+k*.9))*(curMusic==='jump'?9:5); drawFighter({look:LOOKS[id],dir:k<2?1:-1,sc:K*.78,x:X0+22+k*42,y:130,z:jump,state:'idle',anim:frame+k*9,kind:'player'},camX); });
+  ctx.drawImage(BG.mid,X0,TOP,X1-X0,BOT-TOP,Math.round(X0-camX),TOP,X1-X0,BOT-TOP);
+  if(G.yssLive) neonText('SOLD OUT · YALLA SOUNDSYSTEM',Math.round((X0+X1)/2-camX),26,'#ffe066',7); }
 // the DJ set: wait for a musical boundary, then rewind ("pull up!") into the next tune
 let djJob=null;
 function djPullup(next,seek,big,small){ if(djJob) return; djJob={t:0,next,seek,from:DECK[deckI]}; try{ const a=DECK[deckI]; a.preservesPitch=false; a.mozPreservesPitch=false; a.webkitPreservesPitch=false; }catch(e){} sfx('rewind'); msg={t:150,big:big||'PULL UP!',small:small||'SELECTA · REWIND',top:0}; shake=6; }
@@ -4232,8 +4233,8 @@ function djTick(){ if(djJob){ const j=djJob; j.t++; const a=j.from; const k=Math
   if(curMusic==='warda'&&!G.djWarda){ if(!G.wardaSkit){ G.wardaSkit=1; sms('MAMA',"WLIDI! THEY'RE PLAYING CHEBA WARDA! MY QUEEN! TURN IT UP — I DANCED TO HER AT MY WEDDING.",{call:1}); }
     if(tt>=78.5){ G.djWarda=1; djPullup('zidane',15,'PULL UP!','CHEBA WARDA → ZIDANE'); } }
   else if(curMusic==='zidane'&&!G.djJump){ if(tt>=150){ G.djJump=1; G.yssLive=1; djPullup('jump',44,'YALLA SOUNDSYSTEM','SOLD OUT · JUMP FOR HABIBI'); setTimeout(()=>{ if(G&&LV&&LV.club) skit={at:0,img:'story/yalla_decks',who:'BADER · YALLA SOUNDSYSTEM (ON THE DECKS)',line:'KHOYA CHEB! SOLD OUT AND THE BOAT LEAVES AT DAWN. WE GOT THE DECKS — YOU GOT THE CROWD. JUMP FOR HABIBI!',t:0,dur:330}; },700); } } }
-function clubFxOver(){ // no full-screen strobe (photosensitivity); only a soft pulse during the Curator fight, ~1x/s
-  const heavy=bossEnt&&bossEnt.type==='curator'; if(!heavy) return; const ph=frame%52; if(ph<4){ ctx.fillStyle='rgba(255,255,255,'+(.07*(1-ph/4))+')'; ctx.fillRect(0,0,W,H); } }
+function clubFxOver(){ // strobe on the beat, only inside the club (bar → dancefloor), kept ≤ ~2.3 flashes/s
+  if(!LV||!LV.club||camX<640||camX>1500) return; const ph=frame%26; const heavy=bossEnt&&bossEnt.type==='curator'; if(ph<(heavy?3:2)){ ctx.fillStyle='rgba(255,255,255,'+(heavy?.2:.13)+')'; ctx.fillRect(0,0,W,H); } }
 // restyled sprites: shift clothes hue, keep skin
 const RCOL={};
 function recolored(key,T){ const id=key+'|'+T.hue+'|'+(T.sat||1)+'|'+(T.light||0); if(RCOL[id]!==undefined) return RCOL[id]; const e=ATLAS[key]; const A=e&&IMG[e[4]||'spr/atlas']; if(!A){ return null; }
