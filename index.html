@@ -4160,7 +4160,7 @@ function drawHUD(){
   if(en&&en.maxhp>2){ text(en.name,W-6,4,en===bossEnt?'#ff5fa8':'#f4e7c8',6,'right'); const eb=bossEnt===en?150:90; const ehp=clamp(en.hp/en.maxhp,0,1); R(W-6-eb-1,13,eb+2,7,'#000'); R(W-6-eb,14,eb*ehp,5,en===bossEnt?'#ff3d8b':'#ffa63a'); }
 }
 /* ---------- MARSEILLE · LE DÉCOLONIAL (club stage, track: ZIDANE) ---------- */
-const MURAL=[120,470]; let muralPeekT=0;
+const MURAL=[340,590]; let muralPeekT=0;
 function muralPeek(){ if(!LV||!LV.club||!player||stageState!=='play'||skit) return; const near=Math.abs(player.x-(MURAL[1]-50))<40&&player.state==='idle'; muralPeekT=near?muralPeekT+1:0; if(muralPeekT===100){ floatText(player.x,player.y-80,"BOUNCER: THE WALL GOT A BETTER CONTRACT THAN ME.",'#ffd2ee'); if(G){ G.mural=1; } } }
 function buildClub(len){
   const sky=mk(W,224), g=sky.getContext('2d');
@@ -4219,7 +4219,8 @@ function djTick(){ if(djJob){ const j=djJob; j.t++; const a=j.from; const k=Math
   if(curMusic==='warda'&&!G.djWarda){ if(!G.wardaSkit){ G.wardaSkit=1; sms('MAMA',"WLIDI! THEY'RE PLAYING CHEBA WARDA! MY QUEEN! TURN IT UP — I DANCED TO HER AT MY WEDDING.",{call:1}); }
     if(tt>=78.5){ G.djWarda=1; djPullup('zidane',15,'PULL UP!','CHEBA WARDA → ZIDANE'); } }
   else if(curMusic==='zidane'&&!G.djJump){ if(tt>=150){ G.djJump=1; G.yssLive=1; djPullup('jump',44,'YALLA SOUNDSYSTEM','SOLD OUT · JUMP FOR HABIBI'); setTimeout(()=>{ if(G&&LV&&LV.club) skit={at:0,img:'story/yalla_decks',who:'BADER · YALLA SOUNDSYSTEM (ON THE DECKS)',line:'KHOYA CHEB! SOLD OUT AND THE BOAT LEAVES AT DAWN. WE GOT THE DECKS — YOU GOT THE CROWD. JUMP FOR HABIBI!',t:0,dur:330}; },700); } } }
-function clubFxOver(){ const ph=frame%26; const heavy=bossEnt&&bossEnt.type==='curator'; if(ph<(heavy?3:2)){ ctx.fillStyle='rgba(255,255,255,'+(heavy?.24:.16)+')'; ctx.fillRect(0,0,W,H); } }
+function clubFxOver(){ // no full-screen strobe (photosensitivity); only a soft pulse during the Curator fight, ~1x/s
+  const heavy=bossEnt&&bossEnt.type==='curator'; if(!heavy) return; const ph=frame%52; if(ph<4){ ctx.fillStyle='rgba(255,255,255,'+(.07*(1-ph/4))+')'; ctx.fillRect(0,0,W,H); } }
 // restyled sprites: shift clothes hue, keep skin
 const RCOL={};
 function recolored(key,T){ const id=key+'|'+T.hue+'|'+(T.sat||1)+'|'+(T.light||0); if(RCOL[id]!==undefined) return RCOL[id]; const e=ATLAS[key]; const A=e&&IMG[e[4]||'spr/atlas']; if(!A){ return null; }
