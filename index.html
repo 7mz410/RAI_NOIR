@@ -174,7 +174,7 @@ function registerClear(){ if(G&&G.clearedRun) return; if(G) G.clearedRun=1; CLEA
 const GIFT_URL='https://sawna.bandcamp.com';
 
 /* ---------------- assets (optional images) ---------------- */
-const IMG={}; const AV='17.1a';
+const IMG={}; const AV='17.2a';
 // images first: music and video wait for them, otherwise on a slow connection the sprites show up last
 let imgsReady; const IMGS_READY=new Promise(r=>imgsReady=r);
 function loadImg(key,src){return new Promise(r=>{const i=new Image();i.onload=()=>{IMG[key]=i;r(i)};i.onerror=()=>r(null);i.src=src+'?v='+AV;});}
@@ -182,7 +182,7 @@ function loadImg(key,src){return new Promise(r=>{const i=new Image();i.onload=()
 const HF_CDN='https://d8j0ntlcm91z4.cloudfront.net/user_3KJVMTVL7n80h8UThtXGEHD8BGV/';
 const HF_ART={'story/matrix_rain':'hf_20261018_135021_db33dbbf-15f4-4ae9-836c-f726964c82ae','story/matrix_dodge':'hf_20261018_135019_a2f32af3-a00d-4a02-9adf-d7e9c8803c22','story/matrix_catch':'hf_20261018_135020_8f449107-930c-4915-9cce-92d140aa9b92','bg/hell_a':'hf_20261018_135020_26f7ccd2-0041-4cb5-951f-0fa2de73a0c4','bg/hell_b':'hf_20261018_135019_b0bd9cae-f1ba-4fa1-b44e-3f27882985db'};
 HF_ART['story/haggle']='hf_20261018_180856_3d8b1c71-9d68-4ad0-9558-06a6bbb67091'; HF_ART['story/tata']='hf_20261018_180857_2225d6bc-52ad-48ce-ba6b-7c9f335b4164'; HF_ART['story/rumi']='hf_20261018_180856_2b7f0020-fd32-4961-81c2-fcbdd234a49d';
-loadImg('story/gawdat','assets/story/gawdat.webp'); loadImg('story/vv_cover','assets/story/vv_cover.jpg'); loadImg('story/vv_bin_photo','assets/story/vv_bin_photo.jpg'); loadImg('story/retro_stall','assets/story/retro_stall.webp'); loadImg('story/booker_mural','assets/story/booker_mural.jpg'); loadImg('story/yss_flyer','assets/story/yss_flyer.jpg'); loadImg('story/yalla_decks','assets/story/yalla_decks.jpg'); loadImg('story/gawdat_cafe','assets/story/gawdat_cafe.jpg'); loadImg('ui/logo_v3','assets/ui/logo_v3.png'); loadImg('ui/logo_main','assets/ui/logo_main.png'); loadImg('chars/gawdat_idle','assets/chars/gawdat_idle.png'); loadImg('ui/title_heroes','assets/ui/title_heroes.jpg'); loadImg('chars/retro_74','assets/chars/retro_74.png'); loadImg('art/mural_7mz','assets/art/mural_7mz.png'); loadImg('chars/booker_44','assets/chars/booker/booker_44.png'); loadImg('chars/booker_88','assets/chars/booker/booker_88.png'); // el.7mz — 'Rooted in Resilience' (Hamza's own file, placeholder until then)
+loadImg('story/gawdat','assets/story/gawdat.webp'); loadImg('story/marseille_vp','assets/story/marseille_vp.jpg'); loadImg('story/vv_cover','assets/story/vv_cover.jpg'); loadImg('story/vv_bin_photo','assets/story/vv_bin_photo.jpg'); loadImg('story/retro_stall','assets/story/retro_stall.webp'); loadImg('story/booker_mural','assets/story/booker_mural.jpg'); loadImg('story/yss_flyer','assets/story/yss_flyer.jpg'); loadImg('story/yalla_decks','assets/story/yalla_decks.jpg'); loadImg('story/gawdat_cafe','assets/story/gawdat_cafe.jpg'); loadImg('ui/logo_v3','assets/ui/logo_v3.png'); loadImg('ui/logo_main','assets/ui/logo_main.png'); loadImg('chars/gawdat_idle','assets/chars/gawdat_idle.png'); loadImg('ui/title_heroes','assets/ui/title_heroes.jpg'); loadImg('chars/retro_74','assets/chars/retro_74.png'); loadImg('art/mural_7mz','assets/art/mural_7mz.png'); loadImg('chars/booker_44','assets/chars/booker/booker_44.png'); loadImg('chars/booker_88','assets/chars/booker/booker_88.png'); // el.7mz — 'Rooted in Resilience' (Hamza's own file, placeholder until then)
 HF_ART['story/vv_bin']='hf_20261018_164318_48cff445-1d35-4ad7-84e6-d2646fa4dda1'; // Vocoder Versace in Retro's -90% bin
 HF_ART['story/spider_vendor']='hf_20261018_171602_13efc660-c26c-474a-a547-fa9b66722efb'; // TIRIRIRI skit before El M3alim
 
@@ -2784,7 +2784,7 @@ const CINE={
     {img:'story/jannah_arch',tag:'JANNAH.EXE · HOME',title:'ADIEU',line:'SHE MOVED HERSELF TO JANNAH.EXE, HER LAST BACKUP. MAYBE TOO LATE.',dur:480},
   ],
   marseilleIntro:[
-    {img:'story/marseille_port',music:'warda',tag:'MARSEILLE · VIEUX-PORT',title:'ZIDANE',feat:'STAGE 4',line:"MEANWHILE IN MARSEILLE, YALLA SOUNDSYSTEM IS SOLD OUT. THE PROMOTER WANTS MORE ORIENTAL WEDDING MUSIC, NOT THEIR WEIRD ELECTRONIC STUFF. SO BADER PROMPTS CHEB: \"PEOPLE WANNA DANCE AND BE HAPPY. WE NEED YOUR HABIBI STUFF, KHOYA.\" ONE PROMPT, AND CHEB IS IN MARSEILLE INSTEAD OF HOME.",dur:520},
+    {img:'story/marseille_vp',music:'warda',tag:'MARSEILLE · VIEUX-PORT',title:'ZIDANE',feat:'STAGE 4',line:"MEANWHILE IN MARSEILLE, YALLA SOUNDSYSTEM IS SOLD OUT. THE PROMOTER WANTS MORE ORIENTAL WEDDING MUSIC, NOT THEIR WEIRD ELECTRONIC STUFF. SO BADER PROMPTS CHEB: \"PEOPLE WANNA DANCE AND BE HAPPY. WE NEED YOUR HABIBI STUFF, KHOYA.\" ONE PROMPT, AND CHEB IS IN MARSEILLE INSTEAD OF HOME.",dur:520},
     {img:'story/decolonial_queue',tag:'LE DÉCOLONIAL',line:"A QUEUE OF TOTE BAGS IS LINING UP",dur:480},
     
   ],
