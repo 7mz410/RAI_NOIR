@@ -182,7 +182,7 @@ function loadImg(key,src){return new Promise(r=>{const i=new Image();i.onload=()
 const HF_CDN='https://d8j0ntlcm91z4.cloudfront.net/user_3KJVMTVL7n80h8UThtXGEHD8BGV/';
 const HF_ART={'story/matrix_rain':'hf_20261018_135021_db33dbbf-15f4-4ae9-836c-f726964c82ae','story/matrix_dodge':'hf_20261018_135019_a2f32af3-a00d-4a02-9adf-d7e9c8803c22','story/matrix_catch':'hf_20261018_135020_8f449107-930c-4915-9cce-92d140aa9b92','bg/hell_a':'hf_20261018_135020_26f7ccd2-0041-4cb5-951f-0fa2de73a0c4','bg/hell_b':'hf_20261018_135019_b0bd9cae-f1ba-4fa1-b44e-3f27882985db'};
 HF_ART['story/haggle']='hf_20261018_180856_3d8b1c71-9d68-4ad0-9558-06a6bbb67091'; HF_ART['story/tata']='hf_20261018_180857_2225d6bc-52ad-48ce-ba6b-7c9f335b4164'; HF_ART['story/rumi']='hf_20261018_180856_2b7f0020-fd32-4961-81c2-fcbdd234a49d';
-loadImg('story/gawdat','assets/story/gawdat.webp'); loadImg('story/vv_cover','assets/story/vv_cover.jpg'); loadImg('story/vv_bin_photo','assets/story/vv_bin_photo.jpg'); loadImg('story/retro_stall','assets/story/retro_stall.webp'); loadImg('ui/logo_v3','assets/ui/logo_v3.png'); loadImg('ui/logo_main','assets/ui/logo_main.png'); loadImg('chars/gawdat_idle','assets/chars/gawdat_idle.png'); loadImg('ui/title_heroes','assets/ui/title_heroes.jpg'); loadImg('chars/retro_74','assets/chars/retro_74.png'); loadImg('art/mural_7mz','assets/art/mural_7mz.png'); loadImg('chars/booker_44','assets/chars/booker/booker_44.png'); loadImg('chars/booker_88','assets/chars/booker/booker_88.png'); // el.7mz — 'Rooted in Resilience' (Hamza's own file, placeholder until then)
+loadImg('story/gawdat','assets/story/gawdat.webp'); loadImg('story/vv_cover','assets/story/vv_cover.jpg'); loadImg('story/vv_bin_photo','assets/story/vv_bin_photo.jpg'); loadImg('story/retro_stall','assets/story/retro_stall.webp'); loadImg('story/yalla_decks','assets/story/yalla_decks.jpg'); loadImg('story/gawdat_cafe','assets/story/gawdat_cafe.jpg'); loadImg('ui/logo_v3','assets/ui/logo_v3.png'); loadImg('ui/logo_main','assets/ui/logo_main.png'); loadImg('chars/gawdat_idle','assets/chars/gawdat_idle.png'); loadImg('ui/title_heroes','assets/ui/title_heroes.jpg'); loadImg('chars/retro_74','assets/chars/retro_74.png'); loadImg('art/mural_7mz','assets/art/mural_7mz.png'); loadImg('chars/booker_44','assets/chars/booker/booker_44.png'); loadImg('chars/booker_88','assets/chars/booker/booker_88.png'); // el.7mz — 'Rooted in Resilience' (Hamza's own file, placeholder until then)
 HF_ART['story/vv_bin']='hf_20261018_164318_48cff445-1d35-4ad7-84e6-d2646fa4dda1'; // Vocoder Versace in Retro's -90% bin
 HF_ART['story/spider_vendor']='hf_20261018_171602_13efc660-c26c-474a-a547-fa9b66722efb'; // TIRIRIRI skit before El M3alim
 HF_ART['shots/00_title_v2']='https://d2ol7oe51mr4n9.cloudfront.net/user_3KJVMTVL7n80h8UThtXGEHD8BGV/99714105-106a-428a-a9b8-81af77fd587f.jpg'; // new title / album art (Oct 18)
@@ -1899,6 +1899,7 @@ const SKITS={
     {at:1460,img:'story/spider_vendor',who:'CHEB',line:"I CAME FOR EL M3ALIM, NOT FOR A HOODIE."},
   ],
   amor:[
+    {at:40,img:'story/gawdat_cafe',who:'BRO GAWDAT',line:"WELCOME TO MY NET CAFÉ, HABIBI. THE TEA IS FREE. LOVE IS NOT."},
     {at:300,sms:1,who:'MAMA',line:"WHO IS THIS SAMIA. DON'T LIE TO ME. I AM YOUR WIFI."},
     {at:1700,sms:1,who:'PLAIBOY ALDI',line:"SHE'S NOT REAL, HABIBI. NEITHER ARE YOU. LET'S TALK BUSINESS. I CAN HELP YOU TO BECOME A HUGE STAR!"},
   ],
@@ -3186,7 +3187,7 @@ SC.haggle={ k:'r0', t:0, sel:0, hon:100, enter(){ this.k='r0'; this.t=0; this.se
     else if(n.end&&this.t>90&&(pressed.a||pressed.start)){ sfx('select'); this.leave(); } },
   leave(){ const b=this.back; this.back=null; if(b){ fadeTo(()=>{ scene=b; fadeIn=24; musicDuck=1; if(curMusic!==LV.music) playMusic(LV.music,{fade:40}); },24); } else fadeTo(()=>go(SC.stage1),30); },
   tapAt(x,y){ const n=this.node(); if(n.opt){ const i=Math.floor((y-(H-54))/16); if(i>=0&&i<n.opt.length){ this.sel=i; this.pick(i); } } else if(n.end&&this.t>90){ this.leave(); } },
-  draw(){ const n=this.node(), t=this.t, im=IMG['story/haggle']||IMG['story/vv_bin']; ctx.fillStyle='#0b0616'; ctx.fillRect(0,0,W,H);
+  draw(){ const n=this.node(), t=this.t, im=IMG['story/retro_stall']||IMG['story/haggle']; ctx.fillStyle='#0b0616'; ctx.fillRect(0,0,W,H);
     const pw=200, ph=118, px=10, py=18; R(px-3,py-3,pw+6,ph+6,'#000'); R(px-1,py-1,pw+2,ph+2,'#fff'); ctx.save(); ctx.beginPath(); ctx.rect(px,py,pw,ph); ctx.clip(); if(im){ ctx.imageSmoothingEnabled=true; const sc=Math.max(pw/im.width,ph/im.height); ctx.drawImage(im,px+(pw-im.width*sc)/2,py+(ph-im.height*sc)/2,im.width*sc,im.height*sc); ctx.imageSmoothingEnabled=false; } else { ctx.translate(px,py); drawShopPanel(pw,ph,t,n.flip&&t>40&&t<130); } ctx.restore();
     comicCaption(px+4,py-6,tr('LIFE CHOICE · ORAN'),'#ffe066','#000',5,'left');
     // the tell: the cigarette flip
@@ -3465,8 +3466,8 @@ SC.select={ i:0, st:0, enter(){ this.i=0; this.st=0; if(curMusic!=='zizou') play
     if(!this.ask) return; const e=STAGELIST[SAVE.s]||STAGELIST[1]; R(0,0,W,H,'rgba(0,0,0,.6)'); R(W/2-110,70,220,62,'#0b0714'); R(W/2-110,70,220,1,'#ff5fa8');
     const o=[tr('CONTINUE')+' · '+e[0],tr('NEW GAME · ORAN')]; o.forEach((l,i)=>{ const on=this.ask===i+1; text((on?'▶ ':'  ')+l,W/2-96,84+i*18,on?'#ffe066':'#9aa6b8',7,'left'); }); text(tr('▲▼ CHOOSE · PUN OK'),W/2,122,'#5a6a88',4,'center',null); }; }
 const STAGELIST=[['FULL GAME','ZIZOU → ZOMBY → AMOR HARAM → ZIDANE → GHORBA → FINALE',()=>oranTapeToStage()],['STAGE 1 · ZIZOU','ORAN — OFFLINE AND LOVING IT',()=>go(SC.stage1)],['STAGE 2 · ZOMBY','MUMYA REEL + CAIRO — BACK ONLINE',()=>go(SC.mumya)],['STAGE 3 · AMOR HARAM','CYBER CAIRO — THE CHAT, THE CABARET, THE LOVE PHONE',()=>playAmorTape()],['STAGE 4 · ZIDANE','MARSEILLE — LE CLUB DÉCOLONIAL · NO PASSPORT',()=>go(SC.marseilleIntro)],['STAGE 5 · GHORBA','MARSEILLE → ORAN — FLARE GUN, THEN THE DECK · TRACK: MAMA',()=>go(SC.boatIntro)],['STAGE 6 · FINALE',"A DREAM → HELL.EXE → JANNAH.EXE — BEAT IT = FREE SAWNA DOWNLOAD",()=>go(SC.mahramIntro)],['INTRO · RAÏ NOIR','THE TAPE + THE FLASHBACK AGAIN',()=>playChebTape()]];
-['oran','cairo','cybercairo','marseille','sea','benghazi','jannah','rainoir','serverfarm'].forEach(n=>{ if(!IMG['covers/'+n]) loadImg('covers/'+n,'assets/covers/'+n+'.jpg'); });
-const STAGETHUMB=['shots/00_title_trio','covers/oran','covers/cairo','covers/cybercairo','covers/marseille','covers/ghorba','covers/7elm7ram','covers/rainoir'];
+['oran','cairo','cybercairo','marseille','sea','benghazi','jannah','rainoir','serverfarm','fullgame'].forEach(n=>{ if(!IMG['covers/'+n]) loadImg('covers/'+n,'assets/covers/'+n+'.jpg'); });
+const STAGETHUMB=['covers/fullgame','covers/oran','covers/cairo','covers/cybercairo','covers/marseille','covers/ghorba','covers/7elm7ram','covers/rainoir'];
 const STAGECOL=['#ffe066','#ff9a4a','#7dff8a','#ff5fa8','#ff3d8b','#b06aff','#ffb36a','#2aff7a','#e8c25a','#5ff0ff','#f4e7c8'];
 SC.stagesel={ i:0, enter(){ this.i=Math.min(this.i||0,STAGELIST.length-1); this.slide=0; },
   update(){ const n=STAGELIST.length;
@@ -4216,7 +4217,7 @@ function djTick(){ if(djJob){ const j=djJob; j.t++; const a=j.from; const k=Math
   if(!LV||!LV.club||stageState!=='play'||!G) return; const a=DECK[deckI], tt=a.currentTime||0;
   if(curMusic==='warda'&&!G.djWarda){ if(!G.wardaSkit){ G.wardaSkit=1; sms('MAMA',"WLIDI! THEY'RE PLAYING CHEBA WARDA! MY QUEEN! TURN IT UP — I DANCED TO HER AT MY WEDDING.",{call:1}); }
     if(tt>=78.5){ G.djWarda=1; djPullup('zidane',15,'PULL UP!','CHEBA WARDA → ZIDANE'); } }
-  else if(curMusic==='zidane'&&!G.djJump){ if(tt>=150){ G.djJump=1; G.yssLive=1; djPullup('jump',44,'YALLA SOUNDSYSTEM','SOLD OUT · JUMP FOR HABIBI'); setTimeout(()=>{ if(G&&LV&&LV.club) skit={at:0,img:'story/marseille_door',who:'BADER · YALLA SOUNDSYSTEM (ON THE DECKS)',line:'KHOYA CHEB! SOLD OUT AND THE BOAT LEAVES AT DAWN. WE GOT THE DECKS — YOU GOT THE CROWD. JUMP FOR HABIBI!',t:0,dur:330}; },700); } } }
+  else if(curMusic==='zidane'&&!G.djJump){ if(tt>=150){ G.djJump=1; G.yssLive=1; djPullup('jump',44,'YALLA SOUNDSYSTEM','SOLD OUT · JUMP FOR HABIBI'); setTimeout(()=>{ if(G&&LV&&LV.club) skit={at:0,img:'story/yalla_decks',who:'BADER · YALLA SOUNDSYSTEM (ON THE DECKS)',line:'KHOYA CHEB! SOLD OUT AND THE BOAT LEAVES AT DAWN. WE GOT THE DECKS — YOU GOT THE CROWD. JUMP FOR HABIBI!',t:0,dur:330}; },700); } } }
 function clubFxOver(){ const ph=frame%26; const heavy=bossEnt&&bossEnt.type==='curator'; if(ph<(heavy?3:2)){ ctx.fillStyle='rgba(255,255,255,'+(heavy?.24:.16)+')'; ctx.fillRect(0,0,W,H); } }
 // restyled sprites: shift clothes hue, keep skin
 const RCOL={};
