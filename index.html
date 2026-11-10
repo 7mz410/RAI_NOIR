@@ -108,7 +108,7 @@ button:focus-visible,canvas:focus-visible{outline:2px solid var(--mint);outline-
 <div id="rotate"><div class="ph"></div>ROTATE YOUR PHONE<br><span style="color:var(--dim)">RAÏ NOIR PLAYS IN LANDSCAPE</span><br><button class="tb small" id="rotskip" style="width:140px;margin-top:8px">PLAY PORTRAIT ANYWAY</button></div>
 <div id="wrap">
   <div id="screen"><canvas id="c" width="768" height="448" tabindex="0" aria-label="RAÏ NOIR game screen"></canvas></div>
-  <div class="help"><b>MOVE</b> arrows / WASD &nbsp; <b>PUNCH</b> J or Z &nbsp; <b>KICK</b> K or X &nbsp; <b>JUMP</b> space, I or U &nbsp; <b>SPECIAL</b> L or C &nbsp; <b>CALL A FRIEND</b> Y &nbsp; <b>START</b> enter &nbsp; <b>PAUSE</b> P &nbsp; · gamepad works too</div>
+  <div class="help"><b>MOVE</b> arrows / WASD / ZQSD (azerty) &nbsp; <b>PUNCH</b> J &nbsp; <b>KICK</b> K &nbsp; <b>JUMP</b> space &nbsp; <b>SPECIAL</b> L &nbsp; <b>CALL A FRIEND</b> Y &nbsp; <b>START</b> enter &nbsp; <b>PAUSE</b> P &nbsp; · gamepad works too</div>
   <div id="stick" aria-hidden="true"><div class="base"></div><div class="knob"></div><div class="hint">◀ THUMB ANYWHERE ▶</div></div>
   <div id="touch" aria-hidden="true">
     <div class="dpad">
@@ -174,7 +174,7 @@ function registerClear(){ if(G&&G.clearedRun) return; if(G) G.clearedRun=1; CLEA
 const GIFT_URL='https://sawna.bandcamp.com';
 
 /* ---------------- assets (optional images) ---------------- */
-const IMG={}; const AV='16.0a';
+const IMG={}; const AV='16.1a';
 // images first: music and video wait for them, otherwise on a slow connection the sprites show up last
 let imgsReady; const IMGS_READY=new Promise(r=>imgsReady=r);
 function loadImg(key,src){return new Promise(r=>{const i=new Image();i.onload=()=>{IMG[key]=i;r(i)};i.onerror=()=>r(null);i.src=src+'?v='+AV;});}
@@ -305,7 +305,7 @@ function playMusic(name,opts={}){
   fadeJobs.push({a:next,from:0,to:musicVol,t:0,dur:opts.fade||100});
 }
 function stopMusic(){ playMusic(null); }
-const SHAREBTN={x:W-74,y:38,w:68,h:14};
+const SHAREBTN={x:W-74,y:H-20,w:68,h:14};
 function drawShareBtn(){ if(!G||!G.shareT||G.shareT<=0) return; G.shareT--; const b=SHAREBTN; R(b.x,b.y,b.w,b.h,'rgba(8,4,18,.9)'); ctx.strokeStyle=frame%20<10?'#ffe066':'#ff5fa8'; ctx.lineWidth=1; ctx.strokeRect(b.x+.5,b.y+.5,b.w-1,b.h-1); text(tr('SHARE THIS'),b.x+b.w/2,b.y+4,'#ffe066',5,'center',null); }
 const POSTER_COVER={oran:'covers/oran',cairo:'covers/cairo',amor:'covers/cybercairo',marseille:'covers/marseille',mahram:'covers/7elm7ram',boat:'covers/ghorba',hell:'covers/serverfarm',lift:'covers/serverfarm',jannah:'covers/jannah'};
 const POSTER_LINE={oran:['UNC K7','OFFLINE, WLIDI. NO FEED. NO FANS. JUST ORAN.'],cairo:['THE HOODIE MAN','SPIDERMAAAN... TIRIRIRI!'],amor:['THE GIRL FROM LISBON',"YOU'RE THE FIRST WHO NEVER SENT THE PHOTO."],
@@ -1946,23 +1946,23 @@ function checkSkits(){ muralPeek(); for(const e of ents) if(e.type==='duck'&&!e.
 /* ---------------- THE NOKIA: Mama, the nephews and the devil text you. Read it or keep punching. ---------------- */
 let PHONE={q:[],cur:null,t:0};
 function sms(from,txt,o){ PHONE.q.push(Object.assign({from,txt},o||{})); }
-function phoneLife(c){ return Math.max(300,170+String(tr(c.txt)).length*3.4); }
+function phoneLife(c){ return Math.max(300,200+String(tr(c.txt)).length*4.4); }
 function phoneUpdate(){ if(!PHONE.cur&&PHONE.q.length){ PHONE.cur=PHONE.q.shift(); PHONE.t=0; sfx('phone'); } if(PHONE.cur){ PHONE.t++; if(PHONE.t>phoneLife(PHONE.cur)) PHONE.cur=null; } }
 function drawNokia(){ const c=PHONE.cur; if(!c) return; const T=PHONE.t, life=phoneLife(c), k=clamp(Math.min(T/12,(life-T)/12),0,1);
-  const pw=104, ph=84, bz=T<26?Math.round(Math.sin(T*1.7)*2):0, x=W-pw-6+bz, y=H-Math.round(k*(ph-10));
+  const pw=140, ph=98, bz=T<26?Math.round(Math.sin(T*1.7)*2):0, x=W-pw-6+bz, y=H-Math.round(k*(ph-10));
   const who=String(c.from||''), aldi=/ALDI/.test(who), mama=/MAMA/.test(who);
   R(x+3,y+3,pw,ph,'rgba(0,0,0,.45)'); R(x+2,y,pw-4,ph,'#1b2340'); R(x,y+2,pw,ph-2,'#1b2340'); R(x+2,y+1,pw-4,1,'#3c4a7a'); R(x+1,y+3,1,ph-6,'#2c3864'); R(x+pw-2,y+3,1,ph-6,'#10152a');
   for(let i=0;i<4;i++) R(x+pw/2-7+i*4,y+4,2,2,'#0b0f1e');
-  const sx=x+7, sy=y+10, sw=pw-14, sh=46; R(sx-2,sy-2,sw+4,sh+4,'#0b0f1e');
+  const sx=x+7, sy=y+10, sw=pw-14, sh=58; R(sx-2,sy-2,sw+4,sh+4,'#0b0f1e');
   const lcd=c.call&&(T>>3)%2?'#c8ec8a':'#a9cf6c', ink='#1c2a10'; R(sx,sy,sw,sh,lcd); for(let yy=sy+1;yy<sy+sh;yy+=2) R(sx,yy,sw,1,'rgba(40,70,20,.08)');
   for(let i=0;i<4;i++) R(sx+2+i*3,sy+6-Math.round(i*1.5),2,2+Math.round(i*1.5),ink);
   const pct=(G&&G.mama!=null)?G.mama:100; R(sx+sw-14,sy+2,11,5,ink); R(sx+sw-3,sy+3,1,3,ink); R(sx+sw-13,sy+3,9,3,lcd); R(sx+sw-13,sy+3,Math.max(1,Math.round(9*pct/100)),3,ink);
-  text(c.call?'CALL':'SMS',sx+sw/2,sy+2,ink,4,'center',null);
-  R(sx+1,sy+9,sw-2,9,ink); const icon=c.call?'☎':aldi?'♠':mama?'♥':'✉'; text(icon+' '+tr(who)+(c.call?((T>>4)%2?' CALLING':' ...'):''),sx+3,sy+11,lcd,4,'left',null);
-  if(T<28&&!c.call){ text(tr('1 NEW MESSAGE'),sx+sw/2,sy+29,ink,4,'center',null); }
-  else { const lines=wrapText(c.txt,sw-6,4), vis=3, over=Math.max(0,lines.length-vis), off=Math.min(over,Math.floor(Math.max(0,T-110)/80));
-    for(let i=0;i<vis&&i+off<lines.length;i++) text(lines[i+off],sx+3,sy+21+i*8,ink,4,'left',null); if(over>off&&frame%30<20) text('▼',sx+sw-5,sy+sh-6,ink,4,'center',null); }
-  R(x+pw/2-12,y+62,24,8,'#2c3864'); R(x+pw/2-10,y+63,20,1,'#3c4a7a'); R(x+10,y+63,18,5,'#2c3864'); R(x+pw-28,y+63,18,5,'#2c3864'); for(let i=0;i<3;i++) R(x+14+i*28,y+74,16,5,'#26305a'); }
+  text(c.call?'CALL':'SMS',sx+sw/2,sy+2,ink,5,'center',null);
+  R(sx+1,sy+9,sw-2,9,ink); const icon=c.call?'☎':aldi?'♠':mama?'♥':'✉'; text(icon+' '+tr(who)+(c.call?((T>>4)%2?' CALLING':' ...'):''),sx+3,sy+11,lcd,5,'left',null);
+  if(T<28&&!c.call){ text(tr('1 NEW MESSAGE'),sx+sw/2,sy+29,ink,5,'center',null); }
+  else { const lines=wrapText(c.txt,sw-6,5), vis=4, over=Math.max(0,lines.length-vis), off=Math.min(over,Math.floor(Math.max(0,T-110)/80));
+    for(let i=0;i<vis&&i+off<lines.length;i++) text(lines[i+off],sx+3,sy+21+i*9,ink,5,'left',null); if(over>off&&frame%30<20) text('▼',sx+sw-5,sy+sh-6,ink,5,'center',null); }
+  R(x+pw/2-12,y+74,24,8,'#2c3864'); R(x+pw/2-10,y+75,20,1,'#3c4a7a'); R(x+10,y+75,18,5,'#2c3864'); R(x+pw-28,y+75,18,5,'#2c3864'); for(let i=0;i<3;i++) R(x+14+i*40,y+87,16,5,'#26305a'); }
 const STOPSHOUT={spider:"HOODIE MAN: TIRIRIRI! COME BACK, YA BASHA!",retro:"RETRO: ASAHBI! 5000! ...4000? COME BACK!",nadia:"NADIA: ...NOBODY EVER STOPS.",tata:"♪ PROMPT ME A RIVER... ♪"};
 let STOPNEAR=null;
 const SIDEQUESTS=false; /* parked until the main game is solid */
@@ -1971,7 +1971,7 @@ function stopsUpdate(list){ STOPNEAR=null; if(!G||!SIDEQUESTS) return; G.shout=G
     if(near){ STOPNEAR=first; const busy=ents.some(e=>e.kind==='enemy'&&!e.dead&&e.hp>0&&Math.abs(e.x-player.x)<180); if(!busy&&(pressed.a||pressed.y)){ pressed.a=false; pressed.y=false; startSkit(first,list); return; } }
     if(player.x>X+120&&!G.shout[id]){ G.shout[id]=1; floatText(X,player.y-80,STOPSHOUT[id]||'...','#ffe066'); } } }
 
-function skitUpdate(){ skit.t++; if(pressed.y&&skit.img==='story/tata'&&G&&G.tata!=='asked'){ pressed.y=false; G.tata='asked'; sfx('life'); floatText(player.x,player.y-80,"TATA: OFFLINE? ...NOBODY EVER ASKED ME THAT.",'#ff9ad0'); } if(skit.img==='story/tata'&&G&&!G.tata) G.tata='watched'; if(pressed.y&&skit.img==='story/spider_vendor'&&!VMARK.has('secret')){ pressed.y=false; vaultMark('secret'); floatText(player.x,player.y-70,'HOODIE BOUGHT. TIRIRIRI!','#7dff8a'); } const L=String(frIt(skit).line||'').length, full=12+Math.ceil(L/1.4), need=Math.max(skit.dur,full+90+L*2.6); const pr=skit.t>40&&(pressed.a||pressed.b||pressed.k||pressed.start); if(pr&&skit.t<full){ skit.t=full; pressed.start=false; return; } if((pr&&skit.t>=full+30)||skit.t>=need){ if(skit.haggle&&G&&!G.haggle&&!DEMO){ skit=null; musicDuck=1; pressed.start=false; SC.haggle.back=scene; go(SC.haggle); return; } const v=SKITV[skit.img]; if(v) try{ v.pause(); }catch(e){} skit=null; musicDuck=1; pressed.start=false; } }
+function skitUpdate(){ skit.t++; if(pressed.y&&skit.img==='story/tata'&&G&&G.tata!=='asked'){ pressed.y=false; G.tata='asked'; sfx('life'); floatText(player.x,player.y-80,"TATA: OFFLINE? ...NOBODY EVER ASKED ME THAT.",'#ff9ad0'); } if(skit.img==='story/tata'&&G&&!G.tata) G.tata='watched'; if(pressed.y&&skit.img==='story/spider_vendor'&&!VMARK.has('secret')){ pressed.y=false; vaultMark('secret'); floatText(player.x,player.y-70,'HOODIE BOUGHT. TIRIRIRI!','#7dff8a'); } const L=String(frIt(skit).line||'').length, full=12+Math.ceil(L/1.4), need=Math.max(skit.dur,full+150+L*4); const pr=skit.t>40&&(pressed.a||pressed.b||pressed.k||pressed.start); if(pr&&skit.t<full){ skit.t=full; pressed.start=false; return; } if((pr&&skit.t>=full+30)||skit.t>=need){ if(skit.haggle&&G&&!G.haggle&&!DEMO){ skit=null; musicDuck=1; pressed.start=false; SC.haggle.back=scene; go(SC.haggle); return; } const v=SKITV[skit.img]; if(v) try{ v.pause(); }catch(e){} skit=null; musicDuck=1; pressed.start=false; } }
 function comicCaption(x,y,txt,bg='#ffe066',fg='#000',size=6,align='center'){ ctx.font=size+'px '+FONT; const w=Math.ceil(ctx.measureText(txt).width)+10, h=size+7; const bx=align==='center'?Math.round(x-w/2):align==='right'?x-w:x;
   R(bx+2,y+2,w,h,'#000'); R(bx-1,y-1,w+2,h+2,'#000'); R(bx,y,w,h,bg); text(txt,bx+5,y+4,fg,size,'left',null); return w; }
 function comicBubble(x,y,w,lines,who,tailX,tailY,k){ const h=lines.length*9+(who?16:8); ctx.save(); ctx.globalAlpha=k;
@@ -2095,7 +2095,7 @@ const LEVELS=[
    waves:[{at:300,tAt:18,list:['sh_hustler','sh_hustler','sh_zombie']},{at:900,tAt:60,list:['sh_goon','sh_punk','sh_influencer']},{at:1700,tAt:112,list:['sh_punk','sh_dervish','sh_zombie']},{at:2450,tAt:165,boss:1,list:['sh_goon','sh_dervish','sh_punk']}],
    npcs:[['shadowdancer',640,170,'SAMIA?',"DANCE WITH ME, HABIBI. FOREVER. NOBODY IS WATCHING."],['phantomangel',1950,180,'ANGEL.EXE?','THE DOOR IS OPEN, WLIDI. IT WAS ALWAYS OPEN.'],['shadowmother',2700,172,'MAMA?',""]],
    props:[['crate',500,206,'cassette'],['barrel',1000,172,'koshary'],['crate',1500,206,'k7tape'],['barrel',2000,206,'karantika'],['crate',2300,172,'tajine']]},
-  {id:'jannah',title:'FINALE · PART 2',sub:'JANNAH.EXE — SHE IS FADING',music:'adieu',len:2200,battery:false,dur:150,jannah:1,
+  {id:'jannah',title:'FINALE · PART 3',sub:'JANNAH.EXE — SHE IS FADING',music:'adieu',len:2200,battery:false,dur:150,jannah:1,
    waves:[],
    npcs:[['angel',230,180,'ANGEL.EXE','SALAM, WLIDI. WE KEPT HER WARM FOR YOU.'],['angel',520,176,'ANGEL.EXE','THE FEED WAS DRINKING FROM HER POWER. YOU UNPLUGGED IT.'],['angel',760,182,'ANGEL.EXE','NOW NOTHING FEEDS HER. GO. SHE IS WAITING AT THE END.'],['angel',1700,178,'ANGEL.EXE','WHATEVER YOU DO IN THERE... MAKTOUB.'],['mother',2080,172,'MOTHERBOARD','']],
    props:[['crate',400,206,'oranges'],['crate',1100,206,'k7tape'],['crate',1500,206,'tajine']]},
@@ -2107,7 +2107,7 @@ const LEVELS=[
    waves:[{at:300,tAt:null,list:[]},{at:720,tAt:60,list:['checkbox','ally','dabke']},{at:1120,tAt:null,list:['soufi']},{at:1600,tAt:null,list:['booker','nepo','checkbox','bro','dabke']},{at:2160,tAt:200,boss:1,list:['curator','nepo','ally']}],
    npcs:[['crew',110,174,'AICHA · YOUR LITTLE SISTER',"KHOYA! THEY PROMPTED YOU INTO MY CITY? STAY BEHIND ME.",'aicha']],
    props:[['crate',520,206,'koshary'],['barrel',1300,206,'tray'],['crate',1840,206,'k7tape'],['barrel',2080,190,'karantika']]},
-  {id:'hell',title:'STAGE 6 · FINALE',sub:"HELL.EXE — ALDI'S DATACENTRE",part:1,music:'helm7ram',len:2600,battery:false,dur:240,hell:1,yMin:172,
+  {id:'hell',title:'FINALE · PART 2',sub:"HELL.EXE — ALDI'S DATACENTRE",part:1,music:'helm7ram',len:2600,battery:false,dur:240,hell:1,yMin:172,
    // the drop of Poète maudit du bled is at 1:23 — Aldi has to be on screen before it
    waves:[{at:220,tAt:6,list:['agent','sh_hustler']},{at:600,tAt:20,list:['agent','sh_punk','agent']},
           {at:1300,tAt:44,music:'poete',seek:0,list:['agent','punk','influencer']},{at:1900,tAt:62,boss:1,list:['aldiboss','agent','agent']}],
@@ -2226,7 +2226,7 @@ function feedDie(e){ sfx('boom'); flashA=1; shake=16; for(let i=0;i<60;i++) fx.p
   G.score+=20000; bossEnt=null; if(!e.mini) msg={t:240,big:'',small:"ALDI: YOU BROKE MY BEST PRODUCT, HABIBI. I HAVE OTHERS.",top:1}; }
 function spark(x,y){ fx.push({k:'spark',x,y,life:8}); }
 let SAY_LAST=-999; const SAY_SEEN=new Set(); let SAY_ALL=new Set(); try{ SAY_ALL=new Set(JSON.parse(localStorage.getItem('rainoir-jokes')||'[]')); }catch(e){} // enemy one-liners: one at a time, unseen ones first, so every joke gets read
-function floatText(x,y,s,c){ if(stageState==='drive'){ if(frame-(floatText.last||0)<45) return; floatText.last=frame; } /* the car ride was a flood of +250s */ const L=String(tr(s)).length; fx.push({k:'txt',x,y,s,c,life:L>10?Math.min(240,70+L*2.6):55,slow:L>10}); }
+function floatText(x,y,s,c){ if(stageState==='drive'){ if(frame-(floatText.last||0)<45) return; floatText.last=frame; } /* the car ride was a flood of +250s */ const L=String(tr(s)).length; if(L>10){ const sl=fx.filter(f=>f.k==='txt'&&f.slow); while(sl.length>=2){ const o=sl.shift(); fx.splice(fx.indexOf(o),1); } } fx.push({k:'txt',x,y,s,c,life:L>10?Math.min(330,90+L*4):55,slow:L>10}); }
 function bowlTick(){ for(const g of ents){ if(!g.thrown||g.dead) continue; if(g.state!=='fall'||g.z<=0){ g.thrown=0; continue; }
     for(const o of ents){ if(o===g||o.kind!=='enemy'||o.team!==1||o.dead||g.bowled.has(o)||['down','dead','fall','woke','leave'].includes(o.state)) continue; if(Math.abs(o.x-g.x)<22&&Math.abs(o.y-g.y)<14){ g.bowled.add(o); hurt(o,12*(G.char.pow||1),true,{dir:sgn(g.vx)||1,x:g.x}); floatText(o.x,o.y-60,'STRIKE!','#ff5fa8'); G.score+=300; G.sp=Math.min(100,(G.sp||0)+6); shake=Math.max(shake,4); } } } }
 function breakProp(p){ if(p.dead) return; p.dead=true; sfx('break'); for(let i=0;i<8;i++) fx.push({k:'debris',x:p.x,y:p.y,z:10,vx:rnd(-2,2),vz:rnd(1,3),life:40,c:p.prop==='crate'?'#9a6a3a':p.prop==='barrel'?'#a04a2a':'#2f7a3a'}); items.push({kind:'item',it:p.item,x:p.x,y:p.y,z:12,vz:2,t:0}); if(p.tape){ items.push({kind:'item',it:'tape',tape:p.tape,x:p.x+10,y:p.y,z:30,vz:3,t:0}); sfx('life'); } }
@@ -2921,7 +2921,7 @@ function drawArabicRain(t){ ctx.save(); for(let c=0;c<W/12;c++){ const sp=.6+((c
 function cineScene(list,musicName,next){
   return { i:0,t:0,isCine:true,
     enter(){ this.i=this.startAt||0; this.startAt=0; this.t=0; ENT.clear(); this.empty=!list.length; if(this.empty) return; if(musicName){ if(musicName==='rainoir'&&curMusic==='rainoir'){ kick(); } else playMusic(musicName); } },
-    update(){ if(this.empty){ if(!this.t++) next(); return; } this.t++; const it=list[this.i]; const L=String(frIt(it).line||'').length, full=30+Math.ceil(L/1.6), dur=Math.max(it.dur||270, L?full+100+L*2.6:0);
+    update(){ if(this.empty){ if(!this.t++) next(); return; } this.t++; const it=list[this.i]; const L=String(frIt(it).line||'').length, full=30+Math.ceil(L/1.6), dur=Math.max(it.dur||270, L?full+150+L*4:0);
       if(this.t===1&&it.music&&(it.music!==curMusic||it.seek!=null)){ playMusic(it.music,{fade:it.seek!=null?10:60,loop:it.music==='rainoir'&&it.seek==null,seek:it.seek}); }
       if(pressed.y&&list===CINE.intro){ fadeTo(()=>go(SC.title)); return; }
       if(pressed.start||pressed.y){ fadeTo(next); return; }
@@ -4161,14 +4161,14 @@ function drawHUD(){
   const pim=IMG['portraits/'+G.char.id]; if(pim){ ctx.imageSmoothingEnabled=true; ctx.drawImage(pim,20,0,120,120,5,5,20,20); ctx.imageSmoothingEnabled=false; } else { ctx.save(); ctx.beginPath(); ctx.rect(5,5,20,20); ctx.clip(); drawFighter({look:LOOKS[G.char.look],dir:1,sc:1.6,x:15,y:86,z:0,state:'idle',anim:0},0); ctx.restore(); }
   text(G.char.name,30,4,'#ffe066',6);
   const bw=96, hp=clamp(player.hp/player.maxhp,0,1);
-  if(LV.battery){ R(30,13,bw+2,8,'#ddd'); R(30+bw+2,15,2,4,'#ddd'); R(31,14,bw,6,'#111'); const segs=10; for(let i=0;i<segs;i++){ if(i/segs<hp) R(32+i*(bw/segs),15,bw/segs-1.5,4, hp<.3?'#ff3d3d':hp<.6?'#ffd23a':'#7dff8a'); } text(Math.round(hp*100)+'%',30+bw+8,14,'#ddd',5); }
+  if(LV.battery){ R(30,13,bw+2,8,'#ddd'); R(30+bw+2,15,2,4,'#ddd'); R(31,14,bw,6,'#111'); const segs=10; for(let i=0;i<segs;i++){ if(i/segs<hp) R(32+i*(bw/segs),15,bw/segs-1.5,4, hp<.3?'#ff3d3d':hp<.6?'#ffd23a':'#7dff8a'); } text(Math.round(hp*100)+'%',30+bw+8,14,'#ddd',6); }
   else { R(30,13,bw+2,8,'#000'); R(31,14,bw*hp,6,hp<.3?'#ff3d3d':'#ffe066'); R(31,14,bw*hp,1,'#fff6c0'); }
-  text('x'+G.lives,30,23,'#f4e7c8',5); for(let i=0;i<G.tapes;i++){ R(52+i*10,23,8,5,'#111'); R(53+i*10,24,6,2,'#ff5fa8'); } { const sp=G.sp||0, sx0=52+G.tapes*10+4; R(sx0,23,40,5,'#111'); R(sx0+1,24,Math.round(38*sp/100),3,sp>=100?(frame%10<5?'#ffe066':'#ff5fa8'):'#5ff0ff'); if(sp>=100) text('SP',sx0+44,22,'#ffe066',5,'left',null); } drawShareBtn();
-  text('K7 '+COLL.size+'/'+TAPES.length,W-6,30,'#ffe066',5,'right',null); drawMamaHUD(); drawChain();
-  text('YALLA',52,30,'#ffe066',5,'left',null); for(let i=0;i<(G.calls||0);i++){ R(80+i*8,30,6,5,'#ffe066'); R(81+i*8,31,4,3,'#2a1640'); } if(G.calls>0&&(player.hp<35||levelT<600)&&frame%40<24) text('= CALL THE CREW (Y)',80+(G.calls)*8+4,30,'#ffe066',5,'left',null);
-  if(player.weapon){ text(WEAP[player.weapon].name+' x'+player.wuses,92,23,'#ffe066',5); if(!LV.battery) text(WEAP[player.weapon].throw?'PUN/KCK: THROW':'PUN: SWING  KCK: HEAVY',150,23,'#8a7fa3',5); }
-  text(String(Math.round(G.score)).padStart(7,'0'),W/2,4,'#f4e7c8',7,'center'); text(LV.title,W/2,15,'#8a7fa3',5,'center',null);
-  if(LV.battery) text('WOKE UP '+String(G.woke).padStart(3,'0'),W/2+24,22,'#5ff0ff',5,'center',null);
+  text('x'+G.lives,30,23,'#f4e7c8',6); for(let i=0;i<G.tapes;i++){ R(52+i*10,23,8,5,'#111'); R(53+i*10,24,6,2,'#ff5fa8'); } { const sp=G.sp||0, sx0=52+G.tapes*10+4; R(sx0,23,40,5,'#111'); R(sx0+1,24,Math.round(38*sp/100),3,sp>=100?(frame%10<5?'#ffe066':'#ff5fa8'):'#5ff0ff'); if(sp>=100) text('SP',sx0+44,22,'#ffe066',6,'left',null); } drawShareBtn();
+  text('K7 '+COLL.size+'/'+TAPES.length,W-6,30,'#ffe066',6,'right',null); drawMamaHUD(); drawChain();
+  text('YALLA',52,30,'#ffe066',6,'left',null); for(let i=0;i<(G.calls||0);i++){ R(80+i*8,30,6,5,'#ffe066'); R(81+i*8,31,4,3,'#2a1640'); } if(G.calls>0&&(player.hp<35||levelT<600)&&frame%40<24) text('= CALL THE CREW (Y)',80+(G.calls)*8+4,30,'#ffe066',6,'left',null);
+  if(player.weapon){ text(WEAP[player.weapon].name+' x'+player.wuses,92,23,'#ffe066',6); if(!LV.battery) text(WEAP[player.weapon].throw?'PUN/KCK: THROW':'PUN: SWING  KCK: HEAVY',150,23,'#8a7fa3',6); }
+  text(String(Math.round(G.score)).padStart(7,'0'),W/2,4,'#f4e7c8',7,'center'); text(LV.title,W/2,15,'#8a7fa3',6,'center',null);
+  if(LV.battery) text('WOKE UP '+String(G.woke).padStart(3,'0'),W/2+24,22,'#5ff0ff',6,'center',null);
   // enemy
   const en = bossEnt&&!bossEnt.dead? bossEnt : (lastHitT>0&&lastHit&&!lastHit.dead?lastHit:null);
   if(en&&en.maxhp>2){ text(en.name,W-6,4,en===bossEnt?'#ff5fa8':'#f4e7c8',6,'right'); const eb=bossEnt===en?150:90; const ehp=clamp(en.hp/en.maxhp,0,1); R(W-6-eb-1,13,eb+2,7,'#000'); R(W-6-eb,14,eb*ehp,5,en===bossEnt?'#ff3d8b':'#ffa63a'); }
@@ -4295,7 +4295,7 @@ function stageDraw(noHud){
     if(o.kind==='cat'){ drawCat(o); continue; }
     if(o.kind==='prop') drawProp(o); else if(o.kind==='item') drawItem(o); else if(o.type==='camel') drawCamel(o); else if(o.type==='feed') drawFeed(o); else if(o.type==='duck') drawDuck(o);
     else if(o.kind==='friend'){ drawFighter(o,camX); text(o.f.name,Math.round(o.x-camX),Math.round(o.y-60),'#ffe066',5,'center'); }
-    else if(o.kind==='player'||o.kind==='enemy'){ if(o===player&&player.dead) continue; if(o.hide) continue; drawFighter(o,camX); if(o===player&&player.ride){ const bx=Math.round(o.x-camX)-15, by=Math.round(o.y-o.z)-82; R(bx,by,30,3,'#111'); R(bx,by,Math.round(30*player.rideT/600),3,'#5ff0ff'); } if(o.type==='zombie'&&o.state==='woke'&&o.t<40) text('!',Math.round(o.x-camX),Math.round(o.y-52),'#ffe066',8,'center'); }
+    else if(o.kind==='player'||o.kind==='enemy'){ if(o===player&&player.dead) continue; if(o.hide) continue; if(o===player&&LV&&(LV.club||['mahram','hell','boat','night'].includes(LV.id))){ ctx.save(); ctx.shadowColor='rgba(150,225,255,.9)'; ctx.shadowBlur=4; drawFighter(o,camX); ctx.restore(); } else drawFighter(o,camX); if(o===player&&player.ride){ const bx=Math.round(o.x-camX)-15, by=Math.round(o.y-o.z)-82; R(bx,by,30,3,'#111'); R(bx,by,Math.round(30*player.rideT/600),3,'#5ff0ff'); } if(o.type==='zombie'&&o.state==='woke'&&o.t<40) text('!',Math.round(o.x-camX),Math.round(o.y-52),'#ffe066',8,'center'); }
     else drawProj(o);
   }
   for(const f of fx) drawFx(f);
