@@ -2787,7 +2787,7 @@ const COVER_FY={'01_birth.jpg':0.0,'nightmare.jpg':0.35,'06_fake_streams.jpg':0.
 function drawCover(im,i,p,offX=0){ const iw=im.width,ih=im.height; const sc0=Math.max(W/iw,H/ih); const z=1.06+.14*p; const s2=sc0*z, w=iw*s2,h=ih*s2; const dir=i%2?1:-1;
   const fy=COVER_FY[((im.src||'').split('/').pop()||'').split('?')[0]]; const ox=(W-w)/2 + dir*(w-W)/2*(p*1.6-.8), oy=fy!=null?-(h-H)*fy:(H-h)/2 + ((i%3)-1)*(h-H)/2*(p-.5)*1.4; ctx.drawImage(im,ox+offX,oy,w,h); return [ox,oy,w,h]; }
 const ENT=new Set(); const once=(k,f)=>{ if(!ENT.has(k)){ ENT.add(k); f(); } };
-const REWIND=['intro/10_offline_pier','intro/09_rai_noir_prayer','intro/08_orbit','intro/07_poete_maudit','intro/06_fake_streams','intro/05_daba_ana_star','intro/04_tung_tung','intro/03_voodoo','intro/02_les_yeux','intro/01_json_motherboard','story/kitchen_tv'];
+const REWIND=['intro/10_offline_pier','intro/09_rai_noir_prayer','intro/08_orbit','intro/07_poete_maudit','intro/06_fake_streams','intro/05_daba_ana_star','intro/01_birth','story/kitchen_tv'];
 function drawOffline(t,dur){ // the phone on the pier: the clock ticks, the signal dies, the screen goes dark — then Oran
   ctx.fillStyle='#000'; ctx.fillRect(0,0,W,H);
   const im=IMG['intro/14_offline_phone']; const sig=Math.max(0,4-Math.floor(Math.max(0,t-120)/30)); const dead=t>250;
