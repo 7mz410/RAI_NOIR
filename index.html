@@ -1851,7 +1851,7 @@ function spawnEnemy(type){
   let shadow=false; if(type.startsWith('sh_')){ type=type.slice(3); shadow=true; }
   if(type==='dog'&&!(ATLAS&&ATLAS['e_dog_0'])) type='zombie'; // no dog sprite yet → zombie
   const T=ETYPES[type]; spawnEnemy.n=(spawnEnemy.n||0)+1; const side=spawnEnemy.n%2?1:-1;
-  let x= side<0? camX-24-rnd(0,40) : camX+W+24+rnd(0,40); let y= (spawnEnemy.n%3===0)? YMIN+6 : (spawnEnemy.n%3===1? YMAX-6 : (YMIN+YMAX)/2+rnd(-6,6));
+  let x= side<0? camX-24-rnd(0,40) : camX+W+24+rnd(0,40); let y= (spawnEnemy.n%3===0)? (LV.yMin||YMIN)+6 : (spawnEnemy.n%3===1? YMAX-6 : ((LV.yMin||YMIN)+YMAX)/2+rnd(-6,6));
   const ehp=Math.round(T.hp*(OPT.diff==='easy'&&type!=='zombie'?.7:OPT.diff==='hard'?1.35:1)*ramp()); const e={kind:'enemy',type,team:1,x,y,z:0,vx:0,vy:0,vz:0,dir:-side,hp:ehp,maxhp:ehp,state:'walk',t:0,anim:irnd(0,60),cool:irnd(40,90),sc:(T.sc||1)*K,name:T.name,inv:0,T};
   if(type==='zombie'){ e.look=ZLOOKS[irnd(0,ZLOOKS.length-1)]; e.state='zombie'; e.filmCD=irnd(140,300); e.hp=Math.random()<.4?4:3; e.maxhp=e.hp; }
   else if(type==='camel'){ e.vx=-side*T.spd; e.dir=-side; e.state='run'; e.y=player?clamp(player.y,YMIN+6,YMAX-6):e.y; }
@@ -2095,11 +2095,11 @@ const LEVELS=[
    waves:[],
    npcs:[['angel',230,180,'ANGEL.EXE','SALAM, WLIDI. WE KEPT HER WARM FOR YOU.'],['angel',520,176,'ANGEL.EXE','THE FEED WAS DRINKING FROM HER POWER. YOU UNPLUGGED IT.'],['angel',760,182,'ANGEL.EXE','NOW NOTHING FEEDS HER. GO. SHE IS WAITING AT THE END.'],['angel',1700,178,'ANGEL.EXE','WHATEVER YOU DO IN THERE... MAKTOUB.'],['mother',2080,172,'MOTHERBOARD','']],
    props:[['crate',400,206,'oranges'],['crate',1100,206,'k7tape'],['crate',1500,206,'tajine']]},
-  {id:'boat',title:'STAGE 5 · GHORBA',sub:'MARSEILLE → ORAN — TRACK: MAMA',music:'mama',len:1800,yMin:174,battery:false,dur:230,boat:1,
+  {id:'boat',title:'STAGE 5 · GHORBA',sub:'MARSEILLE → ORAN — TRACK: MAMA',music:'mama',len:1800,yMin:188,battery:false,dur:230,boat:1,
    waves:[{at:300,tAt:22,list:['goon','influencer','hustler']},{at:760,tAt:62,list:['punk','influencer','goon','punk']},{at:1250,tAt:104,list:['influencer','influencer','goon','hustler']},{at:1600,tAt:140,boss:1,list:['punk','goon','influencer','punk','goon']}],
    npcs:[['crew',160,170,'KHALIL',"THE FISHERMAN OWES MY UNCLE.",'khalil'],['crew',640,166,'BADER','ONE PHOTO, KHOYA. FOR US. NOT FOR THE FEED.','bader'],['crew',1120,168,'5AMASEEN','SMELL THAT? WIND FROM THE WEST. IT SMELLS LIKE HOME.','khamaseen'],['crew',1480,166,'ACID PONCH','I BROUGHT THE MPC. IF WE SINK, WE SINK ON THE BEAT.','ponch'],['crew',1700,170,'FATIH',"LAST VERSE IS FOR MAMA. NO MIC. JUST THE SEA.",'fatih']],
    props:[['crate',420,206,'karantika'],['barrel',700,172,'tray'],['crate',1000,206,'oranges'],['barrel',1380,206,'sardines'],['crate',1620,172,'k7tape'],['barrel',1560,206,'tajine'],['crate',1720,190,'hasni']]},
-  {id:'marseille',title:'STAGE 4 · ZIDANE',sub:'MARSEILLE — LE CLUB DÉCOLONIAL',music:'warda',len:2500,battery:false,dur:240,club:1,yMin:172,
+  {id:'marseille',title:'STAGE 4 · ZIDANE',sub:'MARSEILLE — LE CLUB DÉCOLONIAL',music:'warda',len:2500,battery:false,dur:240,club:1,yMin:184,
    waves:[{at:320,tAt:24,list:['dabke','ally','dabke']},{at:720,tAt:60,list:['checkbox','ally','dabke']},{at:1120,tAt:null,list:['soufi']},{at:1600,tAt:null,list:['nepo','checkbox','bro','dabke']},{at:2160,tAt:200,boss:1,list:['curator','nepo','ally']}],
    npcs:[['crew',110,174,'AICHA · YOUR LITTLE SISTER',"KHOYA! THEY PROMPTED YOU INTO MY CITY? STAY BEHIND ME.",'aicha'],['crew',200,170,'BADER','THEY ASKED ME TO SHOOT THE NIGHT. FOR FREE. "FOR THE PORTFOLIO."','bader'],['crew',960,166,'KHALIL',"THEY PRINTED MY GRANDFATHER'S SONG ON A TOTE BAG. 35 EUROS.",'khalil'],['crew',1780,168,'5AMASEEN','DABKE IS A WEDDING DANCE, HABIBI. NOT A TEAM-BUILDING.','khamaseen']],
    props:[['crate',520,206,'koshary'],['barrel',1300,206,'tray'],['crate',1840,206,'k7tape'],['barrel',2080,190,'karantika']]},
@@ -2306,7 +2306,7 @@ function dismount(p,hit){ const e=p.ride; if(!e) return; p.ride=null; p.pose=nul
 function rideUpdate(p){ const e=p.ride; if(!e||e.dead){ p.ride=null; p.pose=null; p.sc=p.sc0||K; p.air=true; p.state='jump'; return; }
   p.rideT--; p.t++; p.anim++; e.anim+=1.3;
   const mx=(held.right?1:0)-(held.left?1:0), my=(held.down?1:0)-(held.up?1:0);
-  if(mx) e.dir=mx; e.x+=e.dir*(mx?3.4:2.2); e.y=clamp(e.y+my*1.5,YMIN+2,YMAX-2);
+  if(mx) e.dir=mx; e.x+=e.dir*(mx?3.4:2.2); e.y=clamp(e.y+my*1.5,(LV.yMin||YMIN)+2,YMAX-2);
   const minX=camX+70, maxX=Math.min(camX+W-70,LV.len-70); e.x=clamp(e.x,minX,maxX);
   p.dir=e.dir; p.x=e.x-e.dir*14; p.y=e.y-0.5; p.z=40+(Math.floor(e.anim/7)%2); p.pose=p.state==='jab'?'jab':'jump';
   // trample everything in front of the camel
@@ -2412,7 +2412,7 @@ function enemyUpdate(e){
   // spread out: hang back sometimes
   if(e.hang>0){ e.hang--; e.state='idle'; return; }
   if(Math.random()<.004) { e.hang=irnd(30,70); }
-  if(Math.abs(dx)>1||Math.abs(dy)>1){ e.x+=clamp(dx,-T.spd,T.spd); e.y=clamp(e.y+clamp(dy,-T.spd*.6,T.spd*.6),YMIN,YMAX); e.state='walk'; } else e.state='idle';
+  if(Math.abs(dx)>1||Math.abs(dy)>1){ e.x+=clamp(dx,-T.spd,T.spd); e.y=clamp(e.y+clamp(dy,-T.spd*.6,T.spd*.6),LV.yMin||YMIN,YMAX); e.state='walk'; } else e.state='idle';
 }
 function zombieUpdate(e){
   if(e.state==='woke'){ if(e.t>50){ e.state='leave'; e.dir=e.x<camX+W/2?-1:1; } return; }
@@ -2420,7 +2420,7 @@ function zombieUpdate(e){
   if(e.state==='film'){ if(e.t===18){ sfx('flash'); fx.push({k:'camflash',x:e.x+e.dir*10,y:e.y-38,life:10}); if(Math.abs(player.x-e.x)<150&&Math.abs(player.y-e.y)<30&&player.inv<=0&&!player.air){ player.hp-=4; player.flashT=6; flashA=Math.max(flashA,.25); if(player.hp<=0){ player.hp=0; player.state='fall'; player.vz=2; player.air=true;} } } if(e.t>=34){ e.state='zombie'; e.filmCD=irnd(160,320);} return; }
   e.filmCD--; const p=player; e.dir=p.x>e.x?1:-1;
   if(e.filmCD<=0 && Math.abs(p.x-e.x)<170){ e.state='film'; e.t=0; return; }
-  const dx=p.x-e.dir*34-e.x, dy=p.y-e.y; e.x+=clamp(dx,-.35,.35); e.y=clamp(e.y+clamp(dy,-.25,.25),YMIN,YMAX); e.state='zombie';
+  const dx=p.x-e.dir*34-e.x, dy=p.y-e.y; e.x+=clamp(dx,-.35,.35); e.y=clamp(e.y+clamp(dy,-.25,.25),LV.yMin||YMIN,YMAX); e.state='zombie';
 }
 function camelUpdate(e){
   if(e.flashT>0) e.flashT--;
@@ -2428,7 +2428,7 @@ function camelUpdate(e){
   if(e.leaving){ e.x+=e.vx; e.anim++; if(e.x<camX-90||e.x>camX+W+90) e.dead=true; return; }
   if(!G.camelHint&&e.x>camX+20&&e.x<camX+W-20){ G.camelHint=1; msg={t:200,big:'',small:'JUMP ON A CYBER CAMEL TO RIDE IT!',top:1}; }
   e.x+=e.vx; e.anim++;
-  if((e.vx<0&&e.x<camX-70)||(e.vx>0&&e.x>camX+W+70)){ e.vx*=-1; e.dir=sgn(e.vx); e.y=clamp(player.y+rnd(-8,8),YMIN+4,YMAX-4); }
+  if((e.vx<0&&e.x<camX-70)||(e.vx>0&&e.x>camX+W+70)){ e.vx*=-1; e.dir=sgn(e.vx); e.y=clamp(player.y+rnd(-8,8),(LV.yMin||YMIN)+4,YMAX-4); }
   e.dir=sgn(e.vx);
   const p=player; if(Math.abs(p.x-e.x)<18&&Math.abs(p.y-e.y)<9&&p.z<12&&p.inv<=0&&!['down','fall'].includes(p.state)) hurt(p,12,true,{dir:e.dir,x:e.x});
   if(Math.random()<.02) sfx('blip');
@@ -2448,7 +2448,7 @@ function feedUpdate(e){
   if(Math.abs(p.x-e.x)<40&&Math.abs(p.y-e.y)<30&&p.z<20&&p.inv<=0&&frame%50===0) hurt(p,10,true,e);
 }
 function cityGoesOnline(){
-  for(let i=0;i<10;i++){ const z={kind:'enemy',type:'zombie',team:2,x:camX+rnd(10,W-10),y:rnd(YMIN+4,YMAX-4),z:0,dir:Math.random()<.5?1:-1,hp:1,maxhp:1,state:'zombie',t:0,anim:irnd(0,60),sc:K,name:'',inv:0,T:ETYPES.zombie,look:ZLOOKS[i%ZLOOKS.length],filmCD:9999,npc:1,delay:60+i*12};
+  for(let i=0;i<10;i++){ const z={kind:'enemy',type:'zombie',team:2,x:camX+rnd(10,W-10),y:rnd((LV.yMin||YMIN)+4,YMAX-4),z:0,dir:Math.random()<.5?1:-1,hp:1,maxhp:1,state:'zombie',t:0,anim:irnd(0,60),sc:K,name:'',inv:0,T:ETYPES.zombie,look:ZLOOKS[i%ZLOOKS.length],filmCD:9999,npc:1,delay:60+i*12};
     ents.push(z); }
 }
 /* ---------------- YALLA SOUNDSYSTEM: friends of Cheb, called in hard battles (limited) ---------------- */
@@ -4256,7 +4256,7 @@ function soufiUpdate(e){ const p=player, c=e.cat; if(!p||p.dead){ e.state='idle'
   if(c){ if(c.glass&&p.z<30&&PLAYER_ATK.has(p.state)&&Math.abs(p.x-c.x)<34&&p.y<YMIN+18){ c.glass=0; c.tipT=0; sfx('break'); floatText(c.x,YMIN-40,'JEAN-PASCAL!!','#ff9adf'); e.spin=0; e.dizzy=280; e.pose='dizzy'; }
     if(!c.glass&&++c.tipT>760){ c.glass=1; floatText(c.x,YMIN-36,'*REFILL · EAU*','#5ff0ff'); } }
   if(e.dizzy>0){ e.dizzy--; e.state='idle'; e.pose='dizzy'; if(e.dizzy%20===0) fx.push({k:'note',x:e.x+rnd(-8,8),y:e.y,z:62,life:30}); if(e.dizzy===0){ e.spin=260; e.pose=null; bossSay(e,['JE TOURNE POUR LA PAIX',"SUIVER MA PAGE RUMI SUR FACEBOOK","MY CAT JEAN PASCAL NEEDS WATER... FROM A WINE GLASS ONLY"][irnd(0,2)]); } return; }
-  if(e.spin>0){ e.spin--; e.state='walk'; e.pose='spin'; e.anim+=2; const dx=p.x-e.x, dy=p.y-e.y; e.x+=clamp(dx,-1.25,1.25); e.y=clamp(e.y+clamp(dy,-.7,.7),YMIN,YMAX);
+  if(e.spin>0){ e.spin--; e.state='walk'; e.pose='spin'; e.anim+=2; const dx=p.x-e.x, dy=p.y-e.y; e.x+=clamp(dx,-1.25,1.25); e.y=clamp(e.y+clamp(dy,-.7,.7),LV.yMin||YMIN,YMAX);
     if(Math.abs(dx)<20&&Math.abs(dy)<10&&p.z<12&&p.inv<=0&&!['down','fall'].includes(p.state)&&e.spin%12===0){ hurt(p,7,true,e); }
     if(e.spin===0){ e.dizzy=150; bossSay(e,"J'AI LE VERTIGE... MAIS C'EST SPIRITUEL"); } return; }
   e.spin=240; }
