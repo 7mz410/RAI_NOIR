@@ -70,7 +70,7 @@ RAÏ NOIR is a single-file browser arcade game (a side-scrolling beat 'em up) th
 - Every stage clear builds a 9:16 share poster. A hit-chain counter shows hype words at 5–80 hits.
 
 ## 9. Status (2026-11-10)
-- PR #10 merged: whole songs, Zizou loops, finale music flow, new covers/title/story art. Smoke 104/104 on the merged branch; all `assets/` refs exist. A clean-slate rebuild (Lennart, `fable/`, Oct 22–23) exists; not confirmed on main.
+- PR #10 merged: whole songs, Zizou loops, finale music flow, new covers/title/story art. Smoke 104/104 on the merged branch; all `assets/` refs exist. Lennart's clean-slate rebuild (`fable/`, Oct 22–23) lives only on branch `rebuild/fable`, not on main. `bloopers` is already handled (tape set to 'none', skipped to gift).
 
 ### Older status (2026-10-21)
 - Playable end to end: 8 levels, server farm, boat shooter, menus, cassettes, cheats and credits, in 3 languages. `main` has PR #5 (Streamline) merged; issue #4 settled by it.
@@ -152,3 +152,4 @@ RAÏ NOIR is a single-file browser arcade game (a side-scrolling beat 'em up) th
 - First screen of Oran is pure brawling: enemy one-liners start at screen two and come less often. Marseille joke pools thinned (ally, tote: 5 lines each; no pronoun/safe-space jokes). Aicha is labelled "YOUR LITTLE SISTER".
 - Oct 23: songs play whole. No outro seek on stage clear, no "pull up" skips; a song that runs out during play starts again from the top (Oran: Zizou loops, Offline is gone). Finale: the dream's trap song (helm7ram) carries into HELL.EXE, Poète maudit takes over at the third wave, the SHAYTAN turn sits on Poète's real drop (1:23 into the track), then Adieu (piano) for Jannah, the ending film and the credits. Oran: the crowd loves him first (selfies, camera flashes); the A.I. allegations come in the last two waves.
 - 11-10: reviewed Lennart's work since Oct 22; smoke 104/104; PR #10 merged to main.
+- 11-10 (2): ran the game headless on main: title, stage1, stage2 render, no console errors, no failed requests. Still needs real-phone playtest.
