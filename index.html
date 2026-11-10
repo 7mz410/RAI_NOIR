@@ -174,7 +174,7 @@ function registerClear(){ if(G&&G.clearedRun) return; if(G) G.clearedRun=1; CLEA
 const GIFT_URL='https://sawna.bandcamp.com';
 
 /* ---------------- assets (optional images) ---------------- */
-const IMG={}; const AV='15.9g';
+const IMG={}; const AV='16.0a';
 // images first: music and video wait for them, otherwise on a slow connection the sprites show up last
 let imgsReady; const IMGS_READY=new Promise(r=>imgsReady=r);
 function loadImg(key,src){return new Promise(r=>{const i=new Image();i.onload=()=>{IMG[key]=i;r(i)};i.onerror=()=>r(null);i.src=src+'?v='+AV;});}
@@ -188,7 +188,7 @@ HF_ART['story/spider_vendor']='hf_20261018_171602_13efc660-c26c-474a-a547-fa9b66
 HF_ART['shots/00_title_v2']='https://d2ol7oe51mr4n9.cloudfront.net/user_3KJVMTVL7n80h8UThtXGEHD8BGV/99714105-106a-428a-a9b8-81af77fd587f.jpg'; // new title / album art (Oct 18)
 // Oct 18 key art (acts, stage cards)
 HF_ART['story/plugin_mama']='hf_20261018_124731_22d28c2c-f1bf-452c-994c-ddf1db277faf'; HF_ART['story/cairo_zombies']='hf_20261018_124732_abcd24f7-8d24-4af8-9258-075d982c08a4'; HF_ART['story/jannah_arch']='hf_20261018_125024_3182fb9d-9cbc-4a57-bd7f-06fcc6b47f2b'; HF_ART['story/jannah_reach']='hf_20261018_124730_c5331bf1-e743-4ee7-b157-813f237c45c9'; HF_ART['story/hshouma']='hf_20261018_124732_3020d202-0ccb-496e-b883-779e3f028220'; HF_ART['story/decolonial_queue']='hf_20261018_125024_8dbf63e1-4be7-47d6-bda1-744547e2d567'; HF_ART['story/marseille_act3']='hf_20261018_124730_13d8df51-f8ec-4436-bfe9-75290d5148ec'; HF_ART['covers/ghorba']='hf_20261018_124731_b238ccb6-c3ac-4f43-b494-3c8009e8541a'; HF_ART['covers/7elm7ram']='hf_20261018_124730_c0db1c37-cb37-4b9e-8b0f-dd13320b69cd'; 
-const IMGALT={'story/plugin_mama':'story/kitchen_tv','story/cairo_zombies':'mumya/06_cairo','story/jannah_arch':'adieu/p01_gates','story/jannah_reach':'intro/01_json_motherboard','story/hshouma':'story/nightmare','story/decolonial_queue':'story/marseille_door','story/marseille_act3':'story/marseille_door','covers/ghorba':'covers/benghazi','covers/7elm7ram':'covers/sea'}; const IM=k=>IMG[k]||IMG[IMGALT[k]]; // today's Higgsfield key art; old art stands in until assets/ has the files
+const IMGALT={'story/plugin_mama':'story/kitchen_tv','story/cairo_zombies':'mumya/06_cairo','story/jannah_arch':'adieu/p01_gates','story/jannah_reach':'intro/01_json_motherboard','story/hshouma':'story/nightmare','story/decolonial_queue':'story/marseille_door','story/marseille_act3':'story/marseille_door'}; const IM=k=>IMG[k]||IMG[IMGALT[k]]; // today's Higgsfield key art; old art stands in until assets/ has the files
 for(const k in HF_ART){ loadImg(k,'assets/'+k+(k==='shots/00_title_v2'?'.jpg':'.webp')).then(i=>{ if(i) return; const im=new Image(); im.onload=()=>{ IMG[k]=im; }; im.src=/^https?:/.test(HF_ART[k])?HF_ART[k]:HF_CDN+HF_ART[k]+'_min.webp'; }); }
 const ASSET_LIST={
   'ui/title':'assets/ui/title.jpg','ui/select':'assets/ui/select.jpg',
@@ -2104,7 +2104,7 @@ const LEVELS=[
    npcs:[['crew',160,170,'KHALIL',"THE FISHERMAN OWES MY UNCLE.",'khalil'],['crew',640,166,'BADER','ONE PHOTO, KHOYA. FOR US. NOT FOR THE FEED.','bader'],['crew',1120,168,'5AMASEEN','SMELL THAT? WIND FROM THE WEST. IT SMELLS LIKE HOME.','khamaseen'],['crew',1480,166,'ACID PONCH','I BROUGHT THE MPC. IF WE SINK, WE SINK ON THE BEAT.','ponch'],['crew',1700,170,'FATIH',"LAST VERSE IS FOR MAMA. NO MIC. JUST THE SEA.",'fatih']],
    props:[['crate',420,206,'karantika'],['barrel',700,172,'tray'],['crate',1000,206,'oranges'],['barrel',1380,206,'sardines'],['crate',1620,172,'k7tape'],['barrel',1560,206,'tajine'],['crate',1720,190,'hasni']]},
   {id:'marseille',title:'STAGE 4 · ZIDANE',sub:'MARSEILLE — LE CLUB DÉCOLONIAL',music:'warda',len:2500,battery:false,dur:240,club:1,yMin:184,
-   waves:[{at:320,tAt:24,list:['dabke','ally','dabke']},{at:720,tAt:60,list:['checkbox','ally','dabke']},{at:1120,tAt:null,list:['soufi']},{at:1600,tAt:null,list:['booker','nepo','checkbox','bro','dabke']},{at:2160,tAt:200,boss:1,list:['curator','nepo','ally']}],
+   waves:[{at:300,tAt:null,list:[]},{at:720,tAt:60,list:['checkbox','ally','dabke']},{at:1120,tAt:null,list:['soufi']},{at:1600,tAt:null,list:['booker','nepo','checkbox','bro','dabke']},{at:2160,tAt:200,boss:1,list:['curator','nepo','ally']}],
    npcs:[['crew',110,174,'AICHA · YOUR LITTLE SISTER',"KHOYA! THEY PROMPTED YOU INTO MY CITY? STAY BEHIND ME.",'aicha'],['crew',200,170,'BADER','THEY ASKED ME TO SHOOT THE NIGHT. FOR FREE. "FOR THE PORTFOLIO."','bader'],['crew',960,166,'KHALIL',"THEY PRINTED MY GRANDFATHER'S SONG ON A TOTE BAG. 35 EUROS.",'khalil'],['crew',1780,168,'5AMASEEN','DABKE IS A WEDDING DANCE, HABIBI. NOT A TEAM-BUILDING.','khamaseen']],
    props:[['crate',520,206,'koshary'],['barrel',1300,206,'tray'],['crate',1840,206,'k7tape'],['barrel',2080,190,'karantika']]},
   {id:'hell',title:'STAGE 6 · FINALE',sub:"HELL.EXE — ALDI'S DATACENTRE",part:1,music:'helm7ram',len:2600,battery:false,dur:240,hell:1,yMin:172,
@@ -2143,6 +2143,7 @@ function startLevel(i){ saveProgress(i); try{ if(G){ if(G.mainCi==null) G.mainCi
   for(const [k,x,y,it] of LV.props){ ents.push({kind:'prop',prop:k,team:1,x,y:Math.max(y,YMAX-26),z:0,hp:1,item:it,dir:1,state:'idle',t:0,sc:1}); }
   { const props=ents.filter(e=>e.kind==='prop'); const mine=TAPES.filter(t=>t.lv===LV.id&&!COLL.has(t.id)&&tapeOpen(t)); if(props.length&&mine.length){ const sorted=[...props].sort((a,b)=>a.x-b.x); mine.forEach((t,k)=>{ const pr=t.rare?sorted[Math.max(0,sorted.length-2)]:sorted[Math.floor((k+1)*sorted.length/(mine.length+1))]; if(pr&&!pr.tape) pr.tape=t.id; }); } }
   if(LV.drive){ ents.push({kind:'car',team:-1,x:150,y:206,z:0,dir:1,state:'idle',t:0,sc:1,hp:1}); }
+  if(LV.id==='marseille'){ [['dabke',364,184],['ally',398,198],['dabke',432,188],['checkbox',466,200],['dabke',500,186]].forEach(([ty,x,y])=>{ const q=spawnEnemy(ty); q.x=x; q.y=y; q.dir=-1; q.state='idle'; q.queue=1; q.age=0; }); }
   if(LV.npcs){ for(const [k,x,y,nm,line,cid] of LV.npcs){ ents.push({kind:'npc',npc:k,cid,team:-1,x,y,z:0,dir:-1,state:'idle',t:0,anim:0,sc:1,hp:1,name:nm,line,said:0,talkT:0,frame:0}); } }
   chamber=null; chat=null; nmT=0; if(LV.amor) G.amor=null; petals=[]; if(LV.jannah){ for(let k=0;k<26;k++) petals.push({x:rnd(0,W),y:rnd(0,H),vx:rnd(-.3,.1),vy:rnd(.2,.5),c:k%3?'#ffd9e6':'#fff6d8',s:k%4?2:3}); }
   levelT=0; assist=null; if(G.mama==null) G.mama=100; G.mama=Math.min(G.mama,MAMA_AT[i]??100); mamaFx=0; demoCallT=0; if(i===0) G.demoCall=1; if(i>=1) G.calls=Math.min(3,(G.calls||0)+1); playMusic(LV.music,{loop:!!LV.jannah,restart:curMusic!==LV.music,fade:(LV.hell&&curMusic==='helm7ram')?260:120}); msg={t:170,big:LV.title,small:LV.sub,stage:1};
@@ -2370,6 +2371,9 @@ function enemyUpdate(e){
   if(e.inv>0) e.inv--; if(e.flashT>0) e.flashT--;
   e.t++; e.anim++;
   const p=player; const T=e.T;
+  if(e.queue){ // Marseille: the queue at Le Décolonial IS the first fight
+    if(Math.abs(p.x-e.x)<90||e.hp<e.maxhp||['hurt','fall','down','grabbed'].includes(e.state)){ for(const q of ents) if(q.queue){ q.queue=0; q.cool=irnd(10,40); } floatText(e.x,e.y-86,['HEY! NO CUTTING THE LINE, HABIBI!','WE WAITED 2 HOURS FOR THIS!','ARE YOU ON THE LIST?'][irnd(0,2)],'#ff9ad0'); sfx('boss'); }
+    else { e.state='idle'; e.dir=-1; return; } }
   if(e.type==='aldiboss'&&curMusic==='poete'&&(DECK[deckI]?DECK[deckI].currentTime:0)>=POETE_DROP&&e.age>240&&!['fall','down','dead','grabbed'].includes(e.state)){ shaytanReveal(e); return; }
   if(e.type==='shaytan') hellfire(e);
   if(T.gunner&&agentUpdate(e)) return;
