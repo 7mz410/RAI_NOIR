@@ -1765,7 +1765,7 @@ function buildFromImages(len,segs){ // segs:[{img,to}] — plays the panels in o
     if(x>0&&SG[k%SG.length].door){ const c0=x-XF/2, D=70; const g=m.createLinearGradient(c0-D,0,c0+D,0); g.addColorStop(0,'rgba(4,2,10,0)'); g.addColorStop(.42,'rgba(4,2,10,.96)'); g.addColorStop(.58,'rgba(4,2,10,.96)'); g.addColorStop(1,'rgba(4,2,10,0)'); m.fillStyle=g; m.fillRect(c0-D,0,2*D,224); m.fillStyle='rgba(255,224,102,.10)'; m.fillRect(Math.round(c0)-1,40,2,150); }
     x+=w-(x===0?0:XF); k++; ends.push(Math.min(x,len)); }
   // hide every open seam behind a silhouette prop (palm, lamp post, column, server rack) like classic beat 'em ups do
-  for(const c0 of seams) seamProp(m,Math.round(c0),(typeof LV!=='undefined'&&LV&&LV.id)||'');
+  if(!(typeof LV!=='undefined'&&LV&&LV.id==='boat')) for(const c0 of seams) seamProp(m,Math.round(c0),(typeof LV!=='undefined'&&LV&&LV.id)||'');
   return {far:null,mid,farRate:0,ends};
 }
 
@@ -2095,7 +2095,7 @@ const LEVELS=[
    waves:[],
    npcs:[['angel',230,180,'ANGEL.EXE','SALAM, WLIDI. WE KEPT HER WARM FOR YOU.'],['angel',520,176,'ANGEL.EXE','THE FEED WAS DRINKING FROM HER POWER. YOU UNPLUGGED IT.'],['angel',760,182,'ANGEL.EXE','NOW NOTHING FEEDS HER. GO. SHE IS WAITING AT THE END.'],['angel',1700,178,'ANGEL.EXE','WHATEVER YOU DO IN THERE... MAKTOUB.'],['mother',2080,172,'MOTHERBOARD','']],
    props:[['crate',400,206,'oranges'],['crate',1100,206,'k7tape'],['crate',1500,206,'tajine']]},
-  {id:'boat',title:'STAGE 5 · GHORBA',sub:'MARSEILLE → ORAN — TRACK: MAMA',music:'mama',len:1800,battery:false,dur:230,boat:1,
+  {id:'boat',title:'STAGE 5 · GHORBA',sub:'MARSEILLE → ORAN — TRACK: MAMA',music:'mama',len:1800,yMin:174,battery:false,dur:230,boat:1,
    waves:[{at:300,tAt:22,list:['goon','influencer','hustler']},{at:760,tAt:62,list:['punk','influencer','goon','punk']},{at:1250,tAt:104,list:['influencer','influencer','goon','hustler']},{at:1600,tAt:140,boss:1,list:['punk','goon','influencer','punk','goon']}],
    npcs:[['crew',160,170,'KHALIL',"THE FISHERMAN OWES MY UNCLE.",'khalil'],['crew',640,166,'BADER','ONE PHOTO, KHOYA. FOR US. NOT FOR THE FEED.','bader'],['crew',1120,168,'5AMASEEN','SMELL THAT? WIND FROM THE WEST. IT SMELLS LIKE HOME.','khamaseen'],['crew',1480,166,'ACID PONCH','I BROUGHT THE MPC. IF WE SINK, WE SINK ON THE BEAT.','ponch'],['crew',1700,170,'FATIH',"LAST VERSE IS FOR MAMA. NO MIC. JUST THE SEA.",'fatih']],
    props:[['crate',420,206,'karantika'],['barrel',700,172,'tray'],['crate',1000,206,'oranges'],['barrel',1380,206,'sardines'],['crate',1620,172,'k7tape'],['barrel',1560,206,'tajine'],['crate',1720,190,'hasni']]},
