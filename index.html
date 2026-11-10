@@ -2416,7 +2416,9 @@ function enemyUpdate(e){
   // spread out: hang back sometimes
   if(e.hang>0){ e.hang--; e.state='idle'; return; }
   if(Math.random()<.004) { e.hang=irnd(30,70); }
-  if(Math.abs(dx)>1||Math.abs(dy)>1){ e.x+=clamp(dx,-T.spd,T.spd); e.y=clamp(e.y+clamp(dy,-T.spd*.6,T.spd*.6),LV.yMin||YMIN,YMAX); e.state='walk'; } else e.state='idle';
+  if(Math.abs(dx)>1||Math.abs(dy)>1){ e.x+=clamp(dx,-T.spd,T.spd); e.y=clamp(e.y+clamp(dy,-T.spd*.6,T.spd*.6),LV.yMin||YMIN,YMAX); e.state='walk';
+    /* no moonwalking: stepping back near the player = shuffle in guard (idle pose); repositioning further away = turn and walk */
+    const mv=Math.abs(dx)>.5?Math.sign(dx):0; if(mv&&mv!==e.dir){ if(Math.abs(p.x-e.x)<70){ e.state='idle'; e.x-=clamp(dx,-T.spd,T.spd)*.45; } else e.dir=mv; } } else e.state='idle';
 }
 function zombieUpdate(e){
   if(e.state==='woke'){ if(e.t>50){ e.state='leave'; e.dir=e.x<camX+W/2?-1:1; } return; }
@@ -2564,7 +2566,7 @@ function amorClock(){ const a=DECK[deckI]; if(curMusic!=='amorharam'||!a||!a.dur
 /* ---------------- NEO MODE: Aldi's agents shoot. Jump right before a bullet hits = bullet time ---------------- */
 function agentUpdate(e){ if(!['walk','idle'].includes(e.state)||!player||player.dead) return false; const p=player;
   const dx=p.x-e.x, want=(e.age||0)>420?sgn(dx)*-24:sgn(dx)*-130; /* after ~7 s they stop kiting and come close */ e.dir=dx<0?-1:1; e.gunT=(e.gunT==null?irnd(60,120):e.gunT)-1;
-  const tx=clamp(p.x+want,camX+20,camX+W-20); e.x+=clamp(tx-e.x,-e.T.spd,e.T.spd); e.y+=clamp(p.y-e.y,-.5,.5); e.state='walk'; e.anim++;
+  const tx=clamp(p.x+want,camX+20,camX+W-20); const gmv=clamp(tx-e.x,-e.T.spd,e.T.spd); e.x+=gmv; e.y+=clamp(p.y-e.y,-.5,.5); e.state=(Math.abs(gmv)>.3&&Math.sign(gmv)!==e.dir)?'idle':'walk'; e.anim++;
   if(e.gunT<=0&&Math.abs(p.y-e.y)<8&&Math.abs(dx)<230){ e.gunT=irnd(120,180); projs.push({kind:'bullet',x:e.x+e.dir*16,y:e.y,z:40,vx:e.dir*3.4,team:1,life:160,dmg:9}); sfx('zap'); spark(e.x+e.dir*16,e.y-40);
     if(!G.neoTip){ G.neoTip=1; msg={t:200,big:'',small:'BULLETS! JUMP JUST BEFORE ONE HITS YOU = BULLET TIME',top:1}; } }
   return true; }
