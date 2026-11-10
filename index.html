@@ -174,7 +174,7 @@ function registerClear(){ if(G&&G.clearedRun) return; if(G) G.clearedRun=1; CLEA
 const GIFT_URL='https://sawna.bandcamp.com';
 
 /* ---------------- assets (optional images) ---------------- */
-const IMG={}; const AV='17.0a';
+const IMG={}; const AV='17.1a';
 // images first: music and video wait for them, otherwise on a slow connection the sprites show up last
 let imgsReady; const IMGS_READY=new Promise(r=>imgsReady=r);
 function loadImg(key,src){return new Promise(r=>{const i=new Image();i.onload=()=>{IMG[key]=i;r(i)};i.onerror=()=>r(null);i.src=src+'?v='+AV;});}
@@ -185,18 +185,18 @@ HF_ART['story/haggle']='hf_20261018_180856_3d8b1c71-9d68-4ad0-9558-06a6bbb67091'
 loadImg('story/gawdat','assets/story/gawdat.webp'); loadImg('story/vv_cover','assets/story/vv_cover.jpg'); loadImg('story/vv_bin_photo','assets/story/vv_bin_photo.jpg'); loadImg('story/retro_stall','assets/story/retro_stall.webp'); loadImg('story/booker_mural','assets/story/booker_mural.jpg'); loadImg('story/yss_flyer','assets/story/yss_flyer.jpg'); loadImg('story/yalla_decks','assets/story/yalla_decks.jpg'); loadImg('story/gawdat_cafe','assets/story/gawdat_cafe.jpg'); loadImg('ui/logo_v3','assets/ui/logo_v3.png'); loadImg('ui/logo_main','assets/ui/logo_main.png'); loadImg('chars/gawdat_idle','assets/chars/gawdat_idle.png'); loadImg('ui/title_heroes','assets/ui/title_heroes.jpg'); loadImg('chars/retro_74','assets/chars/retro_74.png'); loadImg('art/mural_7mz','assets/art/mural_7mz.png'); loadImg('chars/booker_44','assets/chars/booker/booker_44.png'); loadImg('chars/booker_88','assets/chars/booker/booker_88.png'); // el.7mz — 'Rooted in Resilience' (Hamza's own file, placeholder until then)
 HF_ART['story/vv_bin']='hf_20261018_164318_48cff445-1d35-4ad7-84e6-d2646fa4dda1'; // Vocoder Versace in Retro's -90% bin
 HF_ART['story/spider_vendor']='hf_20261018_171602_13efc660-c26c-474a-a547-fa9b66722efb'; // TIRIRIRI skit before El M3alim
-HF_ART['shots/00_title_v2']='https://d2ol7oe51mr4n9.cloudfront.net/user_3KJVMTVL7n80h8UThtXGEHD8BGV/99714105-106a-428a-a9b8-81af77fd587f.jpg'; // new title / album art (Oct 18)
+
 // Oct 18 key art (acts, stage cards)
 HF_ART['story/plugin_mama']='hf_20261018_124731_22d28c2c-f1bf-452c-994c-ddf1db277faf'; HF_ART['story/cairo_zombies']='hf_20261018_124732_abcd24f7-8d24-4af8-9258-075d982c08a4'; HF_ART['story/jannah_arch']='hf_20261018_125024_3182fb9d-9cbc-4a57-bd7f-06fcc6b47f2b'; HF_ART['story/jannah_reach']='hf_20261018_124730_c5331bf1-e743-4ee7-b157-813f237c45c9'; HF_ART['story/hshouma']='hf_20261018_124732_3020d202-0ccb-496e-b883-779e3f028220'; HF_ART['story/decolonial_queue']='hf_20261018_125024_8dbf63e1-4be7-47d6-bda1-744547e2d567'; HF_ART['story/marseille_act3']='hf_20261018_124730_13d8df51-f8ec-4436-bfe9-75290d5148ec'; HF_ART['covers/ghorba']='hf_20261018_124731_b238ccb6-c3ac-4f43-b494-3c8009e8541a'; HF_ART['covers/7elm7ram']='hf_20261018_124730_c0db1c37-cb37-4b9e-8b0f-dd13320b69cd'; 
 const IMGALT={'story/plugin_mama':'story/kitchen_tv','story/cairo_zombies':'mumya/06_cairo','story/jannah_arch':'adieu/p01_gates','story/jannah_reach':'intro/01_json_motherboard','story/hshouma':'story/nightmare','story/decolonial_queue':'story/marseille_door','story/marseille_act3':'story/marseille_door'}; const IM=k=>IMG[k]||IMG[IMGALT[k]]; // today's Higgsfield key art; old art stands in until assets/ has the files
 for(const k in HF_ART){ loadImg(k,'assets/'+k+(k==='shots/00_title_v2'?'.jpg':'.webp')).then(i=>{ if(i) return; const im=new Image(); im.onload=()=>{ IMG[k]=im; }; im.src=/^https?:/.test(HF_ART[k])?HF_ART[k]:HF_CDN+HF_ART[k]+'_min.webp'; }); }
 const ASSET_LIST={
-  'ui/title':'assets/ui/title.jpg','ui/select':'assets/ui/select.jpg',
+  'ui/select':'assets/ui/select.jpg',
   'bg/oran_corniche':'assets/bg/oran_corniche.jpg','bg/oran_souk':'assets/bg/oran_souk.jpg',
   'bg/cairo_street':'assets/bg/cairo_street.jpg','bg/cairo_rave_nile':'assets/bg/cairo_rave_nile.jpg',
 };
 ['00_life_flashes','01_birth','01_json_motherboard','02_les_yeux','03_voodoo','04_tung_tung','05_daba_ana_star','06_fake_streams','07_poete_maudit','08_orbit','09_rai_noir_prayer','10_offline_pier','11_prompt_cloud','12_message','13_en_ligne','20_sawna_rec_k7'].forEach(n=>ASSET_LIST['intro/'+n]='assets/intro/'+n+'.jpg');
-['00_title_trio','00_title_rai_riot','00_title_rai_noir','L1_01_corniche_drive','L1_05_sawna_rec_inside','L2_00_title_zomby','L2_05_boss_the_feed','L1_02_oran_street_k7','L2_04_robot_camels'].forEach(n=>ASSET_LIST['shots/'+n]='assets/shots/'+n+'.jpg');
+['L1_01_corniche_drive','L1_05_sawna_rec_inside','L2_00_title_zomby','L2_05_boss_the_feed','L1_02_oran_street_k7','L2_04_robot_camels'].forEach(n=>ASSET_LIST['shots/'+n]='assets/shots/'+n+'.jpg');
 ['cheb','aicha','k7','bader','ponch','khamaseen','khalil','fatih'].forEach(n=>ASSET_LIST['portraits/'+n]='assets/portraits/'+n+'.jpg');
 ['01_title','02_mummy','03_star','04_costar','05_villain','06_cairo','07_tomb'].forEach(n=>ASSET_LIST['mumya/'+n]='assets/mumya/'+n+'.jpg');
 ['p01_gates','p02_hand','p03_face','p04_alone','p05_eyes','p06_aldi'].forEach(n=>ASSET_LIST['adieu/'+n]='assets/adieu/'+n+'.jpg');
@@ -2989,8 +2989,9 @@ function cineScene(list,musicName,next){
       if(it.num){ const x=-120+136*ease((t-4)/16); ctx.save(); ctx.font='58px Bungee, '+FONT; ctx.textBaseline='alphabetic'; ctx.lineWidth=2; ctx.strokeStyle='#ff3d8b'; ctx.globalAlpha=.9; ctx.strokeText(it.num,x,150); ctx.restore(); }
       // title slides in from right
       if(it.title){ const T=tr(it.title), ar=AR_RX.test(T); const k=ease((t-10)/14); const x=W+40-(W+40-18)*k; ctx.save(); ctx.font=ar?('26px '+AR):('24px Bungee, '+FONT); ctx.textBaseline='alphabetic'; ctx.textAlign='left';
-        ctx.globalAlpha=.35; ctx.fillStyle='#5ff0ff'; ctx.fillText(T,x+8*(1-k)+3,180); ctx.globalAlpha=1;
-        ctx.fillStyle='#ff3d8b'; ctx.fillText(T,x+2,182); ctx.fillStyle='#fff'; ctx.fillText(T,x,180); ctx.restore();
+        const nA=it.line?Math.min(4,wrapText(it.line,W-36,7).length):0, TY=Math.min(180,197-Math.max(0,nA-2)*10-12);
+        ctx.globalAlpha=.35; ctx.fillStyle='#5ff0ff'; ctx.fillText(T,x+8*(1-k)+3,TY); ctx.globalAlpha=1;
+        ctx.fillStyle='#ff3d8b'; ctx.fillText(T,x+2,TY+2); ctx.fillStyle='#fff'; ctx.fillText(T,x,TY); ctx.restore();
         if(!it.calli&&AR_T[it.title]) calliText(AR_T[it.title],W/2,54,22,ease((t-16)/22)); }
       if(it.feat){ ctx.globalAlpha=ease((t-24)/14); text(it.feat,18,186,'#5ff0ff',6); ctx.globalAlpha=1; }
       if(it.line){ const n=Math.floor(Math.max(0,t-30)*1.6); const nAll=Math.min(4,wrapText(it.line,W-36,7).length); const ly=(it.title?197:178)-Math.max(0,nAll-2)*10; R(10,ly-4,W-20,nAll*10+7,'rgba(4,0,10,.62)'); if(n>=it.line.length&&frame%40<26) text('▶',W-16,ly+nAll*10-6,'#5ff0ff',6,'right',null); const lines=wrapText(tw(it.line,n),W-36,7); lines.slice(0,4).forEach((l,k)=>AR_RX.test(l)?text(l,W-18,ly+k*11,'#ffe066',7,'right'):text(l,18,ly+k*10,'#ffe066',7));
@@ -3070,8 +3071,8 @@ SC.title={ t:0, ci:0, mi:0, menu:false, kc:[], enter(){ this.t=0; this.menu=!!th
     if(pressed.right){ this.ci=(this.ci+1)%n; sfx('blip'); this.t=1; }
     if(pressed.up||pressed.down){ setLang(LANG==='en'?'fr':LANG==='fr'?'ar':'en'); sfx('blip'); this.t=1; }
     if(this.t>60*40){ go(SC.intro); } },
-  draw(){ const im=IMG['ui/title_heroes']||IMG['shots/00_title_v2']||IMG['shots/00_title_trio']||IMG['shots/00_title_rai_noir']||IMG['shots/00_title_rai_riot']||IMG['ui/title'];
-    if(im){ ctx.imageSmoothingEnabled=true; if(im===IMG['ui/title_heroes']){ const k=Math.max(W/im.width,H/im.height); ctx.drawImage(im,(W-im.width*k)/2,(H-im.height*k)/2,im.width*k,im.height*k); const L=IMG['ui/logo_main']||IMG['ui/logo_v3']; if(L){ const h=Math.round(H*.33), w=Math.round(h*L.width/L.height); ctx.drawImage(L,Math.round((W-w)/2),12,w,h); ctx.imageSmoothingEnabled=false; text('CHEB GPT PRESENTS',W/2,3,'#ffe066',6,'center','#2a0a3a'); ctx.imageSmoothingEnabled=true; } } else if(im===IMG['shots/00_title_v2']){ const sx=im.width*.133, sw=im.width*.81, sh=sw*H/W; ctx.drawImage(im,sx,0,sw,sh,0,0,W,H); for(const [x0,x1] of [[0,Math.round(W*.19)],[Math.round(W*.815),W]]){ const g=ctx.createLinearGradient(x0,0,x1,0); g.addColorStop(x0===0?0:1,'rgba(6,2,14,.96)'); g.addColorStop(x0===0?.7:.3,'rgba(6,2,14,.9)'); g.addColorStop(x0===0?1:0,'rgba(6,2,14,0)'); ctx.fillStyle=g; ctx.fillRect(x0,0,x1-x0,H); } } else { const h=im.height*W/im.width; ctx.drawImage(im,0,im===IMG['shots/00_title_trio']?-4:-(h-H)*.35,W,h); } ctx.imageSmoothingEnabled=false; }
+  draw(){ const im=IMG['ui/title_heroes']; if(!im){ ctx.fillStyle='#000'; ctx.fillRect(0,0,W,H); if(frame%40<26) text('LOADING…',W/2,H/2,'#6a5a8a',6,'center',null); return; }
+    if(im){ ctx.imageSmoothingEnabled=true; if(im===IMG['ui/title_heroes']){ const k=Math.max(W/im.width,H/im.height); ctx.drawImage(im,(W-im.width*k)/2,(H-im.height*k)/2,im.width*k,im.height*k); const L=IMG['ui/logo_main']; if(L){ const h=Math.round(H*.33), w=Math.round(h*L.width/L.height); ctx.drawImage(L,Math.round((W-w)/2),12,w,h); ctx.imageSmoothingEnabled=false; text('CHEB GPT PRESENTS',W/2,3,'#ffe066',6,'center','#2a0a3a'); ctx.imageSmoothingEnabled=true; } } else if(im===IMG['shots/00_title_v2']){ const sx=im.width*.133, sw=im.width*.81, sh=sw*H/W; ctx.drawImage(im,sx,0,sw,sh,0,0,W,H); for(const [x0,x1] of [[0,Math.round(W*.19)],[Math.round(W*.815),W]]){ const g=ctx.createLinearGradient(x0,0,x1,0); g.addColorStop(x0===0?0:1,'rgba(6,2,14,.96)'); g.addColorStop(x0===0?.7:.3,'rgba(6,2,14,.9)'); g.addColorStop(x0===0?1:0,'rgba(6,2,14,0)'); ctx.fillStyle=g; ctx.fillRect(x0,0,x1-x0,H); } } else { const h=im.height*W/im.width; ctx.drawImage(im,0,im===IMG['shots/00_title_trio']?-4:-(h-H)*.35,W,h); } ctx.imageSmoothingEnabled=false; }
     else { if(!this.bg) this.bg=buildOran(800); ctx.drawImage(this.bg.far,-(frame*.2%300),0); ctx.fillStyle='rgba(10,4,20,.35)'; ctx.fillRect(0,0,W,H);
       chromeText('RAÏ NOIR',W/2,22,30); neonText('CHEB GPT',W/2-24,72,'#ff5fa8',12); neonText('راي',W/2+64,72,'#5ff0ff',16,AR);
       const heroes=[['aicha',W/2-70],['cheb',W/2],['k7',W/2+70]]; heroes.forEach(([k,x],i)=>drawFighter({look:LOOKS[k],dir:i===2?-1:1,sc:1.6,x,y:196,z:0,state:i===1?'special':'idle',anim:frame},0)); }
