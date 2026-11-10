@@ -2075,7 +2075,7 @@ function skitDraw(){ const t=skit.t, p=t/skit.dur, sv=SKITV[skit.img], im=(sv&&s
   if(frame%60<40) comicCaption(W-8,H-14,'A ▶','#fff','#000',5,'right'); }
 const LEVELS=[
   {id:'oran',title:'STAGE 1 · ZIZOU',sub:'ORAN — OFFLINE AND LOVING IT',music:'zizou',len:2000,battery:false,dur:100,yMin:176,
-   npcs:[['crew',640,178,'UNC K7',"OFFLINE, WLIDI. NO FEED.",'k7']],
+   npcs:[['crew',640,178,'UNC K7',"OFFLINE, WLIDI. NO FEED.",'k7'],['retro',1150,176,'RETRO CASSETTA',"ORIGINAL CASSETTES, KHOYA. NO STREAMS, NO SKIPS. 200 DINARS."]],
    waves:[{at:180,tAt:5,list:['hustler','hustler']},{at:520,tAt:22,list:['hustler','scooter','hustler']},{at:900,tAt:40,list:['goon','hustler','scooter','hustler']},
           {at:1280,tAt:56,list:['hustler','goon','scooter','goon']},{at:1620,tAt:70,boss:1,list:['playback','hustler','scooter']}],
    props:[['bin',345,164,'karantika'],['bin',412,206,'babouche'],['bin',573,204,'pipe'],['crate',853,176,'micstand'],['crate',735,206,'oranges'],['bin',470,170,'tajine'],['crate',985,206,'baguette'],['bin',1191,172,'k7tape'],['crate',1514,206,'tray'],['bin',1794,172,'chechia'],['bin',1470,206,'shisha'],['bin',941,190,'hasni'],['crate',1073,170,'sardines'],['crate',1264,206,'cassette'],['crate',1397,170,'babouche'],['crate',1588,180,'karantika'],['bin',1691,200,'darbuka'],['crate',1853,206,'yamaha'],['crate',1750,168,'sardines']]},
@@ -3960,6 +3960,9 @@ function drawNpc(n){ const sx=Math.round(n.x-camX), sy=Math.round(n.y); const fl
       const d=Math.abs(player.x-n.x); if(d<260){ const by=sy-104+Math.round(Math.sin(frame*.2)*3); comicCaption(sx,by,tr(d<30?'PUNCH = LOG ON':'LOG ON TO PC 7'),d<30?'#ffe066':'#fff'); ctx.fillStyle='#ffe066'; ctx.beginPath(); ctx.moveTo(sx-6,by+12); ctx.lineTo(sx+6,by+12); ctx.lineTo(sx,by+19); ctx.fill(); } }
     if(n.talkT>0) qb(sx,sy-40,n.line,n.name,clamp(n.talkT/20,0,1)); return; }
   if(n.npc==='stagedancer'){ const fr=Math.floor(n.anim/10)%2; const bob=Math.round(Math.sin(n.anim*.2)*2); const sway=Math.round(Math.sin(n.anim*.1)*6); if(frame%3===0&&Math.random()<.3) fx.push({k:'note',x:n.x+rnd(-14,14),y:n.y,z:50+rnd(0,20),life:30}); if(!drawAtlas('c_npc_'+(2+fr),sx+sway,sy+bob,1.0,Math.sin(n.anim*.1)<0)){ R(sx-6,sy-40,12,40,'#d02040'); } return; }
+  if(n.npc==='retro'&&IMG['chars/retro_74']){ const g=IMG['chars/retro_74'], sm=ctx.imageSmoothingEnabled; ctx.imageSmoothingEnabled=false; ctx.drawImage(g,Math.round(sx-g.width/2),Math.round(sy-g.height-12+Math.sin(n.anim*.08))); ctx.imageSmoothingEnabled=sm;
+    R(sx-34,sy-24,68,24,'#4a2c18'); R(sx-34,sy-24,68,2,'#8a5a32'); for(let k=0;k<9;k++){ R(sx-30+k*7,sy-30,5,6,['#ff3d5a','#ffe066','#5ff0ff','#7dff8a','#ff9ad0'][k%5]); R(sx-29+k*7,sy-28,3,1,'#222'); }
+    if(n.talkT<=0) comicCaption(sx,sy-92,tr("RETRO CASSETTA · K7 STALL"),'#ffe066','#210',5); if(n.talkT>0) qb(sx,sy-82,n.line,n.name,clamp(n.talkT/20,0,1)); return; }
   if(n.npc==='owner'&&IMG['chars/gawdat_idle']){ const g=IMG['chars/gawdat_idle'], sm=ctx.imageSmoothingEnabled; ctx.imageSmoothingEnabled=false; ctx.drawImage(g,Math.round(sx-g.width/2),Math.round(sy-g.height-16+Math.sin(n.anim*.08))); ctx.imageSmoothingEnabled=sm; R(sx-28,sy-22,56,22,'#3a2416'); R(sx-28,sy-22,56,2,'#7a5a3a'); R(sx-26,sy-18,52,1,'rgba(255,190,110,.25)');
     if(n.talkT<=0) comicCaption(sx,sy-84,tr("BRO GAWDAT'S NET CAFÉ"),'#5ff0ff','#001',5); if(n.talkT>0) qb(sx,sy-74,n.line,n.name,clamp(n.talkT/20,0,1)); return; }
   if(['owner','zclient','shisha','dancer'].includes(n.npc)){ ctx.fillStyle='rgba(0,0,0,.3)'; ctx.beginPath(); ctx.ellipse(sx,sy+1,11,2.5,0,0,7); ctx.fill(); const fr=n.talkT>0?(Math.floor(n.anim/9)%2):0; const key=n.npc==='owner'?'c_npc_'+fr:n.npc==='dancer'?'c_npc_'+(2+fr):n.npc==='shisha'?'c_npc_'+(4+fr):null;
