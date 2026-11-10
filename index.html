@@ -174,7 +174,7 @@ function registerClear(){ if(G&&G.clearedRun) return; if(G) G.clearedRun=1; CLEA
 const GIFT_URL='https://sawna.bandcamp.com';
 
 /* ---------------- assets (optional images) ---------------- */
-const IMG={}; const AV='16.3a';
+const IMG={}; const AV='16.4a';
 // images first: music and video wait for them, otherwise on a slow connection the sprites show up last
 let imgsReady; const IMGS_READY=new Promise(r=>imgsReady=r);
 function loadImg(key,src){return new Promise(r=>{const i=new Image();i.onload=()=>{IMG[key]=i;r(i)};i.onerror=()=>r(null);i.src=src+'?v='+AV;});}
@@ -201,7 +201,7 @@ const ASSET_LIST={
 ['01_title','02_mummy','03_star','04_costar','05_villain','06_cairo','07_tomb'].forEach(n=>ASSET_LIST['mumya/'+n]='assets/mumya/'+n+'.jpg');
 ['p01_gates','p02_hand','p03_face','p04_alone','p05_eyes','p06_aldi'].forEach(n=>ASSET_LIST['adieu/'+n]='assets/adieu/'+n+'.jpg');
 ['00_title','01_mafalda','02_jnoun','03_climax','04_tears'].forEach(n=>ASSET_LIST['amor/'+n]='assets/amor/'+n+'.jpg'); ASSET_LIST['story/aldi_devil']='assets/story/aldi_devil.jpg'; ASSET_LIST['ui/sawna_logo']='assets/ui/sawna_logo.png'; ASSET_LIST['ui/flaregun']='assets/ui/flaregun.png'; ASSET_LIST['ui/flaregun_px']='assets/ui/flaregun_px.png'; ASSET_LIST['story/marseille_port']='assets/story/marseille_port.jpg'; ASSET_LIST['story/marseille_door']='assets/story/marseille_door.jpg'; ASSET_LIST['story/aldi_split']='assets/story/aldi_split.jpg';ASSET_LIST['story/shaytan_crack']='assets/story/shaytan_crack.jpg'; ['st_friend','st_sabah','st_night','st_miss'].forEach(n=>ASSET_LIST['amor/'+n]='assets/amor/'+n+'.jpg'); ASSET_LIST['spr/atlas5']='assets/spr/atlas5.png';
-['oran_blvd','oran_old','cairo_fly','amor_nile','amor_street','marseille_street','marseille_bar','marseille_floor','marseille_back','ghorba_port','ghorba_sunset','ghorba_night','ghorba_oran','dream_flood','dream_cafe','dream_boat','hell_office','jannah_garden'].forEach(n=>ASSET_LIST['bg/'+n]='assets/bg/'+n+'.jpg'); ASSET_LIST['bg/jannah']='assets/bg/jannah.jpg'; ASSET_LIST['bg/cairo_cafe']='assets/bg/cairo_cafe.jpg'; ASSET_LIST['bg/cairo_cabaret']='assets/bg/cairo_cabaret.jpg'; ASSET_LIST['bg/jannah_chamber']='assets/bg/jannah_chamber.jpg'; ASSET_LIST['intro/14_offline_phone']='assets/intro/14_offline_phone.jpg';
+['oran_blvd','oran_old','cairo_fly','amor_nile','amor_street','marseille_street','marseille_bar','marseille_floor','marseille_back','ghorba_port','ghorba_sunset','ghorba_night','ghorba_oran','dream_flood','dream_cafe','dream_boat','hell_office','jannah_garden'].forEach(n=>ASSET_LIST['bg/'+n]='assets/bg/'+n+'.jpg'); ASSET_LIST['bg/jannah']='assets/bg/jannah.jpg'; { const SEAMN={oran:3,cairo:3,amor:1,marseille:2,boat:3,mahram:3,hell:3,jannah:2}; for(const id in SEAMN) for(let n=0;n<SEAMN[id];n++) ASSET_LIST['bg/seam/'+id+'_'+n]='assets/bg/seam/'+id+'_'+n+'.jpg'; } ASSET_LIST['bg/cairo_cafe']='assets/bg/cairo_cafe.jpg'; ASSET_LIST['bg/cairo_cabaret']='assets/bg/cairo_cabaret.jpg'; ASSET_LIST['bg/jannah_chamber']='assets/bg/jannah_chamber.jpg'; ASSET_LIST['intro/14_offline_phone']='assets/intro/14_offline_phone.jpg';
 
 /* ---------------- input ---------------- */
 const held={},pressed={};
