@@ -69,7 +69,10 @@ RAÏ NOIR is a single-file browser arcade game (a side-scrolling beat 'em up) th
 - Amor Haram: the song is the clock. When it ends, the cabaret closes and ending B plays, unless the love phone was beaten.
 - Every stage clear builds a 9:16 share poster. A hit-chain counter shows hype words at 5–80 hits.
 
-## 9. Status (2026-10-21)
+## 9. Status (2026-11-10)
+- PR #10 merged: whole songs, Zizou loops, finale music flow, new covers/title/story art. Smoke 104/104 on the merged branch; all `assets/` refs exist. A clean-slate rebuild (Lennart, `fable/`, Oct 22–23) exists; not confirmed on main.
+
+### Older status (2026-10-21)
 - Playable end to end: 8 levels, server farm, boat shooter, menus, cassettes, cheats and credits, in 3 languages. `main` has PR #5 (Streamline) merged; issue #4 settled by it.
 - SHAYTAN.EXE uses `assets/chars/N/N_atlas` (n_0..10 = e_aldi_0..10) with a reveal glitch; fallback is recoloured Aldi. Untracked: `Emails/`, two N reference PNGs.
 - Many stale local branches (ahmad-1..4, integ, pr3, pr-3, gta-oran-vendor, a worktree branch). Prune only with Hamza's ok.
@@ -148,3 +151,4 @@ RAÏ NOIR is a single-file browser arcade game (a side-scrolling beat 'em up) th
 - Oct 22 (later): the dream is a short bit, not a level: two 7ELM 7RAM panels (the real Cheb GPT passes by) + two "two halves" panels (Aldi, Mama → the cable) on helm7ram, which slides (4 s crossfade) into Poète maudit du bled at HELL.EXE (STAGE 6 · FINALE), then JANNAH (PART 2). The thesis is on screen once in the ending: "MAMA AND ALDI WERE JUST WHAT HE WAS TRAINED ON. THIS TIME HE PICKED WHO TO LISTEN TO."
 - First screen of Oran is pure brawling: enemy one-liners start at screen two and come less often. Marseille joke pools thinned (ally, tote: 5 lines each; no pronoun/safe-space jokes). Aicha is labelled "YOUR LITTLE SISTER".
 - Oct 23: songs play whole. No outro seek on stage clear, no "pull up" skips; a song that runs out during play starts again from the top (Oran: Zizou loops, Offline is gone). Finale: the dream's trap song (helm7ram) carries into HELL.EXE, Poète maudit takes over at the third wave, the SHAYTAN turn sits on Poète's real drop (1:23 into the track), then Adieu (piano) for Jannah, the ending film and the credits. Oran: the crowd loves him first (selfies, camera flashes); the A.I. allegations come in the last two waves.
+- 11-10: reviewed Lennart's work since Oct 22; smoke 104/104; PR #10 merged to main.
