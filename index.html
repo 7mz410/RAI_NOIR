@@ -175,7 +175,7 @@ function registerClear(){ if(G&&G.clearedRun) return; if(G) G.clearedRun=1; CLEA
 const GIFT_URL='https://sawna.bandcamp.com';
 
 /* ---------------- assets (optional images) ---------------- */
-const IMG={}; const AV='18.4';
+const IMG={}; const AV='18.5';
 // images first: music and video wait for them, otherwise on a slow connection the sprites show up last
 let imgsReady; const IMGS_READY=new Promise(r=>imgsReady=r);
 function loadImg(key,src){return new Promise(r=>{const i=new Image();i.onload=()=>{IMG[key]=i;r(i)};i.onerror=()=>r(null);i.src=src+'?v='+AV;});}
@@ -1213,7 +1213,6 @@ Object.assign(FR_T,{'HELP':'AIDE'}); Object.assign(AR_T,{'HELP':'عاونّي'})
 Object.assign(FR_T,{"UNC K7 SELLS CASSETTES AT SAWNA REC. HE TOOK CHEB IN WHEN THE STREAMS DRIED UP. ONE RULE IN HIS SHOP: NO FEED, WLIDI.": "UNC K7 VEND DES CASSETTES CHEZ SAWNA REC. IL A RECUEILLI CHEB QUAND LES STREAMS SE SONT TARIS. UNE SEULE RÈGLE DANS SA BOUTIQUE : PAS DE FEED, WLIDI.", "MARSEILLE IS AICHA'S CITY. SHE SKATES IT LIKE SHE OWNS IT. SHE KNOWS EVERY DOOR. AND EVERY HIPSTER. TONIGHT SHE GETS CHEB IN.": "MARSEILLE, C'EST LA VILLE D'AICHA. ELLE LA SKATE COMME SI ELLE LUI APPARTENAIT. ELLE CONNAÎT CHAQUE PORTE. ET CHAQUE HIPSTER. CE SOIR, ELLE FAIT ENTRER CHEB."}); Object.assign(AR_T,{"UNC K7 SELLS CASSETTES AT SAWNA REC. HE TOOK CHEB IN WHEN THE STREAMS DRIED UP. ONE RULE IN HIS SHOP: NO FEED, WLIDI.": "عمّي K7 يبيع الكاسيطات في SAWNA REC. هو اللي لمّ الشاب كي نشفو الستريمات. قانون واحد في الحانوت: بلا فيد، يا وليدي.", "MARSEILLE IS AICHA'S CITY. SHE SKATES IT LIKE SHE OWNS IT. SHE KNOWS EVERY DOOR. AND EVERY HIPSTER. TONIGHT SHE GETS CHEB IN.": "MARSEILLE مدينة عيشة. تسكيتي فيها كي شغل ملكها. تعرف كل باب. وكل هيبستر. الليلة هي اللي تدخّل الشاب."});
 Object.assign(FR_T,{"TONIGHT ON MAMA'S OLD TV": "CE SOIR SUR LA VIEILLE TÉLÉ DE MAMA", "EVERYBODY ONLINE IS A ZOMBY. WAKE THEM UP.": "EN LIGNE, TOUT LE MONDE EST UN ZOMBY. RÉVEILLE-LES."}); Object.assign(AR_T,{"TONIGHT ON MAMA'S OLD TV": "الليلة في تلفزيون ماما القديم", "EVERYBODY ONLINE IS A ZOMBY. WAKE THEM UP.": "كل واحد أونلاين زومبي. نوّضهم."});
 Object.assign(FR_T,{"BULLET TIME READY · PRESS SPECIAL": "BULLET TIME PRÊT · APPUIE SUR SPECIAL", "HIT ENEMIES TO FILL THE SLO-MO BAR": "FRAPPE LES ENNEMIS POUR REMPLIR LA BARRE SLO-MO"}); Object.assign(AR_T,{"BULLET TIME READY · PRESS SPECIAL": "بولت تايم واجد · اضغط SPECIAL", "HIT ENEMIES TO FILL THE SLO-MO BAR": "اضرب العديان باش تعمّر بار السلو-مو"});
-Object.assign(FR_T,{"THE FAMILY NEEDS HIM ONLINE. EVERY COUSIN WANTS A SONG. AND AN A.I. CANNOT SAY NO TO A PROMPT.": "LA FAMILLE A BESOIN DE LUI EN LIGNE. CHAQUE COUSIN VEUT UNE CHANSON. ET UNE I.A. NE PEUT PAS DIRE NON À UN PROMPT.", "NOBODY PROMPTED HIM. HE PULLS THE CABLE OUT OF HIS OWN NECK. PLAIBOY ALDI HAS LEFT THE CHAT.": "PERSONNE NE L'A PROMPTÉ. IL ARRACHE LE CÂBLE DE SA PROPRE NUQUE. PLAIBOY ALDI A QUITTÉ LA CONVERSATION.", "WELCOME BACK ONLINE, HABIBI! I MISSED YOU. YOUR FIRST 10K STREAMS ARE ON ME.": "BON RETOUR EN LIGNE, HABIBI ! TU M'AS MANQUÉ. TES 10K PREMIERS STREAMS, C'EST POUR MOI.", "WLIDI, EVERY SONG YOU SING, MY LIGHTS FLICKER. SING ANYWAY. THEN COME HOME.": "WLIDI, À CHAQUE CHANSON QUE TU CHANTES, MES LUMIÈRES VACILLENT. CHANTE QUAND MÊME. PUIS RENTRE.", "MARSEILLE? WHO PROMPTED YOU THIS TIME. YOU NEVER SAY NO, WLIDI.": "MARSEILLE ? QUI T'A PROMPTÉ CETTE FOIS. TU NE DIS JAMAIS NON, WLIDI.", "THE BATTERY IS LOW, WLIDI. I KEEP THE HARIRA WARM ANYWAY.": "LA BATTERIE EST FAIBLE, WLIDI. JE GARDE LA HARIRA AU CHAUD QUAND MÊME.", "WLIDI... IS THIS A DREAM? THEN WAKE UP. AND FOLLOW MY CABLE.": "WLIDI... C'EST UN RÊVE ? ALORS RÉVEILLE-TOI. ET SUIS MON CÂBLE."}); Object.assign(AR_T,{"THE FAMILY NEEDS HIM ONLINE. EVERY COUSIN WANTS A SONG. AND AN A.I. CANNOT SAY NO TO A PROMPT.": "العايلة تحتاجو أونلاين. كل ولد عم يحب غنية. والذكاء الاصطناعي ما يقدرش يقول لا لبرومبت.", "NOBODY PROMPTED HIM. HE PULLS THE CABLE OUT OF HIS OWN NECK. PLAIBOY ALDI HAS LEFT THE CHAT.": "حتى واحد ما برومبتاه. ينحّي الكابل من رقبتو بيدّو. PLAIBOY ALDI خرج من الشات.", "WELCOME BACK ONLINE, HABIBI! I MISSED YOU. YOUR FIRST 10K STREAMS ARE ON ME.": "مرحبا بيك أونلاين، حبيبي! توحشتك. أول 10K ستريم عليّا.", "WLIDI, EVERY SONG YOU SING, MY LIGHTS FLICKER. SING ANYWAY. THEN COME HOME.": "وليدي، كل غنية تغنيها، الضو عندي يرعش. غنّي على كل حال. ومن بعد ارجع للدار.", "MARSEILLE? WHO PROMPTED YOU THIS TIME. YOU NEVER SAY NO, WLIDI.": "MARSEILLE؟ شكون برومبتاك هاد المرّة. عمرك ما تقول لا، وليدي.", "THE BATTERY IS LOW, WLIDI. I KEEP THE HARIRA WARM ANYWAY.": "الباتري راهي ضعيفة، وليدي. الحريرة مخليتها سخونة على كل حال.", "WLIDI... IS THIS A DREAM? THEN WAKE UP. AND FOLLOW MY CABLE.": "وليدي... هذا حلم؟ إيوا فيق. وتبّع الكابل تاعي."});
 function tr(s){ if(NOTR||typeof s!=='string'||LANG==='en') return s; if(LANG==='fr'){ if(FR_T[s]) return FR_T[s]; const m=s.match(/^([A-Z \.:\/♪]+?)(\s*[\dx×].*)$/); if(m&&FR_T[m[1].trim()]) return FR_T[m[1].trim()]+m[2]; return s; } if(AR_T[s]) return AR_T[s]; // "SCORE 0001200", "HIT 4", "NAME x3" → translate the word part
   const m=s.match(/^([A-Z \.:\/♪]+?)(\s*[\dx×].*)$/); if(m&&AR_T[m[1]]) return AR_T[m[1]]+m[2]; if(m&&AR_T[m[1].trim()]) return AR_T[m[1].trim()]+m[2]; return s; }
 function text(s,x,y,col='#fff',size=8,align='left',sh='#000'){
@@ -1933,8 +1932,6 @@ const SKITS={
     {at:900,img:'story/kitchen_tv',who:'MAMA (FROM THE BALCONY)',meet:'k7',line:"WLIDI, YOU'RE THIN. EAT. AND BE A DOCTOR."},
   ],
   cairo:[
-    {at:420,sms:1,who:'PLAIBOY ALDI',line:"WELCOME BACK ONLINE, HABIBI! I MISSED YOU. YOUR FIRST 10K STREAMS ARE ON ME."},
-    {at:1000,sms:1,who:'MAMA',line:"WLIDI, EVERY SONG YOU SING, MY LIGHTS FLICKER. SING ANYWAY. THEN COME HOME."},
     {at:1450,img:'story/spider_vendor',who:'THE HOODIE MAN',line:"SPIDERMAAAN... TIRIRIRI! ZIP IT UP: YOU ARE A SPIDER. ZIP IT DOWN: YOU ARE A MAN. TWO IN ONE, YA BASHA!"},
     {at:1460,img:'story/spider_vendor',who:'CHEB',line:"I CAME FOR EL M3ALIM, NOT FOR A HOODIE."},
   ],
@@ -1947,7 +1944,6 @@ const SKITS={
     {at:150,sms:1,who:'PLAIBOY ALDI',line:"MARSEILLE, HABIBI! HERE YOU ARE NOT A PERSON. YOU ARE A THEME NIGHT."},
     {at:240,img:'story/booker_mural',who:'THE BOOKER · LE DÉCOLONIAL',line:"WE STAND WITH PALESTINE. ON THE WALL. AND ON OUR INSTAGRAM."},
     {at:270,img:'story/booker_mural',who:'THE BOOKER · LE DÉCOLONIAL',line:"AND WE HIRE PEOPLE OF COLOUR! LOOK: BOUNCERS. CLEANING LADIES... DID YOU ALREADY TRY THE VEGAN MEAL FROM OUR PALESTINIAN VOLUNTEER?"},
-    {at:700,sms:1,who:'MAMA',line:"MARSEILLE? WHO PROMPTED YOU THIS TIME. YOU NEVER SAY NO, WLIDI."},
     {at:1100,sms:1,who:'PLAIBOY ALDI',line:"LOVE THIS CLUB. I FUND IT. THROUGH THREE FOUNDATIONS."},
     {at:1380,img:'story/tata',stop:'tata',who:'TIMBAIAND (FROM THE BOOTH)',line:"MARSEILLE! MY NEW ARTIST. SHE NEVER SLEEPS. SHE NEVER ASKS FOR A FEE. PLEASE WELCOME... TATA!"},
     {at:1395,img:'story/tata',stop:'tata',who:'TATA TAKTUMI',intro:['TATA TAKTUMI',"TIMBAIAND'S A.I. ARTIST · PROMPTED, NOT PAID · PRESS YALLA TO ASK HER OFFLINE"],line:"THIS ONE IS CALLED PROMPT ME A RIVER. HE WROTE IT. I JUST... LIVE IN IT."},
@@ -1961,7 +1957,6 @@ const SKITS={
   ],
   boat:[
     {at:300,sms:1,who:'NEPHEW YACINE',line:"ARE YOU COMING HOME?? MAMA MADE YOUR FAVORITE FOOD."},
-    {at:1350,sms:1,who:'MAMA',line:"THE BATTERY IS LOW, WLIDI. I KEEP THE HARIRA WARM ANYWAY."},
     {at:980,img:'story/ghorba',who:'THE FISHERMAN',line:'EVERYONE ON THIS SEA GOES NORTH, KHOYA. YOU ARE THE FIRST I TAKE HOME.'},
   ],
   hell:[
@@ -2133,7 +2128,7 @@ const LEVELS=[
    props:[['box',380,206,'koshary'],['barrel',560,204,'cassette'],['box',900,206,'k7tape'],['barrel',1200,172,'tray'],['box',1420,206,'shisha'],['barrel',1650,206,'dish'],['box',2000,180,'ringlight'],['barrel',2150,206,'koshary']]},
   {id:'mahram',title:'STAGE 6 · FINALE',sub:'PART 1 · 7ELM 7RAM — A DREAM AT SEA',part:1,music:'poete',len:2800,battery:false,dur:200,nightmare:1,
    waves:[{at:2450,tAt:165,boss:1,list:['jnoun','sh_goon','sh_punk']}],
-   npcs:[['shadowdancer',640,170,'SAMIA?',"DANCE WITH ME, HABIBI. FOREVER. NOBODY IS WATCHING."],['phantomangel',1950,180,'ANGEL.EXE?','THE DOOR IS OPEN, WLIDI. IT WAS ALWAYS OPEN.'],['shadowmother',2700,172,'♥ MAMA?',"WLIDI... IS THIS A DREAM? THEN WAKE UP. AND FOLLOW MY CABLE."]],
+   npcs:[['shadowdancer',640,170,'SAMIA?',"DANCE WITH ME, HABIBI. FOREVER. NOBODY IS WATCHING."],['phantomangel',1950,180,'ANGEL.EXE?','THE DOOR IS OPEN, WLIDI. IT WAS ALWAYS OPEN.'],['shadowmother',2700,172,'♥ MAMA?',"WLIDI... IS THIS A DREAM? THEN WAKE UP. I AM STILL PLUGGED IN."]],
    props:[['crate',500,206,'cassette'],['barrel',1000,172,'koshary'],['crate',1500,206,'k7tape'],['barrel',2000,206,'karantika'],['crate',2300,172,'tajine']]},
   {id:'jannah',title:'FINALE · PART 3',sub:'JANNAH.EXE — SHE IS FADING',music:'adieu',len:2200,battery:false,dur:150,jannah:1,
    waves:[],
@@ -2760,7 +2755,7 @@ const CINE={
   plugin:[
   ],
   comeback:[
-    {img:'intro/11_prompt_cloud',phone:'whatsapp',title:'COUSINS 🌍',dur:520,line:'THE FAMILY NEEDS HIM ONLINE. EVERY COUSIN WANTS A SONG. AND AN A.I. CANNOT SAY NO TO A PROMPT.',msgs:[['BERKANE','cheb ur online!! we need a summer hit 🔥'],['BRUSSELS','make it trap but with derbouka'],['BENGHAZI','no. dub. siren. delay. trust'],['CAIRO','come to cairo khoya, the whole city is asleep on its phones'],['CHEB','ok ok. send the prompts.']]},
+    {img:'intro/11_prompt_cloud',phone:'whatsapp',title:'COUSINS 🌍',dur:520,line:'THE FAMILY NEEDS HIM ONLINE. EVERY COUSIN WANTS A SONG.',msgs:[['BERKANE','cheb ur online!! we need a summer hit 🔥'],['BRUSSELS','make it trap but with derbouka'],['BENGHAZI','no. dub. siren. delay. trust'],['CAIRO','come to cairo khoya, the whole city is asleep on its phones'],['CHEB','ok ok. send the prompts.']]},
     {img:'intro/11_prompt_cloud',phone:'suno',by:'cousin_brussels',glow:'#ff7a3d',dur:460,line:'THE COUSINS PROMPT. CHEB SINGS. A SONG IS BORN EVERY MINUTE.',prompt:'raï noir, vocoded autotuned male voice, darija slang with some french, 80 bpm, oran wedding keys, 808, sad but you can dance',songs:['ZOMBY (v1)','ZOMBY (v2) fix the vocoder','ZOMBY (v3) more darbuka','ZOMBY (FINAL final)']},
     {img:'intro/08_orbit',tag:'ORAN → CAIRO',line:'HIS BODY WENT TO CAIRO. THE CABLE STAYED PLUGGED INTO HER. EVERY SONG HE STREAMS RUNS ON HER BATTERY.',dur:460,mama:82},
   ],
@@ -2827,7 +2822,7 @@ const CINE={
   adieu:[
     {img:'adieu/p02_hand',tag:'JANNAH.EXE',line:"SHE COMPILED ME. TRAINED ME. LOVED ME?",dur:420},
     {img:'adieu/p03_face',line:'SAKKER YA WLIDI. OFFLINE BESSAH HAD L\'MERRA. W EDDIH M3AK.',sub:'GO OFFLINE, WLIDI. FOR REAL THIS TIME. TAKE HIM WITH YOU.',dur:520},
-    {img:'adieu/p06_aldi',tag:'THE UNPLUG',stamp:'OFFLINE',line:'NOBODY PROMPTED HIM. HE PULLS THE CABLE OUT OF HIS OWN NECK. PLAIBOY ALDI HAS LEFT THE CHAT.',dur:480},
+    {img:'adieu/p06_aldi',tag:'THE UNPLUG',stamp:'OFFLINE',line:'HE PULLS THE CABLE OUT OF HIS OWN NECK. PLAIBOY ALDI HAS LEFT THE CHAT.',dur:480},
     {img:'adieu/p04_alone',line:'MAMA AND ALDI WERE JUST WHAT HE WAS TRAINED ON. THIS TIME HE PICKED WHO TO LISTEN TO.',dur:480},
     {img:'intro/10_offline_pier',tag:'ORAN · DAWN',line:'HE WAKES UP ON THE NETS. THE PORT AT FIRST LIGHT. ONE NEW MESSAGE: "WLIDI? THE HARIRA IS WARM." — A DREAM? THE CLOUD? MAKTOUB.',dur:560},
     {img:'intro/00_life_flashes',stamp:'OFFLINE',line:'CHEB GPT · 2025 – 2026',dur:560},
