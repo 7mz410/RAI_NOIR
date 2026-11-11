@@ -46,6 +46,7 @@ body.titlemode #touch .dpad,body.titlemode #stick,body.cinemode #touch .dpad,bod
 .tb[data-k="k"]{--bt:#4db5ff;--bt2:#0a4b93}
 .tb[data-k="b"]{--bt:#7dff8a;--bt2:#13803a}
 .tb[data-k="c"]{--bt:#ffd23a;--bt2:#9c6a00}
+.tb.pulse{animation:tbpulse .5s ease-in-out infinite alternate}@keyframes tbpulse{from{filter:brightness(1)}to{filter:brightness(1.7) drop-shadow(0 0 10px #ffd23a)}}
 .tb[data-k="y"]{color:#1a0b14;background:linear-gradient(180deg,#fff6d8 0%,#ffd86a 38%,#a06f08 52%,#ffe9a8 66%,#8a5a00 100%);
   box-shadow:0 0 0 3px #15102a, 0 4px 0 #0a0614, 0 8px 14px rgba(0,0,0,.55), inset 0 1px 0 rgba(255,255,255,.7);border:0;letter-spacing:1px}
 .tb[data-k="y"]:active,.tb[data-k="y"].on{transform:translateY(3px);box-shadow:0 0 0 3px #15102a, 0 1px 0 #0a0614, inset 0 2px 6px rgba(0,0,0,.4)}
@@ -174,7 +175,7 @@ function registerClear(){ if(G&&G.clearedRun) return; if(G) G.clearedRun=1; CLEA
 const GIFT_URL='https://sawna.bandcamp.com';
 
 /* ---------------- assets (optional images) ---------------- */
-const IMG={}; const AV='18.1';
+const IMG={}; const AV='18.2';
 // images first: music and video wait for them, otherwise on a slow connection the sprites show up last
 let imgsReady; const IMGS_READY=new Promise(r=>imgsReady=r);
 function loadImg(key,src){return new Promise(r=>{const i=new Image();i.onload=()=>{IMG[key]=i;r(i)};i.onerror=()=>r(null);i.src=src+'?v='+AV;});}
@@ -1211,6 +1212,7 @@ Object.assign(FR_T,{"MEANWHILE IN MARSEILLE, YALLA SOUNDSYSTEM IS SOLD OUT. THE 
 Object.assign(FR_T,{'HELP':'AIDE'}); Object.assign(AR_T,{'HELP':'عاونّي'});
 Object.assign(FR_T,{"UNC K7 SELLS CASSETTES AT SAWNA REC. HE TOOK CHEB IN WHEN THE STREAMS DRIED UP. ONE RULE IN HIS SHOP: NO FEED, WLIDI.": "UNC K7 VEND DES CASSETTES CHEZ SAWNA REC. IL A RECUEILLI CHEB QUAND LES STREAMS SE SONT TARIS. UNE SEULE RÈGLE DANS SA BOUTIQUE : PAS DE FEED, WLIDI.", "MARSEILLE IS AICHA'S CITY. SHE SKATES IT LIKE SHE OWNS IT. SHE KNOWS EVERY DOOR. AND EVERY HIPSTER. TONIGHT SHE GETS CHEB IN.": "MARSEILLE, C'EST LA VILLE D'AICHA. ELLE LA SKATE COMME SI ELLE LUI APPARTENAIT. ELLE CONNAÎT CHAQUE PORTE. ET CHAQUE HIPSTER. CE SOIR, ELLE FAIT ENTRER CHEB."}); Object.assign(AR_T,{"UNC K7 SELLS CASSETTES AT SAWNA REC. HE TOOK CHEB IN WHEN THE STREAMS DRIED UP. ONE RULE IN HIS SHOP: NO FEED, WLIDI.": "عمّي K7 يبيع الكاسيطات في SAWNA REC. هو اللي لمّ الشاب كي نشفو الستريمات. قانون واحد في الحانوت: بلا فيد، يا وليدي.", "MARSEILLE IS AICHA'S CITY. SHE SKATES IT LIKE SHE OWNS IT. SHE KNOWS EVERY DOOR. AND EVERY HIPSTER. TONIGHT SHE GETS CHEB IN.": "MARSEILLE مدينة عيشة. تسكيتي فيها كي شغل ملكها. تعرف كل باب. وكل هيبستر. الليلة هي اللي تدخّل الشاب."});
 Object.assign(FR_T,{"TONIGHT ON MAMA'S OLD TV": "CE SOIR SUR LA VIEILLE TÉLÉ DE MAMA", "EVERYBODY ONLINE IS A ZOMBY. WAKE THEM UP.": "EN LIGNE, TOUT LE MONDE EST UN ZOMBY. RÉVEILLE-LES."}); Object.assign(AR_T,{"TONIGHT ON MAMA'S OLD TV": "الليلة في تلفزيون ماما القديم", "EVERYBODY ONLINE IS A ZOMBY. WAKE THEM UP.": "كل واحد أونلاين زومبي. نوّضهم."});
+Object.assign(FR_T,{"BULLET TIME READY · PRESS SPECIAL": "BULLET TIME PRÊT · APPUIE SUR SPECIAL", "HIT ENEMIES TO FILL THE SLO-MO BAR": "FRAPPE LES ENNEMIS POUR REMPLIR LA BARRE SLO-MO"}); Object.assign(AR_T,{"BULLET TIME READY · PRESS SPECIAL": "بولت تايم واجد · اضغط SPECIAL", "HIT ENEMIES TO FILL THE SLO-MO BAR": "اضرب العديان باش تعمّر بار السلو-مو"});
 function tr(s){ if(NOTR||typeof s!=='string'||LANG==='en') return s; if(LANG==='fr'){ if(FR_T[s]) return FR_T[s]; const m=s.match(/^([A-Z \.:\/♪]+?)(\s*[\dx×].*)$/); if(m&&FR_T[m[1].trim()]) return FR_T[m[1].trim()]+m[2]; return s; } if(AR_T[s]) return AR_T[s]; // "SCORE 0001200", "HIT 4", "NAME x3" → translate the word part
   const m=s.match(/^([A-Z \.:\/♪]+?)(\s*[\dx×].*)$/); if(m&&AR_T[m[1]]) return AR_T[m[1]]+m[2]; if(m&&AR_T[m[1].trim()]) return AR_T[m[1].trim()]+m[2]; return s; }
 function text(s,x,y,col='#fff',size=8,align='left',sh='#000'){
@@ -1393,14 +1395,14 @@ function buildRigWalk(name,srcKey){ RIGW[name]=false; const e=ATLAS[srcKey]; if(
   RIGW[name]=true; }
 const OWNSPR={dabke:'x_dabke_0',booker:'x_booker_0'};
 // Cheb's own attack + breathing idle frames (Higgsfield, v73); falls back to the old frames if the sheet is missing
-ASSET_LIST['spr/atlas_cheb_atk']='assets/spr/atlas_cheb_atk.png'; const A6={jab:'jab',cross:'cross',upper:'upper',shoulder:'shoulder',kick:'kick',sweep:'sweep',knee:'knee',throwing:'throw',throwE:'throw',special:'special'}; fetch('assets/spr/atlas_cheb_atk.json?v='+AV).then(r=>r.ok?r.json():{}).then(j=>{ const m={}; for(const k in j){ m['a6_'+k]=[...j[k],'spr/atlas_cheb_atk']; } ATLAS=Object.assign(ATLAS||{},m); }).catch(()=>{});
+ASSET_LIST['spr/atlas_cheb_atk']='assets/spr/atlas_cheb_atk.png'; const A6={jab:'jab',cross:'cross',upper:'upper',shoulder:'shoulder',kick:'kick',sweep:'sweep',knee:'knee',throwing:'throw',throwE:'throw',special:'special',hurt:'hurt',fall:'fall',down:'down',dead:'down',getup:'getup',jump:'jump',jumpkick:'jumpkick',swing:'swing'}; ASSET_LIST['spr/atlas_cheb_atk2']='assets/spr/atlas_cheb_atk2.png'; fetch('assets/spr/atlas_cheb_atk2.json?v='+AV).then(r=>r.ok?r.json():{}).then(j=>{ const m={}; for(const k in j){ m['a6_'+k]=[...j[k],'spr/atlas_cheb_atk2']; } ATLAS=Object.assign(ATLAS||{},m); }).catch(()=>{}); fetch('assets/spr/atlas_cheb_atk.json?v='+AV).then(r=>r.ok?r.json():{}).then(j=>{ const m={}; for(const k in j){ m['a6_'+k]=[...j[k],'spr/atlas_cheb_atk']; } ATLAS=Object.assign(ATLAS||{},m); }).catch(()=>{});
 // 6-frame walk cycles (Higgsfield, v70): cheb, BOUZID (hustler), GALLOUZ (goon)
 ASSET_LIST['spr/atlas_walk']='assets/spr/atlas_walk.png'; const W6={cheb:'w6_cheb',hustler:'w6_hustler',goon:'w6_goon'}; fetch('assets/spr/atlas_walk.json?v='+AV).then(r=>r.json()).then(j=>{ const m={}; for(const k in j){ m['w6_'+k]=[...j[k],'spr/atlas_walk']; } ATLAS=Object.assign(ATLAS||{},m); }).catch(()=>{});
 function spriteKey(e){
   const L=e.look; const name=L.look|| (L.lit&&!L.look?'z':null); const ename=(OWNSPR[e.type]&&ATLAS&&ATLAS[OWNSPR[e.type]])?e.type:(e.type==='zombie'&&!e.npc)?'z':(e.type==='scooter'?'hustler':((e.T&&e.T.base)||e.type||name)); const M=sprm15(e)||(HAS8&&(e.kind==='player'||e.asPlayer)&&SPRMAP8[name]&&ATLAS[SPRMAP8[name].idle]?SPRMAP8[name]:null)||(e.asPlayer&&HAS2&&SPRMAP2[name])||(HAS3&&e.kind==='enemy'&&SPRMAP3[ename])||(HAS3&&e.type==='zombie'&&SPRMAP3.z)||(HAS2&&SPRMAP2[name])||SPRMAP[name]||SPRMAP[e.type]||(e.type==='zombie'?SPRMAP.z:null); if(!M) return null;
   let st=e.pose||e.state; if(st==='grabbed'&&!M.grabbed) st='hurt'; if(st==='glide') st=M.glide?'glide':'walk'; if(e.kind==='player'||e.asPlayer){ if(st==='swipe') st='swing'; if(st==='throw') st='throwing'; } let k=M[st]||M.idle||M.zombie; if(!k) return null;
   e._bob=0;
-  if(name==='cheb'&&(e.kind==='player'||e.asPlayer)&&ATLAS['a6_cheb_idle0']&&IMG['spr/atlas_cheb_atk']){ if(st==='idle') return 'a6_cheb_idle'+(Math.floor(frame/28)%2); if(A6[st]) return 'a6_cheb_'+A6[st]; }
+  if(name==='cheb'&&(e.kind==='player'||e.asPlayer)&&ATLAS['a6_cheb_idle0']&&IMG['spr/atlas_cheb_atk']){ if(st==='idle') return 'a6_cheb_idle'+(Math.floor(frame/28)%2); if(A6[st]){ const ak='a6_cheb_'+A6[st], ae=ATLAS[ak]; if(ae&&IMG[ae[4]]) return ak; } }
   if(st==='walk'&&!(e.T&&e.T.base)){ const wk=W6[e.kind==='enemy'?ename:name]; if(wk&&ATLAS[wk+'_w0']&&IMG['spr/atlas_walk']){ const spd=(e.kind==='player'&&G&&G.char)?G.char.spd:(e.T&&e.T.spd)||1; const fl=clamp(Math.round(6/Math.max(.5,spd)),3,10); return wk+'_w'+(Math.floor((e.anim||0)/fl)%6); } }
   if(st==='walk'&&e.kind!=='enemy'&&!(e.T&&e.T.base)&&name&&RIGW[name]!==false){ if(RIGW[name]===undefined&&ATLAS){ const sk=Array.isArray(M.walk)?M.walk[0]:M.walk; if(sk&&ATLAS[sk]&&IMG[ATLAS[sk][4]||'spr/atlas']) buildRigWalk(name,sk); }
     if(RIGW[name]){ const spd=(e.kind==='player'&&G&&G.char)?G.char.spd:1; const fl=clamp(Math.round(5/Math.max(.5,spd)),3,8); return 'rw_'+name+'_'+(Math.floor((e.anim||0)/fl)%8); } }
@@ -1904,9 +1906,12 @@ function drawEpic(){ const E=EPIC; if(!E) return; const t=E.t, k=Math.min(1,t/18
   R(0,0,W,bar,'#000'); R(0,H-bar,W,bar,'#000'); if(t%50<4){ R(0,0,W,H,'rgba(255,255,255,.35)'); }
   if(t>20){ chromeText(E.big,W/2,H-bar-46,E.kind==='shaytan'?22:18); text(tr(E.small),W/2,H-bar-14,E.kind==='shaytan'?'#ff3d5a':'#ffe066',6,'center'); }
   if(t>70) text(tr('PUNCH ▶'),W-10,H-10,'#9aa6b8',4,'right',null); }
-function drawSlomo(){ if(!LV||!LV.hell||!G||stageState!=='play'||EPIC) return; const v=G.bt||0;
+function drawSlomo(){ if(!LV||!LV.hell||!G||stageState!=='play'||EPIC){ if(drawSlomo.on&&drawSlomo.btn){ drawSlomo.on=false; drawSlomo.btn.classList.remove('pulse'); } return; } const v=G.bt||0;
   if(SLOMO>0){ R(0,0,W,H,'rgba(60,140,255,.12)'); if(frame%30<20) text(tr('BULLET TIME'),W/2,58,'#5ff0ff',8,'center'); }
-  R(6,H-14,64,7,'#000'); R(7,H-13,Math.round(62*v/100),5,v>=100?(frame%20<10?'#5ff0ff':'#fff'):'#2a6aa8'); text(v>=100?tr('SPECIAL = SLO-MO'):tr('SLO-MO'),74,H-14,v>=100?'#5ff0ff':'#6a7a98',4,'left',null); }
+  const rdy=v>=100&&SLOMO<=0; R(5,H-17,92,10,'#000'); R(6,H-16,Math.round(90*v/100),8,rdy?(frame%20<10?'#ffd23a':'#fff'):'#2a6aa8'); text(tr('SLO-MO'),8,H-15,rdy?'#1a0b14':'#cfe4ff',5,'left',null);
+  if(rdy){ if(frame%40<28){ R(W/2-104,66,208,14,'rgba(6,3,14,.78)'); text(tr('BULLET TIME READY · PRESS SPECIAL'),W/2,70,'#ffd23a',6,'center',null); } }
+  else if(SLOMO<=0&&levelT<540&&v<100){ R(W/2-104,66,208,14,'rgba(6,3,14,.82)'); text(tr('HIT ENEMIES TO FILL THE SLO-MO BAR'),W/2,70,'#ffffff',5,'center',null); }
+  if(drawSlomo.btn===undefined) drawSlomo.btn=document.querySelector('.tb[data-k="c"]')||null; if(drawSlomo.btn&&drawSlomo.on!==rdy){ drawSlomo.on=rdy; drawSlomo.btn.classList.toggle('pulse',rdy); } }
 function bossIntro(e){ bossEnt=e; if(e.type==='aldiboss'&&LV&&LV.hell) epic('aldi','story/aldi_devil','PLAIBOY ALDI','THE LAST TIME. THE CLOUD HAS NO ROOF.',230); msg={t:150,big:e.name,small:e.type==='curator'?'NO FEE · HUGE VISIBILITY · FUNDED BY ALDI.FEED':e.type==='soufi'?'HE SPINS FOR PEACE. DODGE THE TRANCE':e.type==='shadowself'?'ALDI\'S LAST MASK — ABRAXAS':e.type==='feed'?(e.mini?'HE FOLLOWED YOU FROM CAIRO':'THE ALGORITHM IS HUNGRY'):e.type==='m3alim'?'رجعت؟ — YOU CAME BACK?':e.type==='jnoun'?'HE ONLY COMES OUT WHEN YOU SLEEP':e.type==='wiggzboss'?'THE CATFISH FARM · SAMIA WAS A PROMPT, YOU IDIOT':e.type==='aldiboss'?'CEO OF THE CLOUD':e.type==='aldi'?'-50% ON YOUR SOUL · TODAY ONLY':"KIOSK RADIO DJ · BOUGHT YOUR TRACK FOR 1 DINAR AND PLAYED IT ONLINE! NO PLAYLIST."}; sfx('boss'); if(DJLINES[e.type]) e.djq=[...DJLINES[e.type]]; }
 const DJLINES={ playback:[
   'WORLD EXCLUSIVE ON MY STREAM, HABIBI!',
@@ -2125,7 +2130,7 @@ const LEVELS=[
    npcs:[['pc',230,172,'PC 7',''],['dancer',2330,198,'SAMIA',"YOU LOOK LIKE A MAN WHO TYPES WITH ONE HAND, HABIBI."],['stagedancer',2520,150,'SAMIA','']],
    props:[['box',380,206,'koshary'],['barrel',560,204,'cassette'],['box',900,206,'k7tape'],['barrel',1200,172,'tray'],['box',1420,206,'shisha'],['barrel',1650,206,'dish'],['box',2000,180,'ringlight'],['barrel',2150,206,'koshary']]},
   {id:'mahram',title:'STAGE 6 · FINALE',sub:'PART 1 · 7ELM 7RAM — A DREAM AT SEA',part:1,music:'poete',len:2800,battery:false,dur:200,nightmare:1,
-   waves:[{at:300,tAt:18,list:['sh_hustler','sh_hustler','sh_zombie']},{at:900,tAt:60,list:['sh_goon','sh_punk','sh_influencer']},{at:1700,tAt:112,list:['sh_punk','sh_dervish','sh_zombie']},{at:2450,tAt:165,boss:1,list:['jnoun','sh_goon','sh_punk']}],
+   waves:[{at:2450,tAt:165,boss:1,list:['jnoun','sh_goon','sh_punk']}],
    npcs:[['shadowdancer',640,170,'SAMIA?',"DANCE WITH ME, HABIBI. FOREVER. NOBODY IS WATCHING."],['phantomangel',1950,180,'ANGEL.EXE?','THE DOOR IS OPEN, WLIDI. IT WAS ALWAYS OPEN.'],['shadowmother',2700,172,'♥ MAMA?',"WLIDI... IS THIS A DREAM? THEN WAKE UP. I AM STILL PLUGGED IN."]],
    props:[['crate',500,206,'cassette'],['barrel',1000,172,'koshary'],['crate',1500,206,'k7tape'],['barrel',2000,206,'karantika'],['crate',2300,172,'tajine']]},
   {id:'jannah',title:'FINALE · PART 3',sub:'JANNAH.EXE — SHE IS FADING',music:'adieu',len:2200,battery:false,dur:150,jannah:1,
