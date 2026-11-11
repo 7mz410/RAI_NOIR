@@ -174,7 +174,7 @@ function registerClear(){ if(G&&G.clearedRun) return; if(G) G.clearedRun=1; CLEA
 const GIFT_URL='https://sawna.bandcamp.com';
 
 /* ---------------- assets (optional images) ---------------- */
-const IMG={}; const AV='18.0';
+const IMG={}; const AV='18.1';
 // images first: music and video wait for them, otherwise on a slow connection the sprites show up last
 let imgsReady; const IMGS_READY=new Promise(r=>imgsReady=r);
 function loadImg(key,src){return new Promise(r=>{const i=new Image();i.onload=()=>{IMG[key]=i;r(i)};i.onerror=()=>r(null);i.src=src+'?v='+AV;});}
@@ -270,7 +270,7 @@ let audioBlocked=false, bgmKicked=false, pendingMusic=null;
 const TAPEV={}, TAPEERR={};
 function mkTape(name,pre){ const v=document.createElement('video'); v.preload=pre; v.playsInline=true; v.setAttribute('playsinline',''); v.setAttribute('webkit-playsinline',''); v.crossOrigin='anonymous';
   v.addEventListener('error',()=>{ TAPEERR[name]=true; }); v.src=(v.canPlayType('video/mp4; codecs="avc1.42E01E, mp4a.40.2"')?'assets/video/'+name+'.mp4':'assets/video/'+name+'.webm')+'?v=2'; TAPEV[name]=v; return v; }
-mkTape('intro_cheb','metadata'); mkTape('intro_amor','metadata'); mkTape('outro_cheb','metadata'); mkTape('oran_tape','metadata'); mkTape('bloopers','none'); // ponytail: bloopers.mp4 isn't in the repo yet; 'none' skips the 404 at boot
+mkTape('intro_cheb','metadata'); mkTape('intro_amor','metadata'); mkTape('outro_cheb','metadata'); mkTape('oran_tape','metadata'); mkTape('zomby_tv','metadata'); mkTape('bloopers','none'); // ponytail: bloopers.mp4 isn't in the repo yet; 'none' skips the 404 at boot
 let TAPE=TAPEV.intro_cheb, tapeName='intro_cheb';
 function tapeUse(name){ tapeName=name; TAPE=TAPEV[name]; }
 function tapeAvail(){ return !TAPEERR[tapeName]; }
@@ -1210,6 +1210,7 @@ let NOTR=false; // draw a string exactly as given, no language swap (used for th
 Object.assign(FR_T,{"MEANWHILE IN MARSEILLE, YALLA SOUNDSYSTEM IS SOLD OUT. THE PROMOTER WANTS MORE ORIENTAL WEDDING MUSIC, NOT THEIR WEIRD ELECTRONIC STUFF.": "PENDANT CE TEMPS À MARSEILLE, YALLA SOUNDSYSTEM AFFICHE COMPLET. LE PROMOTEUR VEUT PLUS DE MUSIQUE DE MARIAGE ORIENTALE, PAS LEUR ÉLECTRO BIZARRE.", "SO BADER PROMPTS CHEB: \"PEOPLE WANNA DANCE AND BE HAPPY. WE NEED YOUR HABIBI STUFF, KHOYA.\" ONE PROMPT, AND CHEB IS IN MARSEILLE INSTEAD OF HOME.": "ALORS BADER PROMPTE CHEB : « LES GENS VEULENT DANSER ET ÊTRE HEUREUX. ON A BESOIN DE TON TRUC HABIBI, KHOYA. » UN PROMPT, ET CHEB EST À MARSEILLE AU LIEU DE RENTRER.", "HIS BODY WENT TO CAIRO. THE CABLE STAYED PLUGGED INTO HER. EVERY SONG HE STREAMS RUNS ON HER BATTERY.": "SON CORPS EST PARTI AU CAIRE. LE CÂBLE EST RESTÉ BRANCHÉ SUR ELLE. CHAQUE CHANSON QU'IL STREAME TOURNE SUR SA BATTERIE."}); Object.assign(AR_T,{"MEANWHILE IN MARSEILLE, YALLA SOUNDSYSTEM IS SOLD OUT. THE PROMOTER WANTS MORE ORIENTAL WEDDING MUSIC, NOT THEIR WEIRD ELECTRONIC STUFF.": "وفي نفس الوقت في MARSEILLE، YALLA SOUNDSYSTEM خلاص باعو الكل. البروموتور يبغي موسيقى أفراح شرقية، ماشي الإلكترونيك الغريب تاعهم.", "SO BADER PROMPTS CHEB: \"PEOPLE WANNA DANCE AND BE HAPPY. WE NEED YOUR HABIBI STUFF, KHOYA.\" ONE PROMPT, AND CHEB IS IN MARSEILLE INSTEAD OF HOME.": "فـ بدر يبعث برومبت للشاب: «الناس يحبّو يرقصو ويفرحو. نحتاجو حاجتك الحبيبي، خويا.» برومبت واحد، والشاب في MARSEILLE وماشي في الدار.", "HIS BODY WENT TO CAIRO. THE CABLE STAYED PLUGGED INTO HER. EVERY SONG HE STREAMS RUNS ON HER BATTERY.": "جسدو راح للقاهرة. الكابل بقا مركّب فيها. كل غنية يستريميها تخدم بالباتري تاعها."});
 Object.assign(FR_T,{'HELP':'AIDE'}); Object.assign(AR_T,{'HELP':'عاونّي'});
 Object.assign(FR_T,{"UNC K7 SELLS CASSETTES AT SAWNA REC. HE TOOK CHEB IN WHEN THE STREAMS DRIED UP. ONE RULE IN HIS SHOP: NO FEED, WLIDI.": "UNC K7 VEND DES CASSETTES CHEZ SAWNA REC. IL A RECUEILLI CHEB QUAND LES STREAMS SE SONT TARIS. UNE SEULE RÈGLE DANS SA BOUTIQUE : PAS DE FEED, WLIDI.", "MARSEILLE IS AICHA'S CITY. SHE SKATES IT LIKE SHE OWNS IT. SHE KNOWS EVERY DOOR. AND EVERY HIPSTER. TONIGHT SHE GETS CHEB IN.": "MARSEILLE, C'EST LA VILLE D'AICHA. ELLE LA SKATE COMME SI ELLE LUI APPARTENAIT. ELLE CONNAÎT CHAQUE PORTE. ET CHAQUE HIPSTER. CE SOIR, ELLE FAIT ENTRER CHEB."}); Object.assign(AR_T,{"UNC K7 SELLS CASSETTES AT SAWNA REC. HE TOOK CHEB IN WHEN THE STREAMS DRIED UP. ONE RULE IN HIS SHOP: NO FEED, WLIDI.": "عمّي K7 يبيع الكاسيطات في SAWNA REC. هو اللي لمّ الشاب كي نشفو الستريمات. قانون واحد في الحانوت: بلا فيد، يا وليدي.", "MARSEILLE IS AICHA'S CITY. SHE SKATES IT LIKE SHE OWNS IT. SHE KNOWS EVERY DOOR. AND EVERY HIPSTER. TONIGHT SHE GETS CHEB IN.": "MARSEILLE مدينة عيشة. تسكيتي فيها كي شغل ملكها. تعرف كل باب. وكل هيبستر. الليلة هي اللي تدخّل الشاب."});
+Object.assign(FR_T,{"TONIGHT ON MAMA'S OLD TV": "CE SOIR SUR LA VIEILLE TÉLÉ DE MAMA", "EVERYBODY ONLINE IS A ZOMBY. WAKE THEM UP.": "EN LIGNE, TOUT LE MONDE EST UN ZOMBY. RÉVEILLE-LES."}); Object.assign(AR_T,{"TONIGHT ON MAMA'S OLD TV": "الليلة في تلفزيون ماما القديم", "EVERYBODY ONLINE IS A ZOMBY. WAKE THEM UP.": "كل واحد أونلاين زومبي. نوّضهم."});
 function tr(s){ if(NOTR||typeof s!=='string'||LANG==='en') return s; if(LANG==='fr'){ if(FR_T[s]) return FR_T[s]; const m=s.match(/^([A-Z \.:\/♪]+?)(\s*[\dx×].*)$/); if(m&&FR_T[m[1].trim()]) return FR_T[m[1].trim()]+m[2]; return s; } if(AR_T[s]) return AR_T[s]; // "SCORE 0001200", "HIT 4", "NAME x3" → translate the word part
   const m=s.match(/^([A-Z \.:\/♪]+?)(\s*[\dx×].*)$/); if(m&&AR_T[m[1]]) return AR_T[m[1]]+m[2]; if(m&&AR_T[m[1].trim()]) return AR_T[m[1].trim()]+m[2]; return s; }
 function text(s,x,y,col='#fff',size=8,align='left',sh='#000'){
@@ -3445,7 +3446,7 @@ function playBloopers(){ tapeUse('bloopers'); if(!tapeAvail()||!TAPE){ go(SC.gif
 function playOutroTape(){ tapeUse('outro_cheb'); if(!tapeAvail()){ go(SC.credits); return; } SC.tape.next=()=>go(SC.credits); SC.tape.toImg=null; SC.tape.place='HOME'; SC.tape.mode='end'; SC.tape.date='OCT 14 2026'; SC.tape.hold=0; SC.tape.caption=null; go(SC.tape); }
 const VB=mk(320,240), VBC=VB.getContext('2d'), PX=mk(320,240), PXC=PX.getContext('2d');
 SC.tape={ t:0, out:0, isCine:true,
-  enter(){ this.t=0; this.out=0; TAPE.loop=!!this.hold; if(tapeName==='oran_tape'){ playMusic('zizou',{fade:30}); TAPE.muted=true; try{ TAPE.currentTime=0; }catch(e){} try{ const pr=TAPE.play(); if(pr&&pr.catch) pr.catch(()=>{}); }catch(e){} return; } if(tapeName==='intro_cheb'){ TAPE.muted=true; try{ TAPE.currentTime=0; }catch(e){} try{ const pr=TAPE.play(); if(pr&&pr.catch) pr.catch(()=>{}); }catch(e){} playMusic('rainoir',{restart:true,fade:8,loop:true}); return; } stopMusic(); if(TAPE.paused){ try{ TAPE.currentTime=0; }catch(e){} tapePlay(); } },
+  enter(){ this.t=0; this.out=0; TAPE.loop=!!this.hold; if(tapeName==='oran_tape'){ playMusic('zizou',{fade:30}); TAPE.muted=true; try{ TAPE.currentTime=0; }catch(e){} try{ const pr=TAPE.play(); if(pr&&pr.catch) pr.catch(()=>{}); }catch(e){} return; } if(tapeName==='zomby_tv'){ playMusic('zomby',{restart:true,fade:20}); TAPE.muted=true; try{ TAPE.currentTime=0; }catch(e){} try{ const pr=TAPE.play(); if(pr&&pr.catch) pr.catch(()=>{}); }catch(e){} return; } if(tapeName==='intro_cheb'){ TAPE.muted=true; try{ TAPE.currentTime=0; }catch(e){} try{ const pr=TAPE.play(); if(pr&&pr.catch) pr.catch(()=>{}); }catch(e){} playMusic('rainoir',{restart:true,fade:8,loop:true}); return; } stopMusic(); if(TAPE.paused){ try{ TAPE.currentTime=0; }catch(e){} tapePlay(); } },
   update(){ this.t++;
     if(pressed.y&&this.t>8){ TAPE.pause(); if(tapeName==='intro_cheb'){ fadeTo(()=>go(SC.title)); } else { (this.next||(()=>go(SC.intro)))(); } return; }
     if((pressed.start||pressed.a||pressed.b)&&!this.out&&this.t>20) this.out=1;
@@ -3477,7 +3478,7 @@ SC.tape={ t:0, out:0, isCine:true,
     }
     // camcorder OSD
     if(this.out<40){ const sec=Math.floor(TAPE.currentTime||0), fr=Math.floor(((TAPE.currentTime||0)%1)*25);
-      if(this.t<200&&frame%50<34) text('PLAY ▶',vx+12,12,'#fff',7,'left','#000'); if(this.t<300) text('YALLA ▶▶ '+tr('SKIP'),W/2,H-9,'#ffe066',5,'center','#000'); text('SP',vx+vw-24,12,'#fff',7,'left','#000');
+      if(this.t<200&&frame%50<34) text('PLAY ▶',vx+12,12,'#fff',7,'left','#000'); if(this.t<300) text('HELP ▶▶ '+tr('SKIP'),W/2,H-9,'#ffe066',5,'center','#000'); text('SP',vx+vw-24,12,'#fff',7,'left','#000');
       text(this.date||'OCT 14 1993',vx+12,H-20,'#fff',7,'left','#000'); if(this.place) text(this.place,vx+12,H-30,'#fff',6,'left','#000'); if(this.caption&&this.t>30){ const c=this.caption, a=Math.min(1,(this.t-30)/20); ctx.globalAlpha=a; R(vx,H-74,vw,40,'rgba(0,0,0,.5)'); neonText(c[0],W/2,H-70,'#ff5fa8',12); text(tr(c[1]),W/2,H-54,'#ffe066',5,'center','#000'); text(tr(c[2]),W/2,H-45,'#ffe066',5,'center','#000'); ctx.globalAlpha=1; } text('03:33:'+String(12+sec).padStart(2,'0')+'.'+String(fr).padStart(2,'0'),vx+vw-12,H-20,'#fff',7,'right','#000'); }
     // grain over everything
     for(let i=0;i<120;i++){ ctx.fillStyle=Math.random()<.5?'rgba(255,255,255,.06)':'rgba(0,0,0,.10)'; ctx.fillRect(vx+Math.random()*vw,Math.random()*H,1,1); }
@@ -3547,7 +3548,9 @@ SC.oranStory=cineScene(CINE.oran,'zizou',()=>go(SC.stage1));
 SC.stage1={ isStage:true, enter(){ startLevel(0); }, update(){ stageUpdate(()=>go(SC.plugin)); }, draw(){ stageDraw(); } };
 SC.plugin=cineScene(CINE.plugin,null,()=>{ if(G) G.mama=Math.min(G.mama??100,82); go(SC.mumya); });
 SC.comeback=cineScene(CINE.comeback,null,()=>go(SC.mumya)); { const e=SC.comeback.enter; SC.comeback.enter=function(){ e.call(this); if(curMusic!=='offline') playMusic('offline',{fade:60,loop:false}); }; }
-SC.mumya=cineScene(CINE.mumya,null,()=>go(SC.stage2));
+// the old Mumya telenovela trailer is gone: Mama's TV now plays a 17 s VHS trailer on ZOMBY, which carries straight into Cairo
+function playZombyTape(){ tapeUse('zomby_tv'); if(!tapeAvail()){ go(SC.stage2); return; } SC.tape.next=()=>go(SC.stage2); SC.tape.toImg='bg/cairo_street'; SC.tape.place='CAIRO TV · CH 03'; SC.tape.mode=null; SC.tape.date='TONIGHT'; SC.tape.hold=0; SC.tape.caption=['ZOMBY',"TONIGHT ON MAMA'S OLD TV",'EVERYBODY ONLINE IS A ZOMBY. WAKE THEM UP.']; go(SC.tape); }
+SC.mumya={isCine:true,enter(){ playZombyTape(); },update(){},draw(){ ctx.fillStyle='#000'; ctx.fillRect(0,0,W,H); }};
 SC.stage2={ isStage:true, enter(){ startLevel(1); }, update(){ stageUpdate(()=>go(SC.ending)); }, draw(){ stageDraw(); } };
 SC.ending=cineScene(CINE.ending,'amorharam',()=>playAmorTape());
 SC.amorIntro=cineScene(CINE.amorIntro,'amorharam',()=>go(SC.stage3));
