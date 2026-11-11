@@ -174,7 +174,7 @@ function registerClear(){ if(G&&G.clearedRun) return; if(G) G.clearedRun=1; CLEA
 const GIFT_URL='https://sawna.bandcamp.com';
 
 /* ---------------- assets (optional images) ---------------- */
-const IMG={}; const AV='17.2a';
+const IMG={}; const AV='17.3a';
 // images first: music and video wait for them, otherwise on a slow connection the sprites show up last
 let imgsReady; const IMGS_READY=new Promise(r=>imgsReady=r);
 function loadImg(key,src){return new Promise(r=>{const i=new Image();i.onload=()=>{IMG[key]=i;r(i)};i.onerror=()=>r(null);i.src=src+'?v='+AV;});}
@@ -243,6 +243,9 @@ cv.addEventListener('pointerdown',ev=>{kick(); tryFullscreen();unlockAudio(); cv
   if(scene===SC.boot||scene===SC.title||scene===SC.cont) pressed.start=true; else if(scene&&scene.isCine){ const r=cv.getBoundingClientRect(); if(ev&&ev.clientX!=null&&(ev.clientX-r.left)<r.width*0.3) pressed.back=true; else pressed.a=true; } });
 document.addEventListener('visibilitychange',()=>{ if(!document.hidden){ const a=DECK[deckI]; if(a&&a.src&&a.paused&&curMusic) a.play().catch(()=>{}); if(AC&&AC.state!=='running') AC.resume(); } });
 ['touchstart','touchend','click','pointerup'].forEach(ev=>document.addEventListener(ev,()=>{ kick(); },{passive:true}));
+/* phones: never let a drag scroll the page — in the Claude app a downward drag on the d-pad could close the whole artifact sheet */
+document.addEventListener('touchmove',e=>{ if(!e.target.closest||!e.target.closest('textarea,input,select,.scrollable')) e.preventDefault(); },{passive:false});
+document.documentElement.style.overscrollBehavior='none'; document.body.style.overscrollBehavior='none'; document.body.style.touchAction='none';
 // try to start the first song the moment the page opens (works where autoplay is allowed; otherwise the first tap starts it)
 setTimeout(()=>kick(true),200); setTimeout(()=>kick(true),1200);
 let padPrev={};
