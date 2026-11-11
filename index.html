@@ -174,7 +174,7 @@ function registerClear(){ if(G&&G.clearedRun) return; if(G) G.clearedRun=1; CLEA
 const GIFT_URL='https://sawna.bandcamp.com';
 
 /* ---------------- assets (optional images) ---------------- */
-const IMG={}; const AV='17.4';
+const IMG={}; const AV='17.5';
 // images first: music and video wait for them, otherwise on a slow connection the sprites show up last
 let imgsReady; const IMGS_READY=new Promise(r=>imgsReady=r);
 function loadImg(key,src){return new Promise(r=>{const i=new Image();i.onload=()=>{IMG[key]=i;r(i)};i.onerror=()=>r(null);i.src=src+'?v='+AV;});}
@@ -1838,39 +1838,39 @@ function mkPlayer(){
   const c=G.char; return {kind:'player',team:0,x:camX+60,y:182,z:90,vx:0,vy:0,vz:0,dir:1,hp:c.hp||100,maxhp:c.hp||100,state:'jump',t:0,anim:0,look:LOOKS[c.look],sc:K,combo:0,comboT:0,inv:60,blink:false,weapon:null,wuses:0,name:c.name,air:true};
 }
 const ETYPES={
-  hustler:{name:'BOUZID',hp:22,spd:.7,reach:20,dmg:5,wind:24,look:'hustler',score:150,lines:['NO MOUSTACHE, NO RAÏ.',"CHEB? YOU ARE A CHEBBOT."]},
-  goon:{name:'GALLOUZ',hp:34,spd:.55,reach:22,dmg:8,wind:30,look:'goon',score:250,sc:1.08,lines:['HASNI NEVER NEEDED WIFI.']},
-  scooter:{name:'SCOOTER',hp:18,spd:1.0,reach:18,dmg:4,wind:18,look:'scooter',score:120,lines:[]},
-  influencer:{name:'INFLUENCER',hp:24,spd:.8,reach:28,dmg:6,wind:24,look:'influencer',score:200},
+  hustler:{name:'BOUZID',role:'KIOSK HUSTLER',hp:22,spd:.7,reach:20,dmg:5,wind:24,look:'hustler',score:150,lines:['NO MOUSTACHE, NO RAÏ.',"CHEB? YOU ARE A CHEBBOT."]},
+  goon:{name:'GALLOUZ',role:'THE MUSCLE',hp:34,spd:.55,reach:22,dmg:8,wind:30,look:'goon',score:250,sc:1.08,lines:['HASNI NEVER NEEDED WIFI.']},
+  scooter:{name:'MOUSS T-MAX',role:'SCOOTER KID',hp:18,spd:1.0,reach:18,dmg:4,wind:18,look:'scooter',score:120,lines:[]},
+  influencer:{name:'@DOUDOU',role:'STREAMER',hp:24,spd:.8,reach:28,dmg:6,wind:24,look:'influencer',score:200},
   zombie:{name:'ZOMBY',hp:1,spd:.35,reach:0,dmg:0,wind:0,look:'z',score:200},
   playback:{name:'DJ PLAYBAK',hp:120,spd:.65,reach:22,dmg:8,wind:26,look:'playback',score:5000,sc:1.18,boss:1},
   m3alim:{name:'EL M3ALIM',hp:110,spd:.55,reach:26,dmg:10,wind:30,look:'m3alim',score:4000,sc:1.32,boss:1},
-  dog:{name:'ROBO ROTTWEILER',hp:24,spd:2.05,reach:15,dmg:7,wind:9,look:'dog',score:150,sc:.9},
+  dog:{name:'REX.EXE',role:'ROBO ROTTWEILER',hp:24,spd:2.05,reach:15,dmg:7,wind:9,look:'dog',score:150,sc:.9},
   aldi:{name:'PLAIBOY ALDI',hp:95,spd:.72,reach:24,dmg:8,wind:24,look:'aldi',score:6000,sc:1.12,boss:1},
   duck:{name:'DUCK.EXE',hp:8,spd:.55,reach:16,dmg:2,wind:34,look:'punk',score:500,lines:[]},
-  nepo:{name:'DJ NEPOTISM',hp:32,spd:.75,reach:24,dmg:7,wind:24,look:'goon',score:280,lines:["THIS USB HAS ONLY UNRELEASED SOULSEEK BANGERS BRO","VINYL ONLY FROM SOULSEEK."]},
-  checkbox:{name:'DJ CHECKBOX',hp:28,spd:.8,reach:24,dmg:6,wind:22,look:'punk',score:260,lines:["MY BIO IS LONGER THAN MY SET.","BOOKER TOLD ME HE LIKES MY VIBE"]},
-  wiggz:{name:'WIGGZ.AI',hp:24,spd:.9,reach:26,dmg:5,wind:22,look:'influencer',score:240},
-  alien:{name:'AL1EN G',hp:30,spd:.8,reach:26,dmg:6,wind:24,look:'influencer',score:260},
-  punk:{name:'JNOUN PUNK',hp:30,spd:.85,reach:21,dmg:6,wind:22,look:'punk',score:220},
+  nepo:{name:'DJ NEPOTISM',role:'SON OF THE OWNER',hp:32,spd:.75,reach:24,dmg:7,wind:24,look:'goon',score:280,lines:["THIS USB HAS ONLY UNRELEASED SOULSEEK BANGERS BRO","VINYL ONLY FROM SOULSEEK."]},
+  checkbox:{name:'DJ CHECKBOX',role:'BOOKED FOR THE BIO',hp:28,spd:.8,reach:24,dmg:6,wind:22,look:'punk',score:260,lines:["MY BIO IS LONGER THAN MY SET.","BOOKER TOLD ME HE LIKES MY VIBE"]},
+  wiggz:{name:'WIGGZ.AI',role:'AI POPSTAR',hp:24,spd:.9,reach:26,dmg:5,wind:22,look:'influencer',score:240},
+  alien:{name:'AL1EN G',role:'AUTOTUNE ALIEN',hp:30,spd:.8,reach:26,dmg:6,wind:24,look:'influencer',score:260},
+  punk:{name:'DJINN ROTTEN',role:'JNOUN PUNK',hp:30,spd:.85,reach:21,dmg:6,wind:22,look:'punk',score:220},
   shadowself:{name:'CHEB NOIR',hp:200,spd:1.35,reach:24,dmg:11,wind:16,look:'cheb',score:9000,sc:1.0,boss:1},
   jnoun:{name:'YUNG JNOUN',hp:140,spd:.6,reach:26,dmg:10,wind:26,look:'jnoun',score:8000,sc:1.25,boss:1},
-  camel:{name:'ROBO CAMEL',hp:30,spd:3.1,score:500},
+  camel:{name:'JAMAL 3000',role:'ROBO CAMEL',hp:30,spd:3.1,score:500},
   feed:{name:'ALGO RIDDIM',hp:300,score:20000,boss:1},
   booker:{name:'THE BOOKER',hp:70,spd:.75,reach:22,dmg:7,wind:24,look:'hustler',base:'hustler',score:1500,sc:1.05,thrower:1,lines:["WE STAND WITH PALESTINE. ON THE WALL.","YOU'RE NOT ON THE LIST, HABIBI.","I HAVE 40K FOLLOWERS!","MY PHONE! THAT'S MY CONTENT!","I'LL PUT YOU ON THE PANEL. AS A TOPIC."]},
-  dabke:{name:'DABKE TOURIST',hp:24,spd:.8,reach:20,dmg:5,wind:22,look:'hustler',base:'hustler',score:180,acc:[],hop:1,lines:["YALLA LETS DANCE DABKE EVERYBODY!","ZAGHAREEEEEET",'SO AUTHENTIC!',"IS THIS SONG AI? THEN I HATE IT.","SEE YOU AT PANOS. I DO THE CROISSANTS AND CURATE THE PLAYLIST."]},
-  tote:{name:'TATTOO HIPSTER',hp:28,spd:.8,reach:21,dmg:6,wind:22,look:'punk',base:'punk',score:220,hue:120,acc:['beanie','tote'],thrower:1,lines:["MY TATTOO SAYS HOPE IN ARABIC. I THINK.","I LEARN ARABIC AT MY NIGHTSHOP SHUKRAN HABIBI!",'AI MUSIC HAS NO SOUL. MINE HAS A MODULAR.',"VINYL ONLY. FROM SOULSEEK.","I MIX PALESTINIAN WEDDING SONGS WITH NEO HARDGROOVE. WITHOUT SYNC!!"]},
-  ally:{name:'CONTENT ALLY',hp:22,spd:.85,reach:26,dmg:5,wind:24,look:'influencer',base:'influencer',score:200,hue:160,acc:['ring'],filmer:1,lines:['THIS IS FOR MY STORY','SPREADING AWARENESS (FILTER ON)',"I DID SOCIAL WORK IN MALAWI.",'SIGN MY PETITION AGAINST AI! (CHATGPT WROTE IT)']},
-  bro:{name:'FUNDING BRO',hp:36,spd:.55,reach:22,dmg:8,wind:30,look:'goon',base:'goon',score:260,sc:1.06,hue:60,sat:.6,acc:['lanyard'],lines:["LOVE YOUR ENERGY. NO BUDGET.","WE TICKED EVERY BOX!","VEGAN MEAL + VOLUNTEER FEE: 40 EUROS HABIBI",'OUR CATERING IS A SOCIAL PROJECT. THE CHEF IS PAID IN EXPOSURE.',"WE DO NOT BOOK AI. WE BOOK MY COUSIN DJ NOBODY.","PANOS IS HIRING? THEIR PLAYLIST IS AMAZING.",'I CURATED THE PLAYLIST OF THE PANOS I WORK AT. NOW IT HAS OMAR SOULEYMAN!','WE HAVE SO MUCH DIVERSITY HERE. LOOK AT OUR BOUNCERS. AND THE CLEANING LADIES.']},
+  dabke:{name:'DABKE DIRK',role:'DABKE TOURIST',hp:24,spd:.8,reach:20,dmg:5,wind:22,look:'hustler',base:'hustler',score:180,acc:[],hop:1,lines:["YALLA LETS DANCE DABKE EVERYBODY!","ZAGHAREEEEEET",'SO AUTHENTIC!',"IS THIS SONG AI? THEN I HATE IT.","SEE YOU AT PANOS. I DO THE CROISSANTS AND CURATE THE PLAYLIST."]},
+  tote:{name:'TATTOO TIJS',role:'TATTOO HIPSTER',hp:28,spd:.8,reach:21,dmg:6,wind:22,look:'punk',base:'punk',score:220,hue:120,acc:['beanie','tote'],thrower:1,lines:["MY TATTOO SAYS HOPE IN ARABIC. I THINK.","I LEARN ARABIC AT MY NIGHTSHOP SHUKRAN HABIBI!",'AI MUSIC HAS NO SOUL. MINE HAS A MODULAR.',"VINYL ONLY. FROM SOULSEEK.","I MIX PALESTINIAN WEDDING SONGS WITH NEO HARDGROOVE. WITHOUT SYNC!!"]},
+  ally:{name:'ALLY.MP4',role:'CONTENT ALLY',hp:22,spd:.85,reach:26,dmg:5,wind:24,look:'influencer',base:'influencer',score:200,hue:160,acc:['ring'],filmer:1,lines:['THIS IS FOR MY STORY','SPREADING AWARENESS (FILTER ON)',"I DID SOCIAL WORK IN MALAWI.",'SIGN MY PETITION AGAINST AI! (CHATGPT WROTE IT)']},
+  bro:{name:'FUNDING FRANK',role:'FUNDING BRO',hp:36,spd:.55,reach:22,dmg:8,wind:30,look:'goon',base:'goon',score:260,sc:1.06,hue:60,sat:.6,acc:['lanyard'],lines:["LOVE YOUR ENERGY. NO BUDGET.","WE TICKED EVERY BOX!","VEGAN MEAL + VOLUNTEER FEE: 40 EUROS HABIBI",'OUR CATERING IS A SOCIAL PROJECT. THE CHEF IS PAID IN EXPOSURE.',"WE DO NOT BOOK AI. WE BOOK MY COUSIN DJ NOBODY.","PANOS IS HIRING? THEIR PLAYLIST IS AMAZING.",'I CURATED THE PLAYLIST OF THE PANOS I WORK AT. NOW IT HAS OMAR SOULEYMAN!','WE HAVE SO MUCH DIVERSITY HERE. LOOK AT OUR BOUNCERS. AND THE CLEANING LADIES.']},
   soufi:{name:'MONSIEUR SOUFI',hp:90,spd:.9,reach:22,dmg:7,wind:24,look:'hustler',base:'soufi',score:4000,sc:.86,boss:1},
-  dervish:{name:'DERVISH',hp:34,spd:.75,reach:22,dmg:6,wind:24,look:'hustler',base:'soufi',score:300,sc:.8,lines:["I ONLY POST RUMI POEMS ON FACEBOOK","I DID A RETREAT IN FEZ ONCE"]},
-  agent:{name:'AGENT.EXE',hp:30,spd:.6,reach:20,dmg:6,wind:24,look:'goon',base:'goon',score:400,sc:1.02,hue:100,sat:.25,light:-.18,gunner:1,lines:['MISTER... GPT.','THE FEED IS EVERYWHERE.','YOU CANNOT LOG OUT, HABIBI.','THAT IS THE SOUND OF AN UPDATE.']},
+  dervish:{name:'RUMI RUDY',role:'FACEBOOK DERVISH',hp:34,spd:.75,reach:22,dmg:6,wind:24,look:'hustler',base:'soufi',score:300,sc:.8,lines:["I ONLY POST RUMI POEMS ON FACEBOOK","I DID A RETREAT IN FEZ ONCE"]},
+  agent:{name:'AGENT SMEN.EXE',role:'THE FEED',hp:30,spd:.6,reach:20,dmg:6,wind:24,look:'goon',base:'goon',score:400,sc:1.02,hue:100,sat:.25,light:-.18,gunner:1,lines:['MISTER... GPT.','THE FEED IS EVERYWHERE.','YOU CANNOT LOG OUT, HABIBI.','THAT IS THE SOUND OF AN UPDATE.']},
   wiggzboss:{name:'WIGGZ.AI',hp:150,spd:.8,reach:28,dmg:8,wind:20,look:'influencer',base:'wiggz',score:9000,sc:1.35,boss:1,lines:['SAMIA? SHE WAS MY PROMPT, HABIBI.']},
   aldiboss:{name:'PLAIBOY ALDI',hp:130,spd:.75,reach:24,dmg:9,wind:22,look:'aldi',base:'aldi',score:8000,sc:1.18,boss:1},
   shaytan:{name:'ALDI = SHAYTAN.EXE',hp:170,spd:.92,reach:30,dmg:12,wind:18,look:'aldi',base:'aldi',score:30000,sc:1.5,boss:1,hue:150,sat:1.5,light:-.06},
   curator:{name:'THE CURATOR',hp:150,spd:.65,reach:24,dmg:9,wind:26,look:'playback',base:'playback',score:9000,sc:1.2,boss:1,hue:30,sat:.35,light:.1,acc:['glasses','tote']},
 };
-const RAMP={oran:.7,cairo:.85,amor:.95,marseille:1.05,boat:1.15,hell:1.15,lift:1.3,jannah:1.45,mahram:1.1};
+const RAMP={oran:.7,cairo:.85,amor:.95,marseille:1.05,boat:1.25,hell:1.2,lift:1.22,jannah:1.45,mahram:1.15};
 function ramp(){ return (LV&&RAMP[LV.id])||1; }
 function spawnEnemy(type){
   let shadow=false; if(type.startsWith('sh_')){ type=type.slice(3); shadow=true; }
@@ -1878,7 +1878,7 @@ function spawnEnemy(type){
   const T=ETYPES[type]; spawnEnemy.n=(spawnEnemy.n||0)+1; const side=spawnEnemy.n%2?1:-1;
   let x= side<0? camX-24-rnd(0,40) : camX+W+24+rnd(0,40); let y= (spawnEnemy.n%3===0)? (LV.yMin||YMIN)+6 : (spawnEnemy.n%3===1? YMAX-6 : ((LV.yMin||YMIN)+YMAX)/2+rnd(-6,6));
   const ehp=Math.round(T.hp*(OPT.diff==='easy'&&type!=='zombie'?.7:OPT.diff==='hard'?1.35:1)*ramp()); const e={kind:'enemy',type,team:1,x,y,z:0,vx:0,vy:0,vz:0,dir:-side,hp:ehp,maxhp:ehp,state:'walk',t:0,anim:irnd(0,60),cool:irnd(40,90),sc:(T.sc||1)*K,name:T.name,inv:0,T};
-  if(type==='zombie'){ e.look=ZLOOKS[irnd(0,ZLOOKS.length-1)]; e.state='zombie'; e.filmCD=irnd(140,300); e.hp=Math.random()<.4?4:3; e.maxhp=e.hp; }
+  if(type==='zombie'){ e.look=ZLOOKS[irnd(0,ZLOOKS.length-1)]; e.state='zombie'; e.filmCD=irnd(140,300); e.hp=Math.random()<.4?4:3; e.maxhp=e.hp; e.name='USER_'+irnd(1000,9999); }
   else if(type==='camel'){ e.vx=-side*T.spd; e.dir=-side; e.state='run'; e.y=player?clamp(player.y,YMIN+6,YMAX-6):e.y; }
   else if(type==='feed'){ const mini=wave&&!wave.boss; e.x=mini?camX+W-70:LV.len-82; e.y=176; e.dir=-1; e.state='idle'; e.atkT=90; e.phase=1; if(mini){ e.hp=e.maxhp=160; e.mini=1; } bossIntro(e); }
   else e.look=LOOKS[T.look];
@@ -2406,6 +2406,7 @@ function enemyUpdate(e){
   if(T.gunner&&agentUpdate(e)) return;
   // HASNI SHOUT stun: frozen in 'hurt' (so the player can walk in and grab)
   if(e.stun>0 && e.type!=='feed'){ e.stun--; if(!['fall','down','dead','grabbed'].includes(e.state)){ e.state='hurt'; e.t=0; if(e.stun%18===0) fx.push({k:'note',x:e.x+rnd(-8,8),y:e.y,z:52,life:30}); } if(e.stun===0) e.state='walk'; return; }
+  if(G&&e.T&&e.T.role&&!e.shadow&&stageState==='play'&&e.x>camX+16&&e.x<camX+W-16){ const M=G.met||(G.met={}); if(!M[e.type]){ M[e.type]=1; fx.push({k:'txt',x:e.x,y:e.y-66,s:e.name+' · '+e.T.role,c:'#ffe066',life:130,slow:true}); } }
   if(e.type==='feed') return feedUpdate(e);
   if(e.type==='camel') return camelUpdate(e);
   if(e.state==='fall'){ e.z+=e.vz; e.vz-=.24; e.x+=e.vx; if(e.z<=0){ e.z=0; e.state='down'; e.t=0; sfx('down'); } return; }
