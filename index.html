@@ -174,7 +174,7 @@ function registerClear(){ if(G&&G.clearedRun) return; if(G) G.clearedRun=1; CLEA
 const GIFT_URL='https://sawna.bandcamp.com';
 
 /* ---------------- assets (optional images) ---------------- */
-const IMG={}; const AV='17.3a';
+const IMG={}; const AV='17.4';
 // images first: music and video wait for them, otherwise on a slow connection the sprites show up last
 let imgsReady; const IMGS_READY=new Promise(r=>imgsReady=r);
 function loadImg(key,src){return new Promise(r=>{const i=new Image();i.onload=()=>{IMG[key]=i;r(i)};i.onerror=()=>r(null);i.src=src+'?v='+AV;});}
@@ -1388,10 +1388,13 @@ function buildRigWalk(name,srcKey){ RIGW[name]=false; const e=ATLAS[srcKey]; if(
   for(let f=0;f<8;f++) ATLAS['rw_'+name+'_'+f]=[f*FW,0,FW,H,ik,e[5],P];
   RIGW[name]=true; }
 const OWNSPR={dabke:'x_dabke_0',booker:'x_booker_0'};
+// 6-frame walk cycles (Higgsfield, v70): cheb, BOUZID (hustler), GALLOUZ (goon)
+ASSET_LIST['spr/atlas_walk']='assets/spr/atlas_walk.png'; const W6={cheb:'w6_cheb',hustler:'w6_hustler',goon:'w6_goon'}; fetch('assets/spr/atlas_walk.json?v='+AV).then(r=>r.json()).then(j=>{ const m={}; for(const k in j){ m['w6_'+k]=[...j[k],'spr/atlas_walk']; } ATLAS=Object.assign(ATLAS||{},m); }).catch(()=>{});
 function spriteKey(e){
   const L=e.look; const name=L.look|| (L.lit&&!L.look?'z':null); const ename=(OWNSPR[e.type]&&ATLAS&&ATLAS[OWNSPR[e.type]])?e.type:(e.type==='zombie'&&!e.npc)?'z':(e.type==='scooter'?'hustler':((e.T&&e.T.base)||e.type||name)); const M=sprm15(e)||(HAS8&&(e.kind==='player'||e.asPlayer)&&SPRMAP8[name]&&ATLAS[SPRMAP8[name].idle]?SPRMAP8[name]:null)||(e.asPlayer&&HAS2&&SPRMAP2[name])||(HAS3&&e.kind==='enemy'&&SPRMAP3[ename])||(HAS3&&e.type==='zombie'&&SPRMAP3.z)||(HAS2&&SPRMAP2[name])||SPRMAP[name]||SPRMAP[e.type]||(e.type==='zombie'?SPRMAP.z:null); if(!M) return null;
   let st=e.pose||e.state; if(st==='grabbed'&&!M.grabbed) st='hurt'; if(st==='glide') st=M.glide?'glide':'walk'; if(e.kind==='player'||e.asPlayer){ if(st==='swipe') st='swing'; if(st==='throw') st='throwing'; } let k=M[st]||M.idle||M.zombie; if(!k) return null;
   e._bob=0;
+  if(st==='walk'&&!(e.T&&e.T.base)){ const wk=W6[e.kind==='enemy'?ename:name]; if(wk&&ATLAS[wk+'_w0']&&IMG['spr/atlas_walk']){ const spd=(e.kind==='player'&&G&&G.char)?G.char.spd:(e.T&&e.T.spd)||1; const fl=clamp(Math.round(6/Math.max(.5,spd)),3,10); return wk+'_w'+(Math.floor((e.anim||0)/fl)%6); } }
   if(st==='walk'&&e.kind!=='enemy'&&!(e.T&&e.T.base)&&name&&RIGW[name]!==false){ if(RIGW[name]===undefined&&ATLAS){ const sk=Array.isArray(M.walk)?M.walk[0]:M.walk; if(sk&&ATLAS[sk]&&IMG[ATLAS[sk][4]||'spr/atlas']) buildRigWalk(name,sk); }
     if(RIGW[name]){ const spd=(e.kind==='player'&&G&&G.char)?G.char.spd:1; const fl=clamp(Math.round(5/Math.max(.5,spd)),3,8); return 'rw_'+name+'_'+(Math.floor((e.anim||0)/fl)%8); } }
   // real 8-frame walk for Cheb
