@@ -174,7 +174,7 @@ function registerClear(){ if(G&&G.clearedRun) return; if(G) G.clearedRun=1; CLEA
 const GIFT_URL='https://sawna.bandcamp.com';
 
 /* ---------------- assets (optional images) ---------------- */
-const IMG={}; const AV='17.5';
+const IMG={}; const AV='17.6';
 // images first: music and video wait for them, otherwise on a slow connection the sprites show up last
 let imgsReady; const IMGS_READY=new Promise(r=>imgsReady=r);
 function loadImg(key,src){return new Promise(r=>{const i=new Image();i.onload=()=>{IMG[key]=i;r(i)};i.onerror=()=>r(null);i.src=src+'?v='+AV;});}
@@ -1207,6 +1207,7 @@ Object.assign(AR_T,{"INSERT 1 DINAR":"دخّل دينار واحد","DINAR ACCEP
 function frIt(it){ if(LANG!=='fr'||!it) return it; if(it.__fr) return it.__fr; const c=Object.assign({},it); for(const k of ['line','title','tag','feat','sub','who','stamp']) if(typeof c[k]==='string'&&FR_T[c[k]]) c[k]=FR_T[c[k]]; if(Array.isArray(c.msgs)) c.msgs=c.msgs.map(m=>[m[0],FR_T[m[1]]||m[1]]); Object.defineProperty(it,'__fr',{value:c,enumerable:false}); return c; }
 function tw(s,n){ s=tr(s); if(!AR_RX.test(s)) return s.slice(0,n); const w=s.split(' '); return w.slice(0,Math.ceil(n/4)).join(' '); }
 let NOTR=false; // draw a string exactly as given, no language swap (used for the second language in the intro)
+Object.assign(FR_T,{"MEANWHILE IN MARSEILLE, YALLA SOUNDSYSTEM IS SOLD OUT. THE PROMOTER WANTS MORE ORIENTAL WEDDING MUSIC, NOT THEIR WEIRD ELECTRONIC STUFF.": "PENDANT CE TEMPS À MARSEILLE, YALLA SOUNDSYSTEM AFFICHE COMPLET. LE PROMOTEUR VEUT PLUS DE MUSIQUE DE MARIAGE ORIENTALE, PAS LEUR ÉLECTRO BIZARRE.", "SO BADER PROMPTS CHEB: \"PEOPLE WANNA DANCE AND BE HAPPY. WE NEED YOUR HABIBI STUFF, KHOYA.\" ONE PROMPT, AND CHEB IS IN MARSEILLE INSTEAD OF HOME.": "ALORS BADER PROMPTE CHEB : « LES GENS VEULENT DANSER ET ÊTRE HEUREUX. ON A BESOIN DE TON TRUC HABIBI, KHOYA. » UN PROMPT, ET CHEB EST À MARSEILLE AU LIEU DE RENTRER.", "HIS BODY WENT TO CAIRO. THE CABLE STAYED PLUGGED INTO HER. EVERY SONG HE STREAMS RUNS ON HER BATTERY.": "SON CORPS EST PARTI AU CAIRE. LE CÂBLE EST RESTÉ BRANCHÉ SUR ELLE. CHAQUE CHANSON QU'IL STREAME TOURNE SUR SA BATTERIE."}); Object.assign(AR_T,{"MEANWHILE IN MARSEILLE, YALLA SOUNDSYSTEM IS SOLD OUT. THE PROMOTER WANTS MORE ORIENTAL WEDDING MUSIC, NOT THEIR WEIRD ELECTRONIC STUFF.": "وفي نفس الوقت في MARSEILLE، YALLA SOUNDSYSTEM خلاص باعو الكل. البروموتور يبغي موسيقى أفراح شرقية، ماشي الإلكترونيك الغريب تاعهم.", "SO BADER PROMPTS CHEB: \"PEOPLE WANNA DANCE AND BE HAPPY. WE NEED YOUR HABIBI STUFF, KHOYA.\" ONE PROMPT, AND CHEB IS IN MARSEILLE INSTEAD OF HOME.": "فـ بدر يبعث برومبت للشاب: «الناس يحبّو يرقصو ويفرحو. نحتاجو حاجتك الحبيبي، خويا.» برومبت واحد، والشاب في MARSEILLE وماشي في الدار.", "HIS BODY WENT TO CAIRO. THE CABLE STAYED PLUGGED INTO HER. EVERY SONG HE STREAMS RUNS ON HER BATTERY.": "جسدو راح للقاهرة. الكابل بقا مركّب فيها. كل غنية يستريميها تخدم بالباتري تاعها."});
 function tr(s){ if(NOTR||typeof s!=='string'||LANG==='en') return s; if(LANG==='fr'){ if(FR_T[s]) return FR_T[s]; const m=s.match(/^([A-Z \.:\/♪]+?)(\s*[\dx×].*)$/); if(m&&FR_T[m[1].trim()]) return FR_T[m[1].trim()]+m[2]; return s; } if(AR_T[s]) return AR_T[s]; // "SCORE 0001200", "HIT 4", "NAME x3" → translate the word part
   const m=s.match(/^([A-Z \.:\/♪]+?)(\s*[\dx×].*)$/); if(m&&AR_T[m[1]]) return AR_T[m[1]]+m[2]; if(m&&AR_T[m[1].trim()]) return AR_T[m[1].trim()]+m[2]; return s; }
 function text(s,x,y,col='#fff',size=8,align='left',sh='#000'){
@@ -2747,7 +2748,7 @@ const CINE={
   comeback:[
     {img:'intro/11_prompt_cloud',phone:'whatsapp',title:'COUSINS 🌍',dur:520,line:'THE FAMILY NEEDS HIM ONLINE. EVERY COUSIN WANTS A SONG.',msgs:[['BERKANE','cheb ur online!! we need a summer hit 🔥'],['BRUSSELS','make it trap but with derbouka'],['BENGHAZI','no. dub. siren. delay. trust'],['CAIRO','come to cairo khoya, the whole city is asleep on its phones'],['CHEB','ok ok. send the prompts.']]},
     {img:'intro/11_prompt_cloud',phone:'suno',by:'cousin_brussels',glow:'#ff7a3d',dur:460,line:'THE COUSINS PROMPT. CHEB SINGS. A SONG IS BORN EVERY MINUTE.',prompt:'raï noir, vocoded autotuned male voice, darija slang with some french, 80 bpm, oran wedding keys, 808, sad but you can dance',songs:['ZOMBY (v1)','ZOMBY (v2) fix the vocoder','ZOMBY (v3) more darbuka','ZOMBY (FINAL final)']},
-    {img:'intro/08_orbit',tag:'ORAN → CAIRO',line:'HIS BODY WENT TO CAIRO. THE CABLE STAYED PLUGGED INTO HER.',dur:400,mama:82},
+    {img:'intro/08_orbit',tag:'ORAN → CAIRO',line:'HIS BODY WENT TO CAIRO. THE CABLE STAYED PLUGGED INTO HER. EVERY SONG HE STREAMS RUNS ON HER BATTERY.',dur:460,mama:82},
   ],
   mumya:[ // 47-second old-Egyptian-movie title sequence on the Mumya track
     {img:'mumya/01_title',music:'mumya',film:1,tag:'TONIGHT ON CAIRO TV · THE TELENOVELA',calli:'مومياء',title:'MUMYA',line:"",dur:450},
@@ -2791,7 +2792,8 @@ const CINE={
     {img:'story/jannah_arch',tag:'JANNAH.EXE · HOME',title:'ADIEU',line:'SHE MOVED HERSELF TO JANNAH.EXE, HER LAST BACKUP. MAYBE TOO LATE.',dur:480},
   ],
   marseilleIntro:[
-    {img:'story/marseille_vp',music:'warda',tag:'MARSEILLE · VIEUX-PORT',title:'ZIDANE',feat:'STAGE 4',line:"MEANWHILE IN MARSEILLE, YALLA SOUNDSYSTEM IS SOLD OUT. THE PROMOTER WANTS MORE ORIENTAL WEDDING MUSIC, NOT THEIR WEIRD ELECTRONIC STUFF. SO BADER PROMPTS CHEB: \"PEOPLE WANNA DANCE AND BE HAPPY. WE NEED YOUR HABIBI STUFF, KHOYA.\" ONE PROMPT, AND CHEB IS IN MARSEILLE INSTEAD OF HOME.",dur:520},
+    {img:'story/yalla_decks',music:'warda',tag:'YALLA SOUNDSYSTEM',title:'ZIDANE',feat:'STAGE 4',line:"MEANWHILE IN MARSEILLE, YALLA SOUNDSYSTEM IS SOLD OUT. THE PROMOTER WANTS MORE ORIENTAL WEDDING MUSIC, NOT THEIR WEIRD ELECTRONIC STUFF.",dur:420},
+    {img:'story/marseille_vp',tag:'MARSEILLE · VIEUX-PORT',line:"SO BADER PROMPTS CHEB: \"PEOPLE WANNA DANCE AND BE HAPPY. WE NEED YOUR HABIBI STUFF, KHOYA.\" ONE PROMPT, AND CHEB IS IN MARSEILLE INSTEAD OF HOME.",dur:460},
     {img:'story/decolonial_queue',tag:'LE DÉCOLONIAL',line:"A QUEUE OF TOTE BAGS IS LINING UP",dur:480},
     
   ],
