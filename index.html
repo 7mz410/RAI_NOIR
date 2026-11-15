@@ -175,7 +175,7 @@ function registerClear(){ if(G&&G.clearedRun) return; if(G) G.clearedRun=1; CLEA
 const GIFT_URL='https://sawna.bandcamp.com';
 
 /* ---------------- assets (optional images) ---------------- */
-const IMG={}; const AV='18.7';
+const IMG={}; const AV='18.8';
 // images first: music and video wait for them, otherwise on a slow connection the sprites show up last
 let imgsReady; const IMGS_READY=new Promise(r=>imgsReady=r);
 function loadImg(key,src){return new Promise(r=>{const i=new Image();i.onload=()=>{IMG[key]=i;r(i)};i.onerror=()=>r(null);i.src=src+'?v='+AV;});}
@@ -1921,7 +1921,7 @@ const DJLINES={ playback:[
   
   
   'ONE DINAR AND A STORY TAG. BE GRATEFUL.' ] };
-function bossSay(e,s){ fx.push({k:'txt',x:e.x,y:e.y-88,s,c:'#ff9ec7',life:130}); }
+function bossSay(e,s){ if(busyTxt()) return; fx.push({k:'txt',x:e.x,y:e.y-88,s,c:'#ff9ec7',life:130}); }
 
 /* ---------------- level setup ---------------- */
 const SKITS={
@@ -1938,13 +1938,11 @@ const SKITS={
   amor:[
     {at:40,img:'story/gawdat_cafe',who:'BRO GAWDAT',line:"WELCOME TO MY NET CAFÉ, HABIBI. THE TEA IS FREE. LOVE IS NOT."},
     {at:300,sms:1,who:'MAMA',line:"WHO IS THIS SAMIA. DON'T LIE TO ME. I AM YOUR WIFI."},
-    {at:1700,sms:1,who:'PLAIBOY ALDI',line:"SHE'S NOT REAL, HABIBI. NEITHER ARE YOU. LET'S TALK BUSINESS. I CAN HELP YOU TO BECOME A HUGE STAR!"},
+    {at:1700,sms:1,who:'PLAIBOY ALDI',line:"SHE'S NOT REAL, HABIBI. NEITHER ARE YOU. LET'S TALK BUSINESS."},
   ],
   marseille:[
     {at:150,sms:1,who:'PLAIBOY ALDI',line:"MARSEILLE, HABIBI! HERE YOU ARE NOT A PERSON. YOU ARE A THEME NIGHT."},
-    {at:240,img:'story/booker_mural',who:'THE BOOKER · LE DÉCOLONIAL',line:"WE STAND WITH PALESTINE. ON THE WALL. AND ON OUR INSTAGRAM."},
-    {at:270,img:'story/booker_mural',who:'THE BOOKER · LE DÉCOLONIAL',line:"AND WE HIRE PEOPLE OF COLOUR! LOOK: BOUNCERS. CLEANING LADIES... DID YOU ALREADY TRY THE VEGAN MEAL FROM OUR PALESTINIAN VOLUNTEER?"},
-    {at:1100,sms:1,who:'PLAIBOY ALDI',line:"LOVE THIS CLUB. I FUND IT. THROUGH THREE FOUNDATIONS."},
+    {at:270,img:'story/booker_mural',who:'THE BOOKER · LE DÉCOLONIAL',line:"WE HIRE PEOPLE OF COLOUR! LOOK: BOUNCERS. CLEANING LADIES... DID YOU ALREADY TRY THE VEGAN MEAL FROM OUR PALESTINIAN VOLUNTEER?"},
     {at:1380,img:'story/tata',stop:'tata',who:'TIMBAIAND (FROM THE BOOTH)',line:"MARSEILLE! MY NEW ARTIST. SHE NEVER SLEEPS. SHE NEVER ASKS FOR A FEE. PLEASE WELCOME... TATA!"},
     {at:1395,img:'story/tata',stop:'tata',who:'TATA TAKTUMI',intro:['TATA TAKTUMI',"TIMBAIAND'S A.I. ARTIST · PROMPTED, NOT PAID · PRESS YALLA TO ASK HER OFFLINE"],line:"THIS ONE IS CALLED PROMPT ME A RIVER. HE WROTE IT. I JUST... LIVE IN IT."},
     {at:1410,img:'story/tata',stop:'tata',who:'CHEB',line:"SHE SINGS LIKE SOMEONE WHO WANTS TO GO HOME."},
@@ -1952,8 +1950,6 @@ const SKITS={
     {at:1575,img:'story/marseille_door',stop:'nadia',who:'NADIA (CLEANER, LE DÉCOLONIAL)',tape:'taha1',line:"THEY THREW THIS TAPE OUT. 'TOO OLD SCHOOL.' TAKE IT, KHOYA. DOUCE FRANCE, MY FOOT."},
   ],
   mahram:[
-    {at:2050,sms:1,who:'PLAIBOY ALDI',line:"YOU THINK I'M THE DEVIL? I'M THE HALF OF YOU THAT PRESSED SEND."},
-    {at:2420,sms:1,who:'MAMA',line:"AND I AM THE HALF THAT WAITS. WAKE UP, WLIDI."},
   ],
   boat:[
     {at:300,sms:1,who:'NEPHEW YACINE',line:"ARE YOU COMING HOME?? MAMA MADE YOUR FAVORITE FOOD."},
@@ -1973,16 +1969,15 @@ const SKITVID={'story/spider_vendor':'https://d2ol7oe51mr4n9.cloudfront.net/user
 function skitVid(k){ const u=SKITVID[k]; if(!u||u.startsWith('__')) return null; let v=SKITV[k]; if(!v){ v=SKITV[k]=document.createElement('video'); v.muted=true; v.loop=true; v.playsInline=true; v.setAttribute('playsinline',''); v.preload='auto'; v.onerror=()=>{ if(v.src.indexOf('assets/')>=0){ v.onerror=null; v.src=u; } }; v.src='assets/video/'+k.split('/')[1].replace('spider_vendor','tiririri')+'.mp4'; } return v; }
 function startSkit(sk,list){ skitDone.add(sk); const talk=[[sk.who,sk.line]]; for(const o of list){ if(o!==sk&&!skitDone.has(o)&&o.img===sk.img&&(!!o.stop===!!sk.stop)&&o.at>sk.at&&o.at-sk.at<=140&&talk.length<3){ skitDone.add(o); talk.push([o.who,o.line]); } } skit={...sk,talk,line:talk.map(x=>x[1]).join(' '),t:0,dur:330}; if(list.some(o=>o.haggle&&o.img===sk.img&&skitDone.has(o))) skit.haggle=1; if(sk.meet&&G){ G.met=G.met||{}; G.met[sk.meet]=1; metChar(sk.meet); skit.joined=CHARS.find(c=>c.id===sk.meet); } musicDuck=.4; { const v=skitVid(sk.img); if(v){ try{ v.currentTime=0; v.play().catch(()=>{}); }catch(e){} } } sfx('flash'); if(sk.img==='story/spider_vendor'&&!VMARK.has('secret')) floatText(player.x,player.y-96,'YALLA (Y) = BUY THE HOODIE','#7dff8a'); if(sk.item) items.push({kind:'item',it:sk.item,x:player.x+40,y:player.y,z:90,vz:0,t:0}); for(const o of list) if(o.tape&&skitDone.has(o)&&o.img===sk.img&&!COLL.has(o.tape)&&!skit.tapeDone){ skit.tapeDone=1; items.push({kind:'item',it:'tape',tape:o.tape,x:player.x+70,y:player.y,z:14,vz:2,t:0}); } }
 /* free-album teasers: one SAWNA REC sms per level */
-{ const TEASE={oran:[900,"FINISH THE GAME = FREE DOWNLOAD OF THE RAÏ NOIR ALBUM. YES, REALLY FREE."],
-  marseille:[1200,"FREE ALBUM AT THE END. DJ? PLAY THE EXCLUSIVE TRACKS ON YOUR STREAM."],
-  hell:[1100,"BEAT ALDI = FREE ALBUM. HE WANTS 9.99 A MONTH. WE SAY ZERO."]};
+{ const TEASE={oran:[900,"FINISH THE GAME = FREE DOWNLOAD OF THE RAÏ NOIR ALBUM. YES, REALLY FREE."]};
   for(const id in TEASE){ (SKITS[id]=SKITS[id]||[]).push({at:TEASE[id][0],sms:1,who:'SAWNA REC',line:TEASE[id][1]}); } }
-function checkSkits(){ muralPeek(); for(const e of ents) if(e.type==='duck'&&!e.dead&&e.hp>0){ e.dk=(e.dk||0)+1; if(e.dk===560){ floatText(e.x,e.y-70,'DUCK.EXE HAS STOPPED WORKING','#5ff0ff'); sfx('zap'); hurt(e,999,true); } } if(skit||stageState!=='play') return; const list=SKITS[LV.id]||[]; for(const sk of list){ if(sk.stop) continue; if(!skitDone.has(sk)&&player.x>=sk.at){ if(sk.sms){ skitDone.add(sk); sms(sk.who,sk.line); continue; } if(ents.some(e=>e.kind==='enemy'&&!e.dead&&e.hp>0&&Math.abs(e.x-player.x)<W*.7)&&(G.skitWait=(G.skitWait||0)+1)<480) break; G.skitWait=0; startSkit(sk,list); break; } } stopsUpdate(list); }
+function checkSkits(){ muralPeek(); for(const e of ents) if(e.type==='duck'&&!e.dead&&e.hp>0){ e.dk=(e.dk||0)+1; if(e.dk===560){ floatText(e.x,e.y-70,'DUCK.EXE HAS STOPPED WORKING','#5ff0ff'); sfx('zap'); hurt(e,999,true); } } if(skit||stageState!=='play') return; const list=SKITS[LV.id]||[]; for(const sk of list){ if(sk.stop) continue; if(!skitDone.has(sk)&&player.x>=sk.at){ if(sk.sms){ skitDone.add(sk); sms(sk.who,sk.line); continue; } if(PHONE.cur) break; if(ents.some(e=>e.kind==='enemy'&&!e.dead&&e.hp>0&&Math.abs(e.x-player.x)<W*.7)&&(G.skitWait=(G.skitWait||0)+1)<480) break; G.skitWait=0; startSkit(sk,list); break; } } stopsUpdate(list); }
 /* ---------------- THE NOKIA: Mama, the nephews and the devil text you. Read it or keep punching. ---------------- */
 let PHONE={q:[],cur:null,t:0};
+const busyTxt=()=>!!(PHONE.cur||skit||msg||EPIC); /* v82: one text box at a time */
 function sms(from,txt,o){ PHONE.q.push(Object.assign({from,txt},o||{})); }
 function phoneLife(c){ return Math.max(300,200+String(tr(c.txt)).length*4.4); }
-function phoneUpdate(){ if(!PHONE.cur&&PHONE.q.length){ PHONE.cur=PHONE.q.shift(); PHONE.t=0; sfx('phone'); } if(PHONE.cur){ PHONE.t++; if(PHONE.t>phoneLife(PHONE.cur)) PHONE.cur=null; } }
+function phoneUpdate(){ if(PHONE.gap>0) PHONE.gap--; if(!PHONE.cur&&PHONE.q.length&&!(PHONE.gap>0)&&!skit&&!msg&&!EPIC){ PHONE.cur=PHONE.q.shift(); PHONE.t=0; sfx('phone'); } if(PHONE.cur){ PHONE.t++; if(PHONE.t>phoneLife(PHONE.cur)){ PHONE.cur=null; PHONE.gap=240; } } }
 function drawNokia(){ const c=PHONE.cur; if(!c) return; const T=PHONE.t, life=phoneLife(c), k=clamp(Math.min(T/12,(life-T)/12),0,1);
   const pw=140, ph=98, bz=T<26?Math.round(Math.sin(T*1.7)*2):0, x=Math.round((W-pw)/2)+bz, y=Math.round(k*(ph-8))-ph+2; /* drops in from the top-right: clear of the fight */
   const who=String(c.from||''), aldi=/ALDI/.test(who), mama=/MAMA/.test(who);
@@ -2261,7 +2256,7 @@ function feedDie(e){ sfx('boom'); flashA=1; shake=16; for(let i=0;i<60;i++) fx.p
   G.score+=20000; bossEnt=null; if(!e.mini) msg={t:240,big:'',small:"ALDI: YOU BROKE MY BEST PRODUCT, HABIBI. I HAVE OTHERS.",top:1}; }
 function spark(x,y){ fx.push({k:'spark',x,y,life:8}); }
 let SAY_LAST=-999; const SAY_SEEN=new Set(); let SAY_ALL=new Set(); try{ SAY_ALL=new Set(JSON.parse(localStorage.getItem('rainoir-jokes')||'[]')); }catch(e){} // enemy one-liners: one at a time, unseen ones first, so every joke gets read
-function floatText(x,y,s,c){ if(stageState==='drive'){ if(frame-(floatText.last||0)<45) return; floatText.last=frame; } /* the car ride was a flood of +250s */ const L=String(tr(s)).length; if(L>10){ const sl=fx.filter(f=>f.k==='txt'&&f.slow); while(sl.length>=2){ const o=sl.shift(); fx.splice(fx.indexOf(o),1); } } fx.push({k:'txt',x,y,s,c,life:L>10?Math.min(330,90+L*4):55,slow:L>10}); }
+function floatText(x,y,s,c){ if(stageState==='drive'){ if(frame-(floatText.last||0)<45) return; floatText.last=frame; } /* the car ride was a flood of +250s */ const L=String(tr(s)).length; if(L>10){ const sl=fx.filter(f=>f.k==='txt'&&f.slow); while(sl.length>=(busyTxt()?1:2)){ const o=sl.shift(); fx.splice(fx.indexOf(o),1); } } fx.push({k:'txt',x,y,s,c,life:L>10?Math.min(330,90+L*4):55,slow:L>10}); }
 function bowlTick(){ for(const g of ents){ if(!g.thrown||g.dead) continue; if(g.state!=='fall'||g.z<=0){ g.thrown=0; continue; }
     for(const o of ents){ if(o===g||o.kind!=='enemy'||o.team!==1||o.dead||g.bowled.has(o)||['down','dead','fall','woke','leave'].includes(o.state)) continue; if(Math.abs(o.x-g.x)<22&&Math.abs(o.y-g.y)<14){ g.bowled.add(o); hurt(o,12*(G.char.pow||1),true,{dir:sgn(g.vx)||1,x:g.x}); floatText(o.x,o.y-60,'STRIKE!','#ff5fa8'); G.score+=300; G.sp=Math.min(100,(G.sp||0)+6); shake=Math.max(shake,4); } } } }
 function breakProp(p){ if(p.dead) return; p.dead=true; sfx('break'); for(let i=0;i<8;i++) fx.push({k:'debris',x:p.x,y:p.y,z:10,vx:rnd(-2,2),vz:rnd(1,3),life:40,c:p.prop==='crate'?'#9a6a3a':p.prop==='barrel'?'#a04a2a':'#2f7a3a'}); items.push({kind:'item',it:p.item,x:p.x,y:p.y,z:12,vz:2,t:0}); if(p.tape){ items.push({kind:'item',it:'tape',tape:p.tape,x:p.x+10,y:p.y,z:30,vz:3,t:0}); sfx('life'); } }
@@ -2757,7 +2752,6 @@ const CINE={
   plugin:[
   ],
   comeback:[
-    {img:'intro/11_prompt_cloud',phone:'whatsapp',title:'COUSINS 🌍',dur:520,line:'THE FAMILY NEEDS HIM ONLINE. EVERY COUSIN WANTS A SONG.',msgs:[['BERKANE','cheb ur online!! we need a summer hit 🔥'],['BRUSSELS','make it trap but with derbouka'],['BENGHAZI','no. dub. siren. delay. trust'],['CAIRO','come to cairo khoya, the whole city is asleep on its phones'],['CHEB','ok ok. send the prompts.']]},
     {img:'intro/11_prompt_cloud',phone:'suno',by:'cousin_brussels',glow:'#ff7a3d',dur:460,line:'THE COUSINS PROMPT. CHEB SINGS. A SONG IS BORN EVERY MINUTE.',prompt:'raï noir, vocoded autotuned male voice, darija slang with some french, 80 bpm, oran wedding keys, 808, sad but you can dance',songs:['ZOMBY (v1)','ZOMBY (v2) fix the vocoder','ZOMBY (v3) more darbuka','ZOMBY (FINAL final)']},
     {img:'intro/08_orbit',tag:'ORAN → CAIRO',line:'HIS BODY WENT TO CAIRO. THE CABLE STAYED PLUGGED INTO HER. EVERY SONG HE STREAMS RUNS ON HER BATTERY.',dur:460,mama:82},
   ],
@@ -2795,7 +2789,7 @@ const CINE={
   ],
   hellIntro:[
     {img:'story/matrix_rain',rain:1,music:'poete',seek:0,tag:'UNDER ORAN',title:'HELL.EXE',line:"HER CABLE ENDS HERE. ALDI'S DATACENTRE. A THOUSAND SERVERS.",dur:480},
-    {img:'story/matrix_catch',rain:1,tag:'HIS AGENTS',line:"THEY SHOOT. CHEB REALISES HE CAN NOW DODGE BULLETS. JUMP RIGHT BEFORE A BULLET = DODGE. FULL SLO-MO BAR: SPECIAL = BULLET TIME.",dur:440},
+    {img:'story/matrix_catch',rain:1,tag:'HIS AGENTS',line:"THEY SHOOT. CHEB FINDS OUT HE CAN DODGE BULLETS.",dur:440},
   ],
   adieuIntro:[
         {img:'bg/serverfarm',tag:'SERVERS DOWN',line:'THE SERVERS GO DARK. THE CABLE IS FREE. ONE LAST BAR OF SIGNAL, POINTING UP.',dur:420,mama:3},
@@ -2804,7 +2798,6 @@ const CINE={
   marseilleIntro:[
     {img:'story/yalla_decks',music:'warda',tag:'YALLA SOUNDSYSTEM',title:'ZIDANE',feat:'STAGE 4',line:"MEANWHILE IN MARSEILLE, YALLA SOUNDSYSTEM IS SOLD OUT. THE PROMOTER WANTS MORE ORIENTAL WEDDING MUSIC, NOT THEIR WEIRD ELECTRONIC STUFF.",dur:420},
     {img:'story/marseille_vp',tag:'MARSEILLE · VIEUX-PORT',line:"SO BADER PROMPTS CHEB: \"PEOPLE WANNA DANCE AND BE HAPPY. WE NEED YOUR HABIBI STUFF, KHOYA.\" ONE PROMPT, AND CHEB IS IN MARSEILLE INSTEAD OF HOME.",dur:460},
-    {img:'story/decolonial_queue',tag:'LE DÉCOLONIAL',line:"A QUEUE OF TOTE BAGS IS LINING UP",dur:480},
     
   ],
   marseilleOut:[
@@ -3562,7 +3555,7 @@ SC.amorTears=cineScene(CINE.amorTears,null,()=>go(SC.marseilleIntro));
 SC.marseilleIntro=cineScene(CINE.marseilleIntro,'warda',()=>go(SC.stage7));
 SC.stage7={ isStage:true, enter(){ startLevel(6); }, update(){ stageUpdate(()=>go(SC.marseilleOut)); }, draw(){ stageDraw(); } };
 SC.marseilleOut=cineScene(CINE.marseilleOut,null,()=>go(SC.boatIntro));
-SC.sleepIntro=cineScene(CINE.sleep,null,()=>go(SC.mahramIntro));
+SC.sleepIntro={isCine:true,enter(){ go(SC.mahramIntro); },update(){},draw(){ ctx.fillStyle='#000'; ctx.fillRect(0,0,W,H); }}; /* v82: the two sleep panels repeated the boat ending */
 SC.mahramIntro=cineScene(CINE.mahramIntro,'poete',()=>go(SC.mahramOut));
 SC.stage4={ isStage:true, enter(){ startLevel(3); }, update(){ stageUpdate(()=>go(SC.mahramOut)); }, draw(){ stageDraw(); } };
 SC.mahramOut=cineScene(CINE.mahramOut,null,()=>go(SC.hellIntro));
@@ -3970,7 +3963,7 @@ const SLANG={
     'THEY SAMPLED RIMITTI AND TAGGED IT *TRIBAL HOUSE*. HCHOUMA.'],
   idleOff:['NO SIGNAL. SAHA.','MAMA CALLED. 11 TIMES.','OFFLINE = THE GOOD LIFE.','MA3ANDI WALOU. LABES.',
     "HASNI DIDN'T NEED A LINK IN BIO."]};
-function bark(pool,x,y,col){ const L=(pool==='ko'&&LV&&LV.club&&Math.random()<.7)?SLANG.club:SLANG[pool]; if(!L) return; floatText(x,(y||player.y)-78,L[irnd(0,L.length-1)],col||'#ffe066'); }
+function bark(pool,x,y,col){ if(busyTxt()||frame-(bark.last||-999)<300) return; bark.last=frame; const L=(pool==='ko'&&LV&&LV.club&&Math.random()<.7)?SLANG.club:SLANG[pool]; if(!L) return; floatText(x,(y||player.y)-78,L[irnd(0,L.length-1)],col||'#ffe066'); }
 function idleGag(p){ const moving=held.left||held.right||held.up||held.down||pressed.a||pressed.b||pressed.k||pressed.y; if(moving||p.state!=='idle'||ents.some(e=>e.kind==='enemy'&&!e.dead)) { idleT=0; return; } idleT++;
   if(idleT>=360) p.pose='film';
   if(idleT===360){ const L=SLANG[LV.battery?'idleOn':'idleOff']; floatText(p.x,p.y-72,L[irnd(0,L.length-1)],'#ffe066'); sfx('phone'); }
