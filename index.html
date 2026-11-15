@@ -175,7 +175,7 @@ function registerClear(){ if(G&&G.clearedRun) return; if(G) G.clearedRun=1; CLEA
 const GIFT_URL='https://sawna.bandcamp.com';
 
 /* ---------------- assets (optional images) ---------------- */
-const IMG={}; const AV='19.1';
+const IMG={}; const AV='19.2';
 // images first: music and video wait for them, otherwise on a slow connection the sprites show up last
 let imgsReady; const IMGS_READY=new Promise(r=>imgsReady=r);
 function loadImg(key,src){return new Promise(r=>{const i=new Image();i.onload=()=>{IMG[key]=i;r(i)};i.onerror=()=>r(null);i.src=src+'?v='+AV;});}
@@ -1909,7 +1909,8 @@ function drawEpic(){ const E=EPIC; if(!E) return; const t=E.t, k=Math.min(1,t/18
 function drawSlomo(){ if(!LV||!LV.hell||!G||stageState!=='play'||EPIC){ if(drawSlomo.on&&drawSlomo.btn){ drawSlomo.on=false; drawSlomo.btn.classList.remove('pulse'); } return; } const v=G.bt||0;
   if(SLOMO>0){ R(0,0,W,H,'rgba(60,140,255,.12)'); if(frame%30<20) text(tr('BULLET TIME'),W/2,58,'#5ff0ff',8,'center'); }
   const rdy=v>=100&&SLOMO<=0; R(5,H-17,92,10,'#000'); R(6,H-16,Math.round(90*v/100),8,rdy?(frame%20<10?'#ffd23a':'#fff'):'#2a6aa8'); text(tr('SLO-MO'),8,H-15,rdy?'#1a0b14':'#cfe4ff',5,'left',null);
-  if(rdy){ if(frame%40<28){ R(W/2-104,66,208,14,'rgba(6,3,14,.78)'); text(tr('BULLET TIME READY · PRESS SPECIAL'),W/2,70,'#ffd23a',6,'center',null); } }
+  if(msg||skit||PHONE.cur||EPIC){ /* v84: one prompt at a time */ }
+  else if(rdy){ if(frame%40<28){ R(W/2-104,66,208,14,'rgba(6,3,14,.78)'); text(tr('BULLET TIME READY · PRESS SPECIAL'),W/2,70,'#ffd23a',6,'center',null); } }
   else if(SLOMO<=0&&levelT<540&&v<100){ R(W/2-104,66,208,14,'rgba(6,3,14,.82)'); text(tr('HIT ENEMIES TO FILL THE SLO-MO BAR'),W/2,70,'#ffffff',5,'center',null); }
   if(drawSlomo.btn===undefined) drawSlomo.btn=document.querySelector('.tb[data-k="c"]')||null; if(drawSlomo.btn&&drawSlomo.on!==rdy){ drawSlomo.on=rdy; drawSlomo.btn.classList.toggle('pulse',rdy); } }
 function bossIntro(e){ bossEnt=e; if(e.type==='aldiboss'&&LV&&LV.hell) epic('aldi','story/aldi_devil','PLAIBOY ALDI','THE LAST TIME. THE CLOUD HAS NO ROOF.',230); msg={t:150,big:e.name,small:e.type==='curator'?'NO FEE · HUGE VISIBILITY · FUNDED BY ALDI.FEED':e.type==='soufi'?'HE SPINS FOR PEACE. DODGE THE TRANCE':e.type==='shadowself'?'ALDI\'S LAST MASK — ABRAXAS':e.type==='feed'?(e.mini?'HE FOLLOWED YOU FROM CAIRO':'THE ALGORITHM IS HUNGRY'):e.type==='m3alim'?'رجعت؟ — YOU CAME BACK?':e.type==='jnoun'?'HE ONLY COMES OUT WHEN YOU SLEEP':e.type==='wiggzboss'?'THE CATFISH FARM · SAMIA WAS A PROMPT, YOU IDIOT':e.type==='aldiboss'?'CEO OF THE CLOUD':e.type==='aldi'?'-50% ON YOUR SOUL · TODAY ONLY':"KIOSK RADIO DJ · BOUGHT YOUR TRACK FOR 1 DINAR AND PLAYED IT ONLINE! NO PLAYLIST."}; sfx('boss'); if(DJLINES[e.type]) e.djq=[...DJLINES[e.type]]; }
@@ -1974,12 +1975,13 @@ function startSkit(sk,list){ skitDone.add(sk); const talk=[[sk.who,sk.line]]; fo
 function checkSkits(){ muralPeek(); for(const e of ents) if(e.type==='duck'&&!e.dead&&e.hp>0){ e.dk=(e.dk||0)+1; if(e.dk===560){ floatText(e.x,e.y-70,'DUCK.EXE HAS STOPPED WORKING','#5ff0ff'); sfx('zap'); hurt(e,999,true); } } if(skit||stageState!=='play') return; const list=SKITS[LV.id]||[]; for(const sk of list){ if(sk.stop) continue; if(!skitDone.has(sk)&&player.x>=sk.at){ if(sk.sms){ skitDone.add(sk); sms(sk.who,sk.line); continue; } if(PHONE.cur) break; if(ents.some(e=>e.kind==='enemy'&&!e.dead&&e.hp>0&&Math.abs(e.x-player.x)<W*.7)&&(G.skitWait=(G.skitWait||0)+1)<480) break; G.skitWait=0; startSkit(sk,list); break; } } stopsUpdate(list); }
 /* ---------------- THE NOKIA: Mama, the nephews and the devil text you. Read it or keep punching. ---------------- */
 let PHONE={q:[],cur:null,t:0};
-const busyTxt=()=>!!(PHONE.cur||skit||msg||EPIC); /* v82: one text box at a time */
+const hideShout=()=>!!(PHONE.cur||skit||msg||EPIC||paused||(typeof stageState!=='undefined'&&stageState!=='play'));
+const busyTxt=()=>!!(hideShout()||(hitCombo>=3&&hitComboT>0)||(LV&&LV.hell&&((G&&G.bt)||0)>=100&&SLOMO<=0)); /* v84: shouts yield to boxes, banners, the combo counter and the bullet-time prompt */
 function sms(from,txt,o){ PHONE.q.push(Object.assign({from,txt},o||{})); }
 function phoneLife(c){ return Math.max(300,200+String(tr(c.txt)).length*4.4); }
 function phoneUpdate(){ if(PHONE.gap>0) PHONE.gap--; if(!PHONE.cur&&PHONE.q.length&&!(PHONE.gap>0)&&!skit&&!msg&&!EPIC){ PHONE.cur=PHONE.q.shift(); PHONE.t=0; sfx('phone'); } if(PHONE.cur){ PHONE.t++; if(PHONE.t>phoneLife(PHONE.cur)){ PHONE.cur=null; PHONE.gap=240; } } }
 function drawNokia(){ const c=PHONE.cur; if(!c) return; const T=PHONE.t, life=phoneLife(c), k=clamp(Math.min(T/12,(life-T)/12),0,1);
-  const pw=140, ph=98, bz=T<26?Math.round(Math.sin(T*1.7)*2):0, x=Math.round((W-pw)/2)+bz, y=Math.round(k*(ph-8))-ph+2; /* drops in from the top-right: clear of the fight */
+  const pw=140, ph=98, bz=T<26?Math.round(Math.sin(T*1.7)*2):0, x=Math.round((W-pw)/2)+bz, y=32-Math.round((1-k)*(ph+36)); /* v84: lands under the HUD bar, centred, clear of the fight */
   const who=String(c.from||''), aldi=/ALDI/.test(who), mama=/MAMA/.test(who);
   R(x+3,y+3,pw,ph,'rgba(0,0,0,.45)'); R(x+2,y,pw-4,ph,'#1b2340'); R(x,y+2,pw,ph-2,'#1b2340'); R(x+2,y+1,pw-4,1,'#3c4a7a'); R(x+1,y+3,1,ph-6,'#2c3864'); R(x+pw-2,y+3,1,ph-6,'#10152a');
   for(let i=0;i<4;i++) R(x+pw/2-7+i*4,y+4,2,2,'#0b0f1e');
@@ -2576,7 +2578,7 @@ function driveDraw(){ const D=DRV; const lp=driveLoop(), sc=Math.floor(D.scroll)
   const list=[...D.en,{car:1,y:D.y}]; list.sort((a,b)=>a.y-b.y);
   for(const o of list){ if(o.car){ drawDS(70,D.y,D.scroll*.2,D.wob); continue; } if(o.type==='camel') drawCamel(o); else drawFighter(o,0); }
   for(const b of D.sh){ R(Math.round(b.x),Math.round(b.y),6,2,'#ffe066'); R(Math.round(b.x)-4,Math.round(b.y),4,2,'#ff8a1a'); }
-  for(const f of fx) drawFx(f);
+  for(const f of fx){ if(f.k==='txt'&&f.slow&&hideShout()) continue; drawFx(f); }
   // car HUD
   for(let i=0;i<4;i++) R(8+i*10,30,8,6,i<D.hp?'#3f7ed8':'#2a1640'); text('DS',8,38,'#5ff0ff',5,'left',null); text('HIT '+D.kills,W-8,30,'#ffe066',6,'right');
 }
@@ -3291,21 +3293,22 @@ const LVNAME={lift:'THE LIFT',boat:'THE BOAT',hell:'HELL.EXE',oran:'ORAN',cairo:
 const K7COL={oran:'#2f6f8f',cairo:'#b8603a',amor:'#9a3f7a',marseille:'#3f7a4a',boat:'#2f5a8f',hell:'#7a2a2a',jannah:'#8f7a2a'};
 function drawK7(x,y,w,h,t,have,sel){
   const lift=sel?-1:0; y+=lift;
-  const shell=have?(t.rare?'#d8b24a':(K7COL[t.lv]||'#6a5a8a')):'#231a38';
+  const shell=have?(t.rare?'#d8b24a':(K7COL[t.lv]||'#6a5a8a')):'#4a3f66';
   const dark=have?'rgba(0,0,0,.35)':'rgba(0,0,0,.25)';
   R(x+1,y+2,w-2,h-1,'rgba(0,0,0,.45)');            // drop shadow
   R(x,y,w,h,shell);                                  // shell
   R(x,y,w,1,'rgba(255,255,255,.25)'); R(x,y+h-1,w,1,dark);
   // paper label
   const lx=x+3, ly=y+3, lw=w-6, lh=Math.round(h*.46);
-  R(lx,ly,lw,lh,have?'#f4e7c8':'#2d2448');
+  R(lx,ly,lw,lh,have?'#f4e7c8':'#2a2340');
   if(have){ R(lx,ly,lw,1,'#fffaf0'); R(lx,ly+lh-1,lw,1,'#c9b894');
     text(t.artist.replace('CHEB ','').replace('CHEBA ','').replace('CHEIKHA ','').replace('CHABA ','').slice(0,13),lx+lw/2,ly+1,'#2a1024',4,'center',null);
     text(t.title.split(' — ')[0].slice(0,15),lx+lw/2,ly+7,'#7a4a2a',4,'center',null); }
-  else text('???',lx+lw/2,ly+lh/2-3,'#5a4a7a',5,'center',null);
+  else text('???',lx+lw/2,ly+lh/2-3,'#8a7aa8',5,'center',null);
   // window with the two reels
   const wy=ly+lh+2, wh=h-(lh+7), wx=x+5, ww=w-10;
   R(wx,wy,ww,wh,'#140c22');
+  { const cy=wy+wh/2, r=Math.max(2.5,wh/2-1.5); if(!have){ for(const cx of [wx+ww*.28,wx+ww*.72]){ ctx.fillStyle='#1b1430'; ctx.beginPath(); ctx.arc(cx,cy,r,0,7); ctx.fill(); } } }
   if(have){ const cy=wy+wh/2, r=Math.max(2.5,wh/2-1.5);
     for(const cx of [wx+ww*.28,wx+ww*.72]){
       ctx.fillStyle='#2a2038'; ctx.beginPath(); ctx.arc(cx,cy,r,0,7); ctx.fill();
@@ -3321,8 +3324,8 @@ SC.k7={ i:0, enter(){ this.i=0; },
   tapAt(x,y){ if(x<54&&y<20){ backMenu(); return; } for(let i=0;i<TAPES.length;i++){ const c=this.cell(i); if(x>=c.x&&x<c.x+c.w&&y>=c.y&&y<c.y+c.h){ this.i=i; sfx('blip'); } } },
   update(){ const n=TAPES.length; if(pressed.left) this.i=(this.i+n-1)%n; if(pressed.right) this.i=(this.i+1)%n; if(pressed.up) this.i=(this.i+n-6)%n; if(pressed.down) this.i=(this.i+6)%n;
     if(pressed.left||pressed.right||pressed.up||pressed.down) sfx('blip'); if(pressed.b||pressed.pause||pressed.start) backMenu(); },
-  draw(){ ctx.fillStyle='#0b0616'; ctx.fillRect(0,0,W,H); const st=['#2a0a4a','#4e1060','#7d1a6e','#b8266f','#ec3f74']; for(let k=0;k<5;k++) R(0,4+k*3,W,2,st[k]);
-    chromeText('K7 COLLECTION',W/2,6,12); backBtn(); text(COLL.size+'/'+TAPES.length,W-8,7,'#ffe066',6,'right',null);
+  draw(){ ctx.fillStyle='#0b0616'; ctx.fillRect(0,0,W,H); const st=['#2a0a4a','#4e1060','#7d1a6e','#b8266f','#ec3f74']; for(let k=0;k<5;k++) R(0,k*2,W,2,st[k]);
+    chromeText('K7 COLLECTION',W/2,12,11); backBtn(); text(COLL.size+'/'+TAPES.length,W-8,14,'#ffe066',6,'right',null);
     TAPES.forEach((t,i)=>{ const c=this.cell(i); drawK7(c.x,c.y,c.w,c.h,t,COLL.has(t.id),i===this.i); });
     const t=TAPES[this.i], have=COLL.has(t.id); R(0,H-50,W,50,'rgba(0,0,0,.6)');
     if(have){ text(t.artist,W/2,H-46,'#ffe066',7,'center'); text(t.title,W/2,H-35,'#f4e7c8',6,'center',null); if(t.info){ const L=wrapText(t.info,W-24,5); L.slice(0,2).forEach((l,k)=>text(l,W/2,H-24+k*8,'#5ff0ff',5,'center',null)); } }
@@ -4215,7 +4218,7 @@ function drawFx(f){ const sx=Math.round(f.x-camX);
 
 function drawHUD(){
   if(hitCombo===6&&hitComboT===90) bark('hit',player.x,player.y,'#ff5fa8');
-  if(hitCombo>=3&&hitComboT>0){ const k=1+Math.max(0,(hitComboT-50))*.08; ctx.save(); ctx.translate(W-40,70); ctx.scale(k,k); chromeText(hitCombo+' HITS',0,-8,12); ctx.restore(); text(hitCombo>=9?'RIOT!':hitCombo>=6?'BLED!':'COMBO',W-40,88,'#ffe066',6,'center'); }
+  if(hitCombo>=3&&hitComboT>0&&!msg&&!EPIC){ const k=1+Math.max(0,(hitComboT-50))*.08; ctx.save(); ctx.translate(W-40,70); ctx.scale(k,k); chromeText(hitCombo+' HITS',0,-8,12); ctx.restore(); text(hitCombo>=9?'RIOT!':hitCombo>=6?'BLED!':'COMBO',W-40,88,'#ffe066',6,'center'); }
   R(0,0,W,30,'rgba(6,3,14,.82)'); R(0,30,W,1,'#3a2a5a');
   // portrait
   R(4,4,22,22,'#1a0f2e'); ctx.strokeStyle='#ffe066'; ctx.strokeRect(4.5,4.5,21,21);
@@ -4359,7 +4362,7 @@ function stageDraw(noHud){
     else if(o.kind==='player'||o.kind==='enemy'){ if(o===player&&player.dead) continue; if(o.hide) continue; if(o===player&&LV&&(LV.club||['mahram','hell','boat','night'].includes(LV.id))){ ctx.save(); ctx.shadowColor='rgba(150,225,255,.9)'; ctx.shadowBlur=4; drawFighter(o,camX); ctx.restore(); } else drawFighter(o,camX); if(o===player&&player.ride){ const bx=Math.round(o.x-camX)-15, by=Math.round(o.y-o.z)-82; R(bx,by,30,3,'#111'); R(bx,by,Math.round(30*player.rideT/600),3,'#5ff0ff'); } if(o.type==='zombie'&&o.state==='woke'&&o.t<40) text('!',Math.round(o.x-camX),Math.round(o.y-52),'#ffe066',8,'center'); }
     else drawProj(o);
   }
-  for(const f of fx) drawFx(f);
+  for(const f of fx){ if(f.k==='txt'&&f.slow&&hideShout()) continue; drawFx(f); }
   for(const a of bubbleQ) bubble(...a); bubbleQ=[];
   if(LV.jannah){ for(const p of petals){ R(Math.round(p.x),Math.round(p.y),p.s,p.s,p.c); } if(chamber) chamberDraw(); }
   if(LV.nightmare){ nightmareDraw(); }
@@ -4370,7 +4373,7 @@ function stageDraw(noHud){
   if(LV.amor&&stageState==='play') amorClock();
   if(flashA>0){ ctx.fillStyle='rgba(255,255,255,'+clamp(flashA,0,1)*.7+')'; ctx.fillRect(0,0,W,H); }
   if(!noHud) drawHUD();
-  if(goT>0&&frame%40<26){ neonText('YALLA!',W-56,90,'#ffe066',14); text('▶',W-24,104,'#ffe066',16,'center'); }
+  if(goT>0&&!msg&&!PHONE.cur&&frame%40<26){ neonText('YALLA!',W-56,90,'#ffe066',14); text('▶',W-24,104,'#ffe066',16,'center'); }
   if(msg&&(msg.big||msg.small)){ const a=clamp(msg.t/20,0,1); const my=msg.top?34:84; ctx.globalAlpha=a; R(0,my,W,msg.top?34:46,'rgba(0,0,0,.65)'); if(msg.big) chromeText(msg.big,W/2,my+4,msg.top?10:(msg.stage?14:12)); if(msg.small) text(msg.small,W/2,my+(msg.top?22:30),'#ff5fa8',msg.top?6:7,'center'); ctx.globalAlpha=1; }
   if(stageState==='clear'&&G.level===0&&stageT>150){ const a=clamp((stageT-150)/60,0,1); ctx.fillStyle='rgba(20,60,120,'+a*.35+')'; ctx.fillRect(0,0,W,H); R(0,84,W,46,'rgba(0,0,0,.7)'); neonText('EVERYBODY WENT ONLINE...',W/2,100,'#5ff0ff',9); text('...AND NEVER LOOKED UP AGAIN',W/2,114,'#ff5fa8',7,'center'); }
   if(stageState==='clear'&&!(G.level===0&&stageT>150)){ R(0,70,W,80,'rgba(0,0,0,.7)'); chromeText(LV.part?'KEEP GOING':'STAGE CLEAR',W/2,78,18); text('SCORE '+String(Math.round(G.score)).padStart(7,'0'),W/2,108,'#ffe066',8,'center'); text(tr('RARE K7')+' '+COLL.size+'/'+TAPES.length,W/2,138,'#ffe066',6,'center',null); if(G.level>=1) text('MAMA '+Math.round(G.mama)+'%',W/2,147,'#7dff8a',6,'center',null); if(LV.battery) text('WOKE UP: '+G.woke,W/2,124,'#5ff0ff',8,'center'); else text('OFFLINE = THE GOOD LIFE',W/2,124,'#5ff0ff',7,'center'); }
