@@ -175,7 +175,7 @@ function registerClear(){ if(G&&G.clearedRun) return; if(G) G.clearedRun=1; CLEA
 const GIFT_URL='https://sawna.bandcamp.com';
 
 /* ---------------- assets (optional images) ---------------- */
-const IMG={}; const AV='18.6';
+const IMG={}; const AV='18.7';
 // images first: music and video wait for them, otherwise on a slow connection the sprites show up last
 let imgsReady; const IMGS_READY=new Promise(r=>imgsReady=r);
 function loadImg(key,src){return new Promise(r=>{const i=new Image();i.onload=()=>{IMG[key]=i;r(i)};i.onerror=()=>r(null);i.src=src+'?v='+AV;});}
@@ -2661,6 +2661,7 @@ let HELLFORCE=0;
 function updateWaves(){
   // the level is paced by the track: a wave starts when the player walks into it OR when the track reaches its cue
   const tt=trackTime(); const nw=LV.waves[waveIdx];
+  if(LV.amor&&!G.amor&&!wave) return; // Amor Haram: nobody attacks until you have logged in on Mafalda's PC
   // walking into the next song early: no invisible wall — the selecta pulls it up (zomby → voodoo for El M3alim)
   if(false && nw && !wave && nw.minT && nw.music && curMusic===LV.music && tt<nw.minT && player.x>=nw.at-60 && !G.djEarly){ G.djEarly=1; djPullup(nw.music,nw.seek,'PULL UP!',(LV.music||'').toUpperCase()+' → '+nw.music.toUpperCase()); }
   if(false && nw && !wave && nw.timed && !nw.music && player.x>nw.at && tt<nw.tAt-3 && curMusic===LV.music && !nw.pulled){ nw.pulled=1; const a=DECK[deckI]; if(a&&isFinite(a.duration)&&a.duration>nw.tAt+10){ try{ a.currentTime=nw.tAt; }catch(e){} floatText(player.x,player.y-80,'PULL UP! THE SELECTA SKIPS TO THE DROP','#ffe066'); sfx('special'); } }
@@ -4073,7 +4074,7 @@ function stageUpdate(onClear){
   if(LV.hell&&!(G.neoT>0)&&player&&!player.dead&&player.state==='jump'&&player.t<3&&incomingBullet()) neoStart();
   if(stageState==='play'&&LV.jannah&&waveIdx>=LV.waves.length&&!wave&&player.x>LV.len-W+40){ chamberStart(); return; }
   if(CAFE){ CAFE.t++; if(CAFE.t>20&&(pressed.a||pressed.start)){ pressed.a=false; pressed.start=false; CAFE=null; chatStart(); } else if(CAFE.t>20&&(pressed.b||pressed.pause)){ pressed.b=false; CAFE=null; } return; }
-  if(stageState==='play'&&LV.amor&&!G.amor&&!wave&&pressed.a&&!player.air){ const pc=ents.find(n=>n.kind==='npc'&&n.npc==='pc'); if(pc&&Math.abs(player.x-pc.x)<30&&Math.abs(player.y-pc.y)<40){ pressed.a=false; chatStart(); return; } }
+  if(stageState==='play'&&LV.amor&&!G.amor&&!wave&&pressed.a&&!player.air){ const pc=ents.find(n=>n.kind==='npc'&&n.npc==='pc'); if(pc&&Math.abs(player.x-pc.x)<46&&Math.abs(player.y-pc.y)<46){ pressed.a=false; chatStart(); return; } }
   assistUpdate();
   for(const e of ents) if(e.kind==='enemy'&&!e.dead) enemyUpdate(e);
   // items fall
