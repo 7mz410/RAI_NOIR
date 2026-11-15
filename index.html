@@ -175,7 +175,7 @@ function registerClear(){ if(G&&G.clearedRun) return; if(G) G.clearedRun=1; CLEA
 const GIFT_URL='https://sawna.bandcamp.com';
 
 /* ---------------- assets (optional images) ---------------- */
-const IMG={}; const AV='19.2';
+const IMG={}; const AV='19.4';
 // images first: music and video wait for them, otherwise on a slow connection the sprites show up last
 let imgsReady; const IMGS_READY=new Promise(r=>imgsReady=r);
 function loadImg(key,src){return new Promise(r=>{const i=new Image();i.onload=()=>{IMG[key]=i;r(i)};i.onerror=()=>r(null);i.src=src+'?v='+AV;});}
@@ -3020,7 +3020,7 @@ function cineScene(list,musicName,next){
 }
 const SC={};
 SC.gift={ t:0, enter(){ this.t=0; sfx('life'); },
-  open(){ try{ window.open(GIFT_URL,'_blank','noopener'); }catch(e){} },
+  open(){ if(frame-(this.lastOpen||-999)<90) return; this.lastOpen=frame; try{ window.open(GIFT_URL,'_blank','noopener'); }catch(e){} },
   tap(x,y){ if(y>96&&y<132&&x>W/2-120&&x<W/2+120) this.open(); else if(this.t>60) go(SC.title); },
   update(){ this.t++; if(pressed.a&&this.t>20) this.open(); if(this.t>40&&(pressed.start||pressed.b||pressed.k||pressed.y)) go(SC.title); },
   draw(){ ctx.fillStyle='#07040d'; ctx.fillRect(0,0,W,H); for(let i=0;i<40;i++){ const x=(i*97+frame*(.3+i%3*.2))%W, y=(i*53+frame*.6)%H; R(x,y,2,2,['#ff5fa8','#ffe066','#5ff0ff'][i%3]); }
